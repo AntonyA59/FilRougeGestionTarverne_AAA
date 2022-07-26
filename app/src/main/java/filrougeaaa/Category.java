@@ -52,7 +52,7 @@ public class Category extends Model{
             sql = "INSERT INTO category (name) VALUES (?)" ;
         }
         try {
-            PreparedStatement pstmt =  DBManager.conn.prepareStatement(sql) ;
+            PreparedStatement pstmt =  DBManager.conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS) ;
             pstmt.setString(1, this.name);
             if(this.id != 0)
                 pstmt.setInt(2, this.id);
