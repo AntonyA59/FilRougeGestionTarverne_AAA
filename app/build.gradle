@@ -14,6 +14,7 @@ plugins {
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -22,7 +23,7 @@ dependencies {
     testImplementation 'org.mockito:mockito-inline:4.6.1'
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:30.1.1-jre'
-    implementation "mysql:mysql-connector-java:8.0.29"
+    implementation 'mysql:mysql-connector-java:8.0.30'
 }
 
 application {
