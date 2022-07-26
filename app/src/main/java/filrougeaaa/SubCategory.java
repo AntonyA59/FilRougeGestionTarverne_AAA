@@ -9,12 +9,17 @@ public class SubCategory extends Model{
     protected String name;
     protected Category category;
 
-	public SubCategory(int id) {
+	public SubCategory() {
+        this.name = "" ;
+        this.category = new Category() ;
+    }
+
+    public SubCategory(int id) {
 		try{
             ResultSet resultat = DBManager.execute("SELECT * FROM subcategory WHERE id_subcategory = "+id) ;
             if(resultat.next()){
                 this.name = resultat.getString("name") ;
-				this.category.setId(resultat.getInt("id_category")) ;
+				this.category = new Category(resultat.getInt("id_category")) ;
                 this.id = id ;
             }
         }catch(SQLException ex) {

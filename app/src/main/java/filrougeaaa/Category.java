@@ -6,7 +6,11 @@ import filrougeaaa.utils.Model;
 public class Category extends Model{
     protected String name;
 
-	public Category(int id) {
+	public Category() {
+        this.name = "" ;
+    }
+
+    public Category(int id) {
         try{
             ResultSet resultat = DBManager.execute("SELECT * FROM category WHERE id_category = "+id) ;
             if(resultat.next()){
