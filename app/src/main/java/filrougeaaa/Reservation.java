@@ -7,7 +7,11 @@ import filrougeaaa.utils.Model;
 public class Reservation extends Model{
     protected Date date;
     protected int nb_customer;
-
+    public Reservation(Date date,int nb_customer, int id_customer, int id_manager){
+        this.date= date;
+        this.nb_customer=nb_customer;
+        
+    }
 
 
     @Override

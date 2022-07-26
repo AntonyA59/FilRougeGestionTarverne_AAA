@@ -32,8 +32,8 @@ public class TestCategory {
     }
     @Test
     void testGetCategory(){
-          Category category = new Category(1) ;
-          assertEquals(category.getName() , "Boissons");
+        Category category = new Category(1) ;
+        assertEquals(category.getName() , "Boissons");
     }
 
 }
