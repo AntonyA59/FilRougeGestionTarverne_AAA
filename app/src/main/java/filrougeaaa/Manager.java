@@ -31,14 +31,14 @@ public class Manager extends Model {
      * @param id Database manager id
      */
     public Manager() {
-        this.name = "";
-        this.reputation = 0;
-        this.chest = 0;
-        this.exp = 0;
-        this.maxExp = 0;
-        this.level = 0;
-        user = new User();
-        inventory = new HashMap<Integer, Integer>();
+        this.name = "" ;
+        this.reputation = 0 ;
+        this.chest = 0 ;
+        this.exp = 0 ;
+        this.maxExp = 0 ;
+        this.level = 0 ;
+        this.user = new User() ;
+        this.inventory = new HashMap<Integer,Integer>() ;
     }
 
     public Manager(int id) {
@@ -212,6 +212,13 @@ public class Manager extends Model {
         this.user = user;
     }
 
+
+
+    public Map<Integer,Integer> listIngredientByManager(){
+        InventoryIngredient listInventory = new InventoryIngredient() ;
+        inventory = listInventory.listIngredientByManager(this.id) ;
+        return inventory ;
+    }
     /*
      * public Place[] getPlaces() {
      * return places;

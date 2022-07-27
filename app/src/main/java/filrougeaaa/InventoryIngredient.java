@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 
 import filrougeaaa.utils.DBManager;
 import filrougeaaa.utils.Model;
@@ -114,5 +116,23 @@ public class InventoryIngredient extends Model {
     public int getId() {
         return this.id ;
     }
-    
+
+    public Map<Integer,Integer> listIngredientByManager(int idManager){
+        try{
+            Map<Integer,Integer> listIngredient = new HashMap<Integer,Integer>() ;
+            ResultSet resultat = DBManager.execute("SELECT id_ii,quantity FROM inventory_ingredient WHERE id_manager = "+idManager+";");
+            
+            while(resultat.next()){
+                listIngredient.put(resultat.getInt("id_ii"), resultat.getInt("quantity")) ;
+            }
+            return listIngredient ;
+        }
+        catch (SQLException ex) {
+            // handle any errors
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            return null ;
+        }
+    }
 }
