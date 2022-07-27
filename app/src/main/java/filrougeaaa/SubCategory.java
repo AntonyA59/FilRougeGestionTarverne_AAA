@@ -32,11 +32,10 @@ public class SubCategory extends Model {
 	@Override
 	public boolean get() {
 		try{
-            ResultSet resultat = DBManager.execute("SELECT * FROM subcategory WHERE id_subcategory = "+id);
+            ResultSet resultat = DBManager.execute("SELECT * FROM subcategory WHERE id_subcategory = "+this.id);
             if(resultat.next()){
                 this.name = resultat.getString("name");
 				this.category.get(resultat.getInt("id_category"));
-                this.id = id;
                 return true;
             }
         }
