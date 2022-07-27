@@ -1,5 +1,8 @@
 package filrougeaaa;
 
+import java.sql.*;
+
+import filrougeaaa.utils.DBManager;
 import filrougeaaa.utils.Model;
 
 public class Table extends Model {
@@ -9,15 +12,68 @@ public class Table extends Model {
     protected float posY;
     protected Place place;
 
-    
+    public Table(int id){
+        try{
+            ResultSet resultat= DBManager.execute("SELECT * FROM `table` WHERE id_table="+id);
+            if(resultat.next()){
+                this.numberPlace=resultat.getInt("number_place");
+                this.hygiene=resultat.getInt("hygiene");
+                this.posX=resultat.getInt("pos_x");
+                this.posY=resultat.getInt("pos_y");
+                //this.place=new Place(resultat.getInt("id_place"));
+            }
+        }catch(SQLException ex){
+			System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+
+    }
     @Override
     public boolean get(int id) {
-        // TODO Auto-generated method stub
+        try{
+            ResultSet resultat= DBManager.execute("SELECT * FROM `table` WHERE id_table="+id);
+            if(resultat.next()){
+                this.numberPlace=resultat.getInt("number_place");
+                this.hygiene=resultat.getInt("hygiene");
+                this.posX=resultat.getInt("pos_x");
+                this.posY=resultat.getInt("pos_y");
+                //this.place=new Place(resultat.getInt("id_place"));
+                return true;
+            }
+        }catch(SQLException ex){
+			System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            return false;
+        }
         return false;
     }
     @Override
     public boolean save() {
-        // TODO Auto-generated method stub
+        String sql;
+        if(this.id!=0){
+            sql="UPDATE `table`"+
+            "SET number_place= ?, hygiene= ?, pos_x=?, pos_y=?"+
+            "WHERE id_table= ?";
+        }
+        else{
+            sql="INSERT INTO `table`(number_place,hygiene,pos_x,pos_y)"+
+            "VALUES(?,?,?,?)";
+        }
+        try{
+            PreparedStatement stmc=DBManager.conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+            stmc.setInt(1, this.numberPlace);
+            stmc.setFloat(2, this.posX);
+            stmc.setFloat(3, this.posY);
+            stmc.setInt(4,this.place.id);
+        }catch(SQLException ex){
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            return false;
+        }
+
         return false;
     }
 

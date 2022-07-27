@@ -60,7 +60,7 @@ public class User extends Model{
                     "SET email = ?,password = ?, nickName = ?"+
                     "WHERE id_user = ?";
         else
-            sql = "INSERT INTO potions (email, password, nickName)"+
+            sql = "INSERT INTO user (email, password, nickName)"+
                         "VALUES(?, ?, ?)";
         try{
             PreparedStatement stmt = DBManager.conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);

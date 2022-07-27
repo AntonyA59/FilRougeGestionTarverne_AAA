@@ -2,19 +2,14 @@ package filrougeaaa;
 
 import java.sql.Savepoint;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import filrougeaaa.utils.DBManager;
 
 public class ReservationTest {
 
-
-    Savepoint save;
     //init and clean the connection BDD
+    Savepoint save;
     @BeforeAll
     public static void setup(){
         DBManager.init();
@@ -35,7 +30,6 @@ public class ReservationTest {
     public static void tearDown(){
         DBManager.close();
     }
-
     //test database
 
 
