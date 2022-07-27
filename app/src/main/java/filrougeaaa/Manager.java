@@ -3,6 +3,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 
 import filrougeaaa.utils.DBManager;
 import filrougeaaa.utils.Model;
@@ -15,11 +17,12 @@ public class Manager extends Model{
     protected int maxExp;
     protected int level;
 	protected User user;
+    protected Map<Integer,Integer> inventory ;
+    /*
     protected Ingredient[] inventory;
     protected Place[] places;
     protected Reservation[] reservation;
-
-
+    */
 
     /**
      * Generate a manager from database
@@ -28,6 +31,13 @@ public class Manager extends Model{
      */
     public Manager() {
         this.name = "" ;
+        this.reputation = 0 ;
+        this.chest = 0 ;
+        this.exp = 0 ;
+        this.maxExp = 0 ;
+        this.level = 0 ;
+        user = new User() ;
+        inventory = new HashMap<Integer,Integer>() ;
     }
 
     public Manager(int id) {
@@ -183,15 +193,15 @@ public class Manager extends Model{
 	public void setLevel(int level) {
 		this.level = level;
 	}
-
-	public Ingredient[] getInventory() {
+    
+	public Map<Integer,Integer> getInventory() {
 		return inventory;
 	}
 
-	public void setInventory(Ingredient[] inventory) {
+	public void setInventory(Map<Integer,Integer> inventory) {
 		this.inventory = inventory;
 	}
-
+    /*
 	public Place[] getPlaces() {
 		return places;
 	}
@@ -207,6 +217,7 @@ public class Manager extends Model{
 	public void setReservation(Reservation[] reservation) {
 		this.reservation = reservation;
 	}
+    */
     
     @Override
     public int getId() {
