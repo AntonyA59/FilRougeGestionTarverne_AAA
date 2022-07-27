@@ -38,9 +38,26 @@ public class Ingredient extends Model{
 	}
 	@Override
 	public boolean get() {
-		// TODO Auto-generated method stub
+		try{
+            ResultSet resultat = DBManager.execute("SELECT * FROM ingredient WHERE id_ingredient = "+ this.id);
+            if(resultat.next()){
+                this.name = resultat.getString("name") ;
+				this.level = resultat.getInt("level") ;
+				this.buyingPrice = resultat.getInt("buying_price") ;
+				this.subCategory = new SubCategory(resultat.getInt("id_subcategory")) ;
+
+				return true;
+            }
+        }
+        catch (SQLException ex) {
+            // handle any errors
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
 		return false;
 	}
+
 	@Override
 	public boolean get(int id) {
 		try{
@@ -122,10 +139,10 @@ public class Ingredient extends Model{
 	public void setSubCategory(SubCategory subCategory) {
 		this.subCategory = subCategory;
 	}
-//#endregion
 	@Override
 	public int getId() {
 		return this.id;
 	}
+//#endregion
 	
 } 

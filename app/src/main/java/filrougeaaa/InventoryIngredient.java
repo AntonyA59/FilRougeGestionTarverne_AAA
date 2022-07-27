@@ -26,13 +26,33 @@ public class InventoryIngredient extends Model {
                 this.quantity = resultat.getInt("quantity") ;
 				this.manager = new Manager(resultat.getInt("id_manager")) ;
                 this.ingredient = new Ingredient(resultat.getInt("id_ingredient")) ;
-				this.id = id ;
+				this.id = id ; 
 			}
 		}catch(SQLException ex) {
 			System.out.println("SQLException" + ex.getMessage());
 			System.out.println("SQLState" + ex.getSQLState());
 			System.out.println("VendorError"+ ex.getErrorCode());
 		}
+    }
+
+    @Override
+    public boolean get() {
+        try{
+            ResultSet resultat = DBManager.execute("SELECT * FROM inventory_ingredient WHERE id_ii = "+ this.id);
+            if(resultat.next()){
+                this.quantity = resultat.getInt("quantity") ;
+                this.manager = new Manager(resultat.getInt("id_manager")) ;
+                this.ingredient = new Ingredient(resultat.getInt("id_ingredient")) ;
+				return true;
+            }
+        }
+        catch (SQLException ex) {
+            // handle any errors
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+		return false;
     }
 
     @Override

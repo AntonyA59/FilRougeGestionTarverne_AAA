@@ -52,6 +52,26 @@ public class RecipeCustomer extends Model {
         this.customer = customer;
     }
     @Override
+    public boolean get() {
+        try{
+            ResultSet resultat = DBManager.execute("SELECT * FROM recipe_customer WHERE id_rc = "+ this.id);
+            if(resultat.next()){
+                this.customer = new Customer(resultat.getInt("id_customer")) ;
+                this.recipe = new Recipe(resultat.getInt("id_recipe")) ;
+				this.quantity = resultat.getInt("quantity") ;
+				return true;
+            }
+        }
+        catch (SQLException ex) {
+            // handle any errors
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+		return false;
+    }
+
+    @Override
     public boolean get(int id) {
         try{
             ResultSet resultat = DBManager.execute("SELECT * FROM recipe_customer WHERE id_rc = "+id);

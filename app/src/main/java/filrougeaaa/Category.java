@@ -27,10 +27,9 @@ public class Category extends Model{
 	@Override
 	public boolean get() {
 		try{
-            ResultSet resultat = DBManager.execute("SELECT * FROM category WHERE id_category = "+id);
+            ResultSet resultat = DBManager.execute("SELECT * FROM category WHERE id_category = "+ this.id);
             if(resultat.next()){
                 this.name = resultat.getString("name");
-                this.id = id;
                 return true;
             }
         }

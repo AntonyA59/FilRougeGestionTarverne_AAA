@@ -31,6 +31,7 @@ public class Recipe extends Model{
 		this.expGiven = 0 ;
 		subCategory = new SubCategory() ;
 	}
+
 	public Recipe(int id) {
 		try{
 			ResultSet resultat = DBManager.execute("SELECT * FROM recipe WHERE id_recipe = "+id) ;
@@ -53,7 +54,26 @@ public class Recipe extends Model{
 	}
 	@Override
 	public boolean get() {
-		// TODO Auto-generated method stub
+		try{
+            ResultSet resultat = DBManager.execute("SELECT * FROM recipe WHERE id_recipe = "+ this.id);
+            if(resultat.next()){
+                this.name = resultat.getString("name") ;
+				this.level = resultat.getInt("level") ;
+				this.sellingPrice = resultat.getInt("selling_price") ;
+				this.consommationTime = resultat.getTime("consommation_time") ;
+				this.preparationTime = resultat.getTimestamp("preparation_time") ;
+				this.peremptionDate = resultat.getDate("peremption_date") ;
+				this.expGiven = resultat.getInt("exp_given") ;
+				this.subCategory = new SubCategory(resultat.getInt("id_subcategory"));
+				return true;
+            }
+        }
+        catch (SQLException ex) {
+            // handle any errors
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
 		return false;
 	}
 	@Override
@@ -176,15 +196,7 @@ public class Recipe extends Model{
 	public void setExpGiven(int expGiven) {
 		this.expGiven = expGiven;
 	}
-	/*
-	public Ingredient[] getIngredient() {
-		return ingredient;
-	}
 
-	public void setIngredient(Ingredient[] ingredient) {
-		this.ingredient = ingredient;
-	}
-	*/
 	public SubCategory getSubCategory() {
 		return subCategory;
 	}
@@ -192,11 +204,12 @@ public class Recipe extends Model{
 	public void setSubCategory(SubCategory subCategory) {
 		this.subCategory = subCategory;
 	}
-//#endregion
-
+	
 	@Override
 	public int getId() {
 		return this.id;
 	}
+//#endregion
+
 	
 }

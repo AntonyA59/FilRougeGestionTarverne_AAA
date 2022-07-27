@@ -40,13 +40,12 @@ public class User extends Model{
 	public boolean get() {
 
 		try{
-			ResultSet resultat= DBManager.execute("SELECT * FROM user where id_user="+id);
+			ResultSet resultat= DBManager.execute("SELECT * FROM user where id_user="+ this.id);
 			if(resultat.next()){
 
 				this.email=resultat.getString("email");
 				this.password=resultat.getString("password");
 				this.nickName=resultat.getString("nickName");
-				this.id=id;
 				return true;
 			}
 		}catch(SQLException ex){
@@ -62,7 +61,6 @@ public class User extends Model{
 		try{
 			ResultSet resultat= DBManager.execute("SELECT * FROM user where id_user="+id);
 			if(resultat.next()){
-
 				this.email=resultat.getString("email");
 				this.password=resultat.getString("password");
 				this.nickName=resultat.getString("nickName");
@@ -148,10 +146,10 @@ public class User extends Model{
 		this.partie = partie;
 	}
 	
-//#endregion
 	@Override
 	public int getId() {
 		return this.id;
 	}
+//#endregion
 	
 } 
