@@ -86,9 +86,8 @@ public class Category extends Model{
 	public int getId(){
 		return this.id ;
 	}
-
-	public void setId(int id){
-		this.id = id ;
+    public int setId(){
+		return this.id ;
 	}
 //#endregion
 }

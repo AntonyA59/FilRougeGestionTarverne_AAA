@@ -95,7 +95,7 @@ public class Recipe extends Model{
 			pstmt.setTimestamp(5, this.preparationTime);
 			pstmt.setDate(6,this.peremptionDate);
 			pstmt.setInt(7, this.expGiven);
-			pstmt.setInt(8,this.subCategory.getId(id));
+			pstmt.setInt(8,this.subCategory.getId());
             if(this.id != 0)
                 pstmt.setInt(9, this.id);
             
@@ -189,9 +189,6 @@ public class Recipe extends Model{
 		this.subCategory = subCategory;
 	}
 
-	public void setId(int id){
-		this.id = id ;
-	}
 	public int getId(){
 		return this.id ;
 	}
