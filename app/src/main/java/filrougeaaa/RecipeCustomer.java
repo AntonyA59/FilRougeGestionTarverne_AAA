@@ -97,5 +97,9 @@ public class RecipeCustomer extends Model {
             return false ;
         }
     }
+    @Override
+    public int getId() {
+        return this.id;
+    }
     
 }

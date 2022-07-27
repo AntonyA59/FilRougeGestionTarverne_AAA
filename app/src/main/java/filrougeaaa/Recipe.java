@@ -188,11 +188,6 @@ public class Recipe extends Model{
 	public void setSubCategory(SubCategory subCategory) {
 		this.subCategory = subCategory;
 	}
-
-	public int getId(){
-		return this.id ;
-	}
-
 //#endregion
 
 	@Override

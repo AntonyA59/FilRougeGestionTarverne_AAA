@@ -70,7 +70,7 @@ public class Ingredient extends Model{
             pstmt.setString(1, this.name);
 			pstmt.setInt(2, this.level);
 			pstmt.setInt(3, this.buyingPrice);
-			pstmt.setInt(4,this.subCategory.getId(id));
+			pstmt.setInt(4,this.subCategory.getId());
             if(this.id != 0)
                 pstmt.setInt(5, this.id);
             

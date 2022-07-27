@@ -31,7 +31,6 @@ public class TestCategory {
         DBManager.rollback(save);
     }
     @Test
-<<<<<<< HEAD
     void testConstucteurCategory(){
         Category category = new Category(1) ;
         assertEquals(category.getName() , "Boissons");
@@ -41,10 +40,5 @@ public class TestCategory {
         Category category = new Category() ;
         category.get(2) ;
         assertEquals(category.getName() , "Plats");
-=======
-    void testGetCategory(){
-        Category category = new Category(1) ;
-        assertEquals(category.getName() , "Boissons");
->>>>>>> origin/Alex6dev
     }
 }

@@ -98,18 +98,9 @@ public class SubCategory extends Model{
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-
+    @Override
 	public int getId(){
 		return this.id ;
 	}
 	//#endregion get/set
-<<<<<<< HEAD
-=======
-
-    @Override
-    public int getId() {
-        return this.id;
-    }
-	
->>>>>>> origin/Alex6dev
 }
