@@ -25,6 +25,25 @@ public class Category extends Model{
 	}
 
 	@Override
+	public boolean get() {
+		try{
+            ResultSet resultat = DBManager.execute("SELECT * FROM category WHERE id_category = "+id);
+            if(resultat.next()){
+                this.name = resultat.getString("name");
+                this.id = id;
+                return true;
+            }
+        }
+        catch (SQLException ex) {
+            // handle any errors
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+        return false;
+	}
+
+	@Override
 	public boolean get(int id) {
 		try{
             ResultSet resultat = DBManager.execute("SELECT * FROM category WHERE id_category = "+id);

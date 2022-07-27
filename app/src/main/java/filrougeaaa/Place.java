@@ -40,6 +40,25 @@ public class Place extends Model {
 	}
     
     @Override
+    public boolean get() {
+		try{
+			ResultSet resultat= DBManager.execute("SELECT * FROM place where id_place="+id);
+			if(resultat.next()){
+
+				this.name=resultat.getString(2);
+				this.type=resultat.getInt(3);
+				this.level=resultat.getInt(4);
+                this.user = new User(resultat.getInt(id));
+				return true;
+			}
+		}catch(SQLException ex){
+			System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+		}
+		return false;
+    }
+    @Override
     public boolean get(int id) {
 		try{
 			ResultSet resultat= DBManager.execute("SELECT * FROM place where id_place="+id);

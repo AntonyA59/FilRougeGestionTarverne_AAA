@@ -24,6 +24,24 @@ public class Reservation extends Model{
 
 
     @Override
+    public boolean get() {
+        try{
+            ResultSet resultat= DBManager.execute("SELECT * FROM reservation WHERE id_reservation="+id);
+            if(resultat.next()){
+                this.date=resultat.getDate("date");
+                this.nb_customer=resultat.getInt("nb_customer");
+                return true;
+            }
+        }catch(SQLException ex){
+			System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            return false;
+        }
+        return false;
+    }
+    
+    @Override
     public boolean get(int id) {
         try{
             ResultSet resultat= DBManager.execute("SELECT * FROM reservation WHERE id_reservation="+id);

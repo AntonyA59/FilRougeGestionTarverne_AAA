@@ -52,6 +52,11 @@ public class Recipe extends Model{
 		}
 	}
 	@Override
+	public boolean get() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
 	public boolean get(int id) {
 		try{
             ResultSet resultat = DBManager.execute("SELECT * FROM recipe WHERE id_recipe = "+id);

@@ -49,6 +49,27 @@ public class Manager extends Model{
     }
 
 	@Override
+	public boolean get() {
+        try {
+            ResultSet resultat = DBManager.execute("SELECT * FROM manager WHERE id_manager = " + this.id);
+            if (resultat.next()) {
+                this.name = resultat.getNString(2);
+                this.reputation = resultat.getInt(3);
+                this.chest = resultat.getInt(4);
+                this.level = resultat.getInt(5);
+                this.exp = resultat.getInt(6);
+				// this.user = new User(resultat.getInt(7));
+                return true;
+            }
+        } catch (SQLException ex) {
+            // handle any errors
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+        return false;
+	}
+	@Override
 	public boolean get(int id) {
         try {
             ResultSet resultat = DBManager.execute("SELECT * FROM manager WHERE id_manager = " + this.id);

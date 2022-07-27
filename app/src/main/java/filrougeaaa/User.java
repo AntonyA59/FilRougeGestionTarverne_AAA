@@ -37,6 +37,26 @@ public class User extends Model{
 		}
 	}
 	@Override
+	public boolean get() {
+
+		try{
+			ResultSet resultat= DBManager.execute("SELECT * FROM user where id_user="+id);
+			if(resultat.next()){
+
+				this.email=resultat.getString("email");
+				this.password=resultat.getString("password");
+				this.nickName=resultat.getString("nickName");
+				this.id=id;
+				return true;
+			}
+		}catch(SQLException ex){
+			System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+		}
+		return false;
+	}
+	@Override
 	public boolean get(int id) {
 
 		try{
