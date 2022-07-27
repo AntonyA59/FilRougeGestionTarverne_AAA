@@ -19,7 +19,6 @@ public class Manager extends Model{
 	protected User user;
     protected Map<Integer,Integer> inventory ;
     /*
-    protected Ingredient[] inventory;
     protected Place[] places;
     protected Reservation[] reservation;
     */
@@ -36,8 +35,8 @@ public class Manager extends Model{
         this.exp = 0 ;
         this.maxExp = 0 ;
         this.level = 0 ;
-        user = new User() ;
-        inventory = new HashMap<Integer,Integer>() ;
+        this.user = new User() ;
+        this.inventory = new HashMap<Integer,Integer>() ;
     }
 
     public Manager(int id) {
@@ -201,6 +200,12 @@ public class Manager extends Model{
 	public void setInventory(Map<Integer,Integer> inventory) {
 		this.inventory = inventory;
 	}
+
+    public Map<Integer,Integer> listIngredientByManager(){
+        InventoryIngredient listInventory = new InventoryIngredient() ;
+        inventory = listInventory.listIngredientByManager(this.id) ;
+        return inventory ;
+    }
     /*
 	public Place[] getPlaces() {
 		return places;

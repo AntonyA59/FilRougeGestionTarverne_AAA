@@ -3,6 +3,7 @@ package filrougeaaa;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.sql.Savepoint;
+import java.util.Map;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -43,4 +44,14 @@ public class TestManager {
 
         assertEquals(manager.getName(), "Théodebald");
     }
+
+    // Test des Map by Adrien // Inventaire du Manager
+    @Test
+    public void testInventoryIngredient(){
+        Manager manager = new Manager(1) ;
+        Map<Integer,Integer> inventory ;
+        inventory = manager.listIngredientByManager() ;
+        inventory.get(1) ;
+    }
+
 }
