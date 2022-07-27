@@ -129,4 +129,9 @@ public class Place extends Model {
         this.level = level;
     }
     //#endregion
+
+    @Override
+    public int getId() {
+        return this.id;
+    }
 }

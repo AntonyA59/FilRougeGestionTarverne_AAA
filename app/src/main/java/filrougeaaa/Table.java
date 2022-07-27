@@ -129,10 +129,11 @@ public class Table extends Model {
     public void setPlace(Place place) {
         this.place = place;
     }
-    public int getId (){
-        return this.id;
-    }
 
 //#endregion    
+    @Override
+    public int getId() {
+        return this.id;
+    }
     
 }
