@@ -1,27 +1,68 @@
 package filrougeaaa;
 
-import java.sql.Date;
+import java.sql.*;
 
-import filrougeaaa.utils.Model;
+import filrougeaaa.utils.*;
 
 public class Reservation extends Model{
     protected Date date;
     protected int nb_customer;
-    public Reservation(Date date,int nb_customer, int id_customer, int id_manager){
-        this.date= date;
-        this.nb_customer=nb_customer;
+    public Reservation(int id){
+        try{
+            ResultSet resultat= DBManager.execute("SELECT * FROM reservation WHERE id_reservation="+id);
+            if(resultat.next()){
+                this.date=resultat.getDate("date");
+                this.nb_customer=resultat.getInt("nb_customer");
+            }
+        }catch(SQLException ex){
+			System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
         
     }
 
 
     @Override
     public boolean get(int id) {
-        // TODO Auto-generated method stub
+        try{
+            ResultSet resultat= DBManager.execute("SELECT * FROM reservation WHERE id_reservation="+id);
+            if(resultat.next()){
+                this.date=resultat.getDate("date");
+                this.nb_customer=resultat.getInt("nb_customer");
+                return true;
+            }
+        }catch(SQLException ex){
+			System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            return false;
+        }
         return false;
     }
     @Override
     public boolean save() {
-        // TODO Auto-generated method stub
+        String sql;
+        if(this.id!=0){
+            sql="UPDATE reservation"+
+            "SET date=?, nb_customer= ? "+
+            "WHERE id_reservation= ?";
+        }
+        else{
+            sql="INSERT INTO reservation(date,nb_reservation)"+
+            "VALUES(?,?)";
+        }
+        try{
+            PreparedStatement stmc=DBManager.conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+            stmc.setDate(2, this.date);
+            stmc.setInt(1, this.nb_customer);
+        }catch(SQLException ex){
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            return false;
+        }
+
         return false;
     }
 

@@ -1,5 +1,6 @@
 package filrougeaaa;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Savepoint;
@@ -31,7 +32,10 @@ public class UserTest {
     public static void tearDown(){
         DBManager.close();
     }
-
     //test database
-    
+    @Test
+    public void initUserById(){
+        User userTest= new User(1);
+        assertEquals(userTest.getNickName(), "bg_du_59");
+    }
 }
