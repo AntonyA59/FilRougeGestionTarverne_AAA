@@ -102,5 +102,10 @@ public class SubCategory extends Model{
 		this.id = id ;
 	}
 	//#endregion get/set
+
+    @Override
+    public int getId() {
+        return this.id;
+    }
 	
 }

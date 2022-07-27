@@ -80,5 +80,11 @@ public class Reservation extends Model{
         this.nb_customer = nb_customer;
     }
    //#endregion
+
+
+    @Override
+    public int getId() {
+        return this.id;
+    }
     
 }

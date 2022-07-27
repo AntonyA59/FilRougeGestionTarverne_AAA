@@ -182,4 +182,9 @@ public class Manager extends Model{
 		this.reservation = reservation;
 	}
 //#endregion
+
+    @Override
+    public int getId() {
+        return this.id;
+    }
 }

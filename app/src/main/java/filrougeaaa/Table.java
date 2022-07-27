@@ -109,5 +109,9 @@ public class Table extends Model {
         this.place = place;
     }
 //#endregion    
+    @Override
+    public int getId() {
+        return this.id;
+    }
     
 }

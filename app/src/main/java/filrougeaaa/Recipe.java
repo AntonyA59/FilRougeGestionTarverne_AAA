@@ -101,5 +101,10 @@ public class Recipe extends Model{
 		this.subCategory = subCategory;
 	}
 //#endregion
+
+	@Override
+	public int getId() {
+		return this.id;
+	}
 	
 }

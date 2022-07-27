@@ -123,5 +123,9 @@ public class User extends Model{
 		this.partie = partie;
 	}
 //#endregion
+	@Override
+	public int getId() {
+		return this.id;
+	}
 	
 } 
