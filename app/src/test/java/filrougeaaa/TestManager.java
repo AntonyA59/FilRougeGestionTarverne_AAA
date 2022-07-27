@@ -1,6 +1,7 @@
 package filrougeaaa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Savepoint;
 
@@ -23,17 +24,16 @@ public class TestManager {
 
     @AfterAll
     public static void tearDown() {
-        DBManager.setAutoCommit(false);
         DBManager.close();
     }
 
     @BeforeEach
-    public void testSave() {
+    void testSave() {
         save = DBManager.setSavePoint();
     }
 
     @AfterEach
-    public void testRollback() {
+    void testRollback() {
         DBManager.rollback(save);
     }
 
@@ -42,5 +42,34 @@ public class TestManager {
         Manager manager = new Manager(1);
 
         assertEquals(manager.getName(), "Théodebald");
+    }
+
+    @Test
+    public void testSaveManager() {
+        Manager manager = new Manager();
+        manager.setName("Norman");
+        manager.setReputation(3);
+        manager.setChest(400);
+        manager.setLevel(1);
+        manager.setExp(2);
+        manager.setUser(new User(1));
+        assertTrue(manager.save());
+    }
+
+    @Test
+    public void testUpdateManager() {
+        Manager manager = new Manager();
+        manager.setName("Norman");
+        manager.setReputation(3);
+        manager.setChest(400);
+        manager.setLevel(1);
+        manager.setExp(2);
+        manager.setUser(new User(2));
+        manager.save();
+        Manager manager2 = new Manager(manager.getId());
+        manager2.setExp(4);
+        manager2.save();
+        manager.get();
+        assertEquals(manager.getExp(), manager2.getExp());
     }
 }
