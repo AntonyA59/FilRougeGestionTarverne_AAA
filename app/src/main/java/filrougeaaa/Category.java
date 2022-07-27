@@ -6,7 +6,11 @@ import filrougeaaa.utils.Model;
 public class Category extends Model{
     protected String name;
 
-	public Category(int id) {
+	public Category() {
+        this.name = "" ;
+    }
+
+    public Category(int id) {
         try{
             ResultSet resultat = DBManager.execute("SELECT * FROM category WHERE id_category = "+id) ;
             if(resultat.next()){
@@ -48,7 +52,7 @@ public class Category extends Model{
             sql = "INSERT INTO category (name) VALUES (?)" ;
         }
         try {
-            PreparedStatement pstmt =  DBManager.conn.prepareStatement(sql) ;
+            PreparedStatement pstmt =  DBManager.conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS) ;
             pstmt.setString(1, this.name);
             if(this.id != 0)
                 pstmt.setInt(2, this.id);
@@ -82,9 +86,8 @@ public class Category extends Model{
 	public int getId(){
 		return this.id ;
 	}
-
-	public void setId(int id){
-		this.id = id ;
+    public int setId(){
+		return this.id ;
 	}
 //#endregion
 }

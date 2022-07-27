@@ -9,12 +9,17 @@ public class SubCategory extends Model{
     protected String name;
     protected Category category;
 
-	public SubCategory(int id) {
+	public SubCategory() {
+        this.name = "" ;
+        this.category = new Category() ;
+    }
+
+    public SubCategory(int id) {
 		try{
             ResultSet resultat = DBManager.execute("SELECT * FROM subcategory WHERE id_subcategory = "+id) ;
             if(resultat.next()){
                 this.name = resultat.getString("name") ;
-				this.category.setId(resultat.getInt("id_category")) ;
+				this.category = new Category(resultat.getInt("id_category")) ;
                 this.id = id ;
             }
         }catch(SQLException ex) {
@@ -30,7 +35,7 @@ public class SubCategory extends Model{
             ResultSet resultat = DBManager.execute("SELECT * FROM subcategory WHERE id_subcategory = "+id);
             if(resultat.next()){
                 this.name = resultat.getString("name");
-				this.category.setId(resultat.getInt("id_category"));
+				this.category.get(resultat.getInt("id_category"));
                 this.id = id;
                 return true;
             }
@@ -93,19 +98,9 @@ public class SubCategory extends Model{
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-
-	public int getId(int id){
+    @Override
+	public int getId(){
 		return this.id ;
 	}
-
-	public void setId(int id){
-		this.id = id ;
-	}
 	//#endregion get/set
-
-    @Override
-    public int getId() {
-        return this.id;
-    }
-	
 }
