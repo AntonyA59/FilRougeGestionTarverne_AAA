@@ -26,10 +26,12 @@ public class TestCategory {
     void testSave(){
         save = DBManager.setSavePoint();
     }
+    
     @AfterEach
     void testRollback(){
         DBManager.rollback(save);
     }
+
     @Test
     void testConstucteurCategory(){
         Category category = new Category(1) ;
