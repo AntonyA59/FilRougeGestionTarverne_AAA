@@ -7,13 +7,23 @@ import filrougeaaa.utils.*;
 public class Reservation extends Model {
     protected Date date;
     protected int nb_customer;
+    protected Customer customer;
+    protected Manager manager;
 
+    public Reservation(){
+        this.date=null;
+        this.customer=null;
+        this.nb_customer=0;
+        this.manager=null;
+    }
     public Reservation(int id) {
         try {
             ResultSet resultat = DBManager.execute("SELECT * FROM reservation WHERE id_reservation=" + id);
             if (resultat.next()) {
                 this.date = resultat.getDate("date");
                 this.nb_customer = resultat.getInt("nb_customer");
+                this.customer = new Customer(resultat.getInt("id_customer"));
+                this.manager = new Manager(resultat.getInt("id_manager"));
             }
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
@@ -30,6 +40,8 @@ public class Reservation extends Model {
             if (resultat.next()) {
                 this.date = resultat.getDate("date");
                 this.nb_customer = resultat.getInt("nb_customer");
+                this.customer = new Customer(resultat.getInt("id_customer"));
+                this.manager = new Manager(resultat.getInt("id_manager"));
                 return true;
             }
         } catch (SQLException ex) {
@@ -48,6 +60,8 @@ public class Reservation extends Model {
             if (resultat.next()) {
                 this.date = resultat.getDate("date");
                 this.nb_customer = resultat.getInt("nb_customer");
+                this.customer = new Customer(resultat.getInt("id_customer"));
+                this.manager = new Manager(resultat.getInt("id_manager"));
                 this.id = id;
                 return true;
             }
@@ -65,18 +79,20 @@ public class Reservation extends Model {
         String sql;
         if (this.id != 0) {
             sql = "UPDATE reservation" +
-                    "SET date=?, nb_customer= ? " +
+                    "SET date=?, nb_customer= ?,id_customer=?, id_manager=? " +
                     "WHERE id_reservation= ?";
         } else {
-            sql = "INSERT INTO reservation(date,nb_reservation)" +
-                    "VALUES(?,?)";
+            sql = "INSERT INTO reservation(date,nb_customer,id_customer,id_manager)" +
+                    "VALUES(?,?,?,?)";
         }
         try {
             PreparedStatement stmc = DBManager.conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmc.setDate(1, this.date);
             stmc.setInt(2, this.nb_customer);
+            stmc.setInt(3, this.customer.getId());
+            stmc.setInt(4, this.manager.getId());
             if (this.id != 0)
-                stmc.setInt(3, this.id);
+                stmc.setInt(5, this.id);
 
             stmc.executeUpdate();
             ResultSet keys = stmc.getGeneratedKeys();
