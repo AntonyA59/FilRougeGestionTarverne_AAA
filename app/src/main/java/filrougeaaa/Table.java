@@ -12,6 +12,13 @@ public class Table extends Model {
     protected float posY;
     protected Place place;
 
+    public Table(){
+        this.numberPlace = 0 ;
+        this.hygiene = 0 ;
+        this.posX = 0 ;
+        this.posY = 0 ;
+        this.place = new Place() ;
+    }
     public Table(int id){
         try{
             ResultSet resultat= DBManager.execute("SELECT * FROM `table` WHERE id_table="+id);

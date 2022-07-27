@@ -9,6 +9,11 @@ public class User extends Model{
     protected String nickName;
     protected Manager[] partie; 
 
+	public User(){
+		email = "" ;
+		password = "" ;
+		nickName = "" ;
+	}
 	public User(String email, String password, String nickName){
 		this.email=email;
 		this.password=password;
@@ -114,14 +119,15 @@ public class User extends Model{
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
 	}
-
+	
 	public Manager[] getPartie() {
 		return partie;
 	}
-
+	
 	public void setPartie(Manager[] partie) {
 		this.partie = partie;
 	}
+	
 //#endregion
 	@Override
 	public int getId() {

@@ -15,6 +15,13 @@ public class Place extends Model {
     protected int level;
     protected User user;
 
+    public Place(){
+        this.name = "" ;
+        this.type = 0 ;
+        this.level = 0 ;
+        this.user = new User() ;
+    }
+
     public Place(int id) {
         try{
             ResultSet resultat = DBManager.execute("SELECT * FROM place WHERE id_place = "+id) ;

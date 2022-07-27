@@ -26,6 +26,10 @@ public class Manager extends Model{
      * 
      * @param id Database character id
      */
+    public Manager() {
+        this.name = "" ;
+    }
+
     public Manager(int id) {
         try {
             ResultSet resultat = DBManager.execute("SELECT * FROM manager  WHERE id_manager =" + id);

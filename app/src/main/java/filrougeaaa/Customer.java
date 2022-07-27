@@ -18,7 +18,7 @@ public class Customer extends Model {
     protected float nausea;
     protected float alcohol;
     protected float toilet;
-    protected Timestamp TimeInTavern ;
+    protected Timestamp timeInTavern ;
     protected float nauseaTolerance;
     protected float alcoholTolerance;
     protected int gender;
@@ -32,6 +32,23 @@ public class Customer extends Model {
      * 
      * @param id Database character id
      */
+    
+    public Customer() {
+        this.purseOfGold = 0 ;
+        this.happiness = 0 ;
+        this.hunger = 0 ;
+        this.thirst = 0 ;
+        this.nausea = 0 ;
+        this.alcohol = 0 ;
+        this.toilet = 0 ;
+        this.timeInTavern = null ;
+        this.nauseaTolerance = 0;
+        this.alcoholTolerance = 0 ;
+        this.gender = 0;
+        this.expGiven = 0 ;
+        this.table = new Table() ;
+    }
+
     public Customer(int id) {
         try {
             ResultSet resultat = DBManager.execute("SELECT * FROM customer  WHERE id_customer =" + id);
@@ -42,7 +59,7 @@ public class Customer extends Model {
                 this.thirst = resultat.getFloat(5);
                 this.nausea = resultat.getFloat(6);
                 this.toilet = resultat.getFloat(7);
-                this.TimeInTavern = resultat.getTimestamp(8);
+                this.timeInTavern = resultat.getTimestamp(8);
                 this.nauseaTolerance = resultat.getInt(9);
                 this.alcoholTolerance = resultat.getInt(10);
                 this.gender = resultat.getInt(11);
@@ -56,7 +73,7 @@ public class Customer extends Model {
             System.out.println("VendorError: " + e.getErrorCode());
         }
     }
-    
+
     @Override
     public boolean get(int id) {
         try {
@@ -68,7 +85,7 @@ public class Customer extends Model {
                 this.thirst = resultat.getFloat(5);
                 this.nausea = resultat.getFloat(6);
                 this.toilet = resultat.getFloat(7);
-                this.TimeInTavern = resultat.getTimestamp(8);
+                this.timeInTavern = resultat.getTimestamp(8);
                 this.nauseaTolerance = resultat.getFloat(9);
                 this.alcoholTolerance = resultat.getFloat(10);
                 this.gender = resultat.getInt(11);
@@ -104,7 +121,7 @@ public class Customer extends Model {
             pstmt.setFloat(4, this.thirst);
             pstmt.setFloat(5, this.nausea);
             pstmt.setFloat(6, this.toilet);
-            pstmt.setTimestamp(7, this.TimeInTavern);
+            pstmt.setTimestamp(7, this.timeInTavern);
             pstmt.setFloat(8, this.nauseaTolerance);
             pstmt.setFloat(9, this.alcoholTolerance);
             pstmt.setInt(10, this.gender);
@@ -176,10 +193,10 @@ public class Customer extends Model {
         this.toilet = toilet;
     }
     public Timestamp getTimeInTavern() {
-        return TimeInTavern;
+        return timeInTavern;
     }
     public void setTimeInTavern(Timestamp timeInTavern) {
-        TimeInTavern = timeInTavern;
+        this.timeInTavern = timeInTavern;
     }
     public float getNauseaTolerance() {
         return nauseaTolerance;

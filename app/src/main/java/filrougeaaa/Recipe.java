@@ -19,7 +19,6 @@ public class Recipe extends Model{
     protected Timestamp preparationTime ;
     protected Date peremptionDate;
     protected int expGiven;
-    //protected Ingredient[] ingredient ;
     protected SubCategory subCategory;
 	
 	public Recipe() {
