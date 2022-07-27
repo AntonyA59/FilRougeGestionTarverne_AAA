@@ -35,7 +35,7 @@ public class SubCategory extends Model{
             ResultSet resultat = DBManager.execute("SELECT * FROM subcategory WHERE id_subcategory = "+id);
             if(resultat.next()){
                 this.name = resultat.getString("name");
-				this.category.setId(resultat.getInt("id_category"));
+				this.category.get(resultat.getInt("id_category"));
                 this.id = id;
                 return true;
             }
