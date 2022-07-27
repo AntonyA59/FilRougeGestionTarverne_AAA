@@ -20,6 +20,7 @@ public class Table extends Model {
                 this.hygiene=resultat.getInt("hygiene");
                 this.posX=resultat.getInt("pos_x");
                 this.posY=resultat.getInt("pos_y");
+                this.id = id;
                 //this.place=new Place(resultat.getInt("id_place"));
             }
         }catch(SQLException ex){
@@ -28,6 +29,26 @@ public class Table extends Model {
             System.out.println("VendorError: " + ex.getErrorCode());
         }
 
+    }
+    @Override
+    public boolean get() {
+        try{
+            ResultSet resultat= DBManager.execute("SELECT * FROM `table` WHERE id_table="+id);
+            if(resultat.next()){
+                this.numberPlace=resultat.getInt("number_place");
+                this.hygiene=resultat.getInt("hygiene");
+                this.posX=resultat.getInt("pos_x");
+                this.posY=resultat.getInt("pos_y");
+                //this.place=new Place(resultat.getInt("id_place"));
+                return true;
+            }
+        }catch(SQLException ex){
+			System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            return false;
+        }
+        return false;
     }
     @Override
     public boolean get(int id) {
@@ -108,6 +129,10 @@ public class Table extends Model {
     public void setPlace(Place place) {
         this.place = place;
     }
+    public int getId (){
+        return this.id;
+    }
+
 //#endregion    
     
 }

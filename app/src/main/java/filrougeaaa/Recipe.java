@@ -18,6 +18,11 @@ public class Recipe extends Model{
     protected SubCategory subCategory;
 
 	@Override
+	public boolean get() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
 	public boolean get(int id) {
 		// TODO Auto-generated method stub
 		return false;

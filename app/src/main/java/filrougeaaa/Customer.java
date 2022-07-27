@@ -27,6 +27,12 @@ public class Customer extends Model {
     protected ArrayList<Recipe> command;
     protected ArrayList<Reservation> reservation;
 
+
+
+
+    public Customer(){
+        
+    }
     /**
      * Generate a character from database
      * 
@@ -47,7 +53,7 @@ public class Customer extends Model {
                 this.alcoholTolerance = resultat.getInt(10);
                 this.gender = resultat.getInt(11);
                 this.expGiven = resultat.getInt(12);
-                // this.table = new Table(resultat.getInt(13));
+                this.table = new Table(resultat.getInt(13));
                 this.id = id;
             }
         } catch (SQLException e) {
@@ -57,6 +63,35 @@ public class Customer extends Model {
         }
     }
     
+    @Override
+    public boolean get() {
+        try {
+            ResultSet resultat = DBManager.execute("SELECT * FROM customer WHERE id_customer = " + this.id);
+            if (resultat.next()) {
+                this.purseOfGold = resultat.getInt(2);
+                this.happiness = resultat.getFloat(3);
+                this.hunger = resultat.getFloat(4);
+                this.thirst = resultat.getFloat(5);
+                this.nausea = resultat.getFloat(6);
+                this.toilet = resultat.getFloat(7);
+                this.TimeInTavern = resultat.getTimestamp(8);
+                this.nauseaTolerance = resultat.getFloat(9);
+                this.alcoholTolerance = resultat.getFloat(10);
+                this.gender = resultat.getInt(11);
+                this.expGiven = resultat.getInt(12);
+                this.table = new Table(resultat.getInt(13));
+                this.alcohol = resultat.getFloat(14);
+                return true;
+            }
+        } catch (SQLException ex) {
+            // handle any errors
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+        return false;
+    }
+
     @Override
     public boolean get(int id) {
         try {
@@ -73,7 +108,8 @@ public class Customer extends Model {
                 this.alcoholTolerance = resultat.getFloat(10);
                 this.gender = resultat.getInt(11);
                 this.expGiven = resultat.getInt(12);
-                // this.table = new Table(resultat.getInt(13));
+                this.table = new Table(resultat.getInt(13));
+                this.alcohol = resultat.getFloat(14);
                 return true;
             }
         } catch (SQLException ex) {
@@ -90,10 +126,10 @@ public class Customer extends Model {
         if (this.id != 0) {
 
             sql = "UPDATE customer " +
-                    "SET purse_of_gold = ?, happiness = ?, hunger = ?, thirst = ?, nausea = ?, toilet = ? , time_in_tavern = ?, nausea_tolerance = ?, alcohol_tolerance = ?, gender = ?, exp_given = ? , id_table = ?   " +
+                    "SET purse_of_gold = ?, happiness = ?, hunger = ?, thirst = ?, nausea = ?, alcohol = ?, toilet = ? , time_in_tavern = ?, nausea_tolerance = ?, alcohol_tolerance = ?, gender = ?, exp_given = ?, id_table = ? " +
                     "WHERE id_customer = ? ";
         } else {
-            sql = "INSERT INTO customer(purse_of_gold, happiness, hunger, thirst, nausea, toilet, time_in_tavern, nausea_tolerance, alcohol_tolerance, gender, exp_given, id_table) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            sql = "INSERT INTO customer(purse_of_gold, happiness, hunger, thirst, nausea, alcohol, toilet, time_in_tavern, nausea_tolerance, alcohol_tolerance, gender, exp_given, id_table) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         }
         try {
@@ -103,15 +139,16 @@ public class Customer extends Model {
             pstmt.setFloat(3, this.hunger);
             pstmt.setFloat(4, this.thirst);
             pstmt.setFloat(5, this.nausea);
-            pstmt.setFloat(6, this.toilet);
-            pstmt.setTimestamp(7, this.TimeInTavern);
-            pstmt.setFloat(8, this.nauseaTolerance);
-            pstmt.setFloat(9, this.alcoholTolerance);
-            pstmt.setInt(10, this.gender);
-            pstmt.setInt(11, this.expGiven);
-            pstmt.setInt(12, this.table.id);
+            pstmt.setFloat(6, this.alcohol);
+            pstmt.setFloat(7, this.toilet);
+            pstmt.setTimestamp(8, this.TimeInTavern);
+            pstmt.setFloat(9, this.nauseaTolerance);
+            pstmt.setFloat(10, this.alcoholTolerance);
+            pstmt.setInt(11, this.gender);
+            pstmt.setInt(12, this.expGiven);
+            pstmt.setInt(13, this.table.getId());
             if (id != 0)
-                pstmt.setInt(13, this.id);
+                pstmt.setInt(14, this.id);
 
             pstmt.executeUpdate();
 
@@ -224,8 +261,8 @@ public class Customer extends Model {
         this.reservation = reservation;
     }
 
-    public int getId (int id){
-        return this.id = id;
+    public int getId (){
+        return this.id;
     }
 //#endregion
     

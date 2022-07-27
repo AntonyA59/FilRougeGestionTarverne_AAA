@@ -10,6 +10,11 @@ public class Ingredient extends Model{
 
     
 	@Override
+	public boolean get() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
 	public boolean get(int id) {
 		// TODO Auto-generated method stub
 		return false;
