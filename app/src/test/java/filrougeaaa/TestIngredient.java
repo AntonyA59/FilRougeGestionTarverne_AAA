@@ -2,6 +2,7 @@ package filrougeaaa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Savepoint;
 
@@ -55,5 +56,30 @@ public class TestIngredient {
         Ingredient ingredient = new Ingredient() ;
         ingredient.get(2) ;
         assertEquals(ingredient.getName() , "Gruit");
-    }    
+    } 
+    
+    @Test
+    public void testSaveIngredient(){
+        Ingredient ingredient= new Ingredient();
+        ingredient.setName("Camenbert");
+        ingredient.setLevel(2);
+        ingredient.setBuyingPrice(3);
+        ingredient.setSubCategory(new SubCategory(7));
+        assertTrue(ingredient.save());
+    }
+    @Test
+    public void testUpdateIngredient(){
+        Ingredient ingredient= new Ingredient();
+        ingredient.setName("Camenbert");
+        ingredient.setLevel(2);
+        ingredient.setBuyingPrice(3);
+        ingredient.setSubCategory(new SubCategory(7));
+        ingredient.save();
+        Ingredient ingredient2 = new Ingredient(ingredient.getId());
+        ingredient2.setName("Chévre chaud");
+        ingredient2.save();
+        ingredient.get();
+        assertEquals(ingredient.getName(), ingredient2.getName());
+
+    }
 }
