@@ -103,4 +103,13 @@ public class SubCategory extends Model{
 		return this.id ;
 	}
 	//#endregion get/set
+<<<<<<< HEAD
+=======
+
+    @Override
+    public int getId() {
+        return this.id;
+    }
+	
+>>>>>>> origin/Alex6dev
 }

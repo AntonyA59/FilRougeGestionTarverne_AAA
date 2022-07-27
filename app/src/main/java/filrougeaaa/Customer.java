@@ -224,9 +224,10 @@ public class Customer extends Model {
         this.reservation = reservation;
     }
 
-    public int getId (int id){
-        return this.id = id;
-    }
 //#endregion
-    
+
+    @Override
+    public int getId() {
+        return this.id;
+    }
 }

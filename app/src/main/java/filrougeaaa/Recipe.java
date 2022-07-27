@@ -194,5 +194,10 @@ public class Recipe extends Model{
 	}
 
 //#endregion
+
+	@Override
+	public int getId() {
+		return this.id;
+	}
 	
 }
