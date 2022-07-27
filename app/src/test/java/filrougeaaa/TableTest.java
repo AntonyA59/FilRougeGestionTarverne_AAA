@@ -8,7 +8,8 @@ import org.junit.jupiter.api.*;
 
 import filrougeaaa.utils.DBManager;
 
-public class TestCategory {
+public class TableTest {
+    //init and clean the connection BDD
     Savepoint save = null ;
 
     @BeforeAll
@@ -31,20 +32,10 @@ public class TestCategory {
         DBManager.rollback(save);
     }
     @Test
-<<<<<<< HEAD
-    void testConstucteurCategory(){
-        Category category = new Category(1) ;
-        assertEquals(category.getName() , "Boissons");
+    //test database
+    public void testGetTable(){
+        Table table= new Table(1);
+        assertEquals(table.getNumberPlace(), 2);
     }
-    @Test
-    void testGetCategory(){
-        Category category = new Category() ;
-        category.get(2) ;
-        assertEquals(category.getName() , "Plats");
-=======
-    void testGetCategory(){
-        Category category = new Category(1) ;
-        assertEquals(category.getName() , "Boissons");
->>>>>>> origin/Alex6dev
-    }
+
 }

@@ -4,11 +4,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.sql.Savepoint;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 
 import filrougeaaa.utils.DBManager;
 
-public class TestCategory {
+
+
+
+public class TestPlace {
     Savepoint save = null ;
 
     @BeforeAll
@@ -31,20 +39,8 @@ public class TestCategory {
         DBManager.rollback(save);
     }
     @Test
-<<<<<<< HEAD
-    void testConstucteurCategory(){
-        Category category = new Category(1) ;
-        assertEquals(category.getName() , "Boissons");
-    }
-    @Test
-    void testGetCategory(){
-        Category category = new Category() ;
-        category.get(2) ;
-        assertEquals(category.getName() , "Plats");
-=======
-    void testGetCategory(){
-        Category category = new Category(1) ;
-        assertEquals(category.getName() , "Boissons");
->>>>>>> origin/Alex6dev
+    void testGetPlace(){
+        Place place = new Place(1) ;
+        assertEquals(place.getName() , "Cuisine");
     }
 }
