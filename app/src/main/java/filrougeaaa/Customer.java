@@ -18,7 +18,7 @@ public class Customer extends Model {
     protected float nausea;
     protected float alcohol;
     protected float toilet;
-    protected Timestamp TimeInTavern ;
+    protected Timestamp timeInTavern;
     protected float nauseaTolerance;
     protected float alcoholTolerance;
     protected int gender;
@@ -27,17 +27,28 @@ public class Customer extends Model {
     protected ArrayList<Recipe> command;
     protected ArrayList<Reservation> reservation;
 
-
-
-
-    public Customer(){
-        
-    }
     /**
      * Generate a character from database
      * 
      * @param id Database character id
      */
+
+    public Customer() {
+        this.purseOfGold = 0;
+        this.happiness = 0;
+        this.hunger = 0;
+        this.thirst = 0;
+        this.nausea = 0;
+        this.alcohol = 0;
+        this.toilet = 0;
+        this.timeInTavern = null;
+        this.nauseaTolerance = 0;
+        this.alcoholTolerance = 0;
+        this.gender = 0;
+        this.expGiven = 0;
+        this.table = new Table();
+    }
+
     public Customer(int id) {
         try {
             ResultSet resultat = DBManager.execute("SELECT * FROM customer  WHERE id_customer =" + id);
@@ -48,7 +59,7 @@ public class Customer extends Model {
                 this.thirst = resultat.getFloat(5);
                 this.nausea = resultat.getFloat(6);
                 this.toilet = resultat.getFloat(7);
-                this.TimeInTavern = resultat.getTimestamp(8);
+                this.timeInTavern = resultat.getTimestamp(8);
                 this.nauseaTolerance = resultat.getInt(9);
                 this.alcoholTolerance = resultat.getInt(10);
                 this.gender = resultat.getInt(11);
@@ -62,7 +73,7 @@ public class Customer extends Model {
             System.out.println("VendorError: " + e.getErrorCode());
         }
     }
-    
+
     @Override
     public boolean get() {
         try {
@@ -74,7 +85,7 @@ public class Customer extends Model {
                 this.thirst = resultat.getFloat(5);
                 this.nausea = resultat.getFloat(6);
                 this.toilet = resultat.getFloat(7);
-                this.TimeInTavern = resultat.getTimestamp(8);
+                this.timeInTavern = resultat.getTimestamp(8);
                 this.nauseaTolerance = resultat.getFloat(9);
                 this.alcoholTolerance = resultat.getFloat(10);
                 this.gender = resultat.getInt(11);
@@ -95,7 +106,7 @@ public class Customer extends Model {
     @Override
     public boolean get(int id) {
         try {
-            ResultSet resultat = DBManager.execute("SELECT * FROM customer WHERE id_customer = " + this.id);
+            ResultSet resultat = DBManager.execute("SELECT * FROM customer WHERE id_customer = " + id);
             if (resultat.next()) {
                 this.purseOfGold = resultat.getInt(2);
                 this.happiness = resultat.getFloat(3);
@@ -103,13 +114,14 @@ public class Customer extends Model {
                 this.thirst = resultat.getFloat(5);
                 this.nausea = resultat.getFloat(6);
                 this.toilet = resultat.getFloat(7);
-                this.TimeInTavern = resultat.getTimestamp(8);
+                this.timeInTavern = resultat.getTimestamp(8);
                 this.nauseaTolerance = resultat.getFloat(9);
                 this.alcoholTolerance = resultat.getFloat(10);
                 this.gender = resultat.getInt(11);
                 this.expGiven = resultat.getInt(12);
                 this.table = new Table(resultat.getInt(13));
                 this.alcohol = resultat.getFloat(14);
+                this.id = id;
                 return true;
             }
         } catch (SQLException ex) {
@@ -120,13 +132,15 @@ public class Customer extends Model {
         }
         return false;
     }
+
     @Override
     public boolean save() {
         String sql = "";
         if (this.id != 0) {
 
             sql = "UPDATE customer " +
-                    "SET purse_of_gold = ?, happiness = ?, hunger = ?, thirst = ?, nausea = ?, alcohol = ?, toilet = ? , time_in_tavern = ?, nausea_tolerance = ?, alcohol_tolerance = ?, gender = ?, exp_given = ?, id_table = ? " +
+                    "SET purse_of_gold = ?, happiness = ?, hunger = ?, thirst = ?, nausea = ?, alcohol = ?, toilet = ? , time_in_tavern = ?, nausea_tolerance = ?, alcohol_tolerance = ?, gender = ?, exp_given = ?, id_table = ? "
+                    +
                     "WHERE id_customer = ? ";
         } else {
             sql = "INSERT INTO customer(purse_of_gold, happiness, hunger, thirst, nausea, alcohol, toilet, time_in_tavern, nausea_tolerance, alcohol_tolerance, gender, exp_given, id_table) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -141,7 +155,7 @@ public class Customer extends Model {
             pstmt.setFloat(5, this.nausea);
             pstmt.setFloat(6, this.alcohol);
             pstmt.setFloat(7, this.toilet);
-            pstmt.setTimestamp(8, this.TimeInTavern);
+            pstmt.setTimestamp(8, this.timeInTavern);
             pstmt.setFloat(9, this.nauseaTolerance);
             pstmt.setFloat(10, this.alcoholTolerance);
             pstmt.setInt(11, this.gender);
@@ -169,102 +183,131 @@ public class Customer extends Model {
         }
     }
 
-//#region Get/Set   
+    // #region Get/Set
     public int getPurseOfGold() {
         return purseOfGold;
     }
+
     public void setPurseOfGold(int purseOfGold) {
         this.purseOfGold = purseOfGold;
     }
+
     public float getHappiness() {
         return happiness;
     }
+
     public void setHappiness(float happiness) {
         this.happiness = happiness;
     }
+
     public float getHunger() {
         return hunger;
     }
+
     public void setHunger(float hunger) {
         this.hunger = hunger;
     }
+
     public float getThirst() {
         return thirst;
     }
+
     public void setThirst(float thirst) {
         this.thirst = thirst;
     }
+
     public float getNausea() {
         return nausea;
     }
+
     public void setNausea(float nausea) {
         this.nausea = nausea;
     }
+
     public float getAlcohol() {
         return alcohol;
     }
+
     public void setAlcohol(float alcohol) {
         this.alcohol = alcohol;
     }
+
     public float getToilet() {
         return toilet;
     }
+
     public void setToilet(float toilet) {
         this.toilet = toilet;
     }
+
     public Timestamp getTimeInTavern() {
-        return TimeInTavern;
+        return timeInTavern;
     }
+
     public void setTimeInTavern(Timestamp timeInTavern) {
-        TimeInTavern = timeInTavern;
+        this.timeInTavern = timeInTavern;
     }
+
     public float getNauseaTolerance() {
         return nauseaTolerance;
     }
+
     public void setNauseaTolerance(float nauseaTolerance) {
         this.nauseaTolerance = nauseaTolerance;
     }
+
     public float getAlcoholTolerance() {
         return alcoholTolerance;
     }
+
     public void setAlcoholTolerance(float alcoholTolerance) {
         this.alcoholTolerance = alcoholTolerance;
     }
+
     public int getGender() {
         return gender;
     }
+
     public void setGender(int gender) {
         this.gender = gender;
     }
+
     public int getExpGiven() {
         return expGiven;
     }
+
     public void setExpGiven(int expGiven) {
         this.expGiven = expGiven;
     }
+
     public Table getTable() {
         return table;
     }
+
     public void setTable(Table table) {
         this.table = table;
     }
+
     public ArrayList<Recipe> getCommand() {
         return command;
     }
+
     public void setCommand(ArrayList<Recipe> command) {
         this.command = command;
     }
+
     public ArrayList<Reservation> getReservation() {
         return reservation;
     }
+
     public void setReservation(ArrayList<Reservation> reservation) {
         this.reservation = reservation;
     }
-
-//#endregion
 
     @Override
     public int getId() {
         return this.id;
     }
+
+    // #endregion
 }

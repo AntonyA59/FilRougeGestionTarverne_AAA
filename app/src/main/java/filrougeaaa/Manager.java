@@ -22,10 +22,14 @@ public class Manager extends Model{
 
 
     /**
-     * Generate a character from database
+     * Generate a manager from database
      * 
-     * @param id Database character id
+     * @param id Database manager id
      */
+    public Manager() {
+        this.name = "" ;
+    }
+
     public Manager(int id) {
         try {
             ResultSet resultat = DBManager.execute("SELECT * FROM manager  WHERE id_manager =" + id);
@@ -34,7 +38,7 @@ public class Manager extends Model{
                 this.reputation = resultat.getInt(3);
                 this.chest = resultat.getInt(4);
                 this.level = resultat.getInt(5);
-                //this.user = new User(resultat.getInt(6));
+                this.user = new User(resultat.getInt(6));
                 this.id = id;
             }
         } catch (SQLException e) {
@@ -54,7 +58,7 @@ public class Manager extends Model{
                 this.chest = resultat.getInt(4);
                 this.level = resultat.getInt(5);
                 this.exp = resultat.getInt(6);
-				// this.user = new User(resultat.getInt(7));
+				this.user = new User(resultat.getInt(7));
                 return true;
             }
         } catch (SQLException ex) {
@@ -68,14 +72,15 @@ public class Manager extends Model{
 	@Override
 	public boolean get(int id) {
         try {
-            ResultSet resultat = DBManager.execute("SELECT * FROM manager WHERE id_manager = " + this.id);
+            ResultSet resultat = DBManager.execute("SELECT * FROM manager WHERE id_manager = " + id);
             if (resultat.next()) {
                 this.name = resultat.getNString(2);
                 this.reputation = resultat.getInt(3);
                 this.chest = resultat.getInt(4);
                 this.level = resultat.getInt(5);
                 this.exp = resultat.getInt(6);
-				// this.user = new User(resultat.getInt(7));
+				this.user = new User(resultat.getInt(7));
+                this.id = id;
                 return true;
             }
         } catch (SQLException ex) {
@@ -202,10 +207,11 @@ public class Manager extends Model{
 	public void setReservation(Reservation[] reservation) {
 		this.reservation = reservation;
 	}
-//#endregion
-
+    
     @Override
     public int getId() {
         return this.id;
     }
+//#endregion
+
 }

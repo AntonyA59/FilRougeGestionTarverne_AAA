@@ -9,6 +9,11 @@ public class User extends Model{
     protected String nickName;
     protected Manager[] partie; 
 
+	public User(){
+		email = "" ;
+		password = "" ;
+		nickName = "" ;
+	}
 	public User(String email, String password, String nickName){
 		this.email=email;
 		this.password=password;
@@ -35,13 +40,12 @@ public class User extends Model{
 	public boolean get() {
 
 		try{
-			ResultSet resultat= DBManager.execute("SELECT * FROM user where id_user="+id);
+			ResultSet resultat= DBManager.execute("SELECT * FROM user where id_user="+ this.id);
 			if(resultat.next()){
 
 				this.email=resultat.getString("email");
 				this.password=resultat.getString("password");
 				this.nickName=resultat.getString("nickName");
-				this.id=id;
 				return true;
 			}
 		}catch(SQLException ex){
@@ -57,7 +61,6 @@ public class User extends Model{
 		try{
 			ResultSet resultat= DBManager.execute("SELECT * FROM user where id_user="+id);
 			if(resultat.next()){
-
 				this.email=resultat.getString("email");
 				this.password=resultat.getString("password");
 				this.nickName=resultat.getString("nickName");
@@ -134,18 +137,19 @@ public class User extends Model{
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
 	}
-
+	
 	public Manager[] getPartie() {
 		return partie;
 	}
-
+	
 	public void setPartie(Manager[] partie) {
 		this.partie = partie;
 	}
-//#endregion
+	
 	@Override
 	public int getId() {
 		return this.id;
 	}
+//#endregion
 	
 } 

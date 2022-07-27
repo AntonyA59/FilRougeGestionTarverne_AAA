@@ -1,25 +1,31 @@
 package filrougeaaa;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import filrougeaaa.utils.DBManager;
 import filrougeaaa.utils.Model;
 
-public class SubCategory extends Model {
-    protected String name;
-    protected Category category;
+public class RecipeIngredient extends Model {
+    int quantity;
+    Recipe recipe;
+    Ingredient ingredient;
 
-    public SubCategory() {
-        this.name = "";
-        this.category = new Category();
+    public RecipeIngredient() {
+        this.quantity = 0;
+        this.recipe = new Recipe();
+        this.ingredient = new Ingredient();
     }
 
-    public SubCategory(int id) {
+    public RecipeIngredient(int id) {
         try {
-            ResultSet resultat = DBManager.execute("SELECT * FROM subcategory WHERE id_subcategory = " + id);
+            ResultSet resultat = DBManager.execute("SELECT * FROM recipe_ingredient WHERE id_ri = " + id);
             if (resultat.next()) {
-                this.name = resultat.getString("name");
-                this.category = new Category(resultat.getInt("id_category"));
+                this.quantity = resultat.getInt("quantity");
+                this.recipe = new Recipe(resultat.getInt("id_recipe"));
+                this.ingredient = new Ingredient(resultat.getInt("id_ingredient"));
                 this.id = id;
             }
         } catch (SQLException ex) {
@@ -32,11 +38,11 @@ public class SubCategory extends Model {
     @Override
     public boolean get() {
         try {
-            ResultSet resultat = DBManager.execute("SELECT * FROM subcategory WHERE id_subcategory = " + this.id);
+            ResultSet resultat = DBManager.execute("SELECT * FROM recipe_ingredient WHERE id_ri = " + this.id);
             if (resultat.next()) {
-                this.name = resultat.getString("name");
-                this.category = new Category(resultat.getInt(this.category.getId()));
-
+                this.quantity = resultat.getInt("quantity");
+                this.recipe = new Recipe(resultat.getInt("id_recipe"));
+                this.ingredient = new Ingredient(resultat.getInt("id_ingredient"));
                 return true;
             }
         } catch (SQLException ex) {
@@ -51,10 +57,11 @@ public class SubCategory extends Model {
     @Override
     public boolean get(int id) {
         try {
-            ResultSet resultat = DBManager.execute("SELECT * FROM subcategory WHERE id_subcategory = " + id);
+            ResultSet resultat = DBManager.execute("SELECT * FROM recipe_ingredient WHERE id_ri = " + id);
             if (resultat.next()) {
-                this.name = resultat.getString("name");
-                this.category.get(resultat.getInt("id_category"));
+                this.quantity = resultat.getInt("quantity");
+                this.recipe = new Recipe(resultat.getInt("id_recipe"));
+                this.ingredient = new Ingredient(resultat.getInt("id_ingredient"));
                 this.id = id;
                 return true;
             }
@@ -71,16 +78,17 @@ public class SubCategory extends Model {
     public boolean save() {
         String sql;
         if (this.id != 0) {
-            sql = "UPDATE subcategory SET name=?,id_category=? WHERE id_subcategorie = ?";
+            sql = "UPDATE recipe_ingredient SET quantity=?,id_recipe=?,id_ingredient=? WHERE id_ri = ?";
         } else {
-            sql = "INSERT INTO subcategory (name,id_category) VALUES (?,?)";
+            sql = "INSERT INTO recipe_ingredient (quantity,id_recipe,id_ingredient) VALUES (?,?,?)";
         }
         try {
             PreparedStatement pstmt = DBManager.conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            pstmt.setString(1, this.name);
-            pstmt.setInt(2, this.category.getId());
+            pstmt.setInt(1, this.quantity);
+            pstmt.setInt(2, this.recipe.getId());
+            pstmt.setInt(3, this.ingredient.getId());
             if (this.id != 0)
-                pstmt.setInt(3, this.id);
+                pstmt.setInt(4, this.id);
 
             pstmt.executeUpdate();
             ResultSet keys = pstmt.getGeneratedKeys();
@@ -99,26 +107,9 @@ public class SubCategory extends Model {
         }
     }
 
-    // #region get/set
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
     @Override
     public int getId() {
         return this.id;
     }
-    // #endregion get/set
+
 }
