@@ -95,7 +95,10 @@ public class TestManager {
         HashMap<Integer,Integer> ingredientsRecipe=new HashMap<Integer,Integer>();
         ingredientsRecipe.put(1,5);
         recipe.setTabIngredients(ingredientsRecipe);
+
         manager.requestRecipe(recipe);
         assertEquals(manager.getInventory().get(1), 5);
+        assertEquals(manager.getInventory().get(2), 1);
+
     }
 }
