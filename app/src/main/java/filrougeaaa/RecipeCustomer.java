@@ -33,6 +33,9 @@ public class RecipeCustomer extends Model {
 			System.out.println("VendorError"+ ex.getErrorCode());
 		}
     }
+    
+    
+    //#region
     public Recipe getRecipe() {
         return recipe;
     }
@@ -51,6 +54,13 @@ public class RecipeCustomer extends Model {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+    @Override
+    public int getId() {
+        return this.id;
+    }
+    //#endregion
+
     @Override
     public boolean get() {
         try{
@@ -124,9 +134,4 @@ public class RecipeCustomer extends Model {
             return false ;
         }
     }
-    @Override
-    public int getId() {
-        return this.id;
-    }
-    
 }
