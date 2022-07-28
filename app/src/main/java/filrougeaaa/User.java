@@ -1,5 +1,6 @@
 package filrougeaaa;
 import java.sql.*;
+import java.util.ArrayList;
 
 import filrougeaaa.utils.DBManager;
 import filrougeaaa.utils.Model;
@@ -7,7 +8,7 @@ public class User extends Model{
     private String email;
     private String password;
     protected String nickName;
-    protected Manager[] partie; 
+    protected ArrayList<Manager> listManagers; 
 
 	public User(){
 		email = "" ;
@@ -80,10 +81,10 @@ public class User extends Model{
 		String sql;
         if(this.id != 0)
             sql = "UPDATE user "+
-                    "SET email = ?,password = ?, nickName = ?"+
+                    "SET email = ?,password = ?, nickName = ? "+
                     "WHERE id_user = ?";
         else
-            sql = "INSERT INTO user (email, password, nickName)"+
+            sql = "INSERT INTO user (email, password, nickName) "+
                         "VALUES(?, ?, ?)";
         try{
             PreparedStatement stmt = DBManager.conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -138,12 +139,12 @@ public class User extends Model{
 		this.nickName = nickName;
 	}
 	
-	public Manager[] getPartie() {
-		return partie;
+	public ArrayList<Manager> getlistManagers() {
+		return listManagers;
 	}
 	
-	public void setPartie(Manager[] partie) {
-		this.partie = partie;
+	public void setlistManagers(ArrayList<Manager> listManagers) {
+		this.listManagers = listManagers;
 	}
 	
 	@Override
