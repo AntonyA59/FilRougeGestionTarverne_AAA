@@ -28,8 +28,12 @@ public class Table extends Model {
                 this.hygiene = resultat.getInt("hygiene");
                 this.posX = resultat.getInt("pos_x");
                 this.posY = resultat.getInt("pos_y");
+                this.place = new Place(resultat.getInt("id_place"));
                 this.id = id;
+<<<<<<< HEAD
+=======
                 this.place= new Place(resultat.getInt("id_place"));
+>>>>>>> 60496416e9dbd1d850d115c87fbe8166e5cc85c7
             }
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
@@ -167,4 +171,54 @@ public class Table extends Model {
     }
     // #endregion
 
+    public boolean TableOccupied(){
+        int nbCustomer = 0 ;
+        try{
+			ResultSet resultat = DBManager.execute("SELECT COUNT(*) FROM customer as c"
+            +" INNER JOIN `table` as t"
+            +" ON t.id_table = c.id_table"
+            +" INNER JOIN place as p"
+            +" ON t.id_place = p.id_place"
+            +" WHERE c.id_table = "+this.id+" ;") ;
+			if(resultat.next()){
+                nbCustomer = resultat.getInt("0") ;
+                if(nbCustomer > 0){
+                    return true ;
+                }else{
+                    return false ;
+                }
+			}else{
+                return false ;
+            }
+		}catch(SQLException ex) {
+			System.out.println("SQLException" + ex.getMessage());
+			System.out.println("SQLState" + ex.getSQLState());
+			System.out.println("VendorError"+ ex.getErrorCode());
+            return false ;
+		}
+    }
+    public boolean TableIsReserved(){
+        int nbReservation = 0 ;
+        try{
+			ResultSet resultat = DBManager.execute("SELECT COUNT(*) FROM reservation as r"
+            +" INNER JOIN customer as c"
+            +" ON c.id_customer = r.id_customer"
+            +" WHERE c.id_table = "+this.id) ;
+            if(resultat.next()){
+                nbReservation = resultat.getInt("0") ;
+                if(nbReservation > 0){
+                    return true ;
+                }else{
+                    return false ;
+                }
+			}else{
+                return false ;
+            }
+		}catch(SQLException ex) {
+			System.out.println("SQLException" + ex.getMessage());
+			System.out.println("SQLState" + ex.getSQLState());
+			System.out.println("VendorError"+ ex.getErrorCode());
+            return false ;
+		}
+    }
 }

@@ -211,9 +211,7 @@ public class Manager extends Model {
     public void setUser(User user) {
         this.user = user;
     }
-
-
-
+    
     public Map<Integer,Integer> listInventoryIngredient(){
         InventoryIngredient listInventory = new InventoryIngredient() ;
         inventory = listInventory.listIngredientByManager(this.id) ;

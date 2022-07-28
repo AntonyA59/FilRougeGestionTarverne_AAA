@@ -1,31 +1,29 @@
 package filrougeaaa;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 import filrougeaaa.utils.DBManager;
 import filrougeaaa.utils.Model;
 
 public class Customer extends Model {
-    protected int purseOfGold;
-    protected float happiness;
-    protected float hunger;
-    protected float thirst;
-    protected float nausea;
-    protected float alcohol;
-    protected float toilet;
-    protected Timestamp timeInTavern;
-    protected float nauseaTolerance;
-    protected float alcoholTolerance;
-    protected int gender;
-    protected int expGiven;
-    protected Table table;
+    protected int purseOfGold=0;
+    protected float happiness=0;
+    protected float hunger=0;
+    protected float thirst=0;
+    protected float nausea=0;
+    protected float alcohol=0;
+    protected float toilet=0;
+    protected Time timeInTavern=null;
+    protected float nauseaTolerance=0;
+    protected float alcoholTolerance=0;
+    protected int gender=0;
+    protected int expGiven=0;
+    protected Table table=new Table();
     protected ArrayList<Recipe> command;
     protected ArrayList<Reservation> reservation;
+    Random rand= new Random();
 
     /**
      * Generate a character from database
@@ -34,21 +32,22 @@ public class Customer extends Model {
      */
 
     public Customer() {
-        this.purseOfGold = 0;
-        this.happiness = 0;
-        this.hunger = 0;
-        this.thirst = 0;
-        this.nausea = 0;
-        this.alcohol = 0;
-        this.toilet = 0;
-        this.timeInTavern = null;
-        this.nauseaTolerance = 0;
-        this.alcoholTolerance = 0;
-        this.gender = 0;
-        this.expGiven = 0;
+        //min and max value to modify according to the game later
+        this.purseOfGold = rand.nextInt(10,20);
+        this.happiness = rand.nextFloat(0,1);
+        this.hunger = rand.nextFloat(0,1);
+        this.thirst = rand.nextFloat(0,1);
+        this.nausea = rand.nextFloat(0,1);
+        this.alcohol = rand.nextFloat(0,1);
+        this.toilet = rand.nextFloat(0,1);
+        this.timeInTavern = new Time(rand.nextLong(10,20));
+        this.nauseaTolerance = rand.nextFloat(0,1);
+        this.alcoholTolerance = rand.nextFloat(0,1);
+        this.gender = rand.nextInt(0,1);
+        this.expGiven = rand.nextInt(5,10);
         this.table = new Table();
     }
-
+    
     public Customer(int id) {
         try {
             ResultSet resultat = DBManager.execute("SELECT * FROM customer  WHERE id_customer =" + id);
@@ -59,7 +58,7 @@ public class Customer extends Model {
                 this.thirst = resultat.getFloat(5);
                 this.nausea = resultat.getFloat(6);
                 this.toilet = resultat.getFloat(7);
-                this.timeInTavern = resultat.getTimestamp(8);
+                this.timeInTavern = resultat.getTime(8);
                 this.nauseaTolerance = resultat.getInt(9);
                 this.alcoholTolerance = resultat.getInt(10);
                 this.gender = resultat.getInt(11);
@@ -85,7 +84,7 @@ public class Customer extends Model {
                 this.thirst = resultat.getFloat(5);
                 this.nausea = resultat.getFloat(6);
                 this.toilet = resultat.getFloat(7);
-                this.timeInTavern = resultat.getTimestamp(8);
+                this.timeInTavern = resultat.getTime(8);
                 this.nauseaTolerance = resultat.getFloat(9);
                 this.alcoholTolerance = resultat.getFloat(10);
                 this.gender = resultat.getInt(11);
@@ -114,7 +113,7 @@ public class Customer extends Model {
                 this.thirst = resultat.getFloat(5);
                 this.nausea = resultat.getFloat(6);
                 this.toilet = resultat.getFloat(7);
-                this.timeInTavern = resultat.getTimestamp(8);
+                this.timeInTavern = resultat.getTime(8);
                 this.nauseaTolerance = resultat.getFloat(9);
                 this.alcoholTolerance = resultat.getFloat(10);
                 this.gender = resultat.getInt(11);
@@ -155,7 +154,7 @@ public class Customer extends Model {
             pstmt.setFloat(5, this.nausea);
             pstmt.setFloat(6, this.alcohol);
             pstmt.setFloat(7, this.toilet);
-            pstmt.setTimestamp(8, this.timeInTavern);
+            pstmt.setTime(8, this.timeInTavern);
             pstmt.setFloat(9, this.nauseaTolerance);
             pstmt.setFloat(10, this.alcoholTolerance);
             pstmt.setInt(11, this.gender);
@@ -183,6 +182,11 @@ public class Customer extends Model {
         }
     }
 
+    public void assignTable(Table table){
+        this.setTable(table);
+        this.save();
+    }
+    
     // #region Get/Set
     public int getPurseOfGold() {
         return purseOfGold;
@@ -240,11 +244,11 @@ public class Customer extends Model {
         this.toilet = toilet;
     }
 
-    public Timestamp getTimeInTavern() {
+    public Time getTimeInTavern() {
         return timeInTavern;
     }
 
-    public void setTimeInTavern(Timestamp timeInTavern) {
+    public void setTimeInTavern(Time timeInTavern) {
         this.timeInTavern = timeInTavern;
     }
 
