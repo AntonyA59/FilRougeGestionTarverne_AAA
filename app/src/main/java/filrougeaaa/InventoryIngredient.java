@@ -146,11 +146,37 @@ public class InventoryIngredient extends Model {
         }
     }
 
+
+    //#region
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public Manager getManager() {
+        return manager;
+    }
+
+    public void setManager(Manager manager) {
+        this.manager = manager;
+    }
+
+    public Ingredient getIngredient() {
+        return ingredient;
+    }
+
+    public void setIngredient(Ingredient ingredient) {
+        this.ingredient = ingredient;
+    }
+
     @Override
     public int getId() {
         return this.id ;
     }
-
+//#endregion
     public Map<Integer,Integer> listIngredientByManager(int idManager){
         try{
             Map<Integer,Integer> listIngredient = new HashMap<Integer,Integer>() ;

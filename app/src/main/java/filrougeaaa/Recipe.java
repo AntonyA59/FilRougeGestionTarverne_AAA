@@ -106,9 +106,9 @@ public class Recipe extends Model{
 	public boolean save() {
 		String sql ;
         if(this.id != 0){
-            sql = "UPDATE recipe SET name=?,level=?,selling_price=?,consommation_time=?,preparation_time=?,expiration=?,exp_given=?,id_subcategory=? WHERE id_recipe = ?" ;
+            sql = "UPDATE recipe SET name=?,level=?,selling_price=?,consommation_time=?,preparation_time=?,peremption_date=?,exp_given=?,id_subcategory=? WHERE id_recipe = ?" ;
         }else{
-            sql = "INSERT INTO recipe (name,level,selling_price,consommation_time,preparation_time,expiration,exp_given,id_subcategory) VALUES (?,?,?,?,?,?,?,?)" ;
+            sql = "INSERT INTO recipe (name,level,selling_price,consommation_time,preparation_time,peremption_date,exp_given,id_subcategory) VALUES (?,?,?,?,?,?,?,?)" ;
         }
         try {
             PreparedStatement pstmt =  DBManager.conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS) ;
