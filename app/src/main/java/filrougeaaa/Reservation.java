@@ -24,6 +24,7 @@ public class Reservation extends Model {
                 this.nb_customer = resultat.getInt("nb_customer");
                 this.customer = new Customer(resultat.getInt("id_customer"));
                 this.manager = new Manager(resultat.getInt("id_manager"));
+                this.id = id;
             }
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
@@ -78,11 +79,11 @@ public class Reservation extends Model {
     public boolean save() {
         String sql;
         if (this.id != 0) {
-            sql = "UPDATE reservation" +
-                    "SET date=?, nb_customer= ?,id_customer=?, id_manager=? " +
+            sql = "UPDATE reservation " +
+                    "SET date=?, nb_customer= ?, id_customer=?, id_manager=? " +
                     "WHERE id_reservation= ?";
         } else {
-            sql = "INSERT INTO reservation(date,nb_customer,id_customer,id_manager)" +
+            sql = "INSERT INTO reservation(date, nb_customer, id_customer, id_manager) " +
                     "VALUES(?,?,?,?)";
         }
         try {
@@ -128,6 +129,21 @@ public class Reservation extends Model {
         this.nb_customer = nb_customer;
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Manager getManager() {
+        return manager;
+    }
+
+    public void setManager(Manager manager) {
+        this.manager = manager;
+    }
     @Override
     public int getId() {
         return this.id;

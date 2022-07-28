@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Savepoint;
-import java.sql.Timestamp;
+import java.sql.Time;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -55,7 +55,7 @@ public class TestCustomer {
         customer.setToilet(10);
         customer.setNauseaTolerance(40);
         customer.setAlcoholTolerance(50);
-        customer.setTimeInTavern(new Timestamp(20));
+        customer.setTimeInTavern(new Time(20));
         customer.setGender(1);
         customer.setExpGiven(10);
         customer.setAlcohol(10);
@@ -73,7 +73,7 @@ public class TestCustomer {
         customer.setToilet(10);
         customer.setNauseaTolerance(40);
         customer.setAlcoholTolerance(50);
-        customer.setTimeInTavern(new Timestamp(20));
+        customer.setTimeInTavern(new Time(20));
         customer.setGender(1);
         customer.setExpGiven(10);
         customer.setAlcohol(10);
@@ -85,5 +85,6 @@ public class TestCustomer {
         customer.get();
         assertEquals(customer.getAlcohol(), customer2.getAlcohol());
     }
+    
 
 }
