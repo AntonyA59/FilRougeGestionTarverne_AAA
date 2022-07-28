@@ -78,7 +78,6 @@ public class TestManager {
     public void testInventoryIngredient(){
         Manager manager = new Manager(1) ;
         Map<Integer,Integer> inventoryManager ;
-        InventoryIngredient inventoryIngredient ;
 
         inventoryManager = manager.listInventoryIngredient() ;
         assertEquals(inventoryManager.get(4),2) ;

@@ -3,6 +3,7 @@ package filrougeaaa;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.*;
 
@@ -83,5 +84,14 @@ public class TestRecipe {
         recipe2.save();
         recipe.get();
         assertEquals(recipe.getName(), recipe2.getName());
+    }
+
+    @Test
+    public void testListRecipeByLevel(){
+        Recipe recipe = new Recipe() ;
+        ArrayList<Recipe> listRecipe ;
+
+        listRecipe = recipe.listRecipeByLevel(2) ;
+        assertEquals(listRecipe.get(0).getName(),"Gruit") ;
     }
 }

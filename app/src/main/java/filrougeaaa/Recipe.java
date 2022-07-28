@@ -3,7 +3,7 @@ package filrougeaaa;
 import filrougeaaa.utils.DBManager;
 import filrougeaaa.utils.Model;
 import java.sql.Timestamp;
-
+import java.util.ArrayList;
 import java.sql.Time;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -211,5 +211,25 @@ public class Recipe extends Model{
 	}
 //#endregion
 
+	public ArrayList<Recipe> listRecipeByLevel(int levelMax){
+		try{
+            ArrayList<Recipe> listRecipe = new ArrayList<Recipe>() ;
+            ResultSet resultat = DBManager.execute("SELECT id_recipe FROM recipe WHERE level BETWEEN 1 AND "+levelMax+" ;");
+			Recipe recipe ;
+            
+            while(resultat.next()){
+				recipe = new Recipe(resultat.getInt("id_recipe")) ;
+				listRecipe.add(recipe) ;
+            }
+            return listRecipe ;
+        }
+        catch (SQLException ex) {
+            // handle any errors
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            return null ;
+        }
+	}
 	
 }
