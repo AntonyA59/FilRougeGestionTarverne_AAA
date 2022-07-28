@@ -4,6 +4,7 @@ import filrougeaaa.utils.DBManager;
 import filrougeaaa.utils.Model;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.sql.Time;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -20,7 +21,10 @@ public class Recipe extends Model{
     protected Date peremptionDate;
     protected int expGiven;
     protected SubCategory subCategory;
+	protected HashMap<Integer,Integer> tabIngredients;
+
 	
+
 	public Recipe() {
 		this.name = "" ;
 		this.level = 0 ;
@@ -208,6 +212,13 @@ public class Recipe extends Model{
 	@Override
 	public int getId() {
 		return this.id;
+	}
+	public HashMap<Integer,Integer> getTabIngredients() {
+		return tabIngredients;
+	}
+
+	public void setTabIngredients(HashMap<Integer, Integer> tabIngredients) {
+		this.tabIngredients = tabIngredients;
 	}
 //#endregion
 

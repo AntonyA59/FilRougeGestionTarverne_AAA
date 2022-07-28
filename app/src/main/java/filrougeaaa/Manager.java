@@ -60,6 +60,27 @@ public class Manager extends Model {
         }
     }
 
+    public boolean requestRecipe(Recipe recipe){
+        
+        if(haveQuantityIngredientInInventaire(recipe)){
+            for (Integer id_ingredient : recipe.getTabIngredients().keySet()) {
+                int quantityInit=this.inventory.get(id_ingredient);
+                int quantityConsom= recipe.getTabIngredients().get(id_ingredient);
+                this.inventory.put(id_ingredient,quantityInit-quantityConsom);
+            }
+            
+            return true;
+        }    
+        return false;
+    }
+    private boolean haveQuantityIngredientInInventaire(Recipe recipe){
+        for (Integer id_ingredients : recipe.getTabIngredients().keySet()) {
+            if(recipe.getTabIngredients().get(id_ingredients)>this.inventory.get(id_ingredients)){
+                return false;
+            }
+        }
+        return true;
+    }
     @Override
     public boolean get() {
         try {
@@ -212,7 +233,7 @@ public class Manager extends Model {
         this.user = user;
     }
 
-
+    
 
     public Map<Integer,Integer> listInventoryIngredient(){
         InventoryIngredient listInventory = new InventoryIngredient() ;
