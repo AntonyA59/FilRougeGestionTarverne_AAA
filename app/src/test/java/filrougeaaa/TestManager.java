@@ -77,9 +77,9 @@ public class TestManager {
     @Test
     public void testInventoryIngredient(){
         Manager manager = new Manager(1) ;
-        Map<Integer,Integer> inventory ;
-        inventory = manager.listIngredientByManager() ;
-        inventory.get(1) ;
-    }
+        Map<Integer,Integer> inventoryManager ;
 
+        inventoryManager = manager.listInventoryIngredient() ;
+        assertEquals(inventoryManager.get(4),2) ;
+    }
 }
