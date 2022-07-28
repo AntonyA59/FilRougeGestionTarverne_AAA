@@ -1,6 +1,7 @@
 package filrougeaaa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Savepoint;
 
@@ -26,7 +27,6 @@ public class TestPlace {
     }
     @AfterAll
     public static void tearDown(){
-        DBManager.setAutoCommit(true);
         DBManager.close();
     }
 
@@ -42,5 +42,30 @@ public class TestPlace {
     void testGetPlace(){
         Place place = new Place(1) ;
         assertEquals(place.getName() , "Cuisine");
+    }
+
+    @Test
+    public void testSavePlace(){
+        Place place = new Place();
+        place.setLevel(2);
+        place.setName("Grenier");
+        place.setType(1);
+        place.setManager(new Manager(1));
+        assertTrue(place.save());
+    }
+
+    @Test
+    public void testUpdatePlace(){
+        Place place = new Place();
+        place.setLevel(2);
+        place.setName("Grenier");
+        place.setType(1);
+        place.setManager(new Manager(1));
+        place.save();
+        Place place2 = new Place(place.getId());
+        place2.setName("Célier");
+        place2.save();
+        place.get();
+        assertEquals(place.getName(), place2.getName());
     }
 }
