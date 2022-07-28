@@ -30,10 +30,6 @@ public class Table extends Model {
                 this.posY = resultat.getInt("pos_y");
                 this.place = new Place(resultat.getInt("id_place"));
                 this.id = id;
-<<<<<<< HEAD
-=======
-                this.place= new Place(resultat.getInt("id_place"));
->>>>>>> 60496416e9dbd1d850d115c87fbe8166e5cc85c7
             }
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
