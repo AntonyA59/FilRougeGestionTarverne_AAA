@@ -12,13 +12,13 @@ public class Place extends Model {
     protected String name;
     protected int type;
     protected int level;
-    protected User user;
+    protected Manager manager;
 
     public Place() {
         this.name = "";
         this.type = 0;
         this.level = 0;
-        this.user = new User();
+        this.manager = new Manager();
     }
 
     public Place(int id) {
@@ -28,7 +28,7 @@ public class Place extends Model {
                 this.name = resultat.getString(2);
                 this.type = resultat.getInt(3);
                 this.level = resultat.getInt(4);
-                this.user = new User(resultat.getInt(id));
+                this.manager = new Manager(resultat.getInt(5));
                 this.id = id;
             }
         } catch (SQLException ex) {
@@ -47,7 +47,7 @@ public class Place extends Model {
                 this.name = resultat.getString(2);
                 this.type = resultat.getInt(3);
                 this.level = resultat.getInt(4);
-                this.user = new User(resultat.getInt(id));
+                this.manager = new Manager(resultat.getInt(5));
                 return true;
             }
         } catch (SQLException ex) {
@@ -67,7 +67,7 @@ public class Place extends Model {
                 this.name = resultat.getString(2);
                 this.type = resultat.getInt(3);
                 this.level = resultat.getInt(4);
-                this.user = new User(resultat.getInt(id));
+                this.manager = new Manager(resultat.getInt(5));
                 this.id = id;
                 return true;
             }
@@ -84,17 +84,17 @@ public class Place extends Model {
         String sql;
         if (this.id != 0)
             sql = "UPDATE place " +
-                    "SET name = ?,type = ?, level = ?, id_manager = ?" +
+                    "SET name = ?,type = ?, level = ?, id_manager = ? " +
                     "WHERE id_place = ?";
         else
-            sql = "INSERT INTO place (name, type, level, id_manager)" +
+            sql = "INSERT INTO place (name, type, level, id_manager) " +
                     "VALUES(?, ?, ?, ?)";
         try {
             PreparedStatement stmt = DBManager.conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, this.name);
             stmt.setInt(2, this.type);
             stmt.setInt(3, this.level);
-            stmt.setInt(4, this.user.id);
+            stmt.setInt(4, this.manager.getId());
             if (id != 0)
                 stmt.setInt(5, this.id);
 
@@ -147,6 +147,15 @@ public class Place extends Model {
     public int getId() {
         return this.id;
     }
+
+    public Manager getManager() {
+        return manager;
+    }
+
+    public void setManager(Manager manager) {
+        this.manager = manager;
+    }
+    
     // #endregion
 
 }

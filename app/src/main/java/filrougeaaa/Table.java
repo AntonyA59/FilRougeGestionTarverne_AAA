@@ -29,7 +29,7 @@ public class Table extends Model {
                 this.posX = resultat.getInt("pos_x");
                 this.posY = resultat.getInt("pos_y");
                 this.id = id;
-                // this.place=new Place(resultat.getInt("id_place"));
+                this.place= new Place(resultat.getInt("id_place"));
             }
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
@@ -86,11 +86,11 @@ public class Table extends Model {
     public boolean save() {
         String sql;
         if (this.id != 0) {
-            sql = "UPDATE `table`" +
-                    "SET number_place= ?, hygiene= ?, pos_x=?, pos_y=?, id_place = ?" +
+            sql = "UPDATE `table` " +
+                    "SET number_place= ?, hygiene= ?, pos_x=?, pos_y=?, id_place = ? " +
                     "WHERE id_table= ?";
         } else {
-            sql = "INSERT INTO `table`(number_place,hygiene,pos_x,pos_y,id_place)" +
+            sql = "INSERT INTO `table`(number_place,hygiene,pos_x,pos_y,id_place) " +
                     "VALUES(?,?,?,?,?)";
         }
         try {
