@@ -21,6 +21,40 @@ public class InventoryIngredient extends Model {
         this.ingredient = new Ingredient() ;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+
+
+    public Manager getManager() {
+        return manager;
+    }
+
+
+
+    public void setManager(Manager manager) {
+        this.manager = manager;
+    }
+
+
+
+    public Ingredient getIngredient() {
+        return ingredient;
+    }
+
+
+
+    public void setIngredient(Ingredient ingredient) {
+        this.ingredient = ingredient;
+    }
+
     public InventoryIngredient(int id) {
         try{
 			ResultSet resultat = DBManager.execute("SELECT * FROM inventory_ingredient WHERE id_ii = "+id) ;

@@ -201,7 +201,7 @@ public class Manager extends Model{
 		this.inventory = inventory;
 	}
 
-    public Map<Integer,Integer> listIngredientByManager(){
+    public Map<Integer,Integer> listInventoryIngredient(){
         InventoryIngredient listInventory = new InventoryIngredient() ;
         inventory = listInventory.listIngredientByManager(this.id) ;
         return inventory ;
