@@ -18,7 +18,7 @@ public class Manager extends Model {
     protected int maxExp;
     protected int level;
     protected User user;
-    protected Map<Integer, Integer> inventory;
+    protected Map<Integer, Integer> inventoryIngredient;
     /*
      * protected Ingredient[] inventory;
      * protected Place[] places;
@@ -38,7 +38,7 @@ public class Manager extends Model {
         this.maxExp = 0 ;
         this.level = 0 ;
         this.user = new User() ;
-        this.inventory = new HashMap<Integer,Integer>() ;
+        this.inventoryIngredient = new HashMap<Integer,Integer>() ;
     }
 
     public Manager(int id) {
@@ -51,6 +51,7 @@ public class Manager extends Model {
                 this.level = resultat.getInt(5);
                 this.exp = resultat.getInt(6);
                 this.user = new User(resultat.getInt(7));
+                this.inventoryIngredient = new HashMap<Integer,Integer>() ;
                 this.id = id;
             }
         } catch (SQLException e) {
@@ -60,6 +61,27 @@ public class Manager extends Model {
         }
     }
 
+    public boolean requestRecipe(Recipe recipe){
+        
+        if(haveQuantityIngredientInInventaire(recipe)){
+            for (Integer id_ingredient : recipe.getTabIngredients().keySet()) {
+                int quantityInit=this.inventoryIngredient.get(id_ingredient);
+                int quantityConsom= recipe.getTabIngredients().get(id_ingredient);
+                this.inventoryIngredient.put(id_ingredient,quantityInit-quantityConsom);
+            }
+            
+            return true;
+        }    
+        return false;
+    }
+    private boolean haveQuantityIngredientInInventaire(Recipe recipe){
+        for (Integer id_ingredients : recipe.getTabIngredients().keySet()) {
+            if(recipe.getTabIngredients().get(id_ingredients)>this.inventoryIngredient.get(id_ingredients)){
+                return false;
+            }
+        }
+        return true;
+    }
     @Override
     public boolean get() {
         try {
@@ -197,11 +219,11 @@ public class Manager extends Model {
     }
 
     public Map<Integer, Integer> getInventory() {
-        return inventory;
+        return inventoryIngredient;
     }
 
-    public void setInventory(Map<Integer, Integer> inventory) {
-        this.inventory = inventory;
+    public void setInventory(Map<Integer, Integer> inventoryIngredient) {
+        this.inventoryIngredient = inventoryIngredient;
     }
 
     public User getUser() {
@@ -211,12 +233,27 @@ public class Manager extends Model {
     public void setUser(User user) {
         this.user = user;
     }
+
     
+
     public Map<Integer,Integer> listInventoryIngredient(){
-        InventoryIngredient listInventory = new InventoryIngredient() ;
-        inventory = listInventory.listIngredientByManager(this.id) ;
-        return inventory ;
+        try{
+            ResultSet resultat = DBManager.execute("SELECT id_ingredient,quantity FROM inventory_ingredient WHERE id_manager = "+this.id+" ;");
+            
+            while(resultat.next()){
+                inventoryIngredient.put(resultat.getInt("id_ingredient"), resultat.getInt("quantity")) ;
+            }
+            return inventoryIngredient ;
+        }
+        catch (SQLException ex) {
+            // handle any errors
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            return null ;
+        }
     }
+
     /*
      * public Place[] getPlaces() {
      * return places;
