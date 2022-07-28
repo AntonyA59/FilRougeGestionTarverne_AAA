@@ -54,4 +54,13 @@ public class TestManager {
         inventoryManager = manager.listInventoryIngredient() ;
         assertEquals(inventoryManager.get(5),2) ;
     }
+
+    @Test
+    public void testBuyIngredient(){
+        Manager manager = new Manager(1) ;
+        Ingredient ingredient = new Ingredient(1) ;
+
+        //manager.buyIngredient(ingredient.getId()) ;
+
+    }
 }
