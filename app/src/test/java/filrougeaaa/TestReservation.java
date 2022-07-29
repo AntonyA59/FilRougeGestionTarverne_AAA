@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Date;
 import java.sql.Savepoint;
+import java.sql.Time;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -38,20 +39,28 @@ public class TestReservation {
 
     @Test
     public void testSaveReservation() {
+        Customer customer = new Customer();
+        customer.save();
+        Manager manager = new Manager();
+        manager.save();
         Reservation reservation = new Reservation();
-        reservation.setCustomer(new Customer(1));
+        reservation.setCustomer(customer);
         reservation.setDate(new Date(20));
-        reservation.setManager(new Manager(1));
+        reservation.setManager(manager);
         reservation.setNb_customer(3);
         assertTrue(reservation.save());
     }
 
     @Test
     public void testUpdateReservation() {
+        Customer customer = new Customer();
+        customer.save();
+        Manager manager = new Manager();
+        manager.save();
         Reservation reservation = new Reservation();
-        reservation.setCustomer(new Customer(1));
+        reservation.setCustomer(customer);
         reservation.setDate(new Date(20));
-        reservation.setManager(new Manager(1));
+        reservation.setManager(manager);
         reservation.setNb_customer(3);
         reservation.save();
         Reservation reservation2 = new Reservation(reservation.getId());
