@@ -9,7 +9,7 @@ import org.junit.jupiter.api.*;
 
 import filrougeaaa.utils.DBManager;
 
-public class TestRecipe {
+public class RecipeTest {
     Savepoint save = null ;
 
     @BeforeAll
@@ -55,6 +55,8 @@ public class TestRecipe {
     @Test
     public void testSaveRecipe(){
         Recipe recipe = new Recipe();
+        recipe.getSubCategory().getCategory().save();
+        recipe.getSubCategory().save();
         recipe.setName("Tagliatelle au Saumon");
         recipe.setSellingPrice(15);
         recipe.setLevel(3);
@@ -62,13 +64,14 @@ public class TestRecipe {
         recipe.setPreparationTime(new Timestamp(10));
         recipe.setPeremptionDate(new Date(1000));
         recipe.setExpGiven(30);
-        recipe.setSubCategory(new SubCategory(1));
         assertTrue(recipe.save());
     }
 
     @Test
     public void testUpdateRecipe(){
         Recipe recipe = new Recipe();
+        recipe.getSubCategory().getCategory().save();
+        recipe.getSubCategory().save();
         recipe.setName("Tagliatelle au Saumon");
         recipe.setSellingPrice(15);
         recipe.setLevel(3);
@@ -76,7 +79,6 @@ public class TestRecipe {
         recipe.setPreparationTime(new Timestamp(10));
         recipe.setPeremptionDate(new Date(1000));
         recipe.setExpGiven(30);
-        recipe.setSubCategory(new SubCategory(1));
         recipe.save();
         Recipe recipe2 = new Recipe(recipe.getId());
         recipe2.setName("Tagliatelle");

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.*;
 
 import filrougeaaa.utils.DBManager;
 
-public class TestSubCategory {
+public class SubCategoryTest {
     Savepoint save = null ;
 
     @BeforeAll

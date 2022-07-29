@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import filrougeaaa.utils.DBManager;
 
-public class TestIngredient {
+public class IngredientTest {
     Savepoint save = null ;
 
     @BeforeAll
@@ -59,15 +59,25 @@ public class TestIngredient {
     
     @Test
     public void testSaveIngredient(){
+        SubCategory subCategory = new SubCategory();
+        subCategory.category.setName("Laitier");
+        subCategory.category.save();
+        subCategory.setName("Fromage");
+        subCategory.save();
         Ingredient ingredient= new Ingredient();
         ingredient.setName("Camenbert");
         ingredient.setLevel(2);
         ingredient.setBuyingPrice(3);
-        ingredient.setSubCategory(new SubCategory(7));
+        ingredient.setSubCategory(subCategory);
         assertTrue(ingredient.save());
     }
     @Test
     public void testUpdateIngredient(){
+        SubCategory subCategory = new SubCategory();
+        subCategory.category.setName("Laitier");
+        subCategory.category.save();
+        subCategory.setName("Fromage");
+        subCategory.save();
         Ingredient ingredient= new Ingredient();
         ingredient.setName("Camenbert");
         ingredient.setLevel(2);

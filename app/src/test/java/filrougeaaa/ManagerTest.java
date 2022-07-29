@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 
 import filrougeaaa.utils.DBManager;
 
-public class TestManager {
+public class ManagerTest {
     Savepoint save = null;
 
     @BeforeAll
@@ -56,7 +56,7 @@ public class TestManager {
 
         inventoryManager = manager.listInventoryIngredient() ;
         assertEquals(inventoryManager.get(5),2) ;
-      
+    
     }
     //Test check and delete the ingredients related to the recipe order
     @Test
@@ -131,6 +131,28 @@ public class TestManager {
         recipe.setTabIngredients(ingredientsRecipe);
         manager.requestRecipe(recipe);
         assertNull(manager.getInventory().get(1));
+    }
+
+    @Test
+    public void testSaveManager() {
+        Manager manager = new Manager();
+        manager.setName("Gerard");
+        manager.getUser().save();
+        assertTrue(manager.save());
+    }
+
+    @Test
+    public void testUpdateManager() {
+        Manager manager = new Manager();
+        manager.setName("Gerard");
+        manager.getUser().save();
+        manager.save();
+
+        Manager manager2 = new Manager(manager.getId());
+        manager2.setName("Jean");
+        manager2.save();
+        manager.get();
+        assertEquals(manager.getName(), manager2.getName());
     }
     
     
