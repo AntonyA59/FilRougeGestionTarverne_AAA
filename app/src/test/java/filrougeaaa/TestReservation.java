@@ -32,6 +32,7 @@ public class TestReservation {
     void testSave(){
         save = DBManager.setSavePoint();
     }
+
     @AfterEach
     void testRollback(){
         DBManager.rollback(save);
@@ -39,6 +40,7 @@ public class TestReservation {
 
     @Test
     public void testSaveReservation() {
+        User user = new User();
         Customer customer = new Customer();
         customer.save();
         Manager manager = new Manager();

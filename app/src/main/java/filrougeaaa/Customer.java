@@ -20,16 +20,11 @@ public class Customer extends Model {
     protected float alcoholTolerance=0;
     protected int gender=0;
     protected int expGiven=0;
-    protected Table table=new Table();
+    protected Table table= null;
     protected ArrayList<Recipe> command;
     protected ArrayList<Reservation> reservation;
     Random rand= new Random();
 
-    /**
-     * Generate a character from database
-     * 
-     * @param id Database character id
-     */
 
     public Customer() {
         //min and max value to modify according to the game later
@@ -45,9 +40,13 @@ public class Customer extends Model {
         this.alcoholTolerance = rand.nextFloat(0,1);
         this.gender = rand.nextInt(0,1);
         this.expGiven = rand.nextInt(5,10);
-        this.table = new Table();
     }
     
+    /**
+     * Generate a character from database
+     * 
+     * @param id Database character id
+     */
     public Customer(int id) {
         try {
             ResultSet resultat = DBManager.execute("SELECT * FROM customer  WHERE id_customer =" + id);
@@ -137,14 +136,18 @@ public class Customer extends Model {
     @Override
     public boolean save() {
         String sql = "";
+        String idTable = "";
+        String value = "";
+        if(this.table != null){
+            idTable = ", id_table = ?";
+            value = ", ?";
+        }
         if (this.id != 0) {
-
             sql = "UPDATE customer " +
-                    "SET purse_of_gold = ?, happiness = ?, hunger = ?, thirst = ?, nausea = ?, alcohol = ?, toilet = ? , time_in_tavern = ?, nausea_tolerance = ?, alcohol_tolerance = ?, gender = ?, exp_given = ?, id_table = ? "
-                    +
-                    "WHERE id_customer = ? ";
+                    "SET purse_of_gold = ?, happiness = ?, hunger = ?, thirst = ?, nausea = ?, alcohol = ?, toilet = ? , time_in_tavern = ?, nausea_tolerance = ?, alcohol_tolerance = ?, gender = ?, exp_given = ?"+ idTable
+                    +" WHERE id_customer = ? ";
         } else {
-            sql = "INSERT INTO customer(purse_of_gold, happiness, hunger, thirst, nausea, alcohol, toilet, time_in_tavern, nausea_tolerance, alcohol_tolerance, gender, exp_given, id_table) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            sql = "INSERT INTO customer(purse_of_gold, happiness, hunger, thirst, nausea, alcohol, toilet, time_in_tavern, nausea_tolerance, alcohol_tolerance, gender, exp_given "+ idTable +") VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? "+ value +")";
 
         }
         try {
@@ -161,9 +164,19 @@ public class Customer extends Model {
             pstmt.setFloat(10, this.alcoholTolerance);
             pstmt.setInt(11, this.gender);
             pstmt.setInt(12, this.expGiven);
-            pstmt.setInt(13, this.table.getId());
-            if (id != 0)
-                pstmt.setInt(14, this.id);
+            if(this.table != null){
+                
+                pstmt.setInt(13, this.table.getId());
+            }
+            if (id != 0){
+                int param = 13;
+
+                if(this.table != null){
+                    param++;
+                }
+
+                pstmt.setInt(param, this.id);
+            }
 
             pstmt.executeUpdate();
 
