@@ -17,12 +17,10 @@ public class App {
 
 
     public static void main(String[] args) throws IOException {
-<<<<<<< HEAD
-        /*rechercherIngredient();
-=======
+
+
         DBManager.init();
         
->>>>>>> c419f7727e746b894e76ff39872481ef76875446
         User player = new User();
 
         Manager manager = new Manager();
@@ -133,4 +131,4 @@ public class App {
 
     }
 
-}*/
+}
