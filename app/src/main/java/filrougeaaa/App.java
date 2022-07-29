@@ -7,19 +7,18 @@ package filrougeaaa;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import filrougeaaa.utils.DBManager;
 
 public class App {
     protected static BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
 
+
+
+
     public static void main(String[] args) throws IOException {
-        rechercherIngredient();
+        DBManager.init();
+        
         User player = new User();
 
         Manager manager = new Manager();
@@ -37,8 +36,8 @@ public class App {
         Ingredient pate = new Ingredient(1);
         Ingredient emmental = new Ingredient(7);
 
-        Recipe painAuFromage = new Recipe(7);
-        client.getCommand().add(painAuFromage);
+        Recipe cervoise = new Recipe(7);
+
 
         String email = "";
         String nomGerant = "";
@@ -120,28 +119,15 @@ public class App {
         System.out.println("Nom de votre gérant : " + nomGerant);
         App.r.readLine();
         System.out.println("Vous commencez avec " + manager.getChest() + " or dans votre coffre .");
+        App.r.readLine();
+        System.out.println("Un client arrive !");
+        App.r.readLine();
+        System.out.println("Vous l'accueillez et vous l'installez a la table n° " + table2pers.getId() + " dans  '" + bar.getName() + "' .");
+        client.setTable(table2pers);
+
+        DBManager.close();
 
     }
 
-    public static void rechercherIngredient() {
-        DBManager.init();
-        ResultSet test =   DBManager.execute("SELECT i.name, ri.quantity " +
-        "FROM ingredient i " +
-        "INNER JOIN recipe_ingredient ri " +
-        "ON ri.id_ingredient = i.id_ingredient " +
-        "WHERE ri.id_recipe = 7 ");
-        try {
-            while(test.next()){
-                String name = test.getString("name");
-                int quantity = test.getInt("quantity");
-                System.out.println("Name : " + name);
-                System.out.println("Quantity : " + quantity);
-            }
-            DBManager.close();
-        } catch (SQLException ex) {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-        };
-    }
+
 }
