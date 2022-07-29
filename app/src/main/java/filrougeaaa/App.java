@@ -13,9 +13,6 @@ import filrougeaaa.utils.DBManager;
 public class App {
     protected static BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
 
-
-
-
     public static void main(String[] args) throws IOException {
         
         DBManager.init();
@@ -30,14 +27,10 @@ public class App {
         manager.setLevel(1);
         manager.setUser(player);
 
-        Customer client = new Customer(1);
+        Customer client = new Customer(194);
         Table table2pers = new Table(1);
         Place bar = new Place(2);
 
-        Ingredient pate = new Ingredient(1);
-        Ingredient emmental = new Ingredient(7);
-
-        Recipe cervoise = new Recipe(7);
 
 
         String email = "";
@@ -123,11 +116,14 @@ public class App {
         App.r.readLine();
         System.out.println("Un client arrive !");
         App.r.readLine();
-        System.out.println("Vous l'accueillez et vous l'installez a la table n° " + table2pers.getId() + " dans  '" + bar.getName() + "' .");
+        System.out.println("Vous l'accueillez et vous l'installez a la table n° " + table2pers.getId() + " dans '" + bar.getName() + "' .");
         client.setTable(table2pers);
+        client.save();
+        System.out.println(table2pers.tableOccupied());
+        System.out.println(table2pers.numberOfSeatsAvailable());
 
+        
         DBManager.close();
-
     }
 
 }

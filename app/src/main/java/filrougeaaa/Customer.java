@@ -62,7 +62,6 @@ public class Customer extends Model {
                 this.alcoholTolerance = resultat.getInt(10);
                 this.gender = resultat.getInt(11);
                 this.expGiven = resultat.getInt(12);
-                this.table = new Table(resultat.getInt(13));
                 this.id = id;
             }
         } catch (SQLException e) {
@@ -137,19 +136,11 @@ public class Customer extends Model {
     public boolean save() {
         String sql = "";
         String updateIdTable = "";
-<<<<<<< HEAD
         String insertIdTable= "";
         String value = "";
         if(this.table != null){
             updateIdTable = ", id_table = ?";
             insertIdTable = ", id_table";
-=======
-        String insertIdTable = "";
-        String value = "";
-        if(this.table != null){
-            updateIdTable = ", id_table = ?";
-            insertIdTable = ", id_table" ;
->>>>>>> adrien_dev
             value = ", ?";
         }
         if (this.id != 0) {
@@ -157,11 +148,7 @@ public class Customer extends Model {
                     "SET purse_of_gold = ?, happiness = ?, hunger = ?, thirst = ?, nausea = ?, alcohol = ?, toilet = ? , time_in_tavern = ?, nausea_tolerance = ?, alcohol_tolerance = ?, gender = ?, exp_given = ?"+ updateIdTable
                     +" WHERE id_customer = ? ";
         } else {
-<<<<<<< HEAD
             sql = "INSERT INTO customer(purse_of_gold, happiness, hunger, thirst, nausea, alcohol, toilet, time_in_tavern, nausea_tolerance, alcohol_tolerance, gender, exp_given "+ insertIdTable +") VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? "+ value +")";
-=======
-            sql = "INSERT INTO customer(purse_of_gold, happiness, hunger, thirst, nausea, alcohol, toilet, time_in_tavern, nausea_tolerance, alcohol_tolerance, gender, exp_given "+ insertIdTable +") VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?"+ value +")";
->>>>>>> adrien_dev
 
         }
         try {
