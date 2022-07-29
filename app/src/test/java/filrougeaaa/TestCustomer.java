@@ -24,7 +24,6 @@ public class TestCustomer {
     }
     @AfterAll
     public static void tearDown(){
-        DBManager.setAutoCommit(false);
         DBManager.close();
     }
 

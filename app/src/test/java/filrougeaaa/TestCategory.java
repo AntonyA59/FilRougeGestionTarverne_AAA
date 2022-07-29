@@ -18,7 +18,6 @@ public class TestCategory {
     }
     @AfterAll
     public static void tearDown(){
-        DBManager.setAutoCommit(true);
         DBManager.close();
     }
 

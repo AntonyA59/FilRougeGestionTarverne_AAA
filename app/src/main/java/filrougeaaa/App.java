@@ -19,7 +19,7 @@ public class App {
     protected static BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
 
     public static void main(String[] args) throws IOException {
-        rechercherIngredient();
+        /*rechercherIngredient();
         User player = new User();
 
         Manager manager = new Manager();
@@ -142,6 +142,12 @@ public class App {
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
-        };
+        };*/
+        
+        
+        /*DBManager.init();
+        Recipe recipe= new Recipe(7);
+        System.out.println("");
+        System.out.println(recipe.getTabIngredients());*/
     }
 }
