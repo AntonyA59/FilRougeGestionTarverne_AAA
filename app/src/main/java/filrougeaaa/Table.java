@@ -167,17 +167,19 @@ public class Table extends Model {
     }
     // #endregion
 
-    public boolean TableOccupied(){
+    public boolean tableOccupied(){
         int nbCustomer = 0 ;
+        String sql = "" ; 
         try{
-			ResultSet resultat = DBManager.execute("SELECT COUNT(*) FROM customer as c"
+            sql = "SELECT COUNT(*) FROM customer as c"
             +" INNER JOIN `table` as t"
             +" ON t.id_table = c.id_table"
             +" INNER JOIN place as p"
             +" ON t.id_place = p.id_place"
-            +" WHERE c.id_table = "+this.id+" ;") ;
+            +" WHERE c.id_table = "+this.id+" ;" ;
+			ResultSet resultat = DBManager.execute(sql) ;
 			if(resultat.next()){
-                nbCustomer = resultat.getInt("0") ;
+                nbCustomer = resultat.getInt("COUNT(*)") ;
                 if(nbCustomer > 0){
                     return true ;
                 }else{
@@ -193,17 +195,32 @@ public class Table extends Model {
             return false ;
 		}
     }
-    public boolean TableIsReserved(){
+    public boolean tableIsReserved(){
         int nbReservation = 0 ;
+        int idCustomer = 0 ; 
+        String sql = "" ; 
         try{
-			ResultSet resultat = DBManager.execute("SELECT COUNT(*) FROM reservation as r"
-            +" INNER JOIN customer as c"
-            +" ON c.id_customer = r.id_customer"
-            +" WHERE c.id_table = "+this.id) ;
+            sql = "SELECT id_customer FROM customer as c"
+            +" INNER JOIN `table` as t"
+            +" ON t.id_table = c.id_table"
+            +" INNER JOIN place as p"
+            +" ON t.id_place = p.id_place"
+            +" WHERE c.id_table = "+this.id+" ;" ;
+			ResultSet resultat = DBManager.execute(sql) ;
             if(resultat.next()){
-                nbReservation = resultat.getInt("0") ;
-                if(nbReservation > 0){
-                    return true ;
+                idCustomer = resultat.getInt("id_customer") ;
+                sql = "SELECT COUNT(*) FROM reservation as r"
+                +" INNER JOIN customer as c"
+                +" ON c.id_customer = r.id_customer"
+                +" WHERE r.id_customer = "+ idCustomer ;
+                resultat = DBManager.execute(sql) ;
+                if(resultat.next()){
+                    nbReservation = resultat.getInt("COUNT(*)") ;
+                    if(nbReservation > 0){
+                        return true ;
+                    }else{
+                        return false ;
+                    }
                 }else{
                     return false ;
                 }
@@ -217,9 +234,9 @@ public class Table extends Model {
             return false ;
 		}
     }
-    public int numberOfSeatsAvailable(){
+    public int numberOfSeatsAvailable(){ //retourne le nombre de places disponibles sur la table
         int nbSeatsOccupied = 0 ;
-        if(this.TableOccupied()){
+        if(this.tableOccupied()){
             try{
                 ResultSet resultat = DBManager.execute("SELECT COUNT(*) FROM customer as c"
                 +" INNER JOIN `table` as t"
@@ -228,7 +245,7 @@ public class Table extends Model {
                 +" ON t.id_place = p.id_place"
                 +" WHERE c.id_table = "+this.id+" ;") ;
                 if(resultat.next()){
-                    nbSeatsOccupied = resultat.getInt("0") ;
+                    nbSeatsOccupied = resultat.getInt("COUNT(*)") ;
                     return this.numberPlace - nbSeatsOccupied ;
                 }else{
                     return 0 ;
