@@ -68,6 +68,7 @@ public class Manager extends Model {
                 int quantityInit=this.inventoryIngredient.get(id_ingredient);
                 int quantityConsom= recipe.getTabIngredients().get(id_ingredient);
                 this.inventoryIngredient.put(id_ingredient,quantityInit-quantityConsom);
+            
             }
             
             return true;
@@ -75,8 +76,8 @@ public class Manager extends Model {
         return false;
     }
     private boolean haveQuantityIngredientInInventaire(Recipe recipe){
-        for (Integer id_ingredients : recipe.getTabIngredients().keySet()) {
-            if(recipe.getTabIngredients().get(id_ingredients)>this.inventoryIngredient.get(id_ingredients)){
+        for (Integer id_ingredient : recipe.getTabIngredients().keySet()) {
+            if(recipe.getTabIngredients().get(id_ingredient)>this.inventoryIngredient.get(id_ingredient)){
                 return false;
             }
         }
@@ -133,8 +134,8 @@ public class Manager extends Model {
         if (this.id != 0) {
 
             sql = "UPDATE manager " +
-                    "SET name = ?, reputation = ?, chest = ?, level = ?, experience = ?, id_user = ? " +
-                    "WHERE id_manager = ?";
+                    " SET name = ?, reputation = ?, chest = ?, level = ?, experience = ?, id_user = ? " +
+                    " WHERE id_manager = ?";
         } else {
             sql = "INSERT INTO manager(name, reputation, chest, level, experience, id_user) VALUES(?, ?, ?, ?, ?, ?)";
 
@@ -147,7 +148,7 @@ public class Manager extends Model {
             pstmt.setInt(4, this.level);
             pstmt.setFloat(5, this.exp);
             pstmt.setInt(6, this.user.getId());
-
+            saveInventory();
             if (this.id != 0)
                 pstmt.setInt(7, this.id);
 
@@ -169,6 +170,26 @@ public class Manager extends Model {
         }
     }
 
+    private void saveInventory(){
+        for (int id_ingredient : this.inventoryIngredient.keySet()) {
+            String sqlInventory ="UPDATE inventory_ingredients " +
+                                " SET quantity = ? " +
+                                " WHERE id_manager = "+this.getId()+" and id_ingredient = "+id_ingredient+" ; ";
+            
+            try {
+                PreparedStatement pstmtInventory = DBManager.conn.prepareStatement(sqlInventory);
+                    int quantity=this.inventoryIngredient.get(id_ingredient);
+                    pstmtInventory.setInt(1, quantity);
+                pstmtInventory.executeUpdate(); 
+                
+
+            } catch (SQLException e) {
+                System.out.println("SQLState: " + e.getSQLState());
+                System.out.println("SQLException: " + e.getMessage());
+                System.out.println("VendorError: " + e.getErrorCode());
+            }
+        }
+    }
     // #region get/set
     public String getName() {
         return name;
