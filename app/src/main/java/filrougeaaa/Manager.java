@@ -38,6 +38,7 @@ public class Manager extends Model {
         this.maxExp = 0 ;
         this.level = 0 ;
         this.user = new User() ;
+        this.user.save();
         this.inventoryIngredient = new HashMap<Integer,Integer>() ;
     }
 

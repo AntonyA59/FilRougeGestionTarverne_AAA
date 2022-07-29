@@ -277,4 +277,5 @@ public class Recipe extends Model{
         }
 	}
 	
+
 }
