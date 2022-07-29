@@ -2,6 +2,7 @@ package filrougeaaa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Savepoint;
@@ -27,7 +28,6 @@ public class TestManager {
 
     @AfterAll
     public static void tearDown() {
-        DBManager.setAutoCommit(false);
         DBManager.close();
     }
 
@@ -99,18 +99,26 @@ public class TestManager {
         assertEquals(manager.getInventory().get(1), 5);
     }
     @Test
-    public void testRecipeOrderDeleteInInventoryInBDD(){
+    public void testRecipeOrderUpdateInInventoryInBDD(){
         Manager manager= new Manager(1);
-        HashMap<Integer,Integer> newInventaire=new HashMap<Integer,Integer>();
-        newInventaire.put(1,10);
-        newInventaire.put(2,6);
-        manager.setInventory(newInventaire);
         Recipe recipe=new Recipe();
         HashMap<Integer,Integer> ingredientsRecipe=new HashMap<Integer,Integer>();
-        ingredientsRecipe.put(1,5);
+        ingredientsRecipe.put(1,2);
         recipe.setTabIngredients(ingredientsRecipe);
         manager.requestRecipe(recipe);
-        assertEquals(manager.getInventory().get(1), 5);
+        Manager manager2=new Manager(1);
+        assertEquals(manager2.getInventory().get(1), 1);
     }
+    @Test
+    public void testRecipeOrderDeleteInInventoryInBDD(){
+        Manager manager= new Manager(1);
+        Recipe recipe=new Recipe();
+        HashMap<Integer,Integer> ingredientsRecipe=new HashMap<Integer,Integer>();
+        ingredientsRecipe.put(1,3);
+        recipe.setTabIngredients(ingredientsRecipe);
+        manager.requestRecipe(recipe);
+        assertNull(manager.getInventory().get(1));
+    }
+    
     
 }
