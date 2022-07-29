@@ -6,6 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.*;
+import org.mockito.internal.creation.bytebuddy.SubclassByteBuddyMockMaker;
 
 import filrougeaaa.utils.DBManager;
 
@@ -31,18 +32,23 @@ public class RecipeTest {
         DBManager.rollback(save);
     }
     @Test
-    void testConstucteurRecipe(){
-        Recipe recipe = new Recipe(1) ;
-        assertEquals(recipe.getName() , "Gruit");
-    }
-    @Test
     void testRecipeForSubCategory(){
-        Recipe recipe = new Recipe(1) ;
+        Recipe recipe = new Recipe() ;
+        Category category = new Category() ;
+        SubCategory subCategory = new SubCategory() ;
+        subCategory.setCategory(category);
+        recipe.setSubCategory(subCategory);
+
+        category.setName("Boissons");
+        category.save() ;
+        subCategory.save() ;
+        recipe.save() ; 
+
         assertEquals(recipe.getSubCategory().getCategory().getName(), "Boissons");
     }
     @Test
     void testRecipeIdFalse(){
-        Recipe recipe = new Recipe(1000) ;
+        Recipe recipe = new Recipe(0) ;
         assertNull(recipe.getName());
     }
     @Test

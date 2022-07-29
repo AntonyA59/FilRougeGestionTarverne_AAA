@@ -127,7 +127,6 @@ public class App {
         client.setTable(table2pers);
 
         DBManager.close();
-
     }
 
 }
