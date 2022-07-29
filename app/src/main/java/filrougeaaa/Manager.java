@@ -44,7 +44,7 @@ public class Manager extends Model {
 
     public Manager(int id) {
         try {
-            ResultSet resultat = DBManager.execute("SELECT * FROM manager  WHERE id_manager =" + id);
+            ResultSet resultat = DBManager.execute("SELECT * FROM manager  WHERE id_manager =" + id +" ;");
             if (resultat.next()) {
                 this.name = resultat.getString(2);
                 this.reputation = resultat.getInt(3);
@@ -52,9 +52,13 @@ public class Manager extends Model {
                 this.level = resultat.getInt(5);
                 this.exp = resultat.getInt(6);
                 this.user = new User(resultat.getInt(7));
-                this.inventoryIngredient = new HashMap<Integer,Integer>() ;
                 this.id = id;
             }
+            ResultSet resultat2=DBManager.execute("SELECT id_ingredient , quantity FROM inventory_ingredient WHERE id_manager="+id+" ;");
+			this.inventoryIngredient=new HashMap<Integer,Integer>();
+			while(resultat2.next()){
+				this.inventoryIngredient.put(resultat2.getInt("id_ingredient"),resultat2.getInt("quantity"));
+			}
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState());
@@ -66,18 +70,19 @@ public class Manager extends Model {
         
         if(haveQuantityIngredientInInventaire(recipe)){
             for (Integer id_ingredient : recipe.getTabIngredients().keySet()) {
+
                 int quantityInit=this.inventoryIngredient.get(id_ingredient);
                 int quantityConsom= recipe.getTabIngredients().get(id_ingredient);
                 this.inventoryIngredient.put(id_ingredient,quantityInit-quantityConsom);
             }
-            
+            this.save();
             return true;
         }    
         return false;
     }
     private boolean haveQuantityIngredientInInventaire(Recipe recipe){
-        for (Integer id_ingredients : recipe.getTabIngredients().keySet()) {
-            if(recipe.getTabIngredients().get(id_ingredients)>this.inventoryIngredient.get(id_ingredients)){
+        for (Integer id_ingredient : recipe.getTabIngredients().keySet()) {
+            if(recipe.getTabIngredients().get(id_ingredient)>this.inventoryIngredient.get(id_ingredient)){
                 return false;
             }
         }
@@ -94,8 +99,13 @@ public class Manager extends Model {
                 this.level = resultat.getInt(5);
                 this.exp = resultat.getInt(6);
                 this.user = new User(resultat.getInt(7));
-                return true;
             }
+            ResultSet resultat2=DBManager.execute("SELECT id_ingredient , quantity FROM inventory_ingredient WHERE id_mananger="+id+" ;");
+			this.inventoryIngredient=new HashMap<Integer,Integer>();
+			while(resultat2.next()){
+				this.inventoryIngredient.put(resultat2.getInt("id_ingredient"),resultat2.getInt("quantity"));
+			}
+            return true;
         } catch (SQLException ex) {
             // handle any errors
             System.out.println("SQLException: " + ex.getMessage());
@@ -117,8 +127,13 @@ public class Manager extends Model {
                 this.exp = resultat.getInt(6);
                 this.user = new User(resultat.getInt(7));
                 this.id = id;
-                return true;
             }
+            ResultSet resultat2=DBManager.execute("SELECT id_ingredient , quantity FROM inventory_ingredient WHERE id_mananger="+id+" ;");
+			this.inventoryIngredient=new HashMap<Integer,Integer>();
+			while(resultat2.next()){
+                this.inventoryIngredient.put(resultat2.getInt("id_ingredient"),resultat2.getInt("quantity"));
+			}
+            return true;
         } catch (SQLException ex) {
             // handle any errors
             System.out.println("SQLException: " + ex.getMessage());
@@ -134,8 +149,8 @@ public class Manager extends Model {
         if (this.id != 0) {
 
             sql = "UPDATE manager " +
-                    "SET name = ?, reputation = ?, chest = ?, level = ?, experience = ?, id_user = ? " +
-                    "WHERE id_manager = ?";
+                    " SET name = ?, reputation = ?, chest = ?, level = ?, experience = ?, id_user = ? " +
+                    " WHERE id_manager = ?";
         } else {
             sql = "INSERT INTO manager(name, reputation, chest, level, experience, id_user) VALUES(?, ?, ?, ?, ?, ?)";
 
@@ -148,7 +163,7 @@ public class Manager extends Model {
             pstmt.setInt(4, this.level);
             pstmt.setFloat(5, this.exp);
             pstmt.setInt(6, this.user.getId());
-
+            this.saveInventory();
             if (this.id != 0)
                 pstmt.setInt(7, this.id);
 
@@ -169,7 +184,51 @@ public class Manager extends Model {
             return false;
         }
     }
+    private void cleanInventoryNull(){
+        HashMap<Integer,Integer> tabClean= new HashMap<Integer,Integer>() ;
 
+        for (int id_ingredient : this.inventoryIngredient.keySet()) {
+            int quantityClean=this.inventoryIngredient.get(id_ingredient);
+            if(quantityClean!=0){
+                tabClean.put(id_ingredient,quantityClean);
+            }
+        }
+        this.inventoryIngredient= tabClean;
+    }
+    private void saveInventory(){
+
+        for (int id_ingredient : this.inventoryIngredient.keySet()) {
+            String sqlInventory;
+            int quantity=this.inventoryIngredient.get(id_ingredient);
+            if(quantity!=0){
+                sqlInventory ="UPDATE inventory_ingredient " +
+                " SET quantity = ? " +
+                " WHERE id_manager = ? AND id_ingredient = ? ; ";
+            }else{
+                sqlInventory ="DELETE FROM inventory_ingredient " +
+                " WHERE id_manager = ? AND id_ingredient = ? ; ";
+            }
+            try {
+                PreparedStatement pstmtInventory = DBManager.conn.prepareStatement(sqlInventory);
+                if(quantity!=0){
+                    pstmtInventory.setInt(1, quantity);
+                    pstmtInventory.setInt(2, this.id);
+                    pstmtInventory.setInt(3, id_ingredient);
+                }else{
+                    pstmtInventory.setInt(1, this.id);
+                    pstmtInventory.setInt(2, id_ingredient);
+                }
+                pstmtInventory.executeUpdate(); 
+                this.cleanInventoryNull();
+
+            } catch (SQLException e) {
+                System.out.println("SQLState: " + e.getSQLState());
+                System.out.println("SQLException: " + e.getMessage());
+                System.out.println("VendorError: " + e.getErrorCode());
+            }
+        }
+
+    }
     // #region get/set
     public String getName() {
         return name;

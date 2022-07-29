@@ -38,7 +38,7 @@ public class Recipe extends Model{
 
 	public Recipe(int id) {
 		try{
-			ResultSet resultat = DBManager.execute("SELECT * FROM recipe WHERE id_recipe = "+id) ;
+			ResultSet resultat = DBManager.execute("SELECT * FROM recipe WHERE id_recipe = "+id+" ;") ;
 			if(resultat.next()){
 				this.name = resultat.getString("name") ;
 				this.level = resultat.getInt("level") ;
@@ -50,11 +50,40 @@ public class Recipe extends Model{
 				this.subCategory = new SubCategory(resultat.getInt("id_subcategory")) ;
 				this.id = id ;
 			}
+			ResultSet resultat2=DBManager.execute("SELECT id_ingredient , quantity FROM recipe_ingredient WHERE id_recipe="+id+" ;");
+
+			if(resultat2.next()){
+				this.tabIngredients=new HashMap<Integer,Integer>();
+				
+				//à voir avec simon comment faire un for avec les lignes d'une table
+				
+				//resultat2.last();
+				//int nbIngredients= resultat2.getRow();
+				//resultat2.beforeFirst();
+				while(resultat2.next()){
+					//System.out.println(resultat2.getInt("id_ingredient"));
+					this.tabIngredients.put(resultat2.getInt("id_ingredient"),resultat2.getInt("quantity"));
+				}
+			}
 		}catch(SQLException ex) {
 			System.out.println("SQLException" + ex.getMessage());
 			System.out.println("SQLState" + ex.getSQLState());
 			System.out.println("VendorError"+ ex.getErrorCode());
 		}
+
+		// à voir avec Simon cas de figure plussieur requete sql
+		/*try{
+			ResultSet resultat2=DBManager.execute("SELECT id_ingredient , quantity FROM recipe_ingredient WHERE id_recipe="+id+" ;");
+			if(resultat2.next()){
+				this.tabIngredients=new HashMap<Integer,Integer>();
+				this.tabIngredients.put(resultat2.getInt("id_ingredient"),resultat2.getInt("quantity"));
+			}
+		}catch(SQLException ex) {
+			System.out.println("SQLException" + ex.getMessage());
+			System.out.println("SQLState" + ex.getSQLState());
+			System.out.println("VendorError"+ ex.getErrorCode());
+		}*/
+
 	}
 	@Override
 	public boolean get() {
@@ -83,7 +112,7 @@ public class Recipe extends Model{
 	@Override
 	public boolean get(int id) {
 		try{
-            ResultSet resultat = DBManager.execute("SELECT * FROM recipe WHERE id_recipe = "+id);
+            ResultSet resultat = DBManager.execute("SELECT * FROM recipe WHERE id_recipe = "+id+" ;");
             if(resultat.next()){
                 this.name = resultat.getString("name") ;
 				this.level = resultat.getInt("level") ;
@@ -96,6 +125,11 @@ public class Recipe extends Model{
                 this.id = id;
 				return true;
             }
+			resultat=DBManager.execute("SELECT id_ingredient,quantity FROM recipe_ingredient WHERE id_recipe=7"+id+" ;");
+			if(resultat.next()){
+				this.tabIngredients.put(resultat.getInt("id_ingredient"),resultat.getInt("quantity"));
+			}
+
         }
         catch (SQLException ex) {
             // handle any errors
