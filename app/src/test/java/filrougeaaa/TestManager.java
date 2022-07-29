@@ -56,6 +56,7 @@ public class TestManager {
 
         inventoryManager = manager.listInventoryIngredient() ;
         assertEquals(inventoryManager.get(5),2) ;
+      
     }
     //Test check and delete the ingredients related to the recipe order
     @Test
@@ -85,7 +86,7 @@ public class TestManager {
         assertFalse(manager.requestRecipe(recipe));
     }
     @Test
-    public void testRecipeOrderDeleteInInventaire(){
+    public void testRecipeOrderDeleteInInventory(){
         Manager manager= new Manager(1);
         HashMap<Integer,Integer> newInventaire=new HashMap<Integer,Integer>();
         newInventaire.put(1,10);
@@ -93,8 +94,19 @@ public class TestManager {
         manager.setInventory(newInventaire);
         Recipe recipe=new Recipe();
         HashMap<Integer,Integer> ingredientsRecipe=new HashMap<Integer,Integer>();
-        ingredientsRecipe.put(2,5);
+        ingredientsRecipe.put(1,5);
         recipe.setTabIngredients(ingredientsRecipe);
-        assertEquals(manager.getInventory().get(2), 1);
+        assertEquals(manager.getInventory().get(2), 6);
+    }
+    @Test
+    public void testBuyIngredient(){
+        Manager manager = new Manager(2);
+        Ingredient ingredient1 = new Ingredient(2);
+        Ingredient ingredient2 = new Ingredient(6);
+
+        manager.listInventoryIngredient() ;
+        manager.buyIngredient(ingredient1.getId()) ;
+        manager.buyIngredient(ingredient2.getId()) ;
+        assertEquals(manager.getInventory().get(6),4) ;
     }
 }

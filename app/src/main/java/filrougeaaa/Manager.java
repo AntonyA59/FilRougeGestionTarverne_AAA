@@ -253,6 +253,57 @@ public class Manager extends Model {
             System.out.println("VendorError: " + ex.getErrorCode());
             return null ;
         }
+       
+    }
+    public boolean buyIngredient(int idIngredient){
+        Map<Integer,Integer> listIngredient = new HashMap<Integer,Integer>() ;
+        Ingredient ingredient = new Ingredient(idIngredient) ;
+        listIngredient = listInventoryIngredient();
+        int quantity = 0 ;
+        String sql = "";
+
+        if(ingredient.getBuyingPrice() <= this.getChest()){     // si le Manager possède suffisement d'argents
+            this.chest -= ingredient.getBuyingPrice() ;
+
+            if(listIngredient.get(idIngredient) == null){
+                listIngredient.put(idIngredient,1);
+                
+                sql = "INSERT INTO inventory_ingredient(quantity, id_manager, id_ingredient) VALUES(?, ?, ?)";
+            }else{
+                quantity = listIngredient.get(idIngredient) ;
+                quantity++ ;
+                listIngredient.replace(idIngredient, quantity) ;
+                sql = "UPDATE inventory_ingredient " +
+                    "SET quantity = ? " +
+                    "WHERE id_manager = ? AND id_ingredient = ? ";
+                try {
+                    PreparedStatement pstmt = DBManager.conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                    pstmt.setInt(1, quantity);
+                    pstmt.setInt(2, this.id);
+                    pstmt.setInt(3, idIngredient);
+        
+                    pstmt.executeUpdate();
+                    ResultSet keys = pstmt.getGeneratedKeys();
+                    if (this.id == 0 && keys.next()) {
+                        this.id = keys.getInt(1);
+                        return true;
+                    } else if (this.id != 0)
+                        return true;
+                    else
+                        return false;
+        
+                } catch (SQLException e) {
+                    System.out.println("SQLState: " + e.getSQLState());
+                    System.out.println("SQLException: " + e.getMessage());
+                    System.out.println("VendorError: " + e.getErrorCode());
+                    return false;
+                }
+            }
+            
+        }else{
+            return false ;
+        }
+        return false ;
     }
 
     /*
