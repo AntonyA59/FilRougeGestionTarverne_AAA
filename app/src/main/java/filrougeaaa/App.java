@@ -14,7 +14,8 @@ public class App {
     protected static BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
 
     public static void main(String[] args) throws IOException {
-        
+
+
         DBManager.init();
         
         User player = new User();

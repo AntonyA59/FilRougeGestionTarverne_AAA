@@ -38,10 +38,4 @@ public class CategoryTest {
         category.save();
         assertEquals(category.getName() , "Boissons");
     }
-    @Test
-    void testGetCategory(){
-        Category category = new Category() ;
-        category.get(2) ;
-        assertEquals(category.getName() , "Plats");
-    }
 }

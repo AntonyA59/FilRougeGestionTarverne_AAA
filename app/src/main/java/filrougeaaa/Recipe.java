@@ -17,7 +17,7 @@ public class Recipe extends Model{
     protected int level ;
     protected int sellingPrice;
     protected Time consommationTime ;
-    protected Timestamp preparationTime ;
+    protected Time preparationTime ;
     protected Date peremptionDate;
     protected int expGiven;
     protected SubCategory subCategory;
@@ -44,46 +44,34 @@ public class Recipe extends Model{
 				this.level = resultat.getInt("level") ;
 				this.sellingPrice = resultat.getInt("selling_price") ;
 				this.consommationTime = resultat.getTime("consommation_time") ;
-				this.preparationTime = resultat.getTimestamp("preparation_time") ;
+				this.preparationTime = resultat.getTime("preparation_time") ;
 				this.peremptionDate = resultat.getDate("peremption_date") ;
 				this.expGiven = resultat.getInt("exp_given") ;
 				this.subCategory = new SubCategory(resultat.getInt("id_subcategory")) ;
 				this.id = id ;
 			}
-			ResultSet resultat2=DBManager.execute("SELECT id_ingredient , quantity FROM recipe_ingredient WHERE id_recipe="+id+" ;");
-
-			if(resultat2.next()){
-				this.tabIngredients=new HashMap<Integer,Integer>();
-				
-				//à voir avec simon comment faire un for avec les lignes d'une table
-				
-				//resultat2.last();
-				//int nbIngredients= resultat2.getRow();
-				//resultat2.beforeFirst();
-				while(resultat2.next()){
-					//System.out.println(resultat2.getInt("id_ingredient"));
-					this.tabIngredients.put(resultat2.getInt("id_ingredient"),resultat2.getInt("quantity"));
-				}
-			}
+			this.getIngredientsQuantityBDD(id);
+			
 		}catch(SQLException ex) {
 			System.out.println("SQLException" + ex.getMessage());
 			System.out.println("SQLState" + ex.getSQLState());
 			System.out.println("VendorError"+ ex.getErrorCode());
 		}
+	}
 
-		// à voir avec Simon cas de figure plussieur requete sql
-		/*try{
-			ResultSet resultat2=DBManager.execute("SELECT id_ingredient , quantity FROM recipe_ingredient WHERE id_recipe="+id+" ;");
-			if(resultat2.next()){
-				this.tabIngredients=new HashMap<Integer,Integer>();
+	private void getIngredientsQuantityBDD(int id_recipe){
+		try{
+			ResultSet resultat2=DBManager.execute("SELECT id_ingredient , quantity FROM recipe_ingredient WHERE id_recipe= "+id_recipe+" ;");
+			this.tabIngredients=new HashMap<Integer,Integer>();
+			while(resultat2.next()){
 				this.tabIngredients.put(resultat2.getInt("id_ingredient"),resultat2.getInt("quantity"));
 			}
-		}catch(SQLException ex) {
+
+		}catch(SQLException ex){
 			System.out.println("SQLException" + ex.getMessage());
 			System.out.println("SQLState" + ex.getSQLState());
 			System.out.println("VendorError"+ ex.getErrorCode());
-		}*/
-
+		}
 	}
 	@Override
 	public boolean get() {
@@ -94,10 +82,11 @@ public class Recipe extends Model{
 				this.level = resultat.getInt("level") ;
 				this.sellingPrice = resultat.getInt("selling_price") ;
 				this.consommationTime = resultat.getTime("consommation_time") ;
-				this.preparationTime = resultat.getTimestamp("preparation_time") ;
+				this.preparationTime = resultat.getTime("preparation_time") ;
 				this.peremptionDate = resultat.getDate("peremption_date") ;
 				this.expGiven = resultat.getInt("exp_given") ;
 				this.subCategory = new SubCategory(resultat.getInt("id_subcategory"));
+				this.getIngredientsQuantityBDD(this.id);
 				return true;
             }
         }
@@ -118,18 +107,15 @@ public class Recipe extends Model{
 				this.level = resultat.getInt("level") ;
 				this.sellingPrice = resultat.getInt("selling_price") ;
 				this.consommationTime = resultat.getTime("consommation_time") ;
-				this.preparationTime = resultat.getTimestamp("preparation_time") ;
+				this.preparationTime = resultat.getTime("preparation_time") ;
 				this.peremptionDate = resultat.getDate("peremption_date") ;
 				this.expGiven = resultat.getInt("exp_given") ;
 				this.subCategory = new SubCategory(resultat.getInt("id_subcategory")) ;
                 this.id = id;
+				this.getIngredientsQuantityBDD(id);
 				return true;
             }
-			resultat=DBManager.execute("SELECT id_ingredient,quantity FROM recipe_ingredient WHERE id_recipe=7"+id+" ;");
-			if(resultat.next()){
-				this.tabIngredients.put(resultat.getInt("id_ingredient"),resultat.getInt("quantity"));
-			}
-
+			
         }
         catch (SQLException ex) {
             // handle any errors
@@ -144,7 +130,7 @@ public class Recipe extends Model{
 	public boolean save() {
 		String sql ;
         if(this.id != 0){
-            sql = "UPDATE recipe SET name=?,level=?,selling_price=?,consommation_time=?,preparation_time=?,peremption_date=?,exp_given=?,id_subcategory=? WHERE id_recipe = ?" ;
+            sql = "UPDATE recipe SET name=? ,level=? ,selling_price=? ,consommation_time=? ,preparation_time=? ,peremption_date=? ,exp_given=? ,id_subcategory=? WHERE id_recipe = ? " ;
         }else{
             sql = "INSERT INTO recipe (name,level,selling_price,consommation_time,preparation_time,peremption_date,exp_given,id_subcategory) VALUES (?,?,?,?,?,?,?,?)" ;
         }
@@ -154,10 +140,11 @@ public class Recipe extends Model{
 			pstmt.setInt(2, this.level);
 			pstmt.setInt(3, this.sellingPrice);
 			pstmt.setTime(4, this.consommationTime);
-			pstmt.setTimestamp(5, this.preparationTime);
+			pstmt.setTime(5, this.preparationTime);
 			pstmt.setDate(6,this.peremptionDate);
 			pstmt.setInt(7, this.expGiven);
 			pstmt.setInt(8,this.subCategory.getId());
+			this.saveIngredientsQuantityBDD();
             if(this.id != 0)
                 pstmt.setInt(9, this.id);
             
@@ -177,6 +164,34 @@ public class Recipe extends Model{
             System.out.println("VendorError"+ ex.getErrorCode());
             return false ;
         }
+	}
+	private void saveIngredientsQuantityBDD(){
+		String sqlIngredientQuantity ;
+		if(this.id!=0){
+			sqlIngredientQuantity = "UPDATE recipe_ingredient SET quantity=? ,id_ingredient=? WHERE id_recipe = ?" ;
+		}else{
+			sqlIngredientQuantity = "INSERT INTO recipe_ingredient (quantity,id_ingredient,id_recipe) VALUES (?,?,?)" ;
+		}
+		for (int id_ingredient : this.tabIngredients.keySet()){
+			try{
+				PreparedStatement pstmtIngQuan =  DBManager.conn.prepareStatement(sqlIngredientQuantity,Statement.RETURN_GENERATED_KEYS) ;
+				int quantity=this.tabIngredients.get(id_ingredient);
+				if(this.id!=0){
+					pstmtIngQuan.setInt(1,quantity);
+					pstmtIngQuan.setInt(2,id_ingredient);
+					pstmtIngQuan.setInt(3,this.id);
+				}else{
+					pstmtIngQuan.setInt(1,quantity);
+					pstmtIngQuan.setInt(2,id_ingredient);
+				}
+				pstmtIngQuan.executeUpdate();
+			}catch(SQLException ex){
+				System.out.println("SQLException" + ex.getMessage());
+				System.out.println("SQLState" + ex.getSQLState());
+				System.out.println("VendorError"+ ex.getErrorCode());
+			}
+		}
+
 	}
 //#region get/set
 	public String getName() {
@@ -211,11 +226,11 @@ public class Recipe extends Model{
 		this.consommationTime = consommationTime;
 	}
 
-	public Timestamp getPreparationTime() {
+	public Time getPreparationTime() {
 		return preparationTime;
 	}
 
-	public void setPreparationTime(Timestamp preparationTime) {
+	public void setPreparationTime(Time preparationTime) {
 		this.preparationTime = preparationTime;
 	}
 

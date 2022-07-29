@@ -37,17 +37,25 @@ public class IngredientTest {
     }
     @Test
     void testConstucteurIngredient(){
-        Ingredient ingredient = new Ingredient(1) ;
-        assertEquals(ingredient.getName() , "Pâte");
+        Ingredient ingredient = new Ingredient() ;
+        ingredient.setName("haricot");
+        ingredient.save();
+        assertEquals(ingredient.getName() , "haricot");
     }
     @Test
     void testIngredientForSubCategory(){
-        Ingredient ingredient = new Ingredient(1) ;
+        Ingredient ingredient = new Ingredient() ;
+        Category category = new Category() ;
+        SubCategory subCategory = new SubCategory() ;
+        category.setName("Autres");
+        subCategory.setCategory(category);
+        ingredient.setSubCategory(subCategory);
+
         assertEquals(ingredient.getSubCategory().getCategory().getName(), "Autres");
     }
     @Test
     void testIngredientIdFalse(){
-        Ingredient ingredient = new Ingredient(1000) ;
+        Ingredient ingredient = new Ingredient(0) ;
         assertNull(ingredient.getName());
     }
     @Test
@@ -89,6 +97,5 @@ public class IngredientTest {
         ingredient2.save();
         ingredient.get();
         assertEquals(ingredient.getName(), ingredient2.getName());
-
     }
 }
