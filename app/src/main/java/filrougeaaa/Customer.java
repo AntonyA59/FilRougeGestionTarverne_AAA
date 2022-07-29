@@ -136,18 +136,20 @@ public class Customer extends Model {
     @Override
     public boolean save() {
         String sql = "";
-        String idTable = "";
+        String updateIdTable = "";
+        String insertIdTable= "";
         String value = "";
         if(this.table != null){
-            idTable = ", id_table = ?";
+            updateIdTable = ", id_table = ?";
+            insertIdTable = ", id_table";
             value = ", ?";
         }
         if (this.id != 0) {
             sql = "UPDATE customer " +
-                    "SET purse_of_gold = ?, happiness = ?, hunger = ?, thirst = ?, nausea = ?, alcohol = ?, toilet = ? , time_in_tavern = ?, nausea_tolerance = ?, alcohol_tolerance = ?, gender = ?, exp_given = ?"+ idTable
+                    "SET purse_of_gold = ?, happiness = ?, hunger = ?, thirst = ?, nausea = ?, alcohol = ?, toilet = ? , time_in_tavern = ?, nausea_tolerance = ?, alcohol_tolerance = ?, gender = ?, exp_given = ?"+ updateIdTable
                     +" WHERE id_customer = ? ";
         } else {
-            sql = "INSERT INTO customer(purse_of_gold, happiness, hunger, thirst, nausea, alcohol, toilet, time_in_tavern, nausea_tolerance, alcohol_tolerance, gender, exp_given "+ idTable +") VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? "+ value +")";
+            sql = "INSERT INTO customer(purse_of_gold, happiness, hunger, thirst, nausea, alcohol, toilet, time_in_tavern, nausea_tolerance, alcohol_tolerance, gender, exp_given "+ insertIdTable +") VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? "+ value +")";
 
         }
         try {

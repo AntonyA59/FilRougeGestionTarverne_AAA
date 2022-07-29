@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import filrougeaaa.utils.DBManager;
 
-public class TestCustomer {
+public class CustomerTest {
     Savepoint save = null ;
 
     @BeforeAll
@@ -38,7 +38,9 @@ public class TestCustomer {
 
     @Test
     public void testGetCustomer(){
-        Customer customer = new Customer(1);
+        Customer customer = new Customer();
+        customer.setAlcoholTolerance(30);
+        customer.save();
 
         assertEquals(customer.getAlcoholTolerance(), 30);
     }
@@ -58,11 +60,15 @@ public class TestCustomer {
         customer.setGender(1);
         customer.setExpGiven(10);
         customer.setAlcohol(10);
-        customer.setTable(new Table(1));
         assertTrue(customer.save());
     }
     @Test
     public void updateCustomer(){
+        Table table = new Table();
+        table.place.manager.user.save();
+        table.place.manager.save();
+        table.place.save();
+        table.save();
         Customer customer = new Customer();
         customer.setPurseOfGold(100);
         customer.setHappiness(10);
@@ -76,13 +82,13 @@ public class TestCustomer {
         customer.setGender(1);
         customer.setExpGiven(10);
         customer.setAlcohol(10);
-        customer.setTable(new Table(1));
+        customer.setTable(table);
         customer.save();
         Customer customer2 = new Customer(customer.getId());
         customer2.setAlcohol(20);
         customer2.save();
         customer.get();
-        assertEquals(customer.getAlcohol(), customer2.getAlcohol());
+        assertEquals(customer2.getAlcohol(), customer.getAlcohol());
     }
     
 

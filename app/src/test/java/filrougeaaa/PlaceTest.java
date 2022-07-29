@@ -17,7 +17,7 @@ import filrougeaaa.utils.DBManager;
 
 
 
-public class TestPlace {
+public class PlaceTest {
     Savepoint save = null ;
 
     @BeforeAll
@@ -47,20 +47,22 @@ public class TestPlace {
     @Test
     public void testSavePlace(){
         Place place = new Place();
+        place.getManager().getUser().save();
+        place.getManager().save();
         place.setLevel(2);
         place.setName("Grenier");
         place.setType(1);
-        place.setManager(new Manager(1));
         assertTrue(place.save());
     }
 
     @Test
     public void testUpdatePlace(){
         Place place = new Place();
+        place.getManager().getUser().save();
+        place.getManager().save();
         place.setLevel(2);
         place.setName("Grenier");
         place.setType(1);
-        place.setManager(new Manager(1));
         place.save();
         Place place2 = new Place(place.getId());
         place2.setName("Célier");

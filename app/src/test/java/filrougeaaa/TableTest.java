@@ -41,9 +41,11 @@ public class TableTest {
     @Test
     public void testSaveTable() {
         Table table = new Table();
+        table.getPlace().getManager().getUser().save();
+        table.getPlace().getManager().save();
+        table.getPlace().save();
         table.setHygiene(30);
         table.setNumberPlace(3);
-        table.setPlace(new Place(1));
         table.setPosX(15);
         table.setPosY(30);
         assertTrue(table.save());
@@ -52,6 +54,9 @@ public class TableTest {
     @Test
     public void testUpdateTable() {
         Table table = new Table();
+        table.getPlace().getManager().getUser().save();
+        table.getPlace().getManager().save();
+        table.getPlace().save();
         table.setHygiene(30);
         table.setNumberPlace(3);
         table.setPlace(new Place(1));
