@@ -96,7 +96,6 @@ public class TestManager {
         HashMap<Integer,Integer> ingredientsRecipe=new HashMap<Integer,Integer>();
         ingredientsRecipe.put(1,5);
         recipe.setTabIngredients(ingredientsRecipe);
-<<<<<<< HEAD
         assertEquals(manager.getInventory().get(2), 6);
     }
     @Test
@@ -109,12 +108,5 @@ public class TestManager {
         manager.buyIngredient(ingredient1.getId()) ;
         manager.buyIngredient(ingredient2.getId()) ;
         assertEquals(manager.getInventory().get(6),4) ;
-=======
-
-        manager.requestRecipe(recipe);
-        assertEquals(manager.getInventory().get(1), 5);
-        assertEquals(manager.getInventory().get(2), 1);
-
->>>>>>> 70367839962763ad27ec0fde8b77ea0120693f28
     }
 }

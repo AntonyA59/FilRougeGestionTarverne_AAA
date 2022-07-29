@@ -68,4 +68,24 @@ public class TestPlace {
         place.get();
         assertEquals(place.getName(), place2.getName());
     }
+    @Test
+    public void TableIsOccupiedWithoutCustomer(){
+        Place place = new Place() ;
+        Table table = new Table() ;
+    
+        table.setNumberPlace(5);
+        table.setPlace(place);
+
+        assertEquals(table.TableOccupied(),false) ;
+    }
+    @Test
+    public void TableIsReservedWithoutCustomer(){
+        Place place = new Place() ;
+        Table table = new Table() ;
+    
+        table.setNumberPlace(5);
+        table.setPlace(place);
+
+        assertEquals(table.TableIsReserved(),false) ;
+    }
 }
