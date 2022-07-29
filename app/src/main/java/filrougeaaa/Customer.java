@@ -143,6 +143,8 @@ public class Customer extends Model {
             insertIdTable = ", id_table";
             value = ", ?";
         }
+
+        
         if (this.id != 0) {
             sql = "UPDATE customer " +
                     "SET purse_of_gold = ?, happiness = ?, hunger = ?, thirst = ?, nausea = ?, alcohol = ?, toilet = ? , time_in_tavern = ?, nausea_tolerance = ?, alcohol_tolerance = ?, gender = ?, exp_given = ?"+ updateIdTable
