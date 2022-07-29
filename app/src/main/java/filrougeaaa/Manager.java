@@ -54,6 +54,7 @@ public class Manager extends Model {
                 this.inventoryIngredient = new HashMap<Integer,Integer>() ;
                 this.id = id;
             }
+            this.getInventoryBDD(this.id);
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState());
@@ -95,6 +96,8 @@ public class Manager extends Model {
                 this.user = new User(resultat.getInt(7));
                 return true;
             }
+            this.getInventoryBDD(this.id);
+            return true;
         } catch (SQLException ex) {
             // handle any errors
             System.out.println("SQLException: " + ex.getMessage());
@@ -103,7 +106,20 @@ public class Manager extends Model {
         }
         return false;
     }
+    private void getInventoryBDD(int id_manager){
+        try{
+            ResultSet resultat2=DBManager.execute("SELECT id_ingredient , quantity FROM inventory_ingredient WHERE id_manager= "+id_manager+" ;");
+            this.inventoryIngredient=new HashMap<Integer,Integer>();
+            while(resultat2.next()){
+                this.inventoryIngredient.put(resultat2.getInt("id_ingredient"),resultat2.getInt("quantity"));
+            }
 
+        }catch(SQLException ex){
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+    }
     @Override
     public boolean get(int id) {
         try {
@@ -118,6 +134,8 @@ public class Manager extends Model {
                 this.id = id;
                 return true;
             }
+            this.getInventoryBDD(this.id);
+            return true;
         } catch (SQLException ex) {
             // handle any errors
             System.out.println("SQLException: " + ex.getMessage());

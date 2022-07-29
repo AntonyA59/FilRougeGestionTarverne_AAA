@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.junit.jupiter.api.*;
 import org.mockito.internal.creation.bytebuddy.SubclassByteBuddyMockMaker;
@@ -67,7 +68,7 @@ public class RecipeTest {
         recipe.setSellingPrice(15);
         recipe.setLevel(3);
         recipe.setConsommationTime(new Time(10));
-        recipe.setPreparationTime(new Timestamp(10));
+        recipe.setPreparationTime(new Time(10));
         recipe.setPeremptionDate(new Date(1000));
         recipe.setExpGiven(30);
         assertTrue(recipe.save());
@@ -82,7 +83,7 @@ public class RecipeTest {
         recipe.setSellingPrice(15);
         recipe.setLevel(3);
         recipe.setConsommationTime(new Time(10));
-        recipe.setPreparationTime(new Timestamp(10));
+        recipe.setPreparationTime(new Time(10));
         recipe.setPeremptionDate(new Date(1000));
         recipe.setExpGiven(30);
         recipe.save();
@@ -100,5 +101,31 @@ public class RecipeTest {
 
         listRecipe = recipe.listRecipeByLevel(2) ;
         assertEquals(listRecipe.get(0).getName(),"Gruit") ;
+    }
+    @Test 
+    public void updateRecipeBDD(){
+        Recipe recipe= new Recipe();
+        HashMap<Integer,Integer> listeIngredient=new HashMap<Integer,Integer>();
+        listeIngredient.put(1,2);
+        listeIngredient.put(2, 5);
+        recipe.setName("fraise");
+        recipe.setSellingPrice(5);
+        recipe.setLevel(1);
+        Time timeConsom= new Time(52321555);
+        recipe.setConsommationTime(timeConsom);
+        Time timePrepar=new Time(525623);
+        recipe.setPreparationTime(timePrepar);
+        recipe.setExpGiven(5);
+        Category category= new Category();
+        category.save();
+        SubCategory subcat= new SubCategory();
+        subcat.setCategory(category);
+        subcat.save();
+        recipe.setSubCategory(subcat);
+        recipe.setTabIngredients(listeIngredient);
+        recipe.save();
+        Recipe recipe2=new Recipe(recipe.getId());
+        assertEquals(recipe2.getTabIngredients().get(1), 2);
+
     }
 }
