@@ -217,4 +217,30 @@ public class Table extends Model {
             return false ;
 		}
     }
+    public int numberOfSeatsAvailable(){
+        int nbSeatsOccupied = 0 ;
+        if(this.TableOccupied()){
+            try{
+                ResultSet resultat = DBManager.execute("SELECT COUNT(*) FROM customer as c"
+                +" INNER JOIN `table` as t"
+                +" ON t.id_table = c.id_table"
+                +" INNER JOIN place as p"
+                +" ON t.id_place = p.id_place"
+                +" WHERE c.id_table = "+this.id+" ;") ;
+                if(resultat.next()){
+                    nbSeatsOccupied = resultat.getInt("0") ;
+                    return this.numberPlace - nbSeatsOccupied ;
+                }else{
+                    return 0 ;
+                }
+            }catch(SQLException ex) {
+                System.out.println("SQLException" + ex.getMessage());
+                System.out.println("SQLState" + ex.getSQLState());
+                System.out.println("VendorError"+ ex.getErrorCode());
+                return 0 ;
+            }
+        }else{
+            return this.numberPlace ;
+        }
+    }
 }
