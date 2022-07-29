@@ -47,17 +47,6 @@ public class ManagerTest {
 
         assertEquals(manager.getName(), "Théodebald");
     }
-
-    // Test des Map by Adrien // Inventaire du Manager
-    @Test
-    public void testInventoryIngredient(){
-        Manager manager = new Manager(1) ;
-        Map<Integer,Integer> inventoryManager ;
-
-        inventoryManager = manager.listInventoryIngredient() ;
-        assertEquals(inventoryManager.get(5),2) ;
-    
-    }
     //Test check and delete the ingredients related to the recipe order
     @Test
     public void testRecipeOrderTrue(){
@@ -101,15 +90,58 @@ public class ManagerTest {
     }
 
     @Test
-    public void testBuyIngredient(){
-        Manager manager = new Manager(2);
-        Ingredient ingredient1 = new Ingredient(2);
-        Ingredient ingredient2 = new Ingredient(6);
+    public void testBuyIngredientAssertQuantity(){
+        User user = new User() ;
+        Manager manager = new Manager();
+        Ingredient ingredient1 = new Ingredient();
+        Category category = new Category() ;
+        SubCategory subCategory = new SubCategory() ;
+        manager.setUser(user);
+        manager.setChest(999);
+        manager.save() ;
+
+        category.save() ;
+        subCategory.setCategory(category);
+        subCategory.save() ;
+
+        ingredient1.setSubCategory(subCategory);
+        ingredient1.save() ;
 
         manager.listInventoryIngredient() ;
         manager.buyIngredient(ingredient1.getId()) ;
+        manager.buyIngredient(ingredient1.getId()) ;
+        assertEquals(manager.getInventory().get(ingredient1.getId()),2) ;
+    }
+    @Test
+    public void testBuyIngredientAssertChest(){
+        User user = new User() ;
+        Manager manager = new Manager();
+        Ingredient ingredient1 = new Ingredient();
+        Ingredient ingredient2 = new Ingredient();
+        Category category = new Category() ;
+        SubCategory subCategory = new SubCategory() ;
+
+        manager.setUser(user);
+        manager.setChest(999);
+        manager.save() ;
+
+        category.save() ;
+        subCategory.setCategory(category);
+        subCategory.save() ;
+        
+        ingredient1.setBuyingPrice(10);
+        ingredient1.setSubCategory(subCategory);
+        ingredient1.save() ;
+        ingredient2.setBuyingPrice(15);
+        ingredient2.setSubCategory(subCategory);
+        ingredient2.save() ;
+        
+        manager.listInventoryIngredient() ;
+
+        manager.buyIngredient(ingredient1.getId()) ;
         manager.buyIngredient(ingredient2.getId()) ;
-        assertEquals(manager.getInventory().get(6),4) ;
+        manager.save() ;
+        assertEquals(manager.getChest(),974) ;
     }
     @Test
     public void testRecipeOrderUpdateInInventoryInBDD(){
@@ -153,7 +185,5 @@ public class ManagerTest {
         manager2.save();
         manager.get();
         assertEquals(manager.getName(), manager2.getName());
-    }
-    
-    
+    }   
 }

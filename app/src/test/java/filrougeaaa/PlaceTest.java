@@ -42,7 +42,9 @@ public class PlaceTest {
     }
     @Test
     void testGetPlace(){
-        Place place = new Place(1) ;
+        Place place = new Place() ;
+        place.setName("Cuisine");
+        place.save() ;
         assertEquals(place.getName() , "Cuisine");
     }
 
@@ -71,96 +73,5 @@ public class PlaceTest {
         place2.save();
         place.get();
         assertEquals(place.getName(), place2.getName());
-    }
-    @Test
-    public void TableIsOccupiedWithoutCustomer(){
-        Place place = new Place() ;
-        Table table = new Table() ;
-    
-        table.setNumberPlace(5);
-        table.setPlace(place);
-
-        assertFalse(table.tableOccupied()) ;
-    }
-    @Test
-    public void TableIsReservedWithoutCustomer(){
-        Place place = new Place() ;
-        Table table = new Table() ;
-    
-        place.save() ;
-        table.setNumberPlace(5);
-        table.setPlace(place);
-        table.save() ;
-
-        assertFalse(table.tableIsReserved()) ;
-    }
-    @Test
-    public void TableIsOccupiedWithOneCustomer(){
-        Place place = new Place() ;
-        Table table = new Table() ;
-        Manager manager = new Manager() ;
-        User user = new User() ;
-        Customer customer = new Customer() ;
-    
-        user.save() ;
-        manager.setUser(user);
-        manager.save() ;
-        place.setManager(manager);
-        place.save() ;
-        table.setNumberPlace(5);
-        table.setPlace(place);
-        table.save() ;
-        customer.setTable(table);
-        customer.save() ;
-
-        assertTrue(table.tableOccupied()) ;
-    }
-    @Test
-    public void TableIsReservedWithCustomer(){
-        Place place = new Place() ;
-        Table table = new Table() ;
-        Manager manager = new Manager() ;
-        User user = new User() ;
-        Customer customer = new Customer() ;
-        Reservation reservation = new Reservation() ;
-        Date date = new Date(0) ;
-    
-        user.save() ;
-        manager.setUser(user);
-        manager.save() ;
-        place.setManager(manager);
-        place.save() ;
-        table.setNumberPlace(5);
-        table.setPlace(place);
-        table.save() ;
-        customer.save() ;
-        reservation.setCustomer(customer);
-        reservation.setManager(manager);
-        reservation.setNb_customer(1);
-        reservation.setDate(date);
-        reservation.save() ;
-        customer.setTable(table);
-        //assertTrue(table.TableIsReserved()) ;
-    }
-    @Test
-    public void TestNumberOfSeatsAvailable(){
-        Place place = new Place() ;
-        Table table = new Table() ;
-        Manager manager = new Manager() ;
-        User user = new User() ;
-        Customer customer = new Customer() ;
-    
-        user.save() ;
-        manager.setUser(user);
-        manager.save() ;
-        place.setManager(manager);
-        place.save() ;
-        table.setNumberPlace(5);
-        table.setPlace(place);
-        table.save() ;
-        customer.setTable(table);
-        customer.save() ;
-
-        assertEquals(table.numberOfSeatsAvailable(),4) ;
     }
 }
