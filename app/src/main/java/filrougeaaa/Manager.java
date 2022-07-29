@@ -31,7 +31,6 @@ public class Manager extends Model {
      * @param id Database manager id
      */
     public Manager() {
-        DBManager.setAutoCommit(false);
         this.name = "" ;
         this.reputation = 0 ;
         this.chest = 0 ;
