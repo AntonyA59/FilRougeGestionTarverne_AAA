@@ -170,6 +170,7 @@ public class Manager extends Model {
                 pstmt.setInt(7, this.id);
 
             pstmt.executeUpdate();
+
             ResultSet keys = pstmt.getGeneratedKeys();
             if (this.id == 0 && keys.next()) {
                 this.id = keys.getInt(1);
@@ -187,6 +188,13 @@ public class Manager extends Model {
         }
     }
 
+    public boolean saveInventoryBDD(){
+        
+    }
+    public boolean addIngredientInInventory(Ingredient ingredient,int quantity){
+
+        
+    }
     // #region get/set
     public String getName() {
         return name;
@@ -270,7 +278,6 @@ public class Manager extends Model {
             System.out.println("VendorError: " + ex.getErrorCode());
             return null ;
         }
-       
     }
     public boolean buyIngredient(int idIngredient){
         Map<Integer,Integer> listIngredient = new HashMap<Integer,Integer>() ;
