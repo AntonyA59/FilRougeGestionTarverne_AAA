@@ -38,7 +38,8 @@ public class Manager extends Model{
                 this.reputation = resultat.getInt(3);
                 this.chest = resultat.getInt(4);
                 this.level = resultat.getInt(5);
-                this.user = new User(resultat.getInt(6));
+                this.exp = resultat.getInt(6);
+                this.user = new User(resultat.getInt(7));
                 this.id = id;
             }
         } catch (SQLException e) {
@@ -111,7 +112,7 @@ public class Manager extends Model{
             pstmt.setFloat(3, this.chest);
             pstmt.setFloat(4, this.level);
             pstmt.setFloat(5, this.exp);
-            pstmt.setInt(6, this.user.id);
+            pstmt.setInt(6, this.user.getId());
 
             if (id != 0)
                 pstmt.setInt(7, this.id);
