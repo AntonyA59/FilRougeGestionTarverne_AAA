@@ -136,7 +136,6 @@ public class TableTest {
         customer.save() ;
         reservation.setCustomer(customer);
         reservation.setManager(manager);
-        reservation.setNb_customer(1);
         reservation.setDate(date);
         reservation.save() ;
         customer.setTable(table);
