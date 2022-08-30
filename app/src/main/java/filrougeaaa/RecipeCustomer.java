@@ -33,6 +33,9 @@ public class RecipeCustomer extends Model {
 			System.out.println("VendorError"+ ex.getErrorCode());
 		}
     }
+    
+    
+    //#region
     public Recipe getRecipe() {
         return recipe;
     }
@@ -51,6 +54,13 @@ public class RecipeCustomer extends Model {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+    @Override
+    public int getId() {
+        return this.id;
+    }
+    //#endregion
+
     @Override
     public boolean get() {
         try{
@@ -95,9 +105,9 @@ public class RecipeCustomer extends Model {
     public boolean save() {
         String sql ;
         if(this.id != 0){
-            sql = "UPDATE recipe_customer SET id_customer=?,id_recipe=?,quantity=? WHERE id_rc = ?" ;
+            sql = "UPDATE recipe_customer SET id_customer=? ,id_recipe=? ,quantity=? WHERE id_rc = ?" ;
         }else{
-            sql = "INSERT INTO recipe (id_customer,id_recipe,quantity) VALUES (?,?,?)" ;
+            sql = "INSERT INTO recipe_customer (id_customer, id_recipe ,quantity) VALUES (?,?,?)" ;
         }
         try {
             PreparedStatement pstmt =  DBManager.conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS) ;
@@ -124,9 +134,4 @@ public class RecipeCustomer extends Model {
             return false ;
         }
     }
-    @Override
-    public int getId() {
-        return this.id;
-    }
-    
 }

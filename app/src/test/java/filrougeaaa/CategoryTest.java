@@ -8,7 +8,7 @@ import org.junit.jupiter.api.*;
 
 import filrougeaaa.utils.DBManager;
 
-public class TestCategory {
+public class CategoryTest {
     Savepoint save = null ;
 
     @BeforeAll
@@ -18,7 +18,6 @@ public class TestCategory {
     }
     @AfterAll
     public static void tearDown(){
-        DBManager.setAutoCommit(true);
         DBManager.close();
     }
 
@@ -34,13 +33,9 @@ public class TestCategory {
 
     @Test
     void testConstucteurCategory(){
-        Category category = new Category(1) ;
-        assertEquals(category.getName() , "Boissons");
-    }
-    @Test
-    void testGetCategory(){
         Category category = new Category() ;
-        category.get(2) ;
-        assertEquals(category.getName() , "Plats");
+        category.setName("Boissons");
+        category.save();
+        assertEquals(category.getName() , "Boissons");
     }
 }

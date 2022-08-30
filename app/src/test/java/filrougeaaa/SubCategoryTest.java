@@ -8,7 +8,7 @@ import org.junit.jupiter.api.*;
 
 import filrougeaaa.utils.DBManager;
 
-public class TestSubCategory {
+public class SubCategoryTest {
     Savepoint save = null ;
 
     @BeforeAll
@@ -18,7 +18,6 @@ public class TestSubCategory {
     }
     @AfterAll
     public static void tearDown(){
-        DBManager.setAutoCommit(true);
         DBManager.close();
     }
 
@@ -32,18 +31,18 @@ public class TestSubCategory {
     }
     @Test
     void testConstucteurSubCategory(){
-        SubCategory subCategory = new SubCategory(1) ;
+        SubCategory subCategory = new SubCategory() ;
+        subCategory.setName("Bières");
         assertEquals(subCategory.getName() , "Bières");
     }
     @Test
     void testCategoryForSubCategory(){
-        SubCategory subCategory = new SubCategory(1) ;
-        assertEquals(subCategory.getCategory().getName(), "Boissons");
-    }
-    @Test
-    void testSubCategory(){
         SubCategory subCategory = new SubCategory() ;
-        subCategory.get(2) ;
-        assertEquals(subCategory.getName(),"Vins");
+        Category category = new Category() ;
+        subCategory.setName("Bières");
+        category.setName("Boissons");
+        subCategory.setCategory(category);
+
+        assertEquals(subCategory.getCategory().getName(), "Boissons");
     }
 }

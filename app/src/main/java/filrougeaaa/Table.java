@@ -28,8 +28,8 @@ public class Table extends Model {
                 this.hygiene = resultat.getInt("hygiene");
                 this.posX = resultat.getInt("pos_x");
                 this.posY = resultat.getInt("pos_y");
+                this.place = new Place(resultat.getInt("id_place"));
                 this.id = id;
-                // this.place=new Place(resultat.getInt("id_place"));
             }
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
@@ -86,11 +86,11 @@ public class Table extends Model {
     public boolean save() {
         String sql;
         if (this.id != 0) {
-            sql = "UPDATE `table`" +
-                    "SET number_place= ?, hygiene= ?, pos_x=?, pos_y=?, id_place = ?" +
+            sql = "UPDATE `table` " +
+                    "SET number_place= ?, hygiene= ?, pos_x=?, pos_y=?, id_place = ? " +
                     "WHERE id_table= ?";
         } else {
-            sql = "INSERT INTO `table`(number_place,hygiene,pos_x,pos_y,id_place)" +
+            sql = "INSERT INTO `table`(number_place,hygiene,pos_x,pos_y,id_place) " +
                     "VALUES(?,?,?,?,?)";
         }
         try {
@@ -167,4 +167,97 @@ public class Table extends Model {
     }
     // #endregion
 
+    public boolean tableOccupied(){
+        int nbCustomer = 0 ;
+        String sql = "" ; 
+        try{
+            sql = "SELECT COUNT(*) FROM customer as c"
+            +" INNER JOIN `table` as t"
+            +" ON t.id_table = c.id_table"
+            +" INNER JOIN place as p"
+            +" ON t.id_place = p.id_place"
+            +" WHERE c.id_table = "+this.id+" ;" ;
+			ResultSet resultat = DBManager.execute(sql) ;
+			if(resultat.next()){
+                nbCustomer = resultat.getInt("COUNT(*)") ;
+                if(nbCustomer > 0){
+                    return true ;
+                }else{
+                    return false ;
+                }
+			}else{
+                return false ;
+            }
+		}catch(SQLException ex) {
+			System.out.println("SQLException" + ex.getMessage());
+			System.out.println("SQLState" + ex.getSQLState());
+			System.out.println("VendorError"+ ex.getErrorCode());
+            return false ;
+		}
+    }
+    public boolean tableIsReserved(){
+        int nbReservation = 0 ;
+        int idCustomer = 0 ; 
+        String sql = "" ; 
+        try{
+            sql = "SELECT id_customer FROM customer as c"
+            +" INNER JOIN `table` as t"
+            +" ON t.id_table = c.id_table"
+            +" INNER JOIN place as p"
+            +" ON t.id_place = p.id_place"
+            +" WHERE c.id_table = "+this.id+" ;" ;
+			ResultSet resultat = DBManager.execute(sql) ;
+            if(resultat.next()){
+                idCustomer = resultat.getInt("id_customer") ;
+                sql = "SELECT COUNT(*) FROM reservation as r"
+                +" INNER JOIN customer as c"
+                +" ON c.id_customer = r.id_customer"
+                +" WHERE r.id_customer = "+ idCustomer ;
+                resultat = DBManager.execute(sql) ;
+                if(resultat.next()){
+                    nbReservation = resultat.getInt("COUNT(*)") ;
+                    if(nbReservation > 0){
+                        return true ;
+                    }else{
+                        return false ;
+                    }
+                }else{
+                    return false ;
+                }
+			}else{
+                return false ;
+            }
+		}catch(SQLException ex) {
+			System.out.println("SQLException" + ex.getMessage());
+			System.out.println("SQLState" + ex.getSQLState());
+			System.out.println("VendorError"+ ex.getErrorCode());
+            return false ;
+		}
+    }
+    public int numberOfSeatsAvailable(){ //retourne le nombre de places disponibles sur la table
+        int nbSeatsOccupied = 0 ;
+        if(this.tableOccupied()){
+            try{
+                ResultSet resultat = DBManager.execute("SELECT COUNT(*) FROM customer as c"
+                +" INNER JOIN `table` as t"
+                +" ON t.id_table = c.id_table"
+                +" INNER JOIN place as p"
+                +" ON t.id_place = p.id_place"
+                +" WHERE c.id_table = "+this.id+" ;") ;
+                if(resultat.next()){
+                    nbSeatsOccupied = resultat.getInt("COUNT(*)") ;
+                    return this.numberPlace - nbSeatsOccupied ;
+                }else{
+                    return 0 ;
+                }
+            }catch(SQLException ex) {
+                System.out.println("SQLException" + ex.getMessage());
+                System.out.println("SQLState" + ex.getSQLState());
+                System.out.println("VendorError"+ ex.getErrorCode());
+                return 0 ;
+            }
+        }else{
+            return this.numberPlace ;
+        }
+    }
 }

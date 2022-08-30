@@ -19,6 +19,8 @@ public class RecipeIngredient extends Model {
         this.ingredient = new Ingredient();
     }
 
+
+
     public RecipeIngredient(int id) {
         try {
             ResultSet resultat = DBManager.execute("SELECT * FROM recipe_ingredient WHERE id_ri = " + id);
@@ -107,9 +109,34 @@ public class RecipeIngredient extends Model {
         }
     }
 
+    //#region get/set
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public Recipe getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
+    }
+
+    public Ingredient getIngredient() {
+        return ingredient;
+    }
+
+    public void setIngredient(Ingredient ingredient) {
+        this.ingredient = ingredient;
+    }
+
     @Override
     public int getId() {
         return this.id;
     }
-
+    //#endregion
 }
