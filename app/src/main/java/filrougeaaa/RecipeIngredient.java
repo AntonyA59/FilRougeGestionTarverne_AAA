@@ -19,8 +19,6 @@ public class RecipeIngredient extends Model {
         this.ingredient = new Ingredient();
     }
 
-
-
     public RecipeIngredient(int id) {
         try {
             ResultSet resultat = DBManager.execute("SELECT * FROM recipe_ingredient WHERE id_ri = " + id);

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.junit.jupiter.api.*;
-import org.mockito.internal.creation.bytebuddy.SubclassByteBuddyMockMaker;
 
 import filrougeaaa.utils.DBManager;
 
@@ -37,12 +36,14 @@ public class RecipeTest {
         Recipe recipe = new Recipe() ;
         Category category = new Category() ;
         SubCategory subCategory = new SubCategory() ;
-        subCategory.setCategory(category);
-        recipe.setSubCategory(subCategory);
 
         category.setName("Boissons");
         category.save() ;
+
+        subCategory.setCategory(category);
         subCategory.save() ;
+
+        recipe.setSubCategory(subCategory);
         recipe.save() ; 
 
         assertEquals(recipe.getSubCategory().getCategory().getName(), "Boissons");
@@ -108,6 +109,7 @@ public class RecipeTest {
         HashMap<Integer,Integer> listeIngredient=new HashMap<Integer,Integer>();
         listeIngredient.put(1,2);
         listeIngredient.put(2, 5);
+
         recipe.setName("fraise");
         recipe.setSellingPrice(5);
         recipe.setLevel(1);
@@ -116,16 +118,18 @@ public class RecipeTest {
         Time timePrepar=new Time(525623);
         recipe.setPreparationTime(timePrepar);
         recipe.setExpGiven(5);
+
         Category category= new Category();
         category.save();
         SubCategory subcat= new SubCategory();
         subcat.setCategory(category);
         subcat.save();
+
         recipe.setSubCategory(subcat);
+        recipe.save();
         recipe.setTabIngredients(listeIngredient);
         recipe.save();
         Recipe recipe2=new Recipe(recipe.getId());
         assertEquals(recipe2.getTabIngredients().get(1), 2);
-
     }
 }

@@ -2,7 +2,6 @@ package filrougeaaa;
 
 import filrougeaaa.utils.DBManager;
 import filrougeaaa.utils.Model;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.sql.Time;
@@ -23,17 +22,16 @@ public class Recipe extends Model{
     protected SubCategory subCategory;
 	protected HashMap<Integer,Integer> tabIngredients;
 
-	
-
 	public Recipe() {
 		this.name = "" ;
 		this.level = 0 ;
 		this.sellingPrice = 0 ;
-		this.consommationTime = null ;
-		this.preparationTime = null ;
-		this.peremptionDate = null ;
+		this.consommationTime = new Time(0) ;
+		this.preparationTime = new Time(0) ;
+		this.peremptionDate = new Date(0) ;
 		this.expGiven = 0 ;
 		subCategory = new SubCategory() ;
+		tabIngredients = new HashMap<Integer,Integer>() ;
 	}
 
 	public Recipe(int id) {
@@ -144,7 +142,7 @@ public class Recipe extends Model{
 			pstmt.setDate(6,this.peremptionDate);
 			pstmt.setInt(7, this.expGiven);
 			pstmt.setInt(8,this.subCategory.getId());
-			this.saveIngredientsQuantityBDD();
+			
             if(this.id != 0)
                 pstmt.setInt(9, this.id);
             
@@ -152,12 +150,15 @@ public class Recipe extends Model{
                 ResultSet keys = pstmt.getGeneratedKeys();
                 if(this.id == 0 && keys.next()){
                     this.id = keys.getInt(1);
+					this.saveIngredientsQuantityBDD();
                     return true;
                 }
-                else if(this.id != 0)
+                else if(this.id != 0){
+					this.saveIngredientsQuantityBDD();
                     return true;
-                else
+				}else{
                     return false;
+				}
         } catch (SQLException ex) {
             System.out.println("SQLException" + ex.getMessage());
             System.out.println("SQLState" + ex.getSQLState());
@@ -167,31 +168,42 @@ public class Recipe extends Model{
 	}
 	private void saveIngredientsQuantityBDD(){
 		String sqlIngredientQuantity ;
+		/*
 		if(this.id!=0){
-			sqlIngredientQuantity = "UPDATE recipe_ingredient SET quantity=? ,id_ingredient=? WHERE id_recipe = ?" ;
+			sqlIngredientQuantity = "UPDATE recipe_ingredient SET quantity=? WHERE id_recipe = ? AND id_ingredient = ?" ;
 		}else{
 			sqlIngredientQuantity = "INSERT INTO recipe_ingredient (quantity,id_ingredient,id_recipe) VALUES (?,?,?)" ;
 		}
+		*/
 		for (int id_ingredient : this.tabIngredients.keySet()){
 			try{
-				PreparedStatement pstmtIngQuan =  DBManager.conn.prepareStatement(sqlIngredientQuantity,Statement.RETURN_GENERATED_KEYS) ;
-				int quantity=this.tabIngredients.get(id_ingredient);
-				if(this.id!=0){
-					pstmtIngQuan.setInt(1,quantity);
-					pstmtIngQuan.setInt(2,id_ingredient);
-					pstmtIngQuan.setInt(3,this.id);
-				}else{
-					pstmtIngQuan.setInt(1,quantity);
-					pstmtIngQuan.setInt(2,id_ingredient);
+				sqlIngredientQuantity = "SELECT COUNT(*) FROM recipe_ingredient WHERE id_recipe = "+this.id+" AND id_ingredient = "+id_ingredient ;
+				ResultSet resultat = DBManager.execute(sqlIngredientQuantity) ;
+            	if(resultat.next()){
+					if(resultat.getInt("COUNT(*)") > 0){
+						sqlIngredientQuantity = "UPDATE recipe_ingredient SET quantity=? WHERE id_recipe = ? AND id_ingredient = ?" ;
+					}else{
+						sqlIngredientQuantity = "INSERT INTO recipe_ingredient (quantity,id_ingredient,id_recipe) VALUES (?,?,?)" ;
+					}
+					PreparedStatement pstmtIngQuan =  DBManager.conn.prepareStatement(sqlIngredientQuantity,Statement.RETURN_GENERATED_KEYS) ;
+					int quantity=this.tabIngredients.get(id_ingredient);
+					if(this.id!=0){
+						pstmtIngQuan.setInt(1,quantity);
+						pstmtIngQuan.setInt(2,id_ingredient);
+						pstmtIngQuan.setInt(3,this.id);
+					}else{
+						pstmtIngQuan.setInt(1,quantity);
+						pstmtIngQuan.setInt(2,id_ingredient);
+						pstmtIngQuan.setInt(3,this.id);
+					}
+					pstmtIngQuan.executeUpdate();
 				}
-				pstmtIngQuan.executeUpdate();
 			}catch(SQLException ex){
 				System.out.println("SQLException" + ex.getMessage());
 				System.out.println("SQLState" + ex.getSQLState());
 				System.out.println("VendorError"+ ex.getErrorCode());
 			}
 		}
-
 	}
 //#region get/set
 	public String getName() {

@@ -86,7 +86,15 @@ public class TableTest {
     public void TableIsReservedWithoutCustomer(){
         Place place = new Place() ;
         Table table = new Table() ;
+        User user = new User() ;
+        Manager manager = new Manager() ;
     
+        user.save() ;
+        manager.setUser(user);
+        manager.save();
+
+        place.setManager(manager);
+
         place.save() ;
         table.setNumberPlace(5);
         table.setPlace(place);
@@ -140,6 +148,7 @@ public class TableTest {
         reservation.save() ;
         customer.setTable(table);
         customer.save() ;
+        table.tableIsReserved() ;// pour le debug
         assertTrue(table.tableIsReserved()) ;
     }
     @Test

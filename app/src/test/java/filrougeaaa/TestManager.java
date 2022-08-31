@@ -50,7 +50,7 @@ public class TestManager {
     public void testInventoryIngredient(){
         Manager manager = new Manager(1) ;
         Map<Integer,Integer> inventory ;
-        inventory = manager.listIngredientByManager() ;
+        inventory = manager.listInventoryIngredient() ;
         inventory.get(1) ;
     }
 

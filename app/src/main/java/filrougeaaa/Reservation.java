@@ -75,19 +75,19 @@ public class Reservation extends Model {
         String sql;
         if (this.id != 0) {
             sql = "UPDATE reservation " +
-                    "SET date=?, nb_customer= ?, id_customer=?, id_manager=? " +
+                    "SET date=?, id_customer=?, id_manager=? " +
                     "WHERE id_reservation= ?";
         } else {
-            sql = "INSERT INTO reservation(date, nb_customer, id_customer, id_manager) " +
-                    "VALUES(?,?,?,?)";
+            sql = "INSERT INTO reservation(date, id_customer, id_manager) " +
+                    "VALUES(?,?,?)";
         }
         try {
             PreparedStatement stmc = DBManager.conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmc.setDate(1, this.date);
-            stmc.setInt(3, this.customer.getId());
-            stmc.setInt(4, this.manager.getId());
+            stmc.setInt(2, this.customer.getId());
+            stmc.setInt(3, this.manager.getId());
             if (this.id != 0)
-                stmc.setInt(5, this.id);
+                stmc.setInt(4, this.id);
 
             stmc.executeUpdate();
             ResultSet keys = stmc.getGeneratedKeys();

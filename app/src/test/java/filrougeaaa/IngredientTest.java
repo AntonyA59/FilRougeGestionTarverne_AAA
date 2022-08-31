@@ -38,6 +38,15 @@ public class IngredientTest {
     @Test
     void testConstucteurIngredient(){
         Ingredient ingredient = new Ingredient() ;
+
+        Category category = new Category() ;
+        category.save() ;
+
+        SubCategory subCategory = new SubCategory() ;
+        subCategory.setCategory(category);
+        subCategory.save();
+
+        ingredient.setSubCategory(subCategory);
         ingredient.setName("haricot");
         ingredient.save();
         assertEquals(ingredient.getName() , "haricot");
@@ -48,9 +57,12 @@ public class IngredientTest {
         Category category = new Category() ;
         SubCategory subCategory = new SubCategory() ;
         category.setName("Autres");
-        subCategory.setCategory(category);
-        ingredient.setSubCategory(subCategory);
+        category.save() ;
 
+        subCategory.setCategory(category);
+        subCategory.save();
+
+        ingredient.setSubCategory(subCategory);
         assertEquals(ingredient.getSubCategory().getCategory().getName(), "Autres");
     }
     @Test

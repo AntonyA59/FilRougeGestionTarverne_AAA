@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Savepoint;
 import java.util.HashMap;
-import java.util.Map;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -96,6 +95,8 @@ public class ManagerTest {
         Ingredient ingredient1 = new Ingredient();
         Category category = new Category() ;
         SubCategory subCategory = new SubCategory() ;
+
+        user.save() ;
         manager.setUser(user);
         manager.setChest(999);
         manager.save() ;
@@ -108,8 +109,8 @@ public class ManagerTest {
         ingredient1.save() ;
 
         manager.listInventoryIngredient() ;
-        manager.buyIngredient(ingredient1.getId()) ;
-        manager.buyIngredient(ingredient1.getId()) ;
+        manager.buyIngredient(ingredient1.getId(),1) ;
+        manager.buyIngredient(ingredient1.getId(),1) ;
         assertEquals(manager.getInventory().get(ingredient1.getId()),2) ;
     }
     @Test
@@ -120,6 +121,8 @@ public class ManagerTest {
         Ingredient ingredient2 = new Ingredient();
         Category category = new Category() ;
         SubCategory subCategory = new SubCategory() ;
+
+        user.save() ;
 
         manager.setUser(user);
         manager.setChest(999);
@@ -138,30 +141,64 @@ public class ManagerTest {
         
         manager.listInventoryIngredient() ;
 
-        manager.buyIngredient(ingredient1.getId()) ;
-        manager.buyIngredient(ingredient2.getId()) ;
+        manager.buyIngredient(ingredient1.getId(),1) ;
+        manager.buyIngredient(ingredient2.getId(),1) ;
         manager.save() ;
         assertEquals(manager.getChest(),974) ;
     }
     @Test
     public void testRecipeOrderUpdateInInventoryInBDD(){
-        Manager manager= new Manager(1);
+        User user = new User() ;
+        Manager manager= new Manager();
+        Category category = new Category() ;
+        SubCategory subCategory = new SubCategory() ;
         Recipe recipe=new Recipe();
         HashMap<Integer,Integer> ingredientsRecipe=new HashMap<Integer,Integer>();
+
+        user.save() ;
+        manager.setUser(user);
+        manager.save() ;
+
+        category.save() ;
+        subCategory.setCategory(category);
+        subCategory.save() ;
+        recipe.setSubCategory(subCategory);
         ingredientsRecipe.put(1,2);
         recipe.setTabIngredients(ingredientsRecipe);
+        recipe.save();
+        
+        manager.setChest(99);
+
+        manager.buyIngredient(ingredientsRecipe.get(1), 1);
+        manager.save();
+
         manager.requestRecipe(recipe);
-        Manager manager2=new Manager(1);
-        assertEquals(manager2.getInventory().get(1), 1);
+
+        assertEquals(manager.getInventory().get(2), 1);
     }
     @Test
     public void testRecipeOrderDeleteInInventoryInBDD(){
-        Manager manager= new Manager(1);
+        User user = new User() ;
+        Manager manager= new Manager();
         Recipe recipe=new Recipe();
-        HashMap<Integer,Integer> ingredientsRecipe=new HashMap<Integer,Integer>();
+        Category category = new Category();
+        SubCategory subCategory = new SubCategory() ;
+        HashMap<Integer,Integer> ingredientsRecipe = new HashMap<Integer,Integer>();
+
+        user.save();
+        manager.setUser(user);
+        manager.save();
+        category.save() ;
+        subCategory.setCategory(category);
+        subCategory.save() ;
+
+        recipe.setSubCategory(subCategory);
         ingredientsRecipe.put(1,3);
         recipe.setTabIngredients(ingredientsRecipe);
+        recipe.save();
+
         manager.requestRecipe(recipe);
+
         assertNull(manager.getInventory().get(1));
     }
 
