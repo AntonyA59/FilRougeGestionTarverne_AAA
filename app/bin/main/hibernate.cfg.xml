@@ -19,23 +19,23 @@
             <property name="hibernate.show_sql">true</property>
             <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
             <property name="cache.use_query_cache">false</property>
-            <!-- <mapping class="package.Category" /> -->
-            <!-- <mapping class="package.Customer" /> -->
-            <!-- <mapping class="package.Ingredient" /> -->
-            <!-- <mapping class="package.InventoryIngredient" /> -->
-            <!-- <mapping class="package.Manager" /> -->
-            <!-- <mapping class="package.Place" /> -->
-            <!-- <mapping class="package.Recipe" /> -->
-            <!-- <mapping class="package.RecipeCustomer" /> -->
-            <!-- <mapping class="package.RecipeIngredient" /> -->
-            <!-- <mapping class="package.Reservation" /> -->
-            <!-- <mapping class="package.SubCategory" /> -->
-            <!-- <mapping class="package.Table" /> -->
-            <!-- <mapping class="package.User" /> -->
+            <mapping class="filrougeaaa.Category" />
+            <!-- <mapping class="filrougeaaa.Customer" /> -->
+            <!-- <mapping class="filrougeaaa.Ingredient" /> -->
+            <!-- <mapping class="filrougeaaa.InventoryIngredient" /> -->
+            <!-- <mapping class="filrougeaaa.Manager" /> -->
+            <!-- <mapping class="filrougeaaa.Place" /> -->
+            <!-- <mapping class="filrougeaaa.Recipe" /> -->
+            <!-- <mapping class="filrougeaaa.RecipeCustomer" /> -->
+            <!-- <mapping class="filrougeaaa.RecipeIngredient" /> -->
+            <!-- <mapping class="filrougeaaa.Reservation" /> -->
+            <!-- <mapping class="filrougeaaa.SubCategory" /> -->
+            <!-- <mapping class="filrougeaaa.Table" /> -->
+            <!-- <mapping class="filrougeaaa.User" /> -->
 
-            <!-- <mapping class="package.InventoryIngredientKey" /> -->
-            <!-- <mapping class="package.RecipeCustomerKey" /> -->
-            <!-- <mapping class="package.RecipeIngredientKey" /> -->
-            <!-- <mapping class="package.ReservationKey" /> -->
+            <!-- <mapping class="filrougeaaa.InventoryIngredientKey" /> -->
+            <!-- <mapping class="filrougeaaa.RecipeCustomerKey" /> -->
+            <!-- <mapping class="filrougeaaa.RecipeIngredientKey" /> -->
+            <!-- <mapping class="filrougeaaa.ReservationKey" /> -->
       </session-factory>
 </hibernate-configuration>

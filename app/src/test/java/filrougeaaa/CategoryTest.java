@@ -2,40 +2,49 @@ package filrougeaaa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.sql.Savepoint;
-
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.*;
 
-import filrougeaaa.utils.DBManager;
+import filrougeaaa.utils.HibernateUtil;
 
 public class CategoryTest {
-    Savepoint save = null ;
+    private static SessionFactory sessionFactory;
+    private Session session;
 
     @BeforeAll
-    static void testInitDBManager(){
-        DBManager.init();
-        DBManager.setAutoCommit(false);
+    public static void setup() {
+        sessionFactory = HibernateUtil.getSessionFactory();
+        System.out.println("SessionFactory created");
     }
     @AfterAll
-    public static void tearDown(){
-        DBManager.close();
+    public static void tearDown() {
+        if (sessionFactory != null) sessionFactory.close();
+        System.out.println("SessionFactory destroyed");
     }
 
     @BeforeEach
-    void testSave(){
-        save = DBManager.setSavePoint();
+    public void openSession() {
+        session = sessionFactory.openSession();
+        System.out.println("Session created");
     }
-    
+     
     @AfterEach
-    void testRollback(){
-        DBManager.rollback(save);
-    }
+    public void closeSession() {
+        if (session != null) session.close();
+        System.out.println("Session closed\n");
+    } 
 
     @Test
-    void testConstucteurCategory(){
+    void testInsertCategory(){
         Category category = new Category() ;
+
         category.setName("Boissons");
-        category.save();
+
+        session.beginTransaction();
+        session.persist(category);
+        session.getTransaction().commit();
+
         assertEquals(category.getName() , "Boissons");
     }
 }
