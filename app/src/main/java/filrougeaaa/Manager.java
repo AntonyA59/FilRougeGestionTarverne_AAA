@@ -4,7 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import filrougeaaa.utils.DBManager;
@@ -351,6 +353,24 @@ public class Manager extends Model {
         return false ;
     }
 
+    public List<Integer> getListPlace(){
+        List<Integer> listPlace = new ArrayList<Integer>() ;
+        try{
+            ResultSet resultat = DBManager.execute("SELECT id_place FROM place WHERE id_manager = "+this.id+" ;");
+            
+            while(resultat.next()){
+                listPlace.add(resultat.getInt("id_place")) ;
+            }
+            return listPlace ;
+        }
+        catch (SQLException ex) {
+            // handle any errors
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            return null ;
+        }
+    }
     /*
      * public Place[] getPlaces() {
      * return places;
