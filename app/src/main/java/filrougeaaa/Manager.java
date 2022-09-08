@@ -4,7 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import filrougeaaa.utils.DBManager;
@@ -54,7 +56,7 @@ public class Manager extends Model {
                 this.inventoryIngredient = new HashMap<Integer,Integer>() ;
                 this.id = id;
             }
-            this.getInventoryBDD(this.id);
+            this.listInventoryIngredient();
         } catch (SQLException e) {
             System.out.println("SQLException: " + e.getMessage());
             System.out.println("SQLState: " + e.getSQLState());
@@ -62,27 +64,6 @@ public class Manager extends Model {
         }
     }
 
-    public boolean requestRecipe(Recipe recipe){
-        
-        if(haveQuantityIngredientInInventaire(recipe)){
-            for (Integer id_ingredient : recipe.getTabIngredients().keySet()) {
-                int quantityInit=this.inventoryIngredient.get(id_ingredient);
-                int quantityConsom= recipe.getTabIngredients().get(id_ingredient);
-                this.inventoryIngredient.put(id_ingredient,quantityInit-quantityConsom);
-            }
-            
-            return true;
-        }    
-        return false;
-    }
-    private boolean haveQuantityIngredientInInventaire(Recipe recipe){
-        for (Integer id_ingredients : recipe.getTabIngredients().keySet()) {
-            if(recipe.getTabIngredients().get(id_ingredients)>this.inventoryIngredient.get(id_ingredients)){
-                return false;
-            }
-        }
-        return true;
-    }
     @Override
     public boolean get() {
         try {
@@ -96,7 +77,7 @@ public class Manager extends Model {
                 this.user = new User(resultat.getInt(7));
                 return true;
             }
-            this.getInventoryBDD(this.id);
+            this.listInventoryIngredient();
             return true;
         } catch (SQLException ex) {
             // handle any errors
@@ -105,20 +86,6 @@ public class Manager extends Model {
             System.out.println("VendorError: " + ex.getErrorCode());
         }
         return false;
-    }
-    private void getInventoryBDD(int id_manager){
-        try{
-            ResultSet resultat2=DBManager.execute("SELECT id_ingredient , quantity FROM inventory_ingredient WHERE id_manager= "+id_manager+" ;");
-            this.inventoryIngredient=new HashMap<Integer,Integer>();
-            while(resultat2.next()){
-                this.inventoryIngredient.put(resultat2.getInt("id_ingredient"),resultat2.getInt("quantity"));
-            }
-
-        }catch(SQLException ex){
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-        }
     }
     @Override
     public boolean get(int id) {
@@ -134,7 +101,7 @@ public class Manager extends Model {
                 this.id = id;
                 return true;
             }
-            this.getInventoryBDD(this.id);
+            this.listInventoryIngredient();
             return true;
         } catch (SQLException ex) {
             // handle any errors
@@ -170,6 +137,7 @@ public class Manager extends Model {
                 pstmt.setInt(7, this.id);
 
             pstmt.executeUpdate();
+
             ResultSet keys = pstmt.getGeneratedKeys();
             if (this.id == 0 && keys.next()) {
                 this.id = keys.getInt(1);
@@ -251,8 +219,54 @@ public class Manager extends Model {
     public void setUser(User user) {
         this.user = user;
     }
-
     
+    @Override
+    public int getId() {
+        return this.id;
+    }
+    // #endregion
+
+//// REGION INVENTORY INGREDIENT
+
+    public boolean enoughMoneyToBuy(int id_ingredient,int quantity){
+        // vérification que le manager possède suffisament d'argent
+        int buyingPrice = 0 ;
+
+        Ingredient thisIngredient = new Ingredient() ;
+        thisIngredient.get(id_ingredient) ;
+        buyingPrice = thisIngredient.getBuyingPrice()*quantity ;
+        if(buyingPrice > this.chest){
+            return false ;
+        }else{
+            return true ;
+        }
+    }
+    private boolean haveQuantityIngredientInInventaire(Recipe recipe){
+        //
+        for (Integer id_ingredients : recipe.getTabIngredients().keySet()) {
+            if(this.inventoryIngredient.get(id_ingredients) != null){
+                if(recipe.getTabIngredients().get(id_ingredients) > this.inventoryIngredient.get(id_ingredients)){
+                    return false;
+                }else{
+                    return true ;
+                }
+            }else{
+                return false ;
+            }
+        }
+        return true;
+    }
+    public boolean requestRecipe(Recipe recipe){
+        if(haveQuantityIngredientInInventaire(recipe)){
+            for (Integer id_ingredient : recipe.getTabIngredients().keySet()) {
+                int quantityInit=this.inventoryIngredient.get(id_ingredient);
+                int quantityConsom= recipe.getTabIngredients().get(id_ingredient);
+                this.inventoryIngredient.put(id_ingredient,quantityInit-quantityConsom);
+            }
+            return true;
+        }    
+        return false;
+    }
 
     public Map<Integer,Integer> listInventoryIngredient(){
         try{
@@ -270,32 +284,48 @@ public class Manager extends Model {
             System.out.println("VendorError: " + ex.getErrorCode());
             return null ;
         }
-       
     }
-    public boolean buyIngredient(int idIngredient){
-        Map<Integer,Integer> listIngredient = new HashMap<Integer,Integer>() ;
+
+    /* fonction doublons avec la méthode "listInventoryIngredient()" + cette méthode est un get qui ne renvoie rien...
+    private void getInventoryBDD(){
+        try{
+            ResultSet resultat2=DBManager.execute("SELECT id_ingredient , quantity FROM inventory_ingredient WHERE id_manager= "+this.id+" ;");
+            this.inventoryIngredient=new HashMap<Integer,Integer>();
+            while(resultat2.next()){
+                this.inventoryIngredient.put(resultat2.getInt("id_ingredient"),resultat2.getInt("quantity"));
+            }
+
+        }catch(SQLException ex){
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+    }
+    */
+    public boolean buyIngredient(int idIngredient, int quantity){
+        Map<Integer,Integer> listInventoryIngredient = new HashMap<Integer,Integer>() ;
         Ingredient ingredient = new Ingredient(idIngredient) ;
-        listIngredient = listInventoryIngredient();
-        int quantity = 0 ;
+        listInventoryIngredient = listInventoryIngredient();
+        int quantityBDD = 0 ;
         String sql = "";
 
-        if(ingredient.getBuyingPrice() <= this.getChest()){     // si le Manager possède suffisement d'argents
+        if(enoughMoneyToBuy(idIngredient,quantity)){     // si le Manager possède suffisement d'argents
             this.chest -= ingredient.getBuyingPrice() ;
 
-            if(listIngredient.get(idIngredient) == null){
-                listIngredient.put(idIngredient,1);
+            if(listInventoryIngredient.get(idIngredient) == null){
+                listInventoryIngredient.put(idIngredient,1);
                 
                 sql = "INSERT INTO inventory_ingredient(quantity, id_manager, id_ingredient) VALUES(?, ?, ?)";
             }else{
-                quantity = listIngredient.get(idIngredient) ;
-                quantity++ ;
-                listIngredient.replace(idIngredient, quantity) ;
+                quantityBDD = listInventoryIngredient.get(idIngredient) ; // listInventoryIngredient => Map<Integer,Integer>>
+                quantityBDD += quantity ;
+                listInventoryIngredient.replace(idIngredient, quantityBDD) ;
                 sql = "UPDATE inventory_ingredient " +
                     "SET quantity = ? " +
                     "WHERE id_manager = ? AND id_ingredient = ? ";
                 try {
                     PreparedStatement pstmt = DBManager.conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                    pstmt.setInt(1, quantity);
+                    pstmt.setInt(1, quantityBDD);
                     pstmt.setInt(2, this.id);
                     pstmt.setInt(3, idIngredient);
         
@@ -323,6 +353,24 @@ public class Manager extends Model {
         return false ;
     }
 
+    public List<Integer> getListPlace(){
+        List<Integer> listPlace = new ArrayList<Integer>() ;
+        try{
+            ResultSet resultat = DBManager.execute("SELECT id_place FROM place WHERE id_manager = "+this.id+" ;");
+            
+            while(resultat.next()){
+                listPlace.add(resultat.getInt("id_place")) ;
+            }
+            return listPlace ;
+        }
+        catch (SQLException ex) {
+            // handle any errors
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            return null ;
+        }
+    }
     /*
      * public Place[] getPlaces() {
      * return places;
@@ -340,11 +388,4 @@ public class Manager extends Model {
      * this.reservation = reservation;
      * }
      */
-
-    @Override
-    public int getId() {
-        return this.id;
-    }
-    // #endregion
-
 }

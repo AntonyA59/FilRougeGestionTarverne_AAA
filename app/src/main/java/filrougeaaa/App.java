@@ -7,32 +7,46 @@ package filrougeaaa;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 import filrougeaaa.utils.DBManager;
 
 public class App {
     protected static BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
-
+    public static Session session;  // HIBERNATE
     public static void main(String[] args) throws IOException {
-
 
         DBManager.init();
         
-        User player = new User();
+        // #HIBERNATE
+        Configuration configuration = new Configuration().configure();  
+        SessionFactory sessionFactory = configuration.buildSessionFactory();
+        session = sessionFactory.openSession();
+        // #HIBERNATE
+        
+        User player = new User(1);
 
-        Manager manager = new Manager();
+        Manager manager = new Manager(1);
         manager.setChest(200);
         manager.setExp(0);
         manager.setMaxExp(100);
         manager.setReputation(0);
         manager.setLevel(1);
         manager.setUser(player);
+        manager.save() ;
 
         Customer client = new Customer(194);
-        Table table2pers = new Table(1);
-        Place bar = new Place(2);
+        /*
+        Table table2pers = new Table();
+        */
+        Place place = new Place();
+        place.setManager(manager);
 
-
+        List<Integer> listPlace = manager.getListPlace() ;
 
         String email = "";
         String nomGerant = "";
@@ -69,7 +83,6 @@ public class App {
                 System.out.println("Veuillez saisir un mot passe");
             } else {
                 player.setPassword(mdp);
-
             }
         }
 
@@ -93,6 +106,8 @@ public class App {
         }
         System.out.println("Pseudo : " + player.getNickName());
         App.r.readLine();
+        player.save() ;
+
         System.out.println("Bienvenue " + player.getNickName() + " !");
         System.out.println("Il est maintenant temp de passer à la création de votre gérant");
         App.r.readLine();
@@ -117,14 +132,24 @@ public class App {
         App.r.readLine();
         System.out.println("Un client arrive !");
         App.r.readLine();
+        System.out.println("choisissez un lieu pour accieullir le client");
+        App.r.readLine();
+
+        for(int i = 0; i> listPlace.size();i++){
+            place.get(listPlace.get(i)) ;
+            System.out.println("place "+place.getName()+" , n°"+place.getId());
+        }
+
+        /*
         System.out.println("Vous l'accueillez et vous l'installez a la table n° " + table2pers.getId() + " dans '" + bar.getName() + "' .");
         client.setTable(table2pers);
         client.save();
         System.out.println(table2pers.tableOccupied());
         System.out.println(table2pers.numberOfSeatsAvailable());
-
-        
+        */
         DBManager.close();
+
+        session.close(); // HIBERNATE
     }
 
 }

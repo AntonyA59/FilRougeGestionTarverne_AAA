@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import filrougeaaa.utils.DBManager;
 import filrougeaaa.utils.Model;
@@ -158,4 +160,22 @@ public class Place extends Model {
     
     // #endregion
 
+    public List<Integer> getListTable(){
+        List<Integer> listTable = new ArrayList<Integer>() ;
+        try{
+            ResultSet resultat = DBManager.execute("SELECT id_table FROM table WHERE id_place = "+this.id+" ;");
+            
+            while(resultat.next()){
+                listTable.add(resultat.getInt("id_table")) ;
+            }
+            return listTable ;
+        }
+        catch (SQLException ex) {
+            // handle any errors
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            return null ;
+        }
+    }
 }

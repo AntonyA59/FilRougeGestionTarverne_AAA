@@ -1,6 +1,5 @@
 package filrougeaaa;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Date;
@@ -45,10 +44,10 @@ public class ReservationTest {
         reservation.setCustomer(customer);
         reservation.setDate(new Date(20));
         reservation.setManager(manager);
-        reservation.setNb_customer(3);
         assertTrue(reservation.save());
     }
 
+    /* Test obsolète à cause de la suppréssion du nombre de client(nb_customer) dans une réservation
     @Test
     public void testUpdateReservation() {
         Customer customer = new Customer();
@@ -68,6 +67,7 @@ public class ReservationTest {
         reservation.get();
         assertEquals(reservation.getNb_customer(), reservation2.getNb_customer());
     }
+    */
 
 
 }

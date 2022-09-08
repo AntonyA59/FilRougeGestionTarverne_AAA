@@ -1,10 +1,8 @@
 package filrougeaaa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.sql.Date;
 import java.sql.Savepoint;
 
 import org.junit.jupiter.api.AfterAll;
@@ -43,6 +41,14 @@ public class PlaceTest {
     @Test
     void testGetPlace(){
         Place place = new Place() ;
+        Manager manager = new Manager() ;
+        User user = new User() ;
+
+        user.save() ;
+        manager.setUser(user);
+        manager.save() ;
+
+        place.setManager(manager);
         place.setName("Cuisine");
         place.save() ;
         assertEquals(place.getName() , "Cuisine");
