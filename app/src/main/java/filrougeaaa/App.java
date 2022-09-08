@@ -22,11 +22,11 @@ public class App {
 
         
         // #HIBERNATE
-        /*
+        
         Configuration configuration = new Configuration().configure();  
         SessionFactory sessionFactory = configuration.buildSessionFactory();
         session = sessionFactory.openSession();
-        */
+        
         // #HIBERNATE
         
 
