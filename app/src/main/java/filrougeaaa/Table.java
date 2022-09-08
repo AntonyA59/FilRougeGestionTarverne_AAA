@@ -195,6 +195,7 @@ public class Table extends Model {
             return false ;
 		}
     }
+    
     public boolean tableIsReserved(){
         int nbReservation = 0 ;
         int idCustomer = 0 ; 

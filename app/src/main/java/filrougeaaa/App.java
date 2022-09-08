@@ -20,7 +20,7 @@ public class App {
     public static Session session;  // HIBERNATE
     public static void main(String[] args) throws IOException {
 
-        DBManager.init();
+  
         
         // #HIBERNATE
         Configuration configuration = new Configuration().configure();  
@@ -28,117 +28,117 @@ public class App {
         session = sessionFactory.openSession();
         // #HIBERNATE
         
-        User player = new User(1);
+        // User player = new User(1);
 
-        Manager manager = new Manager(1);
-        manager.setChest(200);
-        manager.setExp(0);
-        manager.setMaxExp(100);
-        manager.setReputation(0);
-        manager.setLevel(1);
-        manager.setUser(player);
-        manager.save() ;
+        // Manager manager = new Manager(1);
+        // manager.setChest(200);
+        // manager.setExp(0);
+        // manager.setMaxExp(100);
+        // manager.setReputation(0);
+        // manager.setLevel(1);
+        // manager.setUser(player);
+        // manager.save() ;
 
-        Customer client = new Customer(194);
-        /*
-        Table table2pers = new Table();
-        */
-        Place place = new Place();
-        place.setManager(manager);
+        // Customer client = new Customer(194);
+        // /*
+        // Table table2pers = new Table();
+        // */
+        // Place place = new Place();
+        // place.setManager(manager);
 
-        List<Integer> listPlace = manager.getListPlace() ;
+        // List<Integer> listPlace = manager.getListPlace() ;
 
-        String email = "";
-        String nomGerant = "";
-        String mdp = "";
+        // String email = "";
+        // String nomGerant = "";
+        // String mdp = "";
 
-        System.out.println("Bienvenue dans Tavern Manager !");
-        App.r.readLine();
-        System.out.println("Vous devez vous inscrire avant de pouvoir jouer au jeu: ");
-        App.r.readLine();
-        System.out.println("Quelle est votre adresse mail ?");
-        try {
-            email = r.readLine();
-            if (email == "") {
-                player.setEmail("JohnDoe@mail.fr");
-            } else {
-                player.setEmail(email);
-            }
-        } catch (Exception e) {
-            System.out.println("Choix invalide");
-        }
-        System.out.println("Adresse e-mail : " + player.getEmail());
+        // System.out.println("Bienvenue dans Tavern Manager !");
+        // App.r.readLine();
+        // System.out.println("Vous devez vous inscrire avant de pouvoir jouer au jeu: ");
+        // App.r.readLine();
+        // System.out.println("Quelle est votre adresse mail ?");
+        // try {
+        //     email = r.readLine();
+        //     if (email == "") {
+        //         player.setEmail("JohnDoe@mail.fr");
+        //     } else {
+        //         player.setEmail(email);
+        //     }
+        // } catch (Exception e) {
+        //     System.out.println("Choix invalide");
+        // }
+        // System.out.println("Adresse e-mail : " + player.getEmail());
 
-        App.r.readLine();
+        // App.r.readLine();
 
-        System.out.println("Quelle est votre mot de passe ?");
-        while (mdp.isEmpty()) {
-            try {
-                mdp = App.r.readLine();
+        // System.out.println("Quelle est votre mot de passe ?");
+        // while (mdp.isEmpty()) {
+        //     try {
+        //         mdp = App.r.readLine();
 
-            } catch (Exception e) {
-                System.out.println("Choix invalide");
-            }
-            if (mdp.isEmpty()) {
-                System.out.println("Veuillez saisir un mot passe");
-            } else {
-                player.setPassword(mdp);
-            }
-        }
+        //     } catch (Exception e) {
+        //         System.out.println("Choix invalide");
+        //     }
+        //     if (mdp.isEmpty()) {
+        //         System.out.println("Veuillez saisir un mot passe");
+        //     } else {
+        //         player.setPassword(mdp);
+        //     }
+        // }
 
-        System.out.println("Mot de passe : " + player.getPassword());
-        App.r.readLine();
+        // System.out.println("Mot de passe : " + player.getPassword());
+        // App.r.readLine();
 
-        String pseudo = "";
-        System.out.println("Votre Pseudo: ");
-        while (pseudo.isEmpty()) {
-            try {
-                pseudo = App.r.readLine();
+        // String pseudo = "";
+        // System.out.println("Votre Pseudo: ");
+        // while (pseudo.isEmpty()) {
+        //     try {
+        //         pseudo = App.r.readLine();
 
-            } catch (Exception e) {
-                System.out.println("Choix invalide");
-            }
-            if (pseudo.isEmpty()) {
-                System.out.println("Veuillez saisir un pseudo");
-            } else {
-                player.setNickName(pseudo);
-            }
-        }
-        System.out.println("Pseudo : " + player.getNickName());
-        App.r.readLine();
-        player.save() ;
+        //     } catch (Exception e) {
+        //         System.out.println("Choix invalide");
+        //     }
+        //     if (pseudo.isEmpty()) {
+        //         System.out.println("Veuillez saisir un pseudo");
+        //     } else {
+        //         player.setNickName(pseudo);
+        //     }
+        // }
+        // System.out.println("Pseudo : " + player.getNickName());
+        // App.r.readLine();
+        // player.save() ;
 
-        System.out.println("Bienvenue " + player.getNickName() + " !");
-        System.out.println("Il est maintenant temp de passer à la création de votre gérant");
-        App.r.readLine();
-        System.out.println("Quel est son nom ?");
+        // System.out.println("Bienvenue " + player.getNickName() + " !");
+        // System.out.println("Il est maintenant temp de passer à la création de votre gérant");
+        // App.r.readLine();
+        // System.out.println("Quel est son nom ?");
 
-        while (nomGerant.isEmpty()) {
-            try {
-                nomGerant = App.r.readLine();
+        // while (nomGerant.isEmpty()) {
+        //     try {
+        //         nomGerant = App.r.readLine();
 
-            } catch (Exception e) {
-                System.out.println("Choix invalide");
-            }
-            if (nomGerant.isEmpty()) {
-                System.out.println("Veuillez saisir un nom");
-            } else {
-                manager.setName(nomGerant);
-            }
-        }
-        System.out.println("Nom de votre gérant : " + nomGerant);
-        App.r.readLine();
-        System.out.println("Vous commencez avec " + manager.getChest() + " or dans votre coffre .");
-        App.r.readLine();
-        System.out.println("Un client arrive !");
-        App.r.readLine();
-        System.out.println("choisissez un lieu pour accieullir le client");
-        App.r.readLine();
+        //     } catch (Exception e) {
+        //         System.out.println("Choix invalide");
+        //     }
+        //     if (nomGerant.isEmpty()) {
+        //         System.out.println("Veuillez saisir un nom");
+        //     } else {
+        //         manager.setName(nomGerant);
+        //     }
+        // }
+        // System.out.println("Nom de votre gérant : " + nomGerant);
+        // App.r.readLine();
+        // System.out.println("Vous commencez avec " + manager.getChest() + " or dans votre coffre .");
+        // App.r.readLine();
+        // System.out.println("Un client arrive !");
+        // App.r.readLine();
+        // System.out.println("choisissez un lieu pour accieullir le client");
+        // App.r.readLine();
 
-        for(int i = 0; i> listPlace.size();i++){
-            place.get(listPlace.get(i)) ;
-            System.out.println("place "+place.getName()+" , n°"+place.getId());
-        }
+        // for(int i = 0; i> listPlace.size();i++){
+        //     place.get(listPlace.get(i)) ;
+        //     System.out.println("place "+place.getName()+" , n°"+place.getId());
+        // }
 
         /*
         System.out.println("Vous l'accueillez et vous l'installez a la table n° " + table2pers.getId() + " dans '" + bar.getName() + "' .");
@@ -147,7 +147,7 @@ public class App {
         System.out.println(table2pers.tableOccupied());
         System.out.println(table2pers.numberOfSeatsAvailable());
         */
-        DBManager.close();
+
 
         session.close(); // HIBERNATE
     }
