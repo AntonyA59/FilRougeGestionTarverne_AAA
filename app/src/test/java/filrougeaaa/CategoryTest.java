@@ -26,12 +26,16 @@ public class CategoryTest {
     @BeforeEach
     public void openSession() {
         session = sessionFactory.openSession();
+        session.beginTransaction();
         System.out.println("Session created");
     }
      
     @AfterEach
     public void closeSession() {
-        if (session != null) session.close();
+        if (session != null){
+            session.getTransaction().rollback();
+            session.close();
+        }
         System.out.println("Session closed\n");
     } 
 
@@ -40,11 +44,11 @@ public class CategoryTest {
         Category category = new Category() ;
 
         category.setName("Boissons");
-
-        session.beginTransaction();
         session.persist(category);
-        session.getTransaction().commit();
 
-        assertEquals(category.getName() , "Boissons");
+        Integer idCat = category.getIdCategory() ;;
+        Category category2 = session.getReference(Category.class, idCat);
+        
+        assertEquals(category2.getName() , "Boissons");
     }
 }

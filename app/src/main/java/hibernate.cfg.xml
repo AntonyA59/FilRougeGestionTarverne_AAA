@@ -19,6 +19,8 @@
             <property name="hibernate.show_sql">true</property>
             <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
             <property name="cache.use_query_cache">false</property>
+
+            <mapping class="filrougeaaa.SubCategory" />
             <mapping class="filrougeaaa.Category" />
             <!-- <mapping class="filrougeaaa.Customer" /> -->
             <!-- <mapping class="filrougeaaa.Ingredient" /> -->
@@ -29,7 +31,7 @@
             <!-- <mapping class="filrougeaaa.RecipeCustomer" /> -->
             <!-- <mapping class="filrougeaaa.RecipeIngredient" /> -->
             <!-- <mapping class="filrougeaaa.Reservation" /> -->
-            <!-- <mapping class="filrougeaaa.SubCategory" /> -->
+            
             <!-- <mapping class="filrougeaaa.Table" /> -->
             <!-- <mapping class="filrougeaaa.User" /> -->
 
