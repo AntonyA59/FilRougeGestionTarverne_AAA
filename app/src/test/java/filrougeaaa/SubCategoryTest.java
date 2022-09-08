@@ -2,47 +2,58 @@ package filrougeaaa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.sql.Savepoint;
-
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.*;
 
-import filrougeaaa.utils.DBManager;
+import filrougeaaa.utils.HibernateUtil;
 
 public class SubCategoryTest {
-    Savepoint save = null ;
+    private static SessionFactory sessionFactory;
+    private Session session;
 
     @BeforeAll
-    static void testInitDBManager(){
-        DBManager.init();
-        DBManager.setAutoCommit(false);
+    public static void setup() {
+        sessionFactory = HibernateUtil.getSessionFactory();
+        System.out.println("SessionFactory created");
     }
     @AfterAll
-    public static void tearDown(){
-        DBManager.close();
+    public static void tearDown() {
+        if (sessionFactory != null) sessionFactory.close();
+        System.out.println("SessionFactory destroyed");
     }
 
     @BeforeEach
-    void testSave(){
-        save = DBManager.setSavePoint();
+    public void openSession() {
+        session = sessionFactory.openSession();
+        session.beginTransaction();
+        System.out.println("Session created");
     }
+     
     @AfterEach
-    void testRollback(){
-        DBManager.rollback(save);
-    }
+    public void closeSession() {
+        if (session != null){
+            session.getTransaction().rollback();
+            session.close();
+        }
+        System.out.println("Session closed\n");
+    } 
+
     @Test
-    void testConstucteurSubCategory(){
-        SubCategory subCategory = new SubCategory() ;
-        subCategory.setName("Bières");
-        assertEquals(subCategory.getName() , "Bières");
-    }
-    @Test
-    void testCategoryForSubCategory(){
+    void testInsertSubCategory(){
         SubCategory subCategory = new SubCategory() ;
         Category category = new Category() ;
+
         subCategory.setName("Bières");
         category.setName("Boissons");
-        subCategory.setCategory(category);
 
-        assertEquals(subCategory.getCategory().getName(), "Boissons");
+        session.persist(category);
+        subCategory.setCategory(category);
+        session.persist(subCategory);
+
+        Integer idSubCat = subCategory.getIdSubCategory() ;
+        SubCategory category2 = session.getReference(SubCategory.class, idSubCat);
+
+        assertEquals(category2.getName(), "Bières");
     }
 }

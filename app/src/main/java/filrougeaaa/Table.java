@@ -2,7 +2,6 @@ package filrougeaaa;
 
 import java.sql.*;
 
-import filrougeaaa.utils.DBManager;
 import jakarta.persistence.*;
 
 @Entity
@@ -35,7 +34,7 @@ public class Table {
         this.posY = 0f;
         this.place = new Place();
     }
-
+    /* 
     public boolean tableOccupied(){
         int nbCustomer = 0 ;
         String sql = "" ; 
@@ -64,6 +63,7 @@ public class Table {
             return false ;
 		}
     }
+    
     public boolean tableIsReserved(){
         int nbReservation = 0 ;
         int idCustomer = 0 ; 
@@ -128,7 +128,7 @@ public class Table {
         }else{
             return this.numberPlace ;
         }
-    }
+    }*/
     //#region
     public Integer getTableId() {
         return tableId;

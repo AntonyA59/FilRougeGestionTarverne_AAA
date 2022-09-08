@@ -10,10 +10,11 @@ public class HibernateUtil {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure() // configures settings from hibernate.cfg.xml
                 .build();
-         
+        
         SessionFactory factory = new MetadataSources(registry)
                 .buildMetadata().buildSessionFactory();
-         
+        
+
         return factory;
     }
 }

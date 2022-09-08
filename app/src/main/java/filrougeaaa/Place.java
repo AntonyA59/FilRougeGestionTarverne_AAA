@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import filrougeaaa.utils.DBManager;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 
@@ -33,7 +32,7 @@ public class Place{
         this.manager = new Manager();
     }
     
-    
+    /*
     public List<Integer> getListTable(){
         List<Integer> listTable = new ArrayList<Integer>() ;
         try{
@@ -51,7 +50,7 @@ public class Place{
             System.out.println("VendorError: " + ex.getErrorCode());
             return null ;
         }
-    }
+    }*/
 
     //#region
     public Integer getPlaceId() {

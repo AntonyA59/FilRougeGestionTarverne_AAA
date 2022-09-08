@@ -19,23 +19,22 @@
             <property name="hibernate.show_sql">true</property>
             <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
             <property name="cache.use_query_cache">false</property>
+
+            <mapping class="filrougeaaa.SubCategory" />
             <mapping class="filrougeaaa.Category" />
             <mapping class="filrougeaaa.Customer" />
+            <mapping class="filrougeaaa.RecipeCustomer" />
+            <mapping class="filrougeaaa.RecipeCustomerKey" />
             <!-- <mapping class="filrougeaaa.Ingredient" /> -->
             <!-- <mapping class="filrougeaaa.InventoryIngredient" /> -->
+            <!-- <mapping class="filrougeaaa.InventoryIngredientKey" /> -->
             <!-- <mapping class="filrougeaaa.Manager" /> -->
             <mapping class="filrougeaaa.Place" />
-            <!-- <mapping class="filrougeaaa.Recipe" /> -->
-            <mapping class="filrougeaaa.RecipeCustomer" />
             <!-- <mapping class="filrougeaaa.RecipeIngredient" /> -->
-            <!-- <mapping class="filrougeaaa.Reservation" /> -->
-            <!-- <mapping class="filrougeaaa.SubCategory" /> -->
-            <mapping class="filrougeaaa.Table" />
-            <!-- <mapping class="filrougeaaa.User" /> -->
-
-            <!-- <mapping class="filrougeaaa.InventoryIngredientKey" /> -->
-            <mapping class="filrougeaaa.RecipeCustomerKey" />
             <!-- <mapping class="filrougeaaa.RecipeIngredientKey" /> -->
-            <!-- <mapping class="filrougeaaa.ReservationKey" /> -->
+            <!-- <mapping class="filrougeaaa.Reservation" /> -->
+            <mapping class="filrougeaaa.Table" />
+            <mapping class="filrougeaaa.Recipe" />
+            <!-- <mapping class="filrougeaaa.User" /> -->
       </session-factory>
 </hibernate-configuration>
