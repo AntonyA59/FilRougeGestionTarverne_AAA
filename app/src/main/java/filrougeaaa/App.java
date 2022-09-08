@@ -13,7 +13,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import filrougeaaa.utils.DBManager;
 
 public class App {
     protected static BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
@@ -21,11 +20,13 @@ public class App {
     public static void main(String[] args) throws IOException {
 
   
-        
+        System.out.println("hello");
         // #HIBERNATE
+        /*
         Configuration configuration = new Configuration().configure();  
         SessionFactory sessionFactory = configuration.buildSessionFactory();
         session = sessionFactory.openSession();
+        */
         // #HIBERNATE
         
         // User player = new User(1);
@@ -149,7 +150,7 @@ public class App {
         */
 
 
-        session.close(); // HIBERNATE
+       // session.close(); // HIBERNATE
     }
 
 }
