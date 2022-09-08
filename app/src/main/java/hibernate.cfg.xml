@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 
 <!DOCTYPE hibernate-configuration PUBLIC
-    "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+      "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+      "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
       <session-factory>
@@ -20,21 +20,21 @@
             <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
             <property name="cache.use_query_cache">false</property>
             <mapping class="filrougeaaa.Category" />
-            <!-- <mapping class="filrougeaaa.Customer" /> -->
+            <mapping class="filrougeaaa.Customer" />
             <!-- <mapping class="filrougeaaa.Ingredient" /> -->
             <!-- <mapping class="filrougeaaa.InventoryIngredient" /> -->
             <!-- <mapping class="filrougeaaa.Manager" /> -->
-            <!-- <mapping class="filrougeaaa.Place" /> -->
+            <mapping class="filrougeaaa.Place" />
             <!-- <mapping class="filrougeaaa.Recipe" /> -->
-            <!-- <mapping class="filrougeaaa.RecipeCustomer" /> -->
+            <mapping class="filrougeaaa.RecipeCustomer" />
             <!-- <mapping class="filrougeaaa.RecipeIngredient" /> -->
             <!-- <mapping class="filrougeaaa.Reservation" /> -->
             <!-- <mapping class="filrougeaaa.SubCategory" /> -->
-            <!-- <mapping class="filrougeaaa.Table" /> -->
+            <mapping class="filrougeaaa.Table" />
             <!-- <mapping class="filrougeaaa.User" /> -->
 
             <!-- <mapping class="filrougeaaa.InventoryIngredientKey" /> -->
-            <!-- <mapping class="filrougeaaa.RecipeCustomerKey" /> -->
+            <mapping class="filrougeaaa.RecipeCustomerKey" />
             <!-- <mapping class="filrougeaaa.RecipeIngredientKey" /> -->
             <!-- <mapping class="filrougeaaa.ReservationKey" /> -->
       </session-factory>

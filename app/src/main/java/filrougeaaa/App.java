@@ -14,13 +14,14 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import filrougeaaa.utils.DBManager;
+import jakarta.persistence.TypedQuery;
 
 public class App {
     protected static BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
     public static Session session;  // HIBERNATE
     public static void main(String[] args) throws IOException {
 
-        DBManager.init();
+        //DBManager.init();
         
         // #HIBERNATE
         Configuration configuration = new Configuration().configure();  
@@ -28,7 +29,17 @@ public class App {
         session = sessionFactory.openSession();
         // #HIBERNATE
         
-        User player = new User(1);
+
+        TypedQuery<Customer> myQuery=session.createQuery("SELECT c FROM Customer AS c WHERE c.customerId= :id", Customer.class);
+        myQuery.setParameter("id",194);
+        List<Customer> listCustomer=myQuery.getResultList();
+        for(Customer customer:listCustomer){
+            System.out.println(customer.getTimeInTavern());
+        }
+        
+        
+        
+        /*User player = new User(1);
 
         Manager manager = new Manager(1);
         manager.setChest(200);
@@ -42,7 +53,7 @@ public class App {
         Customer client = new Customer(194);
         /*
         Table table2pers = new Table();
-        */
+        
         Place place = new Place();
         place.setManager(manager);
 
@@ -147,7 +158,7 @@ public class App {
         System.out.println(table2pers.tableOccupied());
         System.out.println(table2pers.numberOfSeatsAvailable());
         */
-        DBManager.close();
+        //DBManager.close();
 
         session.close(); // HIBERNATE
     }
