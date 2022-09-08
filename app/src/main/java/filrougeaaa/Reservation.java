@@ -1,110 +1,38 @@
 package filrougeaaa;
 
-import java.sql.*;
+import java.util.Date;
 
-import filrougeaaa.utils.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+@Entity
+@Table(name = "reservation")
+public class Reservation{
+    
+    @Id
+    @Column(name = "id_reservation")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer reservationId;
+    
+    @Column(name = "date")
+    @Temporal(TemporalType.DATE)
+    private Date date;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_customer")
+    private Customer customer;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_manager")
+    private Manager manager;
 
-public class Reservation extends Model {
-    protected Date date;
-    protected Customer customer;
-    protected Manager manager;
-
-    public Reservation(){
-        this.date=null;
-        this.customer=null;
-        this.manager=null;
-    }
-    public Reservation(int id) {
-        try {
-            ResultSet resultat = DBManager.execute("SELECT * FROM reservation WHERE id_reservation=" + id);
-            if (resultat.next()) {
-                this.date = resultat.getDate("date");
-                this.customer = new Customer(resultat.getInt("id_customer"));
-                this.manager = new Manager(resultat.getInt("id_manager"));
-                this.id = id;
-            }
-        } catch (SQLException ex) {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-        }
-
-    }
-
-    @Override
-    public boolean get() {
-        try {
-            ResultSet resultat = DBManager.execute("SELECT * FROM reservation WHERE id_reservation=" + this.id);
-            if (resultat.next()) {
-                this.date = resultat.getDate("date");
-                this.customer = new Customer(resultat.getInt("id_customer"));
-                this.manager = new Manager(resultat.getInt("id_manager"));
-                return true;
-            }
-        } catch (SQLException ex) {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-            return false;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean get(int id) {
-        try {
-            ResultSet resultat = DBManager.execute("SELECT * FROM reservation WHERE id_reservation=" + id);
-            if (resultat.next()) {
-                this.date = resultat.getDate("date");
-                this.customer = new Customer(resultat.getInt("id_customer"));
-                this.manager = new Manager(resultat.getInt("id_manager"));
-                this.id = id;
-                return true;
-            }
-        } catch (SQLException ex) {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-            return false;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean save() {
-        String sql;
-        if (this.id != 0) {
-            sql = "UPDATE reservation " +
-                    "SET date=?, id_customer=?, id_manager=? " +
-                    "WHERE id_reservation= ?";
-        } else {
-            sql = "INSERT INTO reservation(date, id_customer, id_manager) " +
-                    "VALUES(?,?,?)";
-        }
-        try {
-            PreparedStatement stmc = DBManager.conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            stmc.setDate(1, this.date);
-            stmc.setInt(2, this.customer.getId());
-            stmc.setInt(3, this.manager.getId());
-            if (this.id != 0)
-                stmc.setInt(4, this.id);
-
-            stmc.executeUpdate();
-            ResultSet keys = stmc.getGeneratedKeys();
-            if (this.id == 0 && keys.next()) {
-                this.id = keys.getInt(1);
-                return true;
-            } else if (this.id != 0)
-                return true;
-            else
-                return false;
-        } catch (SQLException ex) {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-            return false;
-        }
-    }
 
     // #region get/set
     public Date getDate() {
@@ -130,10 +58,7 @@ public class Reservation extends Model {
     public void setManager(Manager manager) {
         this.manager = manager;
     }
-    @Override
-    public int getId() {
-        return this.id;
-    }
+
     // #endregion
 
 }

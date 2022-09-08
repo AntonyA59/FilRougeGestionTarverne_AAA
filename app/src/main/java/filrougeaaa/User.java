@@ -14,13 +14,48 @@ public class User {
 	@Id
 	@Column(name = "id_user")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int userId;
+	private Integer userId;
 
+	@Column(name = "email")
 	private String email;
 
+	@Column(name = "nickname")
 	private String nickname;
 
+	@Column(name = "password")
 	private String password;
 
 	
-} 
+	//#region get / set
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+} 	//#endregion
