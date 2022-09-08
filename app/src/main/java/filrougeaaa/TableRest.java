@@ -5,10 +5,10 @@ import java.sql.*;
 import jakarta.persistence.*;
 
 @Entity
-@jakarta.persistence.Table(name="table")
-public class Table {
+@Table(name="table_rest")
+public class TableRest {
     @Id
-    @Column(name = "id_table")
+    @Column(name = "id_table_rest")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer tableId;
 
@@ -27,7 +27,7 @@ public class Table {
     @JoinColumn(name = "id_place")
     private Place place;
 
-    public Table() {
+    public TableRest() {
         this.numberPlace = 0;
         this.hygiene = 0f;
         this.posX = 0f;

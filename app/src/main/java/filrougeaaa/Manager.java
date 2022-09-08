@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "manager")
@@ -39,14 +40,11 @@ public class Manager {
     @JoinColumn(name = "id_user")
     private User user;
     
-
+    @Transient
     private Integer maxExp;
 
-
+    @Transient
     private Map<Integer, Integer> inventoryIngredient;
-
-
-    
     
     //#region get/set 
     public Integer getManagerID() {

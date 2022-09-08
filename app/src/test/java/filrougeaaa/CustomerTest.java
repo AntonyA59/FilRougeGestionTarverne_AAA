@@ -64,7 +64,7 @@ public class CustomerTest {
     }
     @Test
     public void updateCustomer(){
-        Table table = new Table();
+        TableRest table = new TableRest();
         table.place.manager.user.save();
         table.place.manager.save();
         table.place.save();

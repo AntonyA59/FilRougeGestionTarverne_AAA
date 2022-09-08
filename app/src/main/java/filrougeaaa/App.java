@@ -30,12 +30,16 @@ public class App {
         // #HIBERNATE
         
 
-        TypedQuery<Customer> myQuery=session.createQuery("SELECT c FROM Customer AS c WHERE c.customerId= :id", Customer.class);
-        myQuery.setParameter("id",194);
+        /*TypedQuery<Customer> myQuery=session.createQuery("SELECT c FROM Customer AS c WHERE c.customerId= :idd", Customer.class);
+        myQuery.setParameter("idd",194);
         List<Customer> listCustomer=myQuery.getResultList();
+        
+        
         for(Customer customer:listCustomer){
             System.out.println(customer.getTimeInTavern());
-        }
+        }*/
+        Customer customer= session.getReference(Customer.class, 194);
+        System.out.println(customer.getTimeInTavern());
         
         
         
