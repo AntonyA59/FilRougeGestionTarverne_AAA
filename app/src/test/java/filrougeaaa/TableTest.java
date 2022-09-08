@@ -36,14 +36,14 @@ public class TableTest {
     @Test
     //test database
     public void testGetTable(){
-        Table table= new Table();
+        TableRest table= new TableRest();
         table.setNumberPlace(2);
         assertEquals(table.getNumberPlace(), 2);
     }
 
     @Test
     public void testSaveTable() {
-        Table table = new Table();
+        TableRest table = new TableRest();
         table.getPlace().getManager().getUser().save();
         table.getPlace().getManager().save();
         table.getPlace().save();
@@ -56,7 +56,7 @@ public class TableTest {
 
     @Test
     public void testUpdateTable() {
-        Table table = new Table();
+        TableRest table = new TableRest();
         table.getPlace().getManager().getUser().save();
         table.getPlace().getManager().save();
         table.getPlace().save();
@@ -66,7 +66,7 @@ public class TableTest {
         table.setPosX(15);
         table.setPosY(30);
         table.save();
-        Table table2 = new Table(table.getId());
+        TableRest table2 = new TableRest(table.getId());
         table2.setHygiene(20);
         table2.save();
         table.get();
@@ -75,7 +75,7 @@ public class TableTest {
     @Test
     public void TableIsOccupiedWithoutCustomer(){
         Place place = new Place() ;
-        Table table = new Table() ;
+        TableRest table = new TableRest() ;
     
         table.setNumberPlace(5);
         table.setPlace(place);
@@ -85,7 +85,7 @@ public class TableTest {
     @Test
     public void TableIsReservedWithoutCustomer(){
         Place place = new Place() ;
-        Table table = new Table() ;
+        TableRest table = new TableRest() ;
         User user = new User() ;
         Manager manager = new Manager() ;
     
@@ -105,7 +105,7 @@ public class TableTest {
     @Test
     public void TableIsOccupiedWithOneCustomer(){
         Place place = new Place() ;
-        Table table = new Table() ;
+        TableRest table = new TableRest() ;
         Manager manager = new Manager() ;
         User user = new User() ;
         Customer customer = new Customer() ;
@@ -126,7 +126,7 @@ public class TableTest {
     @Test
     public void TableIsReservedWithCustomer(){
         Place place = new Place() ;
-        Table table = new Table() ;
+        TableRest table = new TableRest() ;
         Manager manager = new Manager() ;
         User user = new User() ;
         Customer customer = new Customer() ;
@@ -154,7 +154,7 @@ public class TableTest {
     @Test
     public void TestNumberOfSeatsAvailable(){
         Place place = new Place() ;
-        Table table = new Table() ;
+        TableRest table = new TableRest() ;
         Manager manager = new Manager() ;
         User user = new User() ;
         Customer customer = new Customer() ;

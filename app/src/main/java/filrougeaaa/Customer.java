@@ -2,8 +2,9 @@ package filrougeaaa;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
-
+import java.util.Set;
 
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
@@ -48,14 +49,14 @@ public class Customer{
     private Integer expGiven;
 
     @ManyToOne
-    @JoinColumn(name = "id_table",nullable = true)
-    private filrougeaaa.Table table;
+    @JoinColumn(name = "id_table_rest",nullable = true)
+    private TableRest tableRest;
 
     @OneToMany(mappedBy = "customer")
-    private ArrayList<RecipeCustomer> commandList=new ArrayList<RecipeCustomer>();
+    private Set<RecipeCustomer> commandList=new HashSet<RecipeCustomer>();
     
     @OneToMany(mappedBy = "reservationId")
-    protected ArrayList<Reservation> reservation=new ArrayList<Reservation>();
+    protected Set<Reservation> reservation=new HashSet<Reservation>();
 
     @Transient
     Random rand= new Random();
@@ -209,32 +210,32 @@ public class Customer{
     }
 
 
-    public filrougeaaa.Table getTable() {
-        return table;
+    public TableRest getTableRest() {
+        return tableRest;
     }
 
 
-    public void setTable(filrougeaaa.Table table) {
-        this.table = table;
+    public void setTableRest(TableRest tableRest) {
+        this.tableRest = tableRest;
     }
 
 
-    public ArrayList<RecipeCustomer> getCommandList() {
+    public Set<RecipeCustomer> getCommandList() {
         return commandList;
     }
 
 
-    public void setCommandList(ArrayList<RecipeCustomer> commandList) {
+    public void setCommandList(Set<RecipeCustomer> commandList) {
         this.commandList = commandList;
     }
 
 
-    public ArrayList<Reservation> getReservation() {
+    public Set<Reservation> getReservation() {
         return reservation;
     }
 
 
-    public void setReservation(ArrayList<Reservation> reservation) {
+    public void setReservation(Set<Reservation> reservation) {
         this.reservation = reservation;
     }
 

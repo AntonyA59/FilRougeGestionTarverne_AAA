@@ -14,7 +14,7 @@
             <property name="hibernate.connection.pool_size">10</property>
 
             <!-- dialect for MySQL -->
-            <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+            <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
 
             <property name="hibernate.show_sql">true</property>
             <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
@@ -33,13 +33,13 @@
 >>>>>>> adrien_dev
             <!-- <mapping class="filrougeaaa.InventoryIngredient" /> -->
             <!-- <mapping class="filrougeaaa.InventoryIngredientKey" /> -->
-            <!-- <mapping class="filrougeaaa.Manager" /> -->
+            <mapping class="filrougeaaa.Manager" />
             <mapping class="filrougeaaa.Place" />
             <!-- <mapping class="filrougeaaa.RecipeIngredient" /> -->
             <!-- <mapping class="filrougeaaa.RecipeIngredientKey" /> -->
-            <!-- <mapping class="filrougeaaa.Reservation" /> -->
-            <mapping class="filrougeaaa.Table" />
+            <mapping class="filrougeaaa.Reservation" />
+            <mapping class="filrougeaaa.TableRest" />
             <mapping class="filrougeaaa.Recipe" />
-            <!-- <mapping class="filrougeaaa.User" /> -->
+            <mapping class="filrougeaaa.User" />
       </session-factory>
 </hibernate-configuration>
