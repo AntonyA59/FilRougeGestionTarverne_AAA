@@ -1,5 +1,7 @@
 package filrougeaaa;
 
+
+import java.util.Map;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,6 +41,10 @@ public class Manager {
     
 
     private Integer maxExp;
+
+
+    private Map<Integer, Integer> inventoryIngredient;
+
 
     
     
