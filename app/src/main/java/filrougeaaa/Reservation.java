@@ -3,12 +3,11 @@ package filrougeaaa;
 import java.util.Date;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -16,25 +15,50 @@ import jakarta.persistence.TemporalType;
 @Table(name = "reservation")
 public class Reservation{
     
-    @Id
-    @Column(name = "id_reservation")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer reservationId;
-    
+    @EmbeddedId
+    private ReservationKey id = new ReservationKey();
+
+    @ManyToOne
+    @MapsId("managerId")
+    @JoinColumn(name = "id_manager")
+    private Manager managerId;
+
+    @ManyToOne
+    @MapsId("customerId")
+    @JoinColumn(name = "id_customer")
+    private Customer customerId;
+
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
     private Date date;
-    
-    @ManyToOne
-    @JoinColumn(name = "id_customer")
-    private Customer customer;
-    
-    @ManyToOne
-    @JoinColumn(name = "id_manager")
-    private Manager manager;
 
+    
+    
+    //#region get/set
+    public ReservationKey getId() {
+        return id;
+    }
 
-    // #region get/set
+    public void setId(ReservationKey id) {
+        this.id = id;
+    }
+
+    public Manager getManagerId() {
+        return managerId;
+    }
+
+    public void setManagerId(Manager managerId) {
+        this.managerId = managerId;
+    }
+
+    public Customer getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Customer customerId) {
+        this.customerId = customerId;
+    }
+
     public Date getDate() {
         return date;
     }
@@ -42,23 +66,6 @@ public class Reservation{
     public void setDate(Date date) {
         this.date = date;
     }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public Manager getManager() {
-        return manager;
-    }
-
-    public void setManager(Manager manager) {
-        this.manager = manager;
-    }
-
-    // #endregion
+    //#endregion
 
 }

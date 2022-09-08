@@ -19,33 +19,11 @@ public class App {
     public static Session session;  // HIBERNATE
     public static void main(String[] args) throws IOException {
 
-  
-        
-        // #HIBERNATE
-        Configuration configuration = new Configuration().configure();  
-        SessionFactory sessionFactory = configuration.buildSessionFactory();
-        session = sessionFactory.openSession();
-        // #HIBERNATE
-        
-<<<<<<< HEAD
-        // User player = new User(1);
-=======
 
-        /*TypedQuery<Customer> myQuery=session.createQuery("SELECT c FROM Customer AS c WHERE c.customerId= :idd", Customer.class);
-        myQuery.setParameter("idd",194);
-        List<Customer> listCustomer=myQuery.getResultList();
+
+
         
-        
-        for(Customer customer:listCustomer){
-            System.out.println(customer.getTimeInTavern());
-        }*/
-        Customer customer= session.getReference(Customer.class, 194);
-        System.out.println(customer.getTimeInTavern());
-        
-        
-        
-        /*User player = new User(1);
->>>>>>> origin/master
+        // User player = new User(1);
 
         // Manager manager = new Manager(1);
         // manager.setChest(200);
