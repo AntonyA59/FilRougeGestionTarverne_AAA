@@ -51,6 +51,7 @@ public class Recipe{
     private SubCategory subCategory;
 
 	public Recipe() {
+		this.idRecipe = null ;
 		this.name = "" ;
 		this.level = 0 ;
 		this.sellingPrice = 0 ;
