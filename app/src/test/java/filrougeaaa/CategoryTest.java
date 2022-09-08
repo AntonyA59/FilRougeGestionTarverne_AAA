@@ -46,7 +46,7 @@ public class CategoryTest {
         category.setName("Boissons");
         session.persist(category);
 
-        Integer idCat = category.getIdCategory() ;;
+        Integer idCat = category.getIdCategory() ;
         Category category2 = session.getReference(Category.class, idCat);
         
         assertEquals(category2.getName() , "Boissons");
