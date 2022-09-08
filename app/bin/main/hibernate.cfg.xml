@@ -23,7 +23,7 @@
             <mapping class="filrougeaaa.SubCategory" />
             <mapping class="filrougeaaa.Category" />
             <!-- <mapping class="filrougeaaa.Customer" /> -->
-            <!-- <mapping class="filrougeaaa.Ingredient" /> -->
+            <mapping class="filrougeaaa.Ingredient" />
             <!-- <mapping class="filrougeaaa.InventoryIngredient" /> -->
             <!-- <mapping class="filrougeaaa.Manager" /> -->
             <!-- <mapping class="filrougeaaa.Place" /> -->
