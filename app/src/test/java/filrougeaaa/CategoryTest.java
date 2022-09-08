@@ -29,7 +29,7 @@ public class CategoryTest {
         session.beginTransaction();
         System.out.println("Session created");
     }
-     
+
     @AfterEach
     public void closeSession() {
         if (session != null){

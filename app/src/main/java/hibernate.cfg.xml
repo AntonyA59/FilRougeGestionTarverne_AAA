@@ -25,15 +25,15 @@
             <!-- <mapping class="filrougeaaa.Customer" /> -->
             <!-- <mapping class="filrougeaaa.Ingredient" /> -->
             <!-- <mapping class="filrougeaaa.InventoryIngredient" /> -->
-            <!-- <mapping class="filrougeaaa.Manager" /> -->
+            <mapping class="filrougeaaa.Manager" />
             <!-- <mapping class="filrougeaaa.Place" /> -->
             <!-- <mapping class="filrougeaaa.Recipe" /> -->
             <!-- <mapping class="filrougeaaa.RecipeCustomer" /> -->
             <!-- <mapping class="filrougeaaa.RecipeIngredient" /> -->
-            <!-- <mapping class="filrougeaaa.Reservation" /> -->
+            <mapping class="filrougeaaa.Reservation" />
             
             <!-- <mapping class="filrougeaaa.Table" /> -->
-            <!-- <mapping class="filrougeaaa.User" /> -->
+            <mapping class="filrougeaaa.User" />
 
             <!-- <mapping class="filrougeaaa.InventoryIngredientKey" /> -->
             <!-- <mapping class="filrougeaaa.RecipeCustomerKey" /> -->
