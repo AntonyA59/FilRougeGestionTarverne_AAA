@@ -5,7 +5,6 @@ import java.io.Serializable;
 import jakarta.persistence.*;
 
 
-
 @Embeddable
 public class RecipeCustomerKey implements Serializable{
     @Column(name = "id_customer")
