@@ -19,7 +19,13 @@ public class App {
     public static Session session;  // HIBERNATE
     public static void main(String[] args) throws IOException {
 
-        System.out.println("coucou");
+  
+        
+        // #HIBERNATE
+        Configuration configuration = new Configuration().configure();  
+        SessionFactory sessionFactory = configuration.buildSessionFactory();
+        session = sessionFactory.openSession();
+        // #HIBERNATE
         
         // User player = new User(1);
 
@@ -142,7 +148,7 @@ public class App {
         */
 
 
-        // session.close(); // HIBERNATE
+        session.close(); // HIBERNATE
     }
 
     public static void getUserInDB() {

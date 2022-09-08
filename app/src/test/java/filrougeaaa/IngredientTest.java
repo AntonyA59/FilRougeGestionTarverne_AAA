@@ -1,54 +1,60 @@
 package filrougeaaa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.sql.Savepoint;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.junit.jupiter.api.*;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import filrougeaaa.utils.DBManager;
+import filrougeaaa.utils.HibernateUtil;
 
 public class IngredientTest {
-    Savepoint save = null ;
+    private static SessionFactory sessionFactory;
+    private Session session;
 
     @BeforeAll
-    static void testInitDBManager(){
-        DBManager.init();
-        DBManager.setAutoCommit(false);
+    public static void setup() {
+        sessionFactory = HibernateUtil.getSessionFactory();
+        System.out.println("SessionFactory created");
     }
     @AfterAll
-    public static void tearDown(){
-        DBManager.close();
+    public static void tearDown() {
+        if (sessionFactory != null) sessionFactory.close();
+        System.out.println("SessionFactory destroyed");
     }
 
     @BeforeEach
-    void testSave(){
-        save = DBManager.setSavePoint();
+    public void openSession() {
+        session = sessionFactory.openSession();
+        session.beginTransaction();
+        System.out.println("Session created");
     }
+     
     @AfterEach
-    void testRollback(){
-        DBManager.rollback(save);
-    }
+    public void closeSession() {
+        if (session != null){
+            session.getTransaction().rollback();
+            session.close();
+        }
+        System.out.println("Session closed\n");
+    } 
+
     @Test
     void testConstucteurIngredient(){
         Ingredient ingredient = new Ingredient() ;
-
         Category category = new Category() ;
-        category.save() ;
-
         SubCategory subCategory = new SubCategory() ;
+
+        category.setName("Boissons");
+        session.persist(category);
+
         subCategory.setCategory(category);
-        subCategory.save();
+        session.persist(subCategory);
 
         ingredient.setSubCategory(subCategory);
         ingredient.setName("haricot");
-        ingredient.save();
+        session.persist(ingredient);
+
         assertEquals(ingredient.getName() , "haricot");
     }
     @Test
@@ -56,58 +62,66 @@ public class IngredientTest {
         Ingredient ingredient = new Ingredient() ;
         Category category = new Category() ;
         SubCategory subCategory = new SubCategory() ;
-        category.setName("Autres");
-        category.save() ;
+
+        category.setName("Boissons");
+        session.persist(category);
 
         subCategory.setCategory(category);
-        subCategory.save();
+        session.persist(subCategory);
 
         ingredient.setSubCategory(subCategory);
-        assertEquals(ingredient.getSubCategory().getCategory().getName(), "Autres");
+        assertEquals(ingredient.getSubCategory().getCategory().getName(), "Boissons");
     }
-    @Test
-    void testIngredientIdFalse(){
-        Ingredient ingredient = new Ingredient(0) ;
-        assertNull(ingredient.getName());
-    }
-    @Test
-    void testGetIngredient(){
-        Ingredient ingredient = new Ingredient() ;
-        ingredient.get(2) ;
-        assertEquals(ingredient.getName() , "Gruit");
-    } 
     
     @Test
     public void testSaveIngredient(){
         SubCategory subCategory = new SubCategory();
-        subCategory.category.setName("Laitier");
-        subCategory.category.save();
+        subCategory.getCategory().setName("Laitier");
+        session.persist(subCategory.getCategory());
         subCategory.setName("Fromage");
-        subCategory.save();
+        session.persist(subCategory);
         Ingredient ingredient= new Ingredient();
         ingredient.setName("Camenbert");
         ingredient.setLevel(2);
         ingredient.setBuyingPrice(3);
         ingredient.setSubCategory(subCategory);
-        assertTrue(ingredient.save());
+        session.persist(ingredient);
+
+        boolean assertIngr = false ;
+        if(ingredient.getIdIngredient()>0){
+            assertIngr = true ;
+        }
+
+        assertEquals(assertIngr,true);
     }
     @Test
     public void testUpdateIngredient(){
         SubCategory subCategory = new SubCategory();
-        subCategory.category.setName("Laitier");
-        subCategory.category.save();
+        subCategory.getCategory().setName("Laitier");
+        session.persist(subCategory.getCategory());
         subCategory.setName("Fromage");
-        subCategory.save();
+        session.persist(subCategory);
+
         Ingredient ingredient= new Ingredient();
         ingredient.setName("Camenbert");
         ingredient.setLevel(2);
         ingredient.setBuyingPrice(3);
-        ingredient.setSubCategory(new SubCategory(7));
-        ingredient.save();
-        Ingredient ingredient2 = new Ingredient(ingredient.getId());
+
+        SubCategory subCategory2 = new SubCategory();
+        subCategory2.getCategory().setName("Laitier");
+        session.persist(subCategory2.getCategory());
+        subCategory2.setName("Fromage");
+        session.persist(subCategory2);
+
+        ingredient.setSubCategory(subCategory2);
+        session.persist(ingredient);
+
+        Integer idIng = ingredient.getIdIngredient() ;
+        Ingredient ingredient2 = session.getReference(Ingredient.class, idIng);
+
         ingredient2.setName("Chévre chaud");
-        ingredient2.save();
-        ingredient.get();
+        session.persist(ingredient2);
+
         assertEquals(ingredient.getName(), ingredient2.getName());
     }
 }
