@@ -40,7 +40,7 @@ public class IngredientTest {
     } 
 
     @Test
-    void testConstucteurIngredient(){
+    void testInsertIngredient(){
         Ingredient ingredient = new Ingredient() ;
         Category category = new Category() ;
         SubCategory subCategory = new SubCategory() ;

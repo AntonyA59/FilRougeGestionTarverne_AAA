@@ -22,23 +22,22 @@
 
             <mapping class="filrougeaaa.SubCategory" />
             <mapping class="filrougeaaa.Category" />
-<<<<<<< HEAD
             <mapping class="filrougeaaa.Customer" />
             <mapping class="filrougeaaa.RecipeCustomer" />
-            <mapping class="filrougeaaa.RecipeCustomerKey" />
-            <!-- <mapping class="filrougeaaa.Ingredient" /> -->
-=======
-            <!-- <mapping class="filrougeaaa.Customer" /> -->
+            <!-- <mapping class="filrougeaaa.RecipeCustomerKey" /> -->
             <mapping class="filrougeaaa.Ingredient" />
->>>>>>> adrien_dev
-            <!-- <mapping class="filrougeaaa.InventoryIngredient" /> -->
+            <mapping class="filrougeaaa.InventoryIngredient" />
             <!-- <mapping class="filrougeaaa.InventoryIngredientKey" /> -->
             <mapping class="filrougeaaa.Manager" />
             <mapping class="filrougeaaa.Place" />
-            <!-- <mapping class="filrougeaaa.RecipeIngredient" /> -->
+            <mapping class="filrougeaaa.RecipeIngredient" />
             <!-- <mapping class="filrougeaaa.RecipeIngredientKey" /> -->
             <mapping class="filrougeaaa.Reservation" />
+<<<<<<< HEAD
             <mapping class="filrougeaaa.TableRest" />
+=======
+            <mapping class="filrougeaaa.Table" />
+>>>>>>> adrien_dev
             <mapping class="filrougeaaa.Recipe" />
             <mapping class="filrougeaaa.User" />
       </session-factory>
