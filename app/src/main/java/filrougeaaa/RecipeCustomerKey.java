@@ -3,10 +3,6 @@ package filrougeaaa;
 import java.io.Serializable;
 
 import jakarta.persistence.*;
-<<<<<<< HEAD
-
-=======
->>>>>>> adrien_dev
 
 @Embeddable
 public class RecipeCustomerKey implements Serializable{
