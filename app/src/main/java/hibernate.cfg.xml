@@ -23,11 +23,18 @@
             <mapping class="filrougeaaa.User" />
             <mapping class="filrougeaaa.Manager" />
             <mapping class="filrougeaaa.Place" />
+<<<<<<< HEAD
             <mapping class="filrougeaaa.Reservation" />
             <mapping class="filrougeaaa.TableRest" />
             <mapping class="filrougeaaa.Customer" />
             <mapping class="filrougeaaa.RecipeCustomer" />
             <mapping class="filrougeaaa.RecipeCustomerKey" />
+=======
+            <mapping class="filrougeaaa.RecipeIngredient" />
+            <mapping class="filrougeaaa.RecipeIngredientKey" />
+            <mapping class="filrougeaaa.Reservation" />
+            <mapping class="filrougeaaa.TableRest" />
+>>>>>>> adrien_dev
             <mapping class="filrougeaaa.Recipe" />
             <mapping class="filrougeaaa.Category" />
             <mapping class="filrougeaaa.SubCategory" />

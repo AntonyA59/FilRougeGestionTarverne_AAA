@@ -3,7 +3,10 @@ package filrougeaaa;
 import java.io.Serializable;
 
 import jakarta.persistence.*;
+<<<<<<< HEAD
 
+=======
+>>>>>>> adrien_dev
 
 @Embeddable
 public class RecipeCustomerKey implements Serializable{
@@ -30,6 +33,4 @@ public class RecipeCustomerKey implements Serializable{
         this.recipeId = recipeId;
     }
     //#endregion
-
-    
 }
