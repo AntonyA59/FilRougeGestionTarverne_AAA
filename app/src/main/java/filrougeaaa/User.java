@@ -11,6 +11,13 @@ import jakarta.persistence.Table;
 @Table(name = "user")
 public class User {
 
+	public User(){}
+	public User(String email, String nickname, String password){
+		this.email = email;
+		this.nickname = nickname;
+		this.password = password;
+	}
+
 	@Id
 	@Column(name = "id_user")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

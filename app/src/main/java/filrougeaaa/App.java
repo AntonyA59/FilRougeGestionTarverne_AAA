@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 
 
 import org.hibernate.Session;
-
+import org.hibernate.Transaction;
 
 import filrougeaaa.utils.HibernateUtil;
 
@@ -18,7 +18,6 @@ public class App {
     protected static BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
     public static Session session;  // HIBERNATE
     public static void main(String[] args) throws IOException {
-
 
 
 
@@ -144,21 +143,8 @@ public class App {
         */
 
 
-        session.close(); // HIBERNATE
+
     }
 
-    public static void getUserInDB() {
 
-        session = HibernateUtil.openSession();
-        
-        User user = session.getReference(User.class, 1);
-        
-        System.out.println(
-            "Email : " + user.getEmail() + "\n"+
-            "Nickname : " + user.getNickname() + "\n"+
-            "Password : " + user.getPassword() + "\n"
-            
-        );
-        session.close();
-    }
 }
