@@ -31,13 +31,9 @@
             <mapping class="filrougeaaa.Manager" />
             <mapping class="filrougeaaa.Place" />
             <mapping class="filrougeaaa.RecipeIngredient" />
-            <!-- <mapping class="filrougeaaa.RecipeIngredientKey" /> -->
+            <mapping class="filrougeaaa.RecipeIngredientKey" />
             <mapping class="filrougeaaa.Reservation" />
-<<<<<<< HEAD
             <mapping class="filrougeaaa.TableRest" />
-=======
-            <mapping class="filrougeaaa.Table" />
->>>>>>> adrien_dev
             <mapping class="filrougeaaa.Recipe" />
             <mapping class="filrougeaaa.User" />
       </session-factory>
