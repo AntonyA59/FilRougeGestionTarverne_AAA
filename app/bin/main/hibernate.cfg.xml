@@ -23,7 +23,6 @@
             <mapping class="filrougeaaa.User" />
             <mapping class="filrougeaaa.Manager" />
             <mapping class="filrougeaaa.Place" />
-            <mapping class="filrougeaaa.Reservation" />
             <mapping class="filrougeaaa.TableRest" />
             <mapping class="filrougeaaa.Customer" />
             <mapping class="filrougeaaa.RecipeCustomer" />

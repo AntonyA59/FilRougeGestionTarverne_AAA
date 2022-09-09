@@ -1,95 +1,76 @@
 package filrougeaaa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.sql.Savepoint;
-import java.sql.Time;
+import java.util.HashSet;
+import java.util.Set;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import filrougeaaa.utils.DBManager;
+import filrougeaaa.utils.HibernateUtil;
+
 
 public class CustomerTest {
-    Savepoint save = null ;
+
+    private static SessionFactory sessionFactory;
+    private Session session;
 
     @BeforeAll
-    static void testInitDBManager(){
-        DBManager.init();
-        DBManager.setAutoCommit(false);
+    public static void setup() {
+        sessionFactory = HibernateUtil.getSessionFactory();
+        System.out.println("SessionFactory created");
     }
     @AfterAll
-    public static void tearDown(){
-        DBManager.close();
+    public static void tearDown() {
+        if (sessionFactory != null) sessionFactory.close();
+        System.out.println("SessionFactory destroyed");
     }
 
     @BeforeEach
-    public void testSave(){
-        save = DBManager.setSavePoint();
+    public void openSession() {
+        session = sessionFactory.openSession();
+        session.beginTransaction();
+        System.out.println("Session created");
     }
+
     @AfterEach
-    public void testRollback(){
-        DBManager.rollback(save);
-    }
+    public void closeSession() {
+        if (session != null){
+            session.getTransaction().rollback();
+            session.close();
+        }
+        System.out.println("Session closed\n");
+    } 
 
+    /**
+     * 
+     */
     @Test
-    public void testGetCustomer(){
-        Customer customer = new Customer();
-        customer.setAlcoholTolerance(30);
-        customer.save();
+    public void insertManager(){
+        Customer customer = new Customer(100, 
+        100f, 
+        100f, 
+        100f,
+        100f, 
+        100f, 
+        100f, 
+        100f, 
+        100f, 
+        true, 
+        100);
 
-        assertEquals(customer.getAlcoholTolerance(), 30);
-    }
+        session.persist(customer);
+        boolean assertCustomer = false ;
+        if(customer.getCustomerId() > 0){
+            assertCustomer = true ;
+        }
+        assertEquals(assertCustomer,true);
 
-    @Test
-    public void saveCustomerAtDb(){
-        Customer customer = new Customer();
-        customer.setPurseOfGold(100);
-        customer.setHappiness(10);
-        customer.setHunger(40);
-        customer.setThirst(30);
-        customer.setNausea(10);
-        customer.setToilet(10);
-        customer.setNauseaTolerance(40);
-        customer.setAlcoholTolerance(50);
-        customer.setTimeInTavern(new Time(20));
-        customer.setGender(1);
-        customer.setExpGiven(10);
-        customer.setAlcohol(10);
-        assertTrue(customer.save());
-    }
-    @Test
-    public void updateCustomer(){
-        TableRest table = new TableRest();
-        table.place.manager.user.save();
-        table.place.manager.save();
-        table.place.save();
-        table.save();
-        Customer customer = new Customer();
-        customer.setPurseOfGold(100);
-        customer.setHappiness(10);
-        customer.setHunger(40);
-        customer.setThirst(30);
-        customer.setNausea(10);
-        customer.setToilet(10);
-        customer.setNauseaTolerance(40);
-        customer.setAlcoholTolerance(50);
-        customer.setTimeInTavern(new Time(20));
-        customer.setGender(1);
-        customer.setExpGiven(10);
-        customer.setAlcohol(10);
-        customer.setTable(table);
-        customer.save();
-        Customer customer2 = new Customer(customer.getId());
-        customer2.setAlcohol(20);
-        customer2.save();
-        customer.get();
-        assertEquals(customer2.getAlcohol(), customer.getAlcohol());
-    }
-    
-
+}
 }
