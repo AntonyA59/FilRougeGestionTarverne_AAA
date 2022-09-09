@@ -59,6 +59,7 @@ public class RecipeIngredientTest {
         recipeIngredient.setIngredient(ingredient);
         recipeIngredient.setRecipe(recipe);
         recipeIngredient.setQuantity(1);
+        session.persist(recipeIngredient);
 
         assertEquals(recipeIngredient.getQuantity(), 1);
     }

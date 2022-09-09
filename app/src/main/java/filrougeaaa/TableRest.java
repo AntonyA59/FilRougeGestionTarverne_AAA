@@ -1,7 +1,5 @@
 package filrougeaaa;
 
-import java.sql.*;
-
 import jakarta.persistence.*;
 
 @Entity
