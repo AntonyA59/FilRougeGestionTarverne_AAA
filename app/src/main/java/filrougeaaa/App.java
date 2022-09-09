@@ -7,43 +7,23 @@ package filrougeaaa;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
+
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
-import jakarta.persistence.TypedQuery;
+
+import filrougeaaa.utils.HibernateUtil;
 
 public class App {
     protected static BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
     public static Session session;  // HIBERNATE
     public static void main(String[] args) throws IOException {
 
-        
-        // #HIBERNATE
-        
-        Configuration configuration = new Configuration().configure();  
-        SessionFactory sessionFactory = configuration.buildSessionFactory();
-        session = sessionFactory.openSession();
-        
-        // #HIBERNATE
-        
 
-        /*TypedQuery<Customer> myQuery=session.createQuery("SELECT c FROM Customer AS c WHERE c.customerId= :idd", Customer.class);
-        myQuery.setParameter("idd",194);
-        List<Customer> listCustomer=myQuery.getResultList();
+
+
         
-        
-        for(Customer customer:listCustomer){
-            System.out.println(customer.getTimeInTavern());
-        }*/
-        Customer customer= session.getReference(Customer.class, 194);
-        System.out.println(customer.getTimeInTavern());
-        
-        
-        
-        /*User player = new User(1);
+        // User player = new User(1);
 
         // Manager manager = new Manager(1);
         // manager.setChest(200);
@@ -164,7 +144,21 @@ public class App {
         */
 
 
-       // session.close(); // HIBERNATE
+        session.close(); // HIBERNATE
     }
 
+    public static void getUserInDB() {
+
+        session = HibernateUtil.openSession();
+        
+        User user = session.getReference(User.class, 1);
+        
+        System.out.println(
+            "Email : " + user.getEmail() + "\n"+
+            "Nickname : " + user.getNickname() + "\n"+
+            "Password : " + user.getPassword() + "\n"
+            
+        );
+        session.close();
+    }
 }
