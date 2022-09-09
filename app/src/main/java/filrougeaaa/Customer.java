@@ -53,9 +53,6 @@ public class Customer{
 
     @OneToMany(mappedBy = "customer")
     private Set<RecipeCustomer> commandList=new HashSet<RecipeCustomer>();
-    
-    @OneToMany(mappedBy = "reservationId")
-    protected Set<Reservation> reservation=new HashSet<Reservation>();
 
     @Transient
     Random rand= new Random();
@@ -226,16 +223,6 @@ public class Customer{
 
     public void setCommandList(Set<RecipeCustomer> commandList) {
         this.commandList = commandList;
-    }
-
-
-    public Set<Reservation> getReservation() {
-        return reservation;
-    }
-
-
-    public void setReservation(Set<Reservation> reservation) {
-        this.reservation = reservation;
     }
 
 
