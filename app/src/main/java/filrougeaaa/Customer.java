@@ -1,7 +1,6 @@
 package filrougeaaa;
 
 import java.sql.Time;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -77,6 +76,7 @@ public class Customer{
         this.gender = rand.nextInt(0,1);
         this.expGiven = rand.nextInt(5,10);
     }
+    
     
     
     // #region Get/Set
