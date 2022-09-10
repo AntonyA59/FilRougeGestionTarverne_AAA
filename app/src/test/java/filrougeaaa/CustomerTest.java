@@ -1,6 +1,7 @@
 package filrougeaaa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Time;
@@ -47,19 +48,9 @@ public class CustomerTest {
         System.out.println("Session closed\n");
     } 
 
-    /**
-     * 
-     */
-    @Test
-    public void testGetCustomer(){
-        Customer customer = new Customer();
-        customer.setAlcoholTolerance(30f);
-
-        assertEquals(customer.getAlcoholTolerance(), 30f);
-    }
-
-    @Test
-    public void saveCustomerAtDb(){
+    // TEST CRUD
+    @Test 
+    public void testCreateCustomerBDD(){
         Customer customer = new Customer();
         customer.setPurseOfGold(100);
         customer.setHappiness(10f);
@@ -77,8 +68,31 @@ public class CustomerTest {
         Integer custId=customer.getCustomerId();
         assertTrue(custId>0);
     }
+    
+    @Test void testReadCustomerBDD(){
+        Customer customer = new Customer();
+        customer.setPurseOfGold(100);
+        customer.setHappiness(10f);
+        customer.setHunger(40f);
+        customer.setThirst(30f);
+        customer.setNauseaLevel(10f);
+        customer.setToilet(10f);
+        customer.setNauseaTolerance(40f);
+        customer.setAlcoholTolerance(50f);
+        customer.setTimeInTavern(new Time(20));
+        customer.setGender(true);
+        customer.setExpGiven(10);
+        customer.setAlcoholLevel(10f);
+        session.persist(customer);
+        Integer custId=customer.getCustomerId();
+        assertTrue(custId>0);
+
+        Customer customer2= session.find(Customer.class, custId);
+        assertEquals(customer2.getNauseaLevel(), 10f);
+    }
+
     @Test
-    public void updateCustomer(){
+    public void testUpdateCustomerBDD(){
         TableRest table = new TableRest();
         Customer customer = new Customer();
         customer.setPurseOfGold(100);
@@ -104,6 +118,30 @@ public class CustomerTest {
         Customer customer3= session.getReference(Customer.class, custId);
         assertEquals(customer3.getAlcoholLevel(), 20f);
     }
-    
+    @Test 
+    public void testDeleteCustomerBDD(){
+        TableRest table = new TableRest();
+        Customer customer = new Customer();
+        customer.setPurseOfGold(100);
+        customer.setHappiness(10f);
+        customer.setHunger(40f);
+        customer.setThirst(30f);
+        customer.setNauseaLevel(10f);
+        customer.setToilet(10f);
+        customer.setNauseaTolerance(40f);
+        customer.setAlcoholTolerance(50f);
+        customer.setTimeInTavern(new Time(20));
+        customer.setGender(false);
+        customer.setExpGiven(10);
+        customer.setAlcoholLevel(10f);
+        customer.setTableRest(table);
+        session.persist(customer);
+        Integer custId=customer.getCustomerId();
+
+        Customer customer2= session.find(Customer.class, custId);
+        session.remove(customer2);
+        Customer customer3=session.find(Customer.class, custId);
+        assertNull(customer3);
+    }
 
 }

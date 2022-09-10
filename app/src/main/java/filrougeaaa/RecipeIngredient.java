@@ -59,5 +59,17 @@ public class RecipeIngredient {
         this.ingredient = ingredient;
     }
 
+    public RecipeIngredientKey getId() {
+        return id;
+    }
+
+    public void setId(RecipeIngredientKey id) {
+        this.id = id;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
     //#endregion
 }

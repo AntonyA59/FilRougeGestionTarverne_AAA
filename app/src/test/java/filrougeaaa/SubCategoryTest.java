@@ -1,6 +1,8 @@
 package filrougeaaa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -39,8 +41,41 @@ public class SubCategoryTest {
         System.out.println("Session closed\n");
     } 
 
+    //test CRUD
     @Test
-    void testInsertSubCategory(){
+    public void testCreateSubCategory(){
+        SubCategory subCategory = new SubCategory() ;
+        Category category = new Category() ;
+
+        subCategory.setName("Bières");
+        category.setName("Boissons");
+
+        session.persist(category);
+        subCategory.setCategory(category);
+        session.persist(subCategory);
+
+        assertTrue(subCategory.getIdSubCategory()>0);
+    }
+    @Test 
+    public void testReadSubCategory(){
+        SubCategory subCategory = new SubCategory() ;
+        Category category = new Category() ;
+
+        subCategory.setName("Bières");
+        category.setName("Boissons");
+
+        session.persist(category);
+        subCategory.setCategory(category);
+        session.persist(subCategory);
+
+        Integer idSubCat = subCategory.getIdSubCategory() ;
+        SubCategory subCategory2 = session.getReference(SubCategory.class, idSubCat);
+
+        assertEquals(subCategory2.getName(),subCategory.getName());
+    }
+
+    @Test
+    public void testUpdateSubCategory(){
         SubCategory subCategory = new SubCategory() ;
         Category category = new Category() ;
 
@@ -53,7 +88,28 @@ public class SubCategoryTest {
 
         Integer idSubCat = subCategory.getIdSubCategory() ;
         SubCategory category2 = session.getReference(SubCategory.class, idSubCat);
+        category2.setName("Vin");
+        session.persist(category2);
+        SubCategory category3=session.find(SubCategory.class,idSubCat);
+        assertEquals(category3.getName(), category2.getName());
+    }
 
-        assertEquals(category2.getName(), "Bières");
+    @Test 
+    public void testDeleteSubCategory(){
+        SubCategory subCategory = new SubCategory() ;
+        Category category = new Category() ;
+
+        subCategory.setName("Bières");
+        category.setName("Boissons");
+
+        session.persist(category);
+        subCategory.setCategory(category);
+        session.persist(subCategory);
+
+        Integer idSubCat = subCategory.getIdSubCategory() ;
+        SubCategory subCategory2 = session.getReference(SubCategory.class, idSubCat);
+        session.remove(subCategory2);
+        SubCategory subCategory3=session.find(SubCategory.class,idSubCat);
+        assertNull(subCategory3);
     }
 }
