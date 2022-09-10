@@ -10,6 +10,37 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "customer")
 public class Customer{
+    public Customer(){
+
+    }
+    public Customer(
+        Integer purseOfGold, 
+        Float happiness, 
+        Float hunger, 
+        Float thirst, 
+        Float nausealevel, 
+        Float alcoholLevel, 
+        Float toilet, 
+        Float nauseaTolerance,
+        Float alcoholTolerance,
+        Boolean gender,
+        Integer expGiven
+
+        )
+        {
+        this.purseOfGold = purseOfGold;
+        this.happiness = happiness;
+        this.hunger = hunger;
+        this.thirst = thirst;
+        this.nauseaLevel = nausealevel;
+        this.alcoholLevel = alcoholLevel;
+        this.toilet = toilet;
+        this.nauseaTolerance = nauseaTolerance;
+        this.alcoholTolerance = alcoholTolerance;
+        this.gender = gender;
+        this.expGiven = expGiven;
+        this.commandList = new HashSet<RecipeCustomer>();
+    }
     @Id
     @Column(name = "id_customer")
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
@@ -42,7 +73,7 @@ public class Customer{
     @Column(name = "alcohol_tolerance")
     private Float alcoholTolerance;
     
-    private Integer gender;
+    private Boolean gender;
 
     @Column(name = "exp_given")
     private Integer expGiven;
@@ -53,29 +84,10 @@ public class Customer{
 
     @OneToMany(mappedBy = "customer")
     private Set<RecipeCustomer> commandList=new HashSet<RecipeCustomer>();
-    
-    @OneToMany(mappedBy = "reservationId")
-    protected Set<Reservation> reservation=new HashSet<Reservation>();
 
     @Transient
     Random rand= new Random();
 
-
-    public Customer() {
-        //min and max value to modify according to the game later
-        this.purseOfGold = rand.nextInt(10,20);
-        this.happiness = rand.nextFloat(0,1);
-        this.hunger = rand.nextFloat(0,1);
-        this.thirst = rand.nextFloat(0,1);
-        this.nauseaLevel = rand.nextFloat(0,1);
-        this.alcoholLevel = rand.nextFloat(0,1);
-        this.toilet = rand.nextFloat(0,1);
-        this.timeInTavern = new Time(rand.nextLong(10,20));
-        this.nauseaTolerance = rand.nextFloat(0,1);
-        this.alcoholTolerance = rand.nextFloat(0,1);
-        this.gender = rand.nextInt(0,1);
-        this.expGiven = rand.nextInt(5,10);
-    }
     
     
     
@@ -190,12 +202,12 @@ public class Customer{
     }
 
 
-    public Integer getGender() {
+    public Boolean getGender() {
         return gender;
     }
 
 
-    public void setGender(Integer gender) {
+    public void setGender(Boolean gender) {
         this.gender = gender;
     }
 
@@ -227,16 +239,6 @@ public class Customer{
 
     public void setCommandList(Set<RecipeCustomer> commandList) {
         this.commandList = commandList;
-    }
-
-
-    public Set<Reservation> getReservation() {
-        return reservation;
-    }
-
-
-    public void setReservation(Set<Reservation> reservation) {
-        this.reservation = reservation;
     }
 
 

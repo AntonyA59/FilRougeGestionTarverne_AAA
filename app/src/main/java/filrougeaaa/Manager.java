@@ -15,7 +15,25 @@ import jakarta.persistence.Transient;
 @Entity
 @Table(name = "manager")
 public class Manager {
-    
+    public Manager(){
+
+    }
+    public Manager(
+    String name, 
+    Integer reputation, 
+    Integer chest, 
+    Integer level, 
+    Integer experience, 
+    User user)
+    {
+        this.name =name;
+        this.reputation = reputation;
+        this.chest = chest;
+        this.level = level;
+        this.experience = experience;
+        this.user = user;
+    }
+
     @Id
     @Column(name = "id_manager")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
