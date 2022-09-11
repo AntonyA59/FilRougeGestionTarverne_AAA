@@ -23,6 +23,7 @@ public class App {
         SessionFactory sessionFactory=configuration.buildSessionFactory();
         session=sessionFactory.openSession();
 
+        
         session.close();
         // User player = new User(1);
 

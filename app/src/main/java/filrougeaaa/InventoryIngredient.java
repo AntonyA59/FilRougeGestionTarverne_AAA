@@ -29,7 +29,7 @@ public class InventoryIngredient {
     }
     
     
-    //#region
+    //#region get/set
     public InventoryIngredientKey getId() {
         return id;
     }

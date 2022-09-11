@@ -62,9 +62,15 @@ public class RecipeIngredientTest {
         recipeIngredient.setRecipe(recipe);
         recipeIngredient.setQuantity(1);
         session.persist(recipeIngredient);
-        //Integer idRecipeIngredient=recipeIngredient.getId();
+        Integer recipeId = recipeIngredient.getId().getIdRecipe();
+        Integer ingredientId = recipeIngredient.getId().getIdIngredient();
 
-        assertTrue(false);
+        boolean idCreate = false;
+        if(recipeId > 0 && ingredientId > 0){
+            idCreate = true;
+        }
+
+        assertTrue(idCreate);
     }
     @Test
     public void testReadRecipeIngredient(){

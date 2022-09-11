@@ -8,6 +8,7 @@ import jakarta.persistence.Table;
 public class Place{
     @Id 
     @Column(name="id_place")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer placeId;
     
     private String name;
