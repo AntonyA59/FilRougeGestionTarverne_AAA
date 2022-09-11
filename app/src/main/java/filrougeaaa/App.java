@@ -9,8 +9,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.hibernate.*;
+import org.hibernate.cfg.Configuration;
 
 import filrougeaaa.utils.HibernateUtil;
 
@@ -18,10 +18,12 @@ public class App {
     protected static BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
     public static Session session;  // HIBERNATE
     public static void main(String[] args) throws IOException {
+        Session session;
+        Configuration configuration=new Configuration().configure();
+        SessionFactory sessionFactory=configuration.buildSessionFactory();
+        session=sessionFactory.openSession();
 
-
-
-        
+        session.close();
         // User player = new User(1);
 
         // Manager manager = new Manager(1);

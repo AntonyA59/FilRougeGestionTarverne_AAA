@@ -1,6 +1,7 @@
 package filrougeaaa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -63,9 +64,9 @@ public class RecipeTest {
         assertEquals(recipe2.getSubCategory().getCategory().getName(), "Boissons");
     }
 
-
+    //test CRUD
     @Test
-    public void testPersistRecipe(){
+    public void testCreateRecipe(){
         Recipe recipe = new Recipe();
         Category cat = new Category() ;
         SubCategory subCat = new SubCategory() ;
@@ -92,7 +93,30 @@ public class RecipeTest {
 
         assertEquals(assertRecip,true);
     }
+    @Test 
+    public void testReadRecipe(){
+        Recipe recipe = new Recipe();
+        Category cat = new Category() ;
+        SubCategory subCat = new SubCategory() ;
 
+        session.persist(cat);
+        subCat.setCategory(cat);
+        session.persist(subCat);
+
+        recipe.setSubCategory(subCat);
+        recipe.setName("Tagliatelle au Saumon");
+        recipe.setSellingPrice(15);
+        recipe.setLevel(3);
+        recipe.setConsommationTime(new Time(10));
+        recipe.setPreparationTime(new Time(10));
+        recipe.setPeremptionDate(new Date(1000));
+        recipe.setExpGiven(30);
+
+        session.persist(recipe);
+        Integer idRecipe= recipe.getIdRecipe();
+        Recipe recipe2=session.find(Recipe.class,idRecipe);
+        assertEquals(recipe2.getLevel(), recipe.getLevel());
+    }
     @Test
     public void testUpdateRecipe(){
         Recipe recipe = new Recipe();
@@ -119,8 +143,37 @@ public class RecipeTest {
 
         recipe2.setName("Tagliatelle");
         session.persist(recipe2);
+        Recipe recipe3=session.find(Recipe.class,idRec);
 
-        assertEquals(recipe.getName(), recipe2.getName());
+
+        assertEquals(recipe2.getName(), recipe3.getName());
+    }
+    @Test 
+    public void testDeleteRecipe(){
+        Recipe recipe = new Recipe();
+        Category cat = new Category() ;
+        SubCategory subCat = new SubCategory() ;
+
+        session.persist(cat);
+        subCat.setCategory(cat);
+        session.persist(subCat);
+
+        recipe.setSubCategory(subCat);
+        
+        recipe.setName("Tagliatelle au Saumon");
+        recipe.setSellingPrice(15);
+        recipe.setLevel(3);
+        recipe.setConsommationTime(new Time(10));
+        recipe.setPreparationTime(new Time(10));
+        recipe.setPeremptionDate(new Date(1000));
+        recipe.setExpGiven(30);
+        session.persist(recipe);
+
+        Integer idRec = recipe.getIdRecipe() ;
+        Recipe recipe2 = session.getReference(Recipe.class, idRec);
+        session.remove(recipe2);
+        Recipe recipe3=session.find(Recipe.class,idRec);
+        assertNull(recipe3);
     }
     /*
     @Test

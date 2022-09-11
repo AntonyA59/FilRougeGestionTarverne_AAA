@@ -28,7 +28,7 @@ public class RecipeIngredient {
     Integer quantity;
 
     public RecipeIngredient() {
-        this.id = null ;
+        this.id = new RecipeIngredientKey() ;
         this.quantity = 0;
         this.recipe = new Recipe();
         this.ingredient = new Ingredient();
@@ -57,6 +57,18 @@ public class RecipeIngredient {
 
     public void setIngredient(Ingredient ingredient) {
         this.ingredient = ingredient;
+    }
+
+    public RecipeIngredientKey getId() {
+        return id;
+    }
+
+    public void setId(RecipeIngredientKey id) {
+        this.id = id;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     //#endregion

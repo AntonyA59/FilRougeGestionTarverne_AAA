@@ -1,9 +1,10 @@
 package filrougeaaa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.sql.Time;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -20,7 +21,7 @@ public class CustomerTest {
 
     private static SessionFactory sessionFactory;
     private Session session;
-
+    
     @BeforeAll
     public static void setup() {
         sessionFactory = HibernateUtil.getSessionFactory();
@@ -38,7 +39,6 @@ public class CustomerTest {
         session.beginTransaction();
         System.out.println("Session created");
     }
-
     @AfterEach
     public void closeSession() {
         if (session != null){
@@ -48,29 +48,100 @@ public class CustomerTest {
         System.out.println("Session closed\n");
     } 
 
-    /**
-     * 
-     */
-    @Test
-    public void insertManager(){
-        Customer customer = new Customer(100, 
-        100f, 
-        100f, 
-        100f,
-        100f, 
-        100f, 
-        100f, 
-        100f, 
-        100f, 
-        true, 
-        100);
-
+    // TEST CRUD
+    @Test 
+    public void testCreateCustomerBDD(){
+        Customer customer = new Customer();
+        customer.setPurseOfGold(100);
+        customer.setHappiness(10f);
+        customer.setHunger(40f);
+        customer.setThirst(30f);
+        customer.setNauseaLevel(10f);
+        customer.setToilet(10f);
+        customer.setNauseaTolerance(40f);
+        customer.setAlcoholTolerance(50f);
+        customer.setTimeInTavern(new Time(20));
+        customer.setGender(true);
+        customer.setExpGiven(10);
+        customer.setAlcoholLevel(10f);
         session.persist(customer);
-        boolean assertCustomer = false ;
-        if(customer.getCustomerId() > 0){
-            assertCustomer = true ;
-        }
-        assertEquals(assertCustomer,true);
+        Integer custId=customer.getCustomerId();
+        assertTrue(custId>0);
+    }
+    
+    @Test void testReadCustomerBDD(){
+        Customer customer = new Customer();
+        customer.setPurseOfGold(100);
+        customer.setHappiness(10f);
+        customer.setHunger(40f);
+        customer.setThirst(30f);
+        customer.setNauseaLevel(10f);
+        customer.setToilet(10f);
+        customer.setNauseaTolerance(40f);
+        customer.setAlcoholTolerance(50f);
+        customer.setTimeInTavern(new Time(20));
+        customer.setGender(true);
+        customer.setExpGiven(10);
+        customer.setAlcoholLevel(10f);
+        session.persist(customer);
+        Integer custId=customer.getCustomerId();
+        assertTrue(custId>0);
 
-}
+        Customer customer2= session.find(Customer.class, custId);
+        assertEquals(customer2.getNauseaLevel(), 10f);
+    }
+
+    @Test
+    public void testUpdateCustomerBDD(){
+        TableRest table = new TableRest();
+        Customer customer = new Customer();
+        customer.setPurseOfGold(100);
+        customer.setHappiness(10f);
+        customer.setHunger(40f);
+        customer.setThirst(30f);
+        customer.setNauseaLevel(10f);
+        customer.setToilet(10f);
+        customer.setNauseaTolerance(40f);
+        customer.setAlcoholTolerance(50f);
+        customer.setTimeInTavern(new Time(20));
+        customer.setGender(false);
+        customer.setExpGiven(10);
+        customer.setAlcoholLevel(10f);
+        customer.setTableRest(table);
+        session.persist(customer);
+        Integer custId=customer.getCustomerId();
+
+        Customer customer2 = session.getReference(Customer.class, custId);
+        customer2.setAlcoholLevel(20f);
+        session.persist(customer2);
+
+        Customer customer3= session.getReference(Customer.class, custId);
+        assertEquals(customer3.getAlcoholLevel(), 20f);
+    }
+    @Test 
+    public void testDeleteCustomerBDD(){
+        TableRest table = new TableRest();
+        Customer customer = new Customer();
+        customer.setPurseOfGold(100);
+        customer.setHappiness(10f);
+        customer.setHunger(40f);
+        customer.setThirst(30f);
+        customer.setNauseaLevel(10f);
+        customer.setToilet(10f);
+        customer.setNauseaTolerance(40f);
+        customer.setAlcoholTolerance(50f);
+        customer.setTimeInTavern(new Time(20));
+        customer.setGender(false);
+        customer.setExpGiven(10);
+        customer.setAlcoholLevel(10f);
+        customer.setTableRest(table);
+        session.persist(customer);
+        Integer custId=customer.getCustomerId();
+
+        Customer customer2= session.find(Customer.class, custId);
+        session.remove(customer2);
+        Customer customer3=session.find(Customer.class, custId);
+        assertNull(customer3);
+    }
+
 }

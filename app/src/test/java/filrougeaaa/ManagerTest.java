@@ -51,9 +51,9 @@ public class ManagerTest {
         System.out.println("Session closed\n");
     } 
 
-
+    //test CRUD
     @Test
-    public void testInsertManager() {
+    public void testCreateManager() {
         User user = new User("test@test.com", "test", "test");
         session.persist(user);
         Manager manager = new Manager("Test", 10, 10, 1, 20, user);
@@ -64,6 +64,44 @@ public class ManagerTest {
         }
 
         assertEquals(assertManager,true);
+    }
+    
+    @Test
+    public void testReadManager(){
+        User user = new User("test@test.com", "test", "test");
+        session.persist(user);
+        Manager manager = new Manager("Test", 10, 10, 1, 20, user);
+        session.persist(manager);
+        Integer idManager= manager.getManagerID();
+        Manager manager2=session.find(Manager.class,idManager);
+        assertEquals(manager2.getExperience(), 20);
+    } 
+
+    @Test 
+    public void testUpdateManager(){
+        User user = new User("test@test.com", "test", "test");
+        session.persist(user);
+        Manager manager = new Manager("Test", 10, 10, 1, 20, user);
+        session.persist(manager);
+        Integer idManager= manager.getManagerID();
+        Manager manager2=session.find(Manager.class,idManager);
+        manager2.setExperience(30);
+        session.persist(manager2);
+        Manager manager3=session.find(Manager.class, idManager);
+        assertEquals(manager3.getExperience(), 30);
+    }
+
+    @Test 
+    public void testDeleteManager(){
+        User user = new User("test@test.com", "test", "test");
+        session.persist(user);
+        Manager manager = new Manager("Test", 10, 10, 1, 20, user);
+        session.persist(manager);
+        Integer idManager= manager.getManagerID();
+        Manager manager2=session.find(Manager.class,idManager);
+        session.remove(manager2);
+        Manager manager3=session.find(Manager.class,idManager);
+        assertNull(manager3);
     }
     //Test check and delete the ingredients related to the recipe order
 /*     @Test
