@@ -1,5 +1,6 @@
 package filrougeaaa;
 
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.hibernate.Session;
@@ -7,7 +8,8 @@ import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.*;
 import filrougeaaa.utils.HibernateUtil;
 
-public class InventoryIngredient {
+
+public class InventoryIngredientTest {
     private static SessionFactory sessionFactory;
     private Session session;
 
@@ -60,9 +62,31 @@ public class InventoryIngredient {
         ingredient.setSubCategory(subCategory);
         session.persist(ingredient);
 
+        User user = new User("test@test.com", "test", "test");
+        session.persist(user);
 
-        InventoryIngredient inventoryIngredient= new InventoryIngredient();
-        assertTrue(false);
+        Manager manager = new Manager("test", 10, 10, 10, 10, user);
+        session.persist(manager);
+        InventoryIngredient ingredient2 = new InventoryIngredient();
+        ingredient2.setIngredient(ingredient);
+        ingredient2.setManager(manager);
+        ingredient2.setQuantity(2);
+        session.persist(ingredient2);
+        Integer id = ingredient2.getId().getIngredientId();
+        Integer id2 = ingredient2.getId().getManagerId();
+
+        boolean idCreate = false;
+        if(id > 0 && id2 > 0){
+            idCreate = true;
+        }
+
+        assertTrue(idCreate);
+
+    
+
+        
+        
+
         
     }
     @Test

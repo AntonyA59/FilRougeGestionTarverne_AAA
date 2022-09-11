@@ -26,14 +26,11 @@
             <mapping class="filrougeaaa.TableRest" />
             <mapping class="filrougeaaa.Customer" />
             <mapping class="filrougeaaa.RecipeCustomer" />
-            <mapping class="filrougeaaa.RecipeCustomerKey" />
             <mapping class="filrougeaaa.RecipeIngredient" />
-            <mapping class="filrougeaaa.RecipeIngredientKey" />
             <mapping class="filrougeaaa.Recipe" />
             <mapping class="filrougeaaa.Category" />
             <mapping class="filrougeaaa.SubCategory" />
             <mapping class="filrougeaaa.Ingredient" />
             <mapping class="filrougeaaa.InventoryIngredient" />
-            <mapping class="filrougeaaa.InventoryIngredientKey" />
       </session-factory>
 </hibernate-configuration>
