@@ -1,6 +1,8 @@
 package filrougeaaa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -37,9 +39,21 @@ public class CategoryTest {
         }
         System.out.println("Session closed\n");
     } 
-
+    
+    //test CRUD
     @Test
-    void testInsertCategory(){
+    public void testCreateCategory(){
+        Category category = new Category() ;
+
+        category.setName("Boissons");
+        session.persist(category);
+
+        Integer idCat = category.getIdCategory() ;
+        
+        assertTrue(idCat>0);
+    }
+    @Test 
+    public void testReadCategory(){
         Category category = new Category() ;
 
         category.setName("Boissons");
@@ -49,5 +63,32 @@ public class CategoryTest {
         Category category2 = session.getReference(Category.class, idCat);
         
         assertEquals(category2.getName() , "Boissons");
+    }
+    @Test
+    public void testUpdateCategory(){
+        Category category = new Category() ;
+
+        category.setName("Boissons");
+        session.persist(category);
+
+        Integer idCat = category.getIdCategory() ;
+        Category category2 = session.getReference(Category.class, idCat); 
+        category2.setName("testUpdate");
+        session.persist(category2);
+        Category category3=session.find(Category.class, idCat);
+        assertEquals(category3.getName(), "testUpdate");
+    }
+    @Test 
+    public void testDeleteCategory(){
+        Category category = new Category() ;
+
+        category.setName("Boissons");
+        session.persist(category);
+
+        Integer idCat = category.getIdCategory() ;
+        Category category2 = session.getReference(Category.class, idCat); 
+        session.remove(category2);
+        Category category3=session.find(Category.class, idCat);
+        assertNull(category3);
     }
 }

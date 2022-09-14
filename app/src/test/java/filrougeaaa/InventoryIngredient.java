@@ -1,15 +1,13 @@
 package filrougeaaa;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.*;
-
 import filrougeaaa.utils.HibernateUtil;
 
-public class RecipeIngredientTest {
+public class InventoryIngredient {
     private static SessionFactory sessionFactory;
     private Session session;
 
@@ -41,33 +39,42 @@ public class RecipeIngredientTest {
     } 
 
     //test CRUD
+
+
+    //gros soucis sur inventoryIngredients !! a voir !
     @Test
-    void testCreateRecipeIngredient(){
-        SubCategory subCategory = new SubCategory() ;
-        Category category = new Category() ;
-        Recipe recipe = new Recipe() ;
-        Ingredient ingredient = new Ingredient() ;
-
+    public void testCreateInventoryIng(){
+        Category category=new Category();
+        category.setName("TEST CAT");
         session.persist(category);
+
+        SubCategory subCategory= new SubCategory();
         subCategory.setCategory(category);
+        subCategory.setName("test subcat");
         session.persist(subCategory);
 
-        recipe.setSubCategory(subCategory);
+        Ingredient ingredient=new Ingredient();
+        ingredient.setBuyingPrice(2);
+        ingredient.setLevel(1);
+        ingredient.setName("test");
         ingredient.setSubCategory(subCategory);
-        session.persist(subCategory);
-        session.persist(subCategory);
+        session.persist(ingredient);
 
-        RecipeIngredient recipeIngredient = new RecipeIngredient() ;
-        recipeIngredient.setIngredient(ingredient);
-        recipeIngredient.setRecipe(recipe);
-        recipeIngredient.setQuantity(1);
-        session.persist(recipeIngredient);
-        //Integer idRecipeIngredient=recipeIngredient.getId();
 
+        InventoryIngredient inventoryIngredient= new InventoryIngredient();
         assertTrue(false);
+        
     }
     @Test
-    public void testReadRecipeIngredient(){
+    public void testReadInventoryIng(){
 
+    }
+    @Test
+    public void testUpdateInventoryIng(){
+        
+    }
+    @Test
+    public void testDeleteInventoryIng(){
+        
     }
 }

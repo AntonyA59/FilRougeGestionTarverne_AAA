@@ -7,11 +7,47 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.sql.Date;
 import java.sql.Savepoint;
 
+import org.hibernate.*;
 import org.junit.jupiter.api.*;
 
+import filrougeaaa.utils.HibernateUtil;
 
-public class TableTest {
 
+public class TableRestTest {
+    private static SessionFactory sessionFactory;
+    private Session session;
+
+    @BeforeAll
+    public static void setup() {
+        sessionFactory = HibernateUtil.getSessionFactory();
+        System.out.println("SessionFactory created");
+    }
+    @AfterAll
+    public static void tearDown() {
+        if (sessionFactory != null) sessionFactory.close();
+        System.out.println("SessionFactory destroyed");
+    }
+
+    @BeforeEach
+    public void openSession() {
+        session = sessionFactory.openSession();
+        session.beginTransaction();
+        System.out.println("Session created");
+    }
+
+    @AfterEach
+    public void closeSession() {
+        if (session != null){
+            session.getTransaction().rollback();
+            session.close();
+        }
+        System.out.println("Session closed\n");
+    } 
+    
+    //test CRUD
+
+    @Test 
+    
 
 /*     @Test
     public void TableIsOccupiedWithoutCustomer(){

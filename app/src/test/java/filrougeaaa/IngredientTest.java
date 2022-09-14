@@ -1,6 +1,7 @@
 package filrougeaaa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -39,8 +40,9 @@ public class IngredientTest {
         System.out.println("Session closed\n");
     } 
 
+    //test CRUD
     @Test
-    void testInsertIngredient(){
+    void testCreateIngredient(){
         Ingredient ingredient = new Ingredient() ;
         Category category = new Category() ;
         SubCategory subCategory = new SubCategory() ;
@@ -54,8 +56,10 @@ public class IngredientTest {
         ingredient.setSubCategory(subCategory);
         ingredient.setName("haricot");
         session.persist(ingredient);
+        Integer idIng=ingredient.getIdIngredient();
 
-        assertEquals(ingredient.getName() , "haricot");
+        Ingredient ingredient2=session.find(Ingredient.class, idIng);
+        assertEquals(ingredient2.getName() , "haricot");
     }
     @Test
     void testIngredientForSubCategory(){
@@ -123,5 +127,28 @@ public class IngredientTest {
         session.persist(ingredient2);
 
         assertEquals(ingredient.getName(), ingredient2.getName());
+    }
+    @Test 
+    public void ingredientDelete(){
+        Ingredient ingredient= new Ingredient();
+        ingredient.setName("Camenbert");
+        ingredient.setLevel(2);
+        ingredient.setBuyingPrice(3);
+
+        SubCategory subCategory2 = new SubCategory();
+        subCategory2.getCategory().setName("Laitier");
+        session.persist(subCategory2.getCategory());
+        subCategory2.setName("Fromage");
+        session.persist(subCategory2);
+
+        ingredient.setSubCategory(subCategory2);
+        session.persist(ingredient);
+
+        Integer idIng = ingredient.getIdIngredient() ;
+        Ingredient ingredient2 = session.getReference(Ingredient.class, idIng);
+        session.remove(ingredient2);
+        Ingredient ingredient3=session.find(Ingredient.class,idIng);
+
+        assertNull(ingredient3);
     }
 }
