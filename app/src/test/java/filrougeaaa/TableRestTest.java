@@ -47,7 +47,27 @@ public class TableRestTest {
     //test CRUD
 
     @Test 
-    
+    public void testCreateTable(){
+        User user = new User("test@test.com", "test", "test");
+        session.persist(user);
+        Manager manager = new Manager("Test", 10, 10, 1, 20, user);
+        session.persist(manager);
+        Place place=new Place();
+        place.setManager(manager);
+        place.setLevel(2);
+        place.setName("test");
+        place.setType(1);
+        session.persist(place);
+        TableRest tableRest=new TableRest();
+        tableRest.setHygiene(2f);
+        tableRest.setNumberPlace(2);
+        tableRest.setPlace(place);
+        tableRest.setPosX(2f);
+        tableRest.setPosY(5f);
+        session.persist(tableRest);
+        Integer tableId=tableRest.getTableId();
+        assertTrue(tableId>0);
+    }
 
 /*     @Test
     public void TableIsOccupiedWithoutCustomer(){

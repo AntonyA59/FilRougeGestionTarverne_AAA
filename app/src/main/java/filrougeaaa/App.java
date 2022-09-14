@@ -22,8 +22,6 @@ public class App {
         Configuration configuration=new Configuration().configure();
         SessionFactory sessionFactory=configuration.buildSessionFactory();
         session=sessionFactory.openSession();
-        Place place=session.find(Place.class,1);
-        System.out.println(place.getName());
 
         session.close();
         // User player = new User(1);
