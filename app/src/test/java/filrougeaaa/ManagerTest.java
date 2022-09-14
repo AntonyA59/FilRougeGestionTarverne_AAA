@@ -145,14 +145,22 @@ public class ManagerTest {
     }
     @Test
     public void testRecipeOrderUpdateInInventoryInBDD(){
-        Manager manager= new Manager(1);
         Recipe recipe=new Recipe();
         HashMap<Integer,Integer> ingredientsRecipe=new HashMap<Integer,Integer>();
-        ingredientsRecipe.put(1,2);
+        ingredientsRecipe.put(1,3);
         recipe.setTabIngredients(ingredientsRecipe);
+        recipe.save();
+        
+        Manager manager= new Manager();
+        manager.getUser().save();
+        HashMap<Integer,Integer> ingredientsManager= new HashMap<Integer,Integer>();
+        ingredientsManager.put(1, 8);
+        manager.setInventory(ingredientsManager);
         manager.requestRecipe(recipe);
-        Manager manager2=new Manager(1);
-        assertEquals(manager2.getInventory().get(1), 1);
+        manager.save();
+        int idManager=manager.getId();
+        Manager manager2=new Manager(idManager);
+        assertEquals(manager2.getInventory().get(1), 5);
     }
     @Test
     public void testRecipeOrderDeleteInInventoryInBDD(){
