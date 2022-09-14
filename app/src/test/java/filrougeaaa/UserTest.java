@@ -1,64 +1,89 @@
 package filrougeaaa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import java.sql.Savepoint;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 import org.junit.jupiter.api.*;
 
-import filrougeaaa.utils.DBManager;
+import filrougeaaa.utils.HibernateUtil;
+
+
 
 public class UserTest {
-    Savepoint save;
-    //init and clean the connection BDD
+    private static SessionFactory sessionFactory;
+    private Session session;
+
     @BeforeAll
-    public static void setup(){
-        DBManager.init();
-        DBManager.setAutoCommit(false);
+    public static void setup() {
+        sessionFactory = HibernateUtil.getSessionFactory();
+        System.out.println("SessionFactory created");
+    }
+    @AfterAll
+    public static void tearDown() {
+        if (sessionFactory != null) sessionFactory.close();
+        System.out.println("SessionFactory destroyed");
     }
 
     @BeforeEach
-    public void init(){
-        save=DBManager.setSavePoint();
+    public void openSession() {
+        session = sessionFactory.openSession();
+        session.beginTransaction();
+        System.out.println("Session created");
     }
 
     @AfterEach
-    public void done(){
-        DBManager.rollback(save);
+    public void closeSession() {
+        if (session != null){
+            session.getTransaction().rollback();
+            session.close();
+        }
+        System.out.println("Session closed\n");
+    } 
+    
+    //test CRUD
+    @Test
+    public void testCreateUser() {
+        User user = new User("test@test.fr", "Test", "Test");
+        session.persist(user);
+        boolean assertUser = false ;
+        if(user.getUserId() > 0){
+            assertUser = true ;
+        }
+        assertEquals(assertUser,true);
     }
 
-    @AfterAll
-    public static void tearDown(){
-        DBManager.close();
+    @Test 
+    public void testReadUser(){
+        User user = new User("test@test.fr", "TestNickName", "Test");
+        session.persist(user);
+        Integer idUser=user.getUserId();
+        User user2 = session.find(User.class,idUser);
+        assertEquals(user2.getNickname(), "TestNickName");
     }
-    //test database
-    @Test
-    public void initUserById(){
-        User userTest= new User(1);
-        assertEquals(userTest.getNickName(), "bg_du_59");
+
+    @Test 
+    public void testUpdateUser(){
+        User user = new User("test@test.fr", "TestNickName", "Test");
+        session.persist(user);
+        Integer idUser=user.getUserId();
+        User user2 = session.find(User.class,idUser);
+        user2.setNickname("otherTest");
+        session.persist(user2);
+        User user3=session.find(User.class, idUser);
+        assertEquals(user3.getNickname(), user2.getNickname());
     }
 
     @Test
-    public void TestSaveUser() {
-        User user = new User();
-        user.setEmail("Example@mail.com");
-        user.setNickName("Test");
-        user.setPassword("azerty");
-        assertTrue(user.save());
-    }
-
-    @Test
-    public void TestUpdateUser() {
-        User user = new User();
-        user.setEmail("Example@mail.com");
-        user.setNickName("Test");
-        user.setPassword("azerty");
-        user.save();
-        User user2 = new User(user.getId());
-        user2.setNickName("ModifTest");
-        user2.save();
-        user.get();
-        assertEquals(user.getNickName(), user2.getNickName());
+    public void testDeleteUser(){
+        User user = new User("test@test.fr", "TestNickName", "Test");
+        session.persist(user);
+        Integer idUser=user.getUserId();
+        User user2 = session.find(User.class,idUser);
+        session.remove(user2);
+        User user3=session.find(User.class, idUser);
+        assertNull(user3);
     }
 }

@@ -1,16 +1,13 @@
 package filrougeaaa;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.*;
-
 import filrougeaaa.utils.HibernateUtil;
 
-public class PlaceTest {
+public class InventoryIngredient {
     private static SessionFactory sessionFactory;
     private Session session;
 
@@ -31,6 +28,7 @@ public class PlaceTest {
         session.beginTransaction();
         System.out.println("Session created");
     }
+     
     @AfterEach
     public void closeSession() {
         if (session != null){
@@ -40,23 +38,43 @@ public class PlaceTest {
         System.out.println("Session closed\n");
     } 
 
-    //test CRUD 
+    //test CRUD
 
-    //atention soucis
 
+    //gros soucis sur inventoryIngredients !! a voir !
     @Test
-    public void testCreatePlace(){
-        User user = new User("test@test.com", "test", "test");
-        session.persist(user);
-        Manager manager = new Manager("Test", 10, 10, 1, 20, user);
-        session.persist(manager);
-        Place place=new Place();
-        place.setManager(manager);
-        place.setLevel(2);
-        place.setName("test");
-        place.setType(1);
-        session.persist(place);
-        Integer placeId= place.getPlaceId();
-        assertTrue(placeId>0);
+    public void testCreateInventoryIng(){
+        Category category=new Category();
+        category.setName("TEST CAT");
+        session.persist(category);
+
+        SubCategory subCategory= new SubCategory();
+        subCategory.setCategory(category);
+        subCategory.setName("test subcat");
+        session.persist(subCategory);
+
+        Ingredient ingredient=new Ingredient();
+        ingredient.setBuyingPrice(2);
+        ingredient.setLevel(1);
+        ingredient.setName("test");
+        ingredient.setSubCategory(subCategory);
+        session.persist(ingredient);
+
+
+        InventoryIngredient inventoryIngredient= new InventoryIngredient();
+        assertTrue(false);
+        
+    }
+    @Test
+    public void testReadInventoryIng(){
+
+    }
+    @Test
+    public void testUpdateInventoryIng(){
+        
+    }
+    @Test
+    public void testDeleteInventoryIng(){
+        
     }
 }

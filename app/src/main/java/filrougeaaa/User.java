@@ -1,126 +1,61 @@
 package filrougeaaa;
-import java.sql.*;
-import java.util.ArrayList;
 
-import filrougeaaa.utils.DBManager;
-import filrougeaaa.utils.Model;
-public class User extends Model{
-    private String email;
-    private String password;
-    protected String nickName;
-    protected ArrayList<Manager> listManagers; 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-	public User(){
-		email = "" ;
-		password = "" ;
-		nickName = "" ;
-	}
-	public User(String email, String password, String nickName){
-		this.email=email;
-		this.password=password;
-		this.nickName=nickName;
-	}
-	// avoir si utile
-	public User(int id){
-		try{
-			ResultSet resultat= DBManager.execute("SELECT * FROM user where id_user="+id);
-			if(resultat.next()){
+@Entity
+@Table(name = "user")
+public class User {
 
-				this.email=resultat.getString("email");
-				this.password=resultat.getString("password");
-				this.nickName=resultat.getString("nickName");
-				this.id=id;
-			}
-		}catch(SQLException ex){
-			System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-		}
-	}
-	@Override
-	public boolean get() {
-
-		try{
-			ResultSet resultat= DBManager.execute("SELECT * FROM user where id_user="+ this.id);
-			if(resultat.next()){
-
-				this.email=resultat.getString("email");
-				this.password=resultat.getString("password");
-				this.nickName=resultat.getString("nickName");
-				return true;
-			}
-		}catch(SQLException ex){
-			System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-		}
-		return false;
-	}
-	@Override
-	public boolean get(int id) {
-
-		try{
-			ResultSet resultat= DBManager.execute("SELECT * FROM user where id_user="+id);
-			if(resultat.next()){
-				this.email=resultat.getString("email");
-				this.password=resultat.getString("password");
-				this.nickName=resultat.getString("nickName");
-				this.id=id;
-				return true;
-			}
-		}catch(SQLException ex){
-			System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-		}
-		return false;
+	public User(){}
+	public User(String email, String nickname, String password){
+		this.email = email;
+		this.nickname = nickname;
+		this.password = password;
 	}
 
-	@Override
-	public boolean save() {
-		String sql;
-        if(this.id != 0)
-            sql = "UPDATE user "+
-                    "SET email = ?,password = ?, nickName = ? "+
-                    "WHERE id_user = ?";
-        else
-            sql = "INSERT INTO user (email, password, nickName) "+
-                        "VALUES(?, ?, ?)";
-        try{
-            PreparedStatement stmt = DBManager.conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            stmt.setString(1, this.email);
-            stmt.setString(2, this.password);
-            stmt.setString(3, this.nickName);
-            if(id != 0)
-                stmt.setInt(4, this.id);
+	@Id
+	@Column(name = "id_user")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer userId;
 
-            stmt.executeUpdate();
+	@Column(name = "email")
+	private String email;
 
-            ResultSet keys = stmt.getGeneratedKeys();
-            if(this.id == 0 && keys.next()){
-                this.id = keys.getInt(1);
-                return true;
-            }
-            else if(this.id != 0)
-                return true;
-            else
-                return false;
+	@Column(name = "nickname")
+	private String nickname;
 
-        }catch (SQLException ex) {
-            // handle any errors
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-            return false;
-        }
+	@Column(name = "password")
+	private String password;
+
+	
+	//#region get / set
+	public Integer getUserId() {
+		return userId;
 	}
-//#region get/set
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
 	public String getEmail() {
 		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
 	public String getPassword() {
@@ -130,27 +65,4 @@ public class User extends Model{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	public String getNickName() {
-		return nickName;
-	}
-
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
-	}
-	
-	public ArrayList<Manager> getlistManagers() {
-		return listManagers;
-	}
-	
-	public void setlistManagers(ArrayList<Manager> listManagers) {
-		this.listManagers = listManagers;
-	}
-	
-	@Override
-	public int getId() {
-		return this.id;
-	}
-//#endregion
-	
-} 
+} 	//#endregion

@@ -7,48 +7,104 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Savepoint;
 import java.util.HashMap;
-import java.util.Map;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import filrougeaaa.utils.DBManager;
+import filrougeaaa.utils.HibernateUtil;
+
+
 
 public class ManagerTest {
-    Savepoint save = null;
+    private static SessionFactory sessionFactory;
+    private Session session;
 
     @BeforeAll
-    static void testInitDBManager() {
-        DBManager.init();
-        DBManager.setAutoCommit(false);
+    public static void setup() {
+        sessionFactory = HibernateUtil.getSessionFactory();
+        System.out.println("SessionFactory created");
     }
-
     @AfterAll
     public static void tearDown() {
-        DBManager.close();
+        if (sessionFactory != null) sessionFactory.close();
+        System.out.println("SessionFactory destroyed");
     }
 
     @BeforeEach
-    public void testSave() {
-        save = DBManager.setSavePoint();
+    public void openSession() {
+        session = sessionFactory.openSession();
+        session.beginTransaction();
+        System.out.println("Session created");
     }
 
     @AfterEach
-    public void testRollback() {
-        DBManager.rollback(save);
+    public void closeSession() {
+        if (session != null){
+            session.getTransaction().rollback();
+            session.close();
+        }
+        System.out.println("Session closed\n");
+    } 
+
+    //test CRUD
+    @Test
+    public void testCreateManager() {
+        User user = new User("test@test.com", "test", "test");
+        session.persist(user);
+        Manager manager = new Manager("Test", 10, 10, 1, 20, user);
+        session.persist(manager);
+        boolean assertManager = false ;
+        if(manager.getManagerID() > 0){
+            assertManager = true ;
+        }
+
+        assertEquals(assertManager,true);
+    }
+    
+    @Test
+    public void testReadManager(){
+        User user = new User("test@test.com", "test", "test");
+        session.persist(user);
+        Manager manager = new Manager("Test", 10, 10, 1, 20, user);
+        session.persist(manager);
+        Integer idManager= manager.getManagerID();
+        Manager manager2=session.find(Manager.class,idManager);
+        assertEquals(manager2.getExperience(), 20);
+    } 
+
+    @Test 
+    public void testUpdateManager(){
+        User user = new User("test@test.com", "test", "test");
+        session.persist(user);
+        Manager manager = new Manager("Test", 10, 10, 1, 20, user);
+        session.persist(manager);
+        Integer idManager= manager.getManagerID();
+        Manager manager2=session.find(Manager.class,idManager);
+        manager2.setExperience(30);
+        session.persist(manager2);
+        Manager manager3=session.find(Manager.class, idManager);
+        assertEquals(manager3.getExperience(), 30);
     }
 
-    @Test
-    public void testGetCustomer() {
-        Manager manager = new Manager(1);
-
-        assertEquals(manager.getName(), "Théodebald");
+    @Test 
+    public void testDeleteManager(){
+        User user = new User("test@test.com", "test", "test");
+        session.persist(user);
+        Manager manager = new Manager("Test", 10, 10, 1, 20, user);
+        session.persist(manager);
+        Integer idManager= manager.getManagerID();
+        Manager manager2=session.find(Manager.class,idManager);
+        session.remove(manager2);
+        Manager manager3=session.find(Manager.class,idManager);
+        assertNull(manager3);
     }
     //Test check and delete the ingredients related to the recipe order
-    @Test
+/*     @Test
     public void testRecipeOrderTrue(){
         Manager manager= new Manager(1);
         HashMap<Integer,Integer> newInventaire=new HashMap<Integer,Integer>();
@@ -96,6 +152,8 @@ public class ManagerTest {
         Ingredient ingredient1 = new Ingredient();
         Category category = new Category() ;
         SubCategory subCategory = new SubCategory() ;
+
+        user.save() ;
         manager.setUser(user);
         manager.setChest(999);
         manager.save() ;
@@ -108,8 +166,8 @@ public class ManagerTest {
         ingredient1.save() ;
 
         manager.listInventoryIngredient() ;
-        manager.buyIngredient(ingredient1.getId()) ;
-        manager.buyIngredient(ingredient1.getId()) ;
+        manager.buyIngredient(ingredient1.getId(),1) ;
+        manager.buyIngredient(ingredient1.getId(),1) ;
         assertEquals(manager.getInventory().get(ingredient1.getId()),2) ;
     }
     @Test
@@ -120,6 +178,8 @@ public class ManagerTest {
         Ingredient ingredient2 = new Ingredient();
         Category category = new Category() ;
         SubCategory subCategory = new SubCategory() ;
+
+        user.save() ;
 
         manager.setUser(user);
         manager.setChest(999);
@@ -138,60 +198,66 @@ public class ManagerTest {
         
         manager.listInventoryIngredient() ;
 
-        manager.buyIngredient(ingredient1.getId()) ;
-        manager.buyIngredient(ingredient2.getId()) ;
+        manager.buyIngredient(ingredient1.getId(),1) ;
+        manager.buyIngredient(ingredient2.getId(),1) ;
         manager.save() ;
         assertEquals(manager.getChest(),974) ;
     }
     @Test
     public void testRecipeOrderUpdateInInventoryInBDD(){
+        User user = new User() ;
+        Manager manager= new Manager();
+        Category category = new Category() ;
+        SubCategory subCategory = new SubCategory() ;
         Recipe recipe=new Recipe();
         HashMap<Integer,Integer> ingredientsRecipe=new HashMap<Integer,Integer>();
-        ingredientsRecipe.put(1,3);
+
+        user.save() ;
+        manager.setUser(user);
+        manager.save() ;
+
+        category.save() ;
+        subCategory.setCategory(category);
+        subCategory.save() ;
+        recipe.setSubCategory(subCategory);
+        ingredientsRecipe.put(1,2);
         recipe.setTabIngredients(ingredientsRecipe);
         recipe.save();
         
-        Manager manager= new Manager();
-        manager.getUser().save();
-        HashMap<Integer,Integer> ingredientsManager= new HashMap<Integer,Integer>();
-        ingredientsManager.put(1, 8);
-        manager.setInventory(ingredientsManager);
-        manager.requestRecipe(recipe);
+        manager.setChest(99);
+
+        manager.buyIngredient(ingredientsRecipe.get(1), 1);
         manager.save();
-        int idManager=manager.getId();
-        Manager manager2=new Manager(idManager);
-        assertEquals(manager2.getInventory().get(1), 5);
+
+        manager.requestRecipe(recipe);
+
+        assertEquals(manager.getInventory().get(2), 1);
     }
     @Test
     public void testRecipeOrderDeleteInInventoryInBDD(){
-        Manager manager= new Manager(1);
+        User user = new User() ;
+        Manager manager= new Manager();
         Recipe recipe=new Recipe();
-        HashMap<Integer,Integer> ingredientsRecipe=new HashMap<Integer,Integer>();
+        Category category = new Category();
+        SubCategory subCategory = new SubCategory() ;
+        HashMap<Integer,Integer> ingredientsRecipe = new HashMap<Integer,Integer>();
+
+        user.save();
+        manager.setUser(user);
+        manager.save();
+        category.save() ;
+        subCategory.setCategory(category);
+        subCategory.save() ;
+
+        recipe.setSubCategory(subCategory);
         ingredientsRecipe.put(1,3);
         recipe.setTabIngredients(ingredientsRecipe);
+        recipe.save();
+
         manager.requestRecipe(recipe);
+
         assertNull(manager.getInventory().get(1));
-    }
+    } */
 
-    @Test
-    public void testSaveManager() {
-        Manager manager = new Manager();
-        manager.setName("Gerard");
-        manager.getUser().save();
-        assertTrue(manager.save());
-    }
 
-    @Test
-    public void testUpdateManager() {
-        Manager manager = new Manager();
-        manager.setName("Gerard");
-        manager.getUser().save();
-        manager.save();
-
-        Manager manager2 = new Manager(manager.getId());
-        manager2.setName("Jean");
-        manager2.save();
-        manager.get();
-        assertEquals(manager.getName(), manager2.getName());
-    }   
 }
