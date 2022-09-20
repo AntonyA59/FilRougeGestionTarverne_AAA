@@ -1,4 +1,4 @@
-package aaa.tavern.CrudRepository;
+package aaa.tavern.DAO;
 
 import java.util.List;
 

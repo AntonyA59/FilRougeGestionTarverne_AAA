@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "manager")
@@ -39,6 +40,7 @@ public class Manager {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer managerID;
     
+    @NotBlank
     @Column(name = "name")
     private String name;
     

@@ -1,4 +1,4 @@
-package aaa.tavern.CrudRepository;
+package aaa.tavern.DAO;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
