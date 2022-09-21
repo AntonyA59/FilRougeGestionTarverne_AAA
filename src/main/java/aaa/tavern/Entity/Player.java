@@ -10,6 +10,19 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "player")
 public class Player {
+	@Id
+	@Column(name = "id_player")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer playerId;
+
+	@Column(name = "email", unique = true)
+	private String email;
+
+	@Column(name = "nickname", unique = true)
+	private String nickname;
+
+	@Column(name = "password")
+	private String password;
 
 	public Player(){}
 	public Player(String email, String nickname, String password){
@@ -17,21 +30,6 @@ public class Player {
 		this.nickname = nickname;
 		this.password = password;
 	}
-
-	@Id
-	@Column(name = "id_player")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer playerId;
-
-	@Column(name = "email")
-	private String email;
-
-	@Column(name = "nickname")
-	private String nickname;
-
-	@Column(name = "password")
-	private String password;
-
 	
 	//#region get / set
 	public Integer getPlayerId() {

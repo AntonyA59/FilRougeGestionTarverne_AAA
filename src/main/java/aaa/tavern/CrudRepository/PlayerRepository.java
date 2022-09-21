@@ -10,5 +10,6 @@ import aaa.tavern.Entity.Player;
 @Repository
 public interface PlayerRepository extends CrudRepository<Player, Integer> {
     List<Player> findByPlayerId(Integer playerId);
-    
+    List<Player> findByEmail(String email) ;
+    List<Player> findByNickname(String nickname) ;
 }
