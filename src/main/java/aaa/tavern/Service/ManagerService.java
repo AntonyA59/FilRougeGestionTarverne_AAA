@@ -1,5 +1,7 @@
 package aaa.tavern.Service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,5 +20,12 @@ public class ManagerService {
         Manager manager = new Manager(name, 0, 100, 1, 0, player);
         managerRepository.save(manager);
         return manager;
+    }
+
+    public void deleteManager(Manager manager) {
+        Optional<Manager> managerOpt= managerRepository.findById(manager.getManagerID());
+        manager = managerOpt.get();
+        managerRepository.delete(manager);
+
     }
 }

@@ -1,6 +1,6 @@
 package aaa.tavern.Service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 import java.util.Optional;
 
@@ -9,8 +9,8 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.jdbc.Sql;
 
+import aaa.tavern.DAO.ManagerRepository;
 import aaa.tavern.DAO.PlayerRepository;
 import aaa.tavern.Entity.Manager;
 import aaa.tavern.Entity.Player;
@@ -24,16 +24,26 @@ public class ManagerServiceTest {
     @MockBean
     private PlayerRepository playerRepository;
 
+    @MockBean
+    private ManagerRepository managerRepository;
+
     @Autowired
     private ManagerService managerService;
 
 
     @Test
     public void createManager() {
-        Manager manager = new Manager();
+        Manager manager = Mockito.mock(Manager.class);
         Player player = Mockito.mock(Player.class);
-        Mockito.when(playerRepository.findById(0)).thenReturn(Optional.of(player));
         manager = managerService.createManager("test", player);
-        assertEquals(manager.getChest(), 100);
+        Mockito.verify(managerRepository).save(manager);
+    }
+
+    @Test
+    public void deleteManager() {
+        Manager manager = Mockito.mock(Manager.class);
+        Mockito.when(managerRepository.findById(0)).thenReturn(Optional.of(manager));
+        managerService.deleteManager(manager);
+        Mockito.verify(managerRepository).delete(manager);
     }
 }
