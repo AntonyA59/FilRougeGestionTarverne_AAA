@@ -58,7 +58,7 @@ public class Manager {
     @Column(name = "experience")
     private Integer experience;
     
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne()
     @JoinColumn(name = "id_player")
     private Player player;
     
