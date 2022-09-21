@@ -2,6 +2,8 @@ package aaa.tavern.Entity;
 
 
 import java.util.Map;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -56,7 +58,7 @@ public class Manager {
     @Column(name = "experience")
     private Integer experience;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_player")
     private Player player;
     

@@ -11,7 +11,9 @@ import javax.persistence.Table;
 @Table(name = "player")
 public class Player {
 
-	public Player(){}
+	public Player(){
+		
+	}
 	public Player(String email, String nickname, String password){
 		this.email = email;
 		this.nickname = nickname;
