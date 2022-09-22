@@ -1,7 +1,8 @@
 package aaa.tavern.Entity;
 
 
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
@@ -64,8 +66,8 @@ public class Manager {
     @Transient
     private Integer maxExp;
 
-    @Transient
-    private Map<Integer, Integer> inventoryIngredient;
+    @OneToMany(mappedBy = "manager")
+    private Set<InventoryIngredient> inventoryIngredient = new HashSet<InventoryIngredient>();
     
     //#region get/set 
     public Integer getManagerID() {
@@ -147,15 +149,16 @@ public class Manager {
         this.maxExp = maxExp;
     }
 
-
-    public Map<Integer, Integer> getInventoryIngredient() {
+    public Set<InventoryIngredient> getInventoryIngredient() {
         return inventoryIngredient;
     }
 
-
-    public void setInventoryIngredient(Map<Integer, Integer> inventoryIngredient) {
+    public void setInventoryIngredient(Set<InventoryIngredient> inventoryIngredient) {
         this.inventoryIngredient = inventoryIngredient;
     }
+
+
+
     // #endregion
 
     //#region INVENTORY INGREDIENT

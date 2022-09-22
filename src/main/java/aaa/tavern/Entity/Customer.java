@@ -2,7 +2,6 @@ package aaa.tavern.Entity;
 
 import java.sql.Time;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -44,7 +43,7 @@ public class Customer{
     @Id
     @Column(name = "id_customer")
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
-    private Integer customerId;
+    private Integer idCustomer;
 
     @Column(name = "purse_of_gold")
     private Integer purseOfGold;
@@ -84,27 +83,21 @@ public class Customer{
     @OneToMany(mappedBy = "customer")
     private Set<RecipeCustomer> commandList=new HashSet<RecipeCustomer>();
 
-    @Transient
-    Random rand= new Random();
 
     
     
     
     // #region Get/Set
-    public Integer getCustomerId() {
-        return customerId;
+    public Integer getIdCustomer() {
+        return idCustomer;
     }
-
-
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
+    public void setIdCustomer(Integer idCustomer) {
+        this.idCustomer = idCustomer;
     }
-
 
     public Integer getPurseOfGold() {
         return purseOfGold;
     }
-
 
     public void setPurseOfGold(Integer purseOfGold) {
         this.purseOfGold = purseOfGold;
@@ -240,15 +233,5 @@ public class Customer{
         this.commandList = commandList;
     }
 
-
-    public Random getRand() {
-        return rand;
-    }
-
-
-    public void setRand(Random rand) {
-        this.rand = rand;
-    }
-    
     // #endregion
 }
