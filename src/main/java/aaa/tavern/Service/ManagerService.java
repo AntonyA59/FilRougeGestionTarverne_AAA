@@ -28,4 +28,8 @@ public class ManagerService {
         managerRepository.delete(manager);
 
     }
+
+    public void listExistingManager() {
+        
+    }
 }
