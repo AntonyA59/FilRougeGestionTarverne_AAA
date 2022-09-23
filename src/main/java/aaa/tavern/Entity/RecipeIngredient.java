@@ -1,4 +1,6 @@
-package aaa.tavern.Entity;
+package aaa.tavern.entity;
+
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -34,6 +36,27 @@ public class RecipeIngredient {
         this.ingredient = new Ingredient();
     }
 
+    /**
+	 * Deux RecipeCustomer sont les mêmes si ils ont le même identifiant.
+	 */
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+            RecipeIngredient that = (RecipeIngredient) o;
+        return Objects.equals(id, that.id);
+    }
+
+	/**
+	 * L'identifiant définit le hash.
+	 */
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
     //#region get/set
     public int getQuantity() {
         return quantity;

@@ -1,4 +1,6 @@
-package aaa.tavern.Entity;
+package aaa.tavern.entity;
+
+import java.util.Objects;
 
 import javax.persistence.*;
 
@@ -28,6 +30,28 @@ public class InventoryIngredient {
         this.ingredient = new Ingredient() ;
     }
     
+
+    /**
+	 * Deux InventoryIngredient sont les mêmes si ils ont le même identifiant.
+	 */
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        InventoryIngredient that = (InventoryIngredient) o;
+        return Objects.equals(id, that.id);
+    }
+
+	/**
+	 * L'identifiant définit le hash.
+	 */
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
     
     //#region get/set
     public InventoryIngredientKey getId() {

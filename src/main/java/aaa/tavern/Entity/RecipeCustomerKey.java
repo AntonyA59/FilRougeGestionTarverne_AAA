@@ -1,6 +1,7 @@
-package aaa.tavern.Entity;
+package aaa.tavern.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.*;
 
@@ -11,6 +12,23 @@ public class RecipeCustomerKey implements Serializable{
 
     @Column(name = "id_recipe")
     private Integer recipeId;
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+            RecipeCustomerKey that = (RecipeCustomerKey) o;
+        return customerId == that.customerId && recipeId == that.recipeId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(customerId, recipeId);
+    }
 
     //#region
     public Integer getCustomerId() {

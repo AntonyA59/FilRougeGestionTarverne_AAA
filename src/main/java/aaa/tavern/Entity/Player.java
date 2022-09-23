@@ -1,4 +1,4 @@
-package aaa.tavern.Entity;
+package aaa.tavern.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +24,9 @@ public class Player {
 	@Column(name = "password")
 	private String password;
 
-	public Player(){}
+	public Player(){
+		
+	}
 	public Player(String email, String nickname, String password){
 		this.email = email;
 		this.nickname = nickname;

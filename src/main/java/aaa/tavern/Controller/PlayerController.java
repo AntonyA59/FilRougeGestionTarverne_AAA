@@ -1,4 +1,4 @@
-package aaa.tavern.Controller;
+package aaa.tavern.controller;
 
 import java.net.BindException;
 
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import aaa.tavern.Service.InscriptionPlayerService;
-import aaa.tavern.Service.PlayerDto;
+import aaa.tavern.service.InscriptionPlayerService;
+import aaa.tavern.service.PlayerDto;
 
 
 @Controller

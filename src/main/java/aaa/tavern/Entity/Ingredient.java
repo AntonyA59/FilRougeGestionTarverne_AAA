@@ -1,4 +1,4 @@
-package aaa.tavern.Entity;
+package aaa.tavern.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,17 +18,17 @@ public class Ingredient {
 	private Integer idIngredient;
 
 	@Column(name="name")
-	protected String name;
+	private String name;
 
 	@Column(name="level")
-	protected int level;
+	private int level;
 
 	@Column(name="buying_price")
-	protected int buyingPrice;
+	private int buyingPrice;
 
 	@ManyToOne
     @JoinColumn(name = "id_subcategory")
-	protected SubCategory subCategory;
+	private SubCategory subCategory;
 
 	public Ingredient() {
 		this.idIngredient = null ;
