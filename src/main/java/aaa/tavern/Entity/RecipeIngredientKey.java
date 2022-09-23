@@ -8,10 +8,10 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 @Embeddable
 public class RecipeIngredientKey implements Serializable {
-    @Column(name = "id_recipe")
+    @Column(name = "recipe_id")
     private Integer idRecipe ;
 
-    @Column(name = "id_ingredient")
+    @Column(name = "ingredient_id")
     private Integer idIngredient ;
 
     @Override

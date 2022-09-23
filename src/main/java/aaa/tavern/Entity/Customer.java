@@ -41,7 +41,7 @@ public class Customer{
         this.commandList = new HashSet<RecipeCustomer>();
     }
     @Id
-    @Column(name = "id_customer")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Integer idCustomer;
 
@@ -77,7 +77,7 @@ public class Customer{
     private Integer expGiven;
 
     @ManyToOne
-    @JoinColumn(name = "id_table_rest",nullable = true)
+    @JoinColumn(name = "table_rest_id",nullable = true)
     private TableRest tableRest;
 
     @OneToMany(mappedBy = "customer")

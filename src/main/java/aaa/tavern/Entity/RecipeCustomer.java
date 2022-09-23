@@ -2,6 +2,7 @@ package aaa.tavern.entity;
 
 
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.*;
@@ -9,27 +10,27 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "recipe_customer")
-public class RecipeCustomer{
+public class RecipeCustomer implements Serializable{
 
     @EmbeddedId
     private RecipeCustomerKey id=new RecipeCustomerKey();
 
     @ManyToOne
     @MapsId("customerId")
-    @JoinColumn(name = "id_customer")
+    @JoinColumn(name = "customer_id")
     private Customer customer;
     
     @ManyToOne
     @MapsId("recipeId")
-    @JoinColumn(name = "id_recipe")
+    @JoinColumn(name = "recipe_id")
     private Recipe recipe;
     
-    private Integer quantity ;
+
     
     public RecipeCustomer() {
         customer = new Customer() ;
         recipe = new Recipe() ;
-        quantity = 0 ;
+
     }
 
     /**
@@ -79,13 +80,7 @@ public class RecipeCustomer{
         this.recipe = recipe;
     }
 
-    public Integer getQuantity() {
-        return quantity;
-    }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
     //#endregion
 
 }

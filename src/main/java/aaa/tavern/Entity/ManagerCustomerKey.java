@@ -9,10 +9,10 @@ import javax.persistence.Column;
 
 @Embeddable
 public class ManagerCustomerKey implements Serializable{
-    @Column(name = "id_customer")
+    @Column(name = "customer_id")
     private Integer idCustomer;
 
-    @Column(name = "id_manager")
+    @Column(name = "manager_id")
     private Integer idManager;
 
     @Override

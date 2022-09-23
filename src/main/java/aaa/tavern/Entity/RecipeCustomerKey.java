@@ -7,10 +7,10 @@ import javax.persistence.*;
 
 @Embeddable
 public class RecipeCustomerKey implements Serializable{
-    @Column(name = "id_customer")
+    @Column(name = "customer_id")
     private Integer customerId;
 
-    @Column(name = "id_recipe")
+    @Column(name = "recipe_id")
     private Integer recipeId;
 
 

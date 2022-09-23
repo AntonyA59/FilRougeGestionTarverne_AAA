@@ -1,5 +1,6 @@
 package aaa.tavern.entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.EmbeddedId;
@@ -13,19 +14,19 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "manager_customer")
-public class ManagerCustomer{
+public class ManagerCustomer implements Serializable{
     
     @EmbeddedId
     private ManagerCustomerKey id = new ManagerCustomerKey();
 
     @ManyToOne
     @MapsId("idManager")
-    @JoinColumn(name = "id_manager")
+    @JoinColumn(name = "manager_id")
     private Manager manager;
 
     @ManyToOne
     @MapsId("idCustomer")
-    @JoinColumn(name = "id_customer")
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
     /**

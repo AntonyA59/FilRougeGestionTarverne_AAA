@@ -40,9 +40,9 @@ public class Manager {
     }
 
     @Id
-    @Column(name = "id_manager")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer managerID;
+    private Integer managerId;
     
     @NotBlank
     @Column(name = "name")
@@ -61,7 +61,7 @@ public class Manager {
     private Integer experience;
     
     @ManyToOne()
-    @JoinColumn(name = "id_player")
+    @JoinColumn(name = "player_id")
     private Player player;
     
     @Transient
@@ -71,13 +71,13 @@ public class Manager {
     private List<InventoryIngredient> inventoryIngredient = new ArrayList<InventoryIngredient>();
     
     //#region get/set 
-    public Integer getManagerID() {
-        return managerID;
+    public Integer getManagerId() {
+        return managerId;
     }
 
 
-    public void setManagerID(Integer managerID) {
-        this.managerID = managerID;
+    public void setManagerId(Integer managerId) {
+        this.managerId = managerId;
     }
 
 
