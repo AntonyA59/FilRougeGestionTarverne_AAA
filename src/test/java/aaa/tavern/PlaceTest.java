@@ -6,9 +6,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.*;
 
-import aaa.tavern.Entity.Manager;
-import aaa.tavern.Entity.Place;
-import aaa.tavern.Entity.Player;
+import aaa.tavern.entity.Manager;
+import aaa.tavern.entity.Place;
+import aaa.tavern.entity.Player;
 import aaa.tavern.utils.HibernateUtil;
 
 public class PlaceTest {

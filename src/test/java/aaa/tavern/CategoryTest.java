@@ -8,7 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.*;
 
-import aaa.tavern.Entity.Category;
+import aaa.tavern.entity.Category;
 import aaa.tavern.utils.HibernateUtil;
 
 public class CategoryTest {

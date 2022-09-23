@@ -1,4 +1,4 @@
-package aaa.tavern.Entity;
+package aaa.tavern.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +13,7 @@ public class Player {
 	@Id
 	@Column(name = "id_player")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer playerId;
+	private Integer idPlayer;
 
 	@Column(name = "email", unique = true)
 	private String email;
@@ -32,12 +32,12 @@ public class Player {
 	}
 	
 	//#region get / set
-	public Integer getPlayerId() {
-		return playerId;
+	public Integer getIdPlayer() {
+		return idPlayer;
 	}
 
-	public void setPlayerId(Integer playerId) {
-		this.playerId = playerId;
+	public void setIdPlayer(Integer idPlayer) {
+		this.idPlayer = idPlayer;
 	}
 
 	public String getEmail() {

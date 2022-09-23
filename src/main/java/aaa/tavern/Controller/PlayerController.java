@@ -1,6 +1,4 @@
-package aaa.tavern.Controller;
-
-import java.net.BindException;
+package aaa.tavern.controller;
 
 import javax.validation.Valid;
 
@@ -14,15 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import aaa.tavern.Service.InscriptionPlayerService;
-import aaa.tavern.Service.PlayerDto;
-
+import aaa.tavern.dto.PlayerDto;
+import aaa.tavern.service.PlayerService;
 
 @Controller
 public class PlayerController {
 
     @Autowired
-    InscriptionPlayerService playerService ;
+    PlayerService playerService ;
 
     @PostMapping("/testPlayer")
     public String createPlayer(@Valid PlayerDto playerDto, BindingResult bindingResult, Model model, RedirectAttributes redirectAttrs){

@@ -14,8 +14,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import aaa.tavern.Entity.Customer;
-import aaa.tavern.Entity.TableRest;
+import aaa.tavern.entity.Customer;
+import aaa.tavern.entity.TableRest;
 import aaa.tavern.utils.HibernateUtil;
 
 

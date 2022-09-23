@@ -1,7 +1,8 @@
-package aaa.tavern.Entity;
+package aaa.tavern.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 
-import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,35 +10,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
 @Table(name = "manager")
 public class Manager {
-    public Manager(){
-
-    }
-    public Manager(
-    String name, 
-    Integer reputation, 
-    Integer chest, 
-    Integer level, 
-    Integer experience, 
-    Player player)
-    {
-        this.name =name;
-        this.reputation = reputation;
-        this.chest = chest;
-        this.level = level;
-        this.experience = experience;
-        this.player = player;
-    }
-
     @Id
     @Column(name = "id_manager")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer managerID;
+    private Integer idManager;
     
     @Column(name = "name")
     private String name;
@@ -61,17 +44,36 @@ public class Manager {
     @Transient
     private Integer maxExp;
 
-    @Transient
-    private Map<Integer, Integer> inventoryIngredient;
-    
+    @OneToMany(mappedBy = "manager")
+    private List<InventoryIngredient> listInventoryIngredient = new ArrayList<InventoryIngredient>() ;
+
+    public Manager(){
+  
+    }
+    public Manager(
+    String name, 
+    Integer reputation, 
+    Integer chest, 
+    Integer level, 
+    Integer experience, 
+    Player player)
+    {
+        this.name =name;
+        this.reputation = reputation;
+        this.chest = chest;
+        this.level = level;
+        this.experience = experience;
+        this.player = player;
+    }
+
     //#region get/set 
-    public Integer getManagerID() {
-        return managerID;
+    public Integer getIdManager() {
+        return idManager;
     }
 
 
-    public void setManagerID(Integer managerID) {
-        this.managerID = managerID;
+    public void setIdManager(Integer idManager) {
+        this.idManager = idManager;
     }
 
 
@@ -139,20 +141,19 @@ public class Manager {
         return maxExp;
     }
 
-
     public void setMaxExp(Integer maxExp) {
         this.maxExp = maxExp;
     }
 
-
-    public Map<Integer, Integer> getInventoryIngredient() {
-        return inventoryIngredient;
+    public boolean addInventoryIngredient(InventoryIngredient inventoryIngredient){
+        return listInventoryIngredient.add(inventoryIngredient) ;
     }
 
-
-    public void setInventoryIngredient(Map<Integer, Integer> inventoryIngredient) {
-        this.inventoryIngredient = inventoryIngredient;
+    public boolean removeInventoryIngredient(InventoryIngredient inventoryIngredient){
+        return listInventoryIngredient.remove(inventoryIngredient) ;
     }
+
+    
     // #endregion
 
     //#region INVENTORY INGREDIENT

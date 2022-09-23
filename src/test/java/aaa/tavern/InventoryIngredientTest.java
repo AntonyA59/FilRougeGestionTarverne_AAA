@@ -7,12 +7,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.*;
 
-import aaa.tavern.Entity.Category;
-import aaa.tavern.Entity.Ingredient;
-import aaa.tavern.Entity.InventoryIngredient;
-import aaa.tavern.Entity.Manager;
-import aaa.tavern.Entity.SubCategory;
-import aaa.tavern.Entity.Player;
+import aaa.tavern.entity.Category;
+import aaa.tavern.entity.Ingredient;
+import aaa.tavern.entity.InventoryIngredient;
+import aaa.tavern.entity.Manager;
+import aaa.tavern.entity.Player;
+import aaa.tavern.entity.SubCategory;
 import aaa.tavern.utils.HibernateUtil;
 
 
@@ -75,6 +75,7 @@ public class InventoryIngredientTest {
         Manager manager = new Manager("test", 10, 10, 10, 10, player);
         session.persist(manager);
         InventoryIngredient ingredient2 = new InventoryIngredient();
+        /*
         ingredient2.setIngredient(ingredient);
         ingredient2.setManager(manager);
         ingredient2.setQuantity(2);
@@ -88,12 +89,7 @@ public class InventoryIngredientTest {
         }
 
         assertTrue(idCreate);
-
-    
-
-        
-        
-
+        */
         
     }
     @Test

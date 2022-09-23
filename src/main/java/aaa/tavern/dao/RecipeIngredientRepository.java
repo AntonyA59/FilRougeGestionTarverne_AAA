@@ -1,9 +1,9 @@
-package aaa.tavern.CrudRepository;
+package aaa.tavern.dao;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import aaa.tavern.Entity.RecipeIngredient;
+import aaa.tavern.entity.RecipeIngredient;
 
 
 @Repository

@@ -6,10 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.hibernate.*;
 import org.junit.jupiter.api.*;
 
-import aaa.tavern.Entity.Manager;
-import aaa.tavern.Entity.Place;
-import aaa.tavern.Entity.TableRest;
-import aaa.tavern.Entity.Player;
+import aaa.tavern.entity.Manager;
+import aaa.tavern.entity.Place;
+import aaa.tavern.entity.Player;
+import aaa.tavern.entity.TableRest;
 import aaa.tavern.utils.HibernateUtil;
 
 

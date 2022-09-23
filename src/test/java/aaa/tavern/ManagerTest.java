@@ -15,8 +15,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import aaa.tavern.Entity.Manager;
-import aaa.tavern.Entity.Player;
+import aaa.tavern.entity.Manager;
+import aaa.tavern.entity.Player;
 import aaa.tavern.utils.HibernateUtil;
 
 
@@ -60,7 +60,7 @@ public class ManagerTest {
         Manager manager = new Manager("Test", 10, 10, 1, 20, player);
         session.persist(manager);
         boolean assertManager = false ;
-        if(manager.getManagerID() > 0){
+        if(manager.getIdManager() > 0){
             assertManager = true ;
         }
 
@@ -73,7 +73,7 @@ public class ManagerTest {
         session.persist(player);
         Manager manager = new Manager("Test", 10, 10, 1, 20, player);
         session.persist(manager);
-        Integer idManager= manager.getManagerID();
+        Integer idManager= manager.getIdManager();
         Manager manager2=session.find(Manager.class,idManager);
         assertEquals(manager2.getExperience(), 20);
     } 
@@ -84,7 +84,7 @@ public class ManagerTest {
         session.persist(player);
         Manager manager = new Manager("Test", 10, 10, 1, 20, player);
         session.persist(manager);
-        Integer idManager= manager.getManagerID();
+        Integer idManager= manager.getIdManager();
         Manager manager2=session.find(Manager.class,idManager);
         manager2.setExperience(30);
         session.persist(manager2);
@@ -98,7 +98,7 @@ public class ManagerTest {
         session.persist(player);
         Manager manager = new Manager("Test", 10, 10, 1, 20, player);
         session.persist(manager);
-        Integer idManager= manager.getManagerID();
+        Integer idManager= manager.getIdManager();
         Manager manager2=session.find(Manager.class,idManager);
         session.remove(manager2);
         Manager manager3=session.find(Manager.class,idManager);

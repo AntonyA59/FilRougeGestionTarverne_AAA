@@ -1,4 +1,4 @@
-package aaa.tavern.Entity;
+package aaa.tavern.entity;
 
 import java.sql.Time;
 import java.util.HashSet;
@@ -10,6 +10,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "customer")
 public class Customer{
+    @Id
+    @Column(name = "id_customer")
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    private Integer idCustomer;
+
     public Customer(){
 
     }
@@ -41,10 +46,6 @@ public class Customer{
         this.expGiven = expGiven;
         this.commandList = new HashSet<RecipeCustomer>();
     }
-    @Id
-    @Column(name = "id_customer")
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
-    private Integer customerId;
 
     @Column(name = "purse_of_gold")
     private Integer purseOfGold;
@@ -91,13 +92,13 @@ public class Customer{
     
     
     // #region Get/Set
-    public Integer getCustomerId() {
-        return customerId;
+    public Integer getIdCustomer() {
+        return idCustomer;
     }
 
 
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
+    public void setCustomerId(Integer idCustomer) {
+        this.idCustomer = idCustomer;
     }
 
 

@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 
 import org.junit.jupiter.api.*;
 
-import aaa.tavern.Entity.Player;
+import aaa.tavern.entity.Player;
 import aaa.tavern.utils.HibernateUtil;
 
 
