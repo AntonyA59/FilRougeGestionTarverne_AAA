@@ -1,5 +1,6 @@
 package aaa.tavern.entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -12,18 +13,18 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="recipe_ingredient")
-public class RecipeIngredient {
+public class RecipeIngredient implements Serializable {
     @EmbeddedId
     private RecipeIngredientKey id ;
 
     @ManyToOne
     @MapsId("idRecipe")
-    @JoinColumn(name = "id_recipe")
+    @JoinColumn(name = "recipe_id")
     private Recipe recipe ;
 
     @ManyToOne 
     @MapsId("idIngredient")
-    @JoinColumn(name = "id_ingredient")
+    @JoinColumn(name = "ingredient_id")
     private Ingredient ingredient ;
 
     @Column(name = "quantity")

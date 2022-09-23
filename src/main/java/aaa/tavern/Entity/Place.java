@@ -7,7 +7,7 @@ import javax.persistence.Table;
 @Table(name="place")
 public class Place{
     @Id 
-    @Column(name="id_place")
+    @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer placeId;
     
@@ -18,7 +18,7 @@ public class Place{
     private Integer level;
     
     @ManyToOne
-    @JoinColumn(name = "id_manager")
+    @JoinColumn(name = "manager_id")
     private Manager manager;
     
     public Place() {
@@ -28,25 +28,6 @@ public class Place{
         this.manager = new Manager();
     }
     
-    /*
-    public List<Integer> getListTable(){
-        List<Integer> listTable = new ArrayList<Integer>() ;
-        try{
-            ResultSet resultat = DBManager.execute("SELECT id_table FROM table WHERE id_place = "+this.placeId+" ;");
-            
-            while(resultat.next()){
-                listTable.add(resultat.getInt("id_table")) ;
-            }
-            return listTable ;
-        }
-        catch (SQLException ex) {
-            // handle any errors
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-            return null ;
-        }
-    }*/
 
     //#region
     public Integer getPlaceId() {

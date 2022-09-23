@@ -7,10 +7,10 @@ import javax.persistence.*;
 
 @Embeddable
 public class InventoryIngredientKey implements Serializable{
-    @Column(name = "id_manager")
+    @Column(name = "manager_id")
     private Integer managerId;
 
-    @Column(name = "id_ingredient")
+    @Column(name = "ingredient_id")
     private Integer ingredientId;
 
     @Override

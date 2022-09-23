@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Table(name="subcategory")
 public class SubCategory {
     @Id
-    @Column(name = "id_subcategory")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idSubCategory;
 
@@ -21,7 +21,7 @@ public class SubCategory {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "id_category")
+    @JoinColumn(name = "category_id")
     private Category category;
 
     public SubCategory() {

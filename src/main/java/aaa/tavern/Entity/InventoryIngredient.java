@@ -1,24 +1,25 @@
 package aaa.tavern.entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name="inventory_ingredient")
-public class InventoryIngredient {
+public class InventoryIngredient implements Serializable{
     
     @EmbeddedId
     private InventoryIngredientKey id = new InventoryIngredientKey();
     
     @ManyToOne
     @MapsId("managerId")
-    @JoinColumn(name = "id_manager")
+    @JoinColumn(name = "manager_id")
     private Manager manager;
     
     @ManyToOne
     @MapsId("ingredientId")
-    @JoinColumn(name = "id_ingredient")
+    @JoinColumn(name = "ingredient_id")
     private Ingredient ingredient;
     
     private Integer quantity ;

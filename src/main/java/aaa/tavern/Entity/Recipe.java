@@ -17,7 +17,7 @@ import java.sql.Date;
 @Table(name="recipe")
 public class Recipe{
 	@Id
-    @Column(name = "id_recipe")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idRecipe;
 
@@ -43,7 +43,7 @@ public class Recipe{
     private Integer expGiven;
 
 	@ManyToOne
-    @JoinColumn(name = "id_subcategory")
+    @JoinColumn(name = "subcategory_id")
     private SubCategory subCategory;
 
 	public Recipe() {
