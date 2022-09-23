@@ -1,5 +1,9 @@
 package aaa.tavern.entity;
 
+
+
+import java.util.Objects;
+
 import javax.persistence.*;
 import javax.persistence.Table;
 
@@ -28,7 +32,29 @@ public class RecipeCustomer{
         quantity = 0 ;
     }
 
-    //#region
+    /**
+	 * Deux RecipeCustomer sont les mêmes si ils ont le même identifiant.
+	 */
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+            RecipeCustomer that = (RecipeCustomer) o;
+        return Objects.equals(id, that.id);
+    }
+
+	/**
+	 * L'identifiant définit le hash.
+	 */
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    //#region get/set
     public RecipeCustomerKey getId() {
         return id;
     }
@@ -60,7 +86,6 @@ public class RecipeCustomer{
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
-
     //#endregion
 
 }

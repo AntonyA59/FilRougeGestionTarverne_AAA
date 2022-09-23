@@ -1,6 +1,7 @@
 package aaa.tavern.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.*;
 
@@ -12,7 +13,23 @@ public class InventoryIngredientKey implements Serializable{
     @Column(name = "id_ingredient")
     private Integer ingredientId;
 
-    //#region
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        InventoryIngredientKey that = (InventoryIngredientKey) o;
+        return managerId == that.managerId && ingredientId == that.ingredientId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(managerId, ingredientId);
+    }
+    
+    //#region get/set
     public Integer getManagerId() {
         return managerId;
     }
@@ -28,6 +45,7 @@ public class InventoryIngredientKey implements Serializable{
     public void setIngredientId(Integer ingredientId) {
         this.ingredientId = ingredientId;
     }
-
     //#endregion
+
+
 }
