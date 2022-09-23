@@ -25,13 +25,13 @@ public class InventoryIngredient implements Serializable{
     private Integer quantity ;
     
     
-    public InventoryIngredient() {
-        this.quantity = 0 ;
-        this.manager = new Manager() ;
-        this.ingredient = new Ingredient() ;
-    }
+    public InventoryIngredient() { }
     
-
+    public InventoryIngredient(Manager manager, Ingredient ingredient,Integer quantity){
+        this.manager= manager;
+        this.ingredient=ingredient;
+        this.quantity=quantity;
+    }
     /**
 	 * Deux InventoryIngredient sont les mêmes si ils ont le même identifiant.
 	 */

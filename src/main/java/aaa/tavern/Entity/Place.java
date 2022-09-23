@@ -21,12 +21,7 @@ public class Place{
     @JoinColumn(name = "manager_id")
     private Manager manager;
     
-    public Place() {
-        this.name = "";
-        this.type = 0;
-        this.level = 0;
-        this.manager = new Manager();
-    }
+    public Place() {}
     
 
     //#region
@@ -80,3 +75,23 @@ public class Place{
     }
     //#endregion
 }
+
+    /*
+    public List<Integer> getListTable(){
+        List<Integer> listTable = new ArrayList<Integer>() ;
+        try{
+            ResultSet resultat = DBManager.execute("SELECT id_table FROM table WHERE id_place = "+this.placeId+" ;");
+            
+            while(resultat.next()){
+                listTable.add(resultat.getInt("id_table")) ;
+            }
+            return listTable ;
+        }
+        catch (SQLException ex) {
+            // handle any errors
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            return null ;
+        }
+    }*/

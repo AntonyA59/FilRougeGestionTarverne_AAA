@@ -2,8 +2,9 @@ package aaa.tavern.entity;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PostLoad;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
@@ -20,9 +24,8 @@ import javax.validation.constraints.NotBlank;
 @Entity
 @Table(name = "manager")
 public class Manager {
-    public Manager(){
+    public Manager(){}
 
-    }
     public Manager(
     String name, 
     Integer reputation, 
@@ -69,6 +72,31 @@ public class Manager {
 
     @OneToMany(mappedBy = "manager")
     private List<InventoryIngredient> inventoryIngredient = new ArrayList<InventoryIngredient>();
+    
+    @Transient
+    private Map<Ingredient,Integer> ingredientQuantity;
+
+    @PostLoad
+    private void transformForIngredientQuantity(){
+        Map<Ingredient,Integer> tab= new HashMap<Ingredient,Integer>();
+        for(InventoryIngredient inventoryIngredient:this.inventoryIngredient){
+            Ingredient ingredient= inventoryIngredient.getIngredient();
+            Integer quantity= inventoryIngredient.getQuantity();
+            tab.put(ingredient, quantity);
+        }
+        this.ingredientQuantity=tab;
+    }
+    
+    @PrePersist
+    @PreUpdate
+    private void transformForIngredientIngredient(){
+        this.inventoryIngredient.clear();
+        for(Ingredient ingredient: this.ingredientQuantity.keySet()){
+            Integer quantity= this.ingredientQuantity.get(ingredient);
+            InventoryIngredient inventoryIngredient= new InventoryIngredient(this,ingredient,quantity);
+            this.inventoryIngredient.add(inventoryIngredient);
+        }
+    }
     
     //#region get/set 
     public Integer getManagerId() {
@@ -155,6 +183,14 @@ public class Manager {
     }
     public void setInventoryIngredient(List<InventoryIngredient> inventoryIngredient) {
         this.inventoryIngredient = inventoryIngredient;
+    }
+
+    public Map<Ingredient, Integer> getIngredientQuantity() {
+        return ingredientQuantity;
+    }
+
+    public void setIngredientQuantity(Map<Ingredient, Integer> ingredientQuantity) {
+        this.ingredientQuantity = ingredientQuantity;
     }
 
     // #endregion
