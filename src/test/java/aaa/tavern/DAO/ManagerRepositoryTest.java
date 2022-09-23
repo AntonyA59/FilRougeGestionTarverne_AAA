@@ -1,4 +1,4 @@
-package aaa.tavern.DAO;
+package aaa.tavern.dao;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,8 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 
-import aaa.tavern.Entity.Manager;
-import aaa.tavern.Entity.Player;
+
+import aaa.tavern.entity.Manager;
+import aaa.tavern.entity.Player;
 
 
 @DataJpaTest
@@ -28,7 +29,6 @@ public class ManagerRepositoryTest {
         List<Player> players = playerRepository.findByPlayerId(2);
         Player player = players.get(0);
         List<Manager> managers = managerRepository.findByPlayer(player);
-
         assertEquals(managers.size(), 3);
     }
 }

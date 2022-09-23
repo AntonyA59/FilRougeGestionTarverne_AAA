@@ -1,4 +1,4 @@
-package aaa.tavern.Entity;
+package aaa.tavern.entity;
 
 import javax.persistence.*;
 import javax.persistence.Table;

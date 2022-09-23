@@ -1,13 +1,13 @@
-package aaa.tavern.Service;
+package aaa.tavern.service;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import aaa.tavern.DAO.ManagerRepository;
-import aaa.tavern.Entity.Manager;
-import aaa.tavern.Entity.Player;
+import aaa.tavern.dao.ManagerRepository;
+import aaa.tavern.entity.Manager;
+import aaa.tavern.entity.Player;
 
 @Service
 public class ManagerService {
