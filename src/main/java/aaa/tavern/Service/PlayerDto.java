@@ -1,4 +1,4 @@
-package aaa.tavern.Service;
+package aaa.tavern.service;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

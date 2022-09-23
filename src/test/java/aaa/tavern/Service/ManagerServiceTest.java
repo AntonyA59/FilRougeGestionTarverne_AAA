@@ -19,6 +19,7 @@ import aaa.tavern.entity.Player;
 
 
 
+
 @SpringBootTest
 public class ManagerServiceTest {
 
