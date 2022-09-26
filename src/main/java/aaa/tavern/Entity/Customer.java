@@ -82,10 +82,6 @@ public class Customer{
 
     @OneToMany(mappedBy = "customer")
     private Set<RecipeCustomer> commandList=new HashSet<RecipeCustomer>();
-
-
-    
-    
     
     // #region Get/Set
     public Integer getIdCustomer() {
