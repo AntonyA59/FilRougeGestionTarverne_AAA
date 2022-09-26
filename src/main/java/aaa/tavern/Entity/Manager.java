@@ -70,9 +70,11 @@ public class Manager {
     @Transient
     private Integer maxExp;
 
+    //inventaire BDD
     @OneToMany(mappedBy = "manager")
     private List<InventoryIngredient> inventoryIngredient = new ArrayList<InventoryIngredient>();
     
+    //inventaire jeu
     @Transient
     private Map<Ingredient,Integer> ingredientQuantity;
 
