@@ -30,12 +30,11 @@ public class Ingredient {
     @JoinColumn(name = "id_subcategory")
 	private SubCategory subCategory;
 
-	public Ingredient() {
-		this.idIngredient = null ;
-		this.name = "";
-		this.level = 0;
-		this.buyingPrice = 0;
-		this.subCategory = new SubCategory();
+	public Ingredient() {}
+
+	public Ingredient(Integer idIngredient, String name) {
+		this.idIngredient = idIngredient;
+		this.name = name;
 	}
 	// #region Get/Set
 	
@@ -71,8 +70,6 @@ public class Ingredient {
 		this.subCategory = subCategory;
 	}
 
-	// #endregion
-
 	public Integer getIdIngredient() {
 		return idIngredient;
 	}
@@ -80,4 +77,6 @@ public class Ingredient {
 	public void setIdIngredient(Integer idIngredient) {
 		this.idIngredient = idIngredient;
 	}
+	// #endregion
+
 }

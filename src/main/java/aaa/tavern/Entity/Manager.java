@@ -1,6 +1,7 @@
 package aaa.tavern.entity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PostLoad;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
@@ -19,6 +23,27 @@ import javax.validation.constraints.NotBlank;
 @Entity
 @Table(name = "manager")
 public class Manager {
+<<<<<<< HEAD
+=======
+    public Manager(){}
+
+    public Manager(
+    String name, 
+    Integer reputation, 
+    Integer chest, 
+    Integer level, 
+    Integer experience, 
+    Player player)
+    {
+        this.name =name;
+        this.reputation = reputation;
+        this.chest = chest;
+        this.level = level;
+        this.experience = experience;
+        this.player = player;
+    }
+
+>>>>>>> origin/Spring-test-Alex6dev
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,6 +84,7 @@ public class Manager {
   
     }
     
+<<<<<<< HEAD
     public Manager(
     String name, 
     Integer reputation, 
@@ -75,6 +101,34 @@ public class Manager {
         this.player = player;
     }
 
+=======
+    //inventaire jeu
+    @Transient
+    private Map<Ingredient,Integer> ingredientQuantity;
+
+    @PostLoad
+    private void transformForIngredientQuantity(){
+        Map<Ingredient,Integer> tab= new HashMap<Ingredient,Integer>();
+        for(InventoryIngredient inventoryIngredient:this.inventoryIngredient){
+            Ingredient ingredient= inventoryIngredient.getIngredient();
+            Integer quantity= inventoryIngredient.getQuantity();
+            tab.put(ingredient, quantity);
+        }
+        this.ingredientQuantity=tab;
+    }
+    
+    @PrePersist
+    @PreUpdate
+    private void transformForIngredientIngredient(){
+        this.inventoryIngredient.clear();
+        for(Ingredient ingredient: this.ingredientQuantity.keySet()){
+            Integer quantity= this.ingredientQuantity.get(ingredient);
+            InventoryIngredient inventoryIngredient= new InventoryIngredient(this,ingredient,quantity);
+            this.inventoryIngredient.add(inventoryIngredient);
+        }
+    }
+    
+>>>>>>> origin/Spring-test-Alex6dev
     //#region get/set 
     public Integer getIdManager() {
         return idManager;
@@ -164,6 +218,7 @@ public class Manager {
         }
     }
 
+<<<<<<< HEAD
     public void removeIngredientQuantity(Ingredient ingredient){
         Integer quantity = ingredientQuantity.get(ingredient) ;
         if(quantity != null){
@@ -176,6 +231,16 @@ public class Manager {
         }
     }
     
+=======
+    public Map<Ingredient, Integer> getIngredientQuantity() {
+        return ingredientQuantity;
+    }
+
+    public void setIngredientQuantity(Map<Ingredient, Integer> ingredientQuantity) {
+        this.ingredientQuantity = ingredientQuantity;
+    }
+
+>>>>>>> origin/Spring-test-Alex6dev
     // #endregion
 
 }

@@ -19,10 +19,7 @@ public class Category {
     @Column(name="name")
     private String name;
 
-	public Category() {
-        this.idCategory = null ;
-        this.name = "" ;
-    }
+	public Category() {}
 //#region Get/Set
 	public String getName() {
 		return name;

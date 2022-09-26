@@ -26,6 +26,7 @@ public class InventoryIngredient implements Serializable{
     
     private Integer quantity ;
     
+<<<<<<< HEAD
     public InventoryIngredient() {
         this.quantity = 0 ;
         //this.manager = new Manager() ;
@@ -35,6 +36,15 @@ public class InventoryIngredient implements Serializable{
     public InventoryIngredient(Manager manager, Ingredient ingredient, int quantity) {
         id = new InventoryIngredientKey(manager.getIdManager(),ingredient.getIdIngredient());
         this.quantity = quantity;
+=======
+    
+    public InventoryIngredient() { }
+    
+    public InventoryIngredient(Manager manager, Ingredient ingredient,Integer quantity){
+        this.manager= manager;
+        this.ingredient=ingredient;
+        this.quantity=quantity;
+>>>>>>> origin/Spring-test-Alex6dev
     }
     /**
 	 * Deux InventoryIngredient sont les mêmes si ils ont le même identifiant.

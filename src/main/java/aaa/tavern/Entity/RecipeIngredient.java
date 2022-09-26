@@ -30,11 +30,12 @@ public class RecipeIngredient implements Serializable {
     @Column(name = "quantity")
     Integer quantity;
 
-    public RecipeIngredient() {
-        this.id = new RecipeIngredientKey() ;
-        this.quantity = 0;
-        this.recipe = new Recipe();
-        this.ingredient = new Ingredient();
+    public RecipeIngredient() {}
+
+    public RecipeIngredient(Recipe recipe, Ingredient ingredient, Integer quantity) {
+        this.recipe = recipe;
+        this.ingredient = ingredient;
+        this.quantity = quantity;
     }
 
     /**

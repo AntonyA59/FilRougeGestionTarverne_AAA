@@ -25,13 +25,7 @@ public class TableRest {
     @JoinColumn(name = "id_place")
     private Place place;
 
-    public TableRest() {
-        this.numberPlace = 0;
-        this.hygiene = 0f;
-        this.posX = 0f;
-        this.posY = 0f;
-        this.place = new Place();
-    }
+    public TableRest() {}
     /* 
     public boolean tableOccupied(){
         int nbCustomer = 0 ;
