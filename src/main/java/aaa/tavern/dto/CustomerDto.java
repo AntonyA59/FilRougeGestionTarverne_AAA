@@ -8,6 +8,41 @@ import aaa.tavern.entity.RecipeCustomer;
 
 public class CustomerDto {
     
+    protected CustomerDto(){
+
+    }
+
+    public CustomerDto(
+    Integer purseOfGold, 
+    Float happiness, 
+    Float hunger,
+    Float nauseaLevel,
+    Float alcoholLevel,
+    Float toilet,
+    Time timeInTavern,
+    Float nauseaTolerance,
+    Float alcoholTolerance,
+    Boolean gender,
+    Integer expGiven,
+    TableRestDto tableRestDto,
+    Set<RecipeCustomer> commandList
+    )
+    {
+        this.purseOfGold = purseOfGold;
+        this.happiness = happiness;
+        this.hunger = hunger;
+        this.nauseaLevel = nauseaLevel;
+        this.alcoholLevel = alcoholLevel;
+        this.toilet = toilet;
+        this.timeInTavern = timeInTavern;
+        this.nauseaTolerance = nauseaTolerance;
+        this.alcoholTolerance = alcoholTolerance;
+        this.gender = gender;
+        this.expGiven = expGiven;
+        this.tableRestDto = tableRestDto;
+        this.commandList = commandList;
+    }
+    
     private Integer purseOfGold;
 
     private Float happiness;
