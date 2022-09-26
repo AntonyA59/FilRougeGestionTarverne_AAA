@@ -2,6 +2,7 @@ package aaa.tavern.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -46,12 +47,18 @@ public class Manager {
     @Transient
     private Integer maxExp;
 
+    //inventaire BDD
     @OneToMany(mappedBy = "manager")
-    private List<InventoryIngredient> listInventoryIngredient = new ArrayList<InventoryIngredient>() ;
+    private List<InventoryIngredient> inventoryIngredient = new ArrayList<InventoryIngredient>();
+
+    //inventaire jeu
+    @Transient
+    private Map<Ingredient,Integer> ingredientQuantity;
 
     public Manager(){
   
     }
+    
     public Manager(
     String name, 
     Integer reputation, 
@@ -147,14 +154,27 @@ public class Manager {
         this.maxExp = maxExp;
     }
 
-    public boolean addInventoryIngredient(InventoryIngredient inventoryIngredient){
-        return listInventoryIngredient.add(inventoryIngredient) ;
+    public void addIngredientQuantity(Ingredient ingredient){
+        Integer quantity = ingredientQuantity.get(ingredient) ;
+        if(quantity != null){
+            quantity++ ;
+            ingredientQuantity.replace(ingredient, quantity) ;
+        }else{
+            ingredientQuantity.put(ingredient, 1) ;
+        }
     }
 
-    public boolean removeInventoryIngredient(InventoryIngredient inventoryIngredient){
-        return listInventoryIngredient.remove(inventoryIngredient) ;
+    public void removeIngredientQuantity(Ingredient ingredient){
+        Integer quantity = ingredientQuantity.get(ingredient) ;
+        if(quantity != null){
+            quantity-- ;
+            if(quantity <= 0){
+                ingredientQuantity.remove(ingredient) ;
+            }else{
+                ingredientQuantity.replace(ingredient, quantity) ;
+            }
+        }
     }
-
     
     // #endregion
 

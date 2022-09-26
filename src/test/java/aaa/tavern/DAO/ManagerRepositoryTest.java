@@ -30,4 +30,5 @@ public class ManagerRepositoryTest {
         List<Manager> managers = managerRepository.findByPlayer(player);
         assertEquals(managers.size(), 3);
     }
+
 }

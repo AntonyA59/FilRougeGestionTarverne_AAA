@@ -9,11 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import aaa.tavern.dao.IngredientRepository;
-import aaa.tavern.dao.InventoryIngredientRepository;
 import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.entity.Ingredient;
-import aaa.tavern.entity.InventoryIngredient;
-import aaa.tavern.entity.InventoryIngredientKey;
 import aaa.tavern.entity.Manager;
 import aaa.tavern.exception.ForbiddenException;
 
@@ -26,80 +23,69 @@ public class ShopService {
     IngredientRepository ingredientRepository ;
 
     @Autowired
-    InventoryIngredientRepository inventoryIngredientRepository ;
-
-    @Autowired
     Manager manager ;
 
     @Autowired
-    Map<Integer,Ingredient> mapIngredients ;
+    Map<Integer,Ingredient> mapIngredients ;  
 
     public void Buy(int idIngredient) throws ForbiddenException{
-        Optional<Ingredient> optIngredient = ingredientRepository.findById(idIngredient) ;
+        Ingredient ingredient = mapIngredients.get(idIngredient);
 
-        if (optIngredient.isEmpty())
-			throw new EntityNotFoundException();
-
-        Ingredient ingredient = optIngredient.get();
+        if(ingredient == null)
+            throw new EntityNotFoundException();
 
         if (manager.getChest() < ingredient.getBuyingPrice())
 			throw new ForbiddenException();
 
         manager.setChest(manager.getChest() - ingredient.getBuyingPrice());
         
+        Add(idIngredient) ;
+
         managerRepository.save(manager) ;
     }
 
     public void Sell(int idIngredient){
-        Optional<Ingredient> optIngredient = ingredientRepository.findById(idIngredient) ;
+        Ingredient ingredient = mapIngredients.get(idIngredient);
 
-        if (optIngredient.isEmpty())
-			throw new EntityNotFoundException();
-        
-        Ingredient ingredient = optIngredient.get();
+        if(ingredient == null)
+            throw new EntityNotFoundException();
+
         manager.setChest(manager.getChest() + ((int)Math.ceil(ingredient.getBuyingPrice()/2)));
+
+        Remove(idIngredient);
 
         managerRepository.save(manager) ;
     }
 
-    public void Add(int idIngredient){
-        //InventoryIngredientKey id = new InventoryIngredientKey(idManager, idIngredient);
-        //Optional<InventoryIngredient> optInventoryIngredient = inventoryIngredientRepository.findById(id) ;
-
-        //InventoryIngredient inventoryIngredient ;
-
+    private void Add(int idIngredient){
         Ingredient ingredient = mapIngredients.get(idIngredient) ;
 
-        if (ingredient != null)
+        if (ingredient != null){
             throw new EntityNotFoundException();   
-        /*       
-            //Ingredient ingredient = ingredientRepository.findById(idIngredient).get() ;
         }else{
-            //inventoryIngredient = optInventoryIngredient.get() ;
-            //inventoryIngredient.setQuantity(inventoryIngredient.getQuantity()+1);
+            manager.addIngredientQuantity(ingredient);
         }
-        */
-        //inventoryIngredientRepository.save(inventoryIngredient) ;
     }
 
-    public void Remove(int idManager, int idIngredient){
-        /*
-        InventoryIngredientKey id = new InventoryIngredientKey(idManager, idIngredient);
-        Optional<InventoryIngredient> optInventoryIngredient = inventoryIngredientRepository.findById(id) ;
+    private void Remove(int idIngredient){
+        Ingredient ingredient = mapIngredients.get(idIngredient) ;
 
-        InventoryIngredient inventoryIngredient ;
-
-        if (optInventoryIngredient.isEmpty()){
-            throw new EntityNotFoundException();
+        if (ingredient != null){
+            throw new EntityNotFoundException();   
         }else{
-            inventoryIngredient = optInventoryIngredient.get() ;
-            if(inventoryIngredient.getQuantity() == 1){
-                inventoryIngredientRepository.deleteById(id);
-            }else{
-                inventoryIngredient.setQuantity(inventoryIngredient.getQuantity()-1);
-            }
-            inventoryIngredientRepository.save(inventoryIngredient) ;
+            manager.removeIngredientQuantity(ingredient);
         }
-        */
+    }
+
+    public Map<Integer,Ingredient> getAllIngredients(){
+        return mapIngredients ;
+    }
+
+    public Ingredient getIngredient(int idIngredient){
+        if(mapIngredients.get(idIngredient) != null){
+            return mapIngredients.get(idIngredient) ;
+        }else{
+            return null ;
+        }
     }
 }
