@@ -16,7 +16,6 @@ public class ManagerService {
     private ManagerRepository managerRepository;
 
     public Manager createManager(String name, Player player ) {
-        
         Manager manager = new Manager(name, 0, 100, 1, 0, player);
         managerRepository.save(manager);
         return manager;
@@ -26,7 +25,6 @@ public class ManagerService {
         Optional<Manager> managerOpt= managerRepository.findById(manager.getIdManager());
         manager = managerOpt.get();
         managerRepository.delete(manager);
-
     }
 
     public void listExistingManager() {

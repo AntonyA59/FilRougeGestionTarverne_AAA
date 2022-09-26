@@ -38,9 +38,6 @@ public class RecipeService {
     @Autowired
     private CustomerRepository customerRepository;
 
-
-
-
     public void prepareRecipe(int idManager, Integer idRecipe ,Integer idCustomer) throws EntityNotFoundException,ForbiddenException{
         Recipe recipe=ServiceUtil.getEntity(recipeRepository, idRecipe);
         Customer customer= ServiceUtil.getEntity(customerRepository, idCustomer);
