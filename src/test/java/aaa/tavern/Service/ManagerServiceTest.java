@@ -14,12 +14,6 @@ import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dao.PlayerRepository;
 import aaa.tavern.entity.Manager;
 import aaa.tavern.entity.Player;
-import aaa.tavern.service.ManagerService;
-
-
-
-
-
 
 @SpringBootTest
 public class ManagerServiceTest {

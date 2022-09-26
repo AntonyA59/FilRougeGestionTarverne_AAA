@@ -11,8 +11,7 @@ public class InventoryIngredient implements Serializable{
     
     @EmbeddedId
     private InventoryIngredientKey id = new InventoryIngredientKey() ;
-
-    /*
+    
     @ManyToOne
     @MapsId("managerId")
     @JoinColumn(name = "manager_id")
@@ -22,21 +21,10 @@ public class InventoryIngredient implements Serializable{
     @MapsId("ingredientId")
     @JoinColumn(name = "ingredient_id")
     private Ingredient ingredient;
-    */
+    
     
     private Integer quantity ;
     
-<<<<<<< HEAD
-    public InventoryIngredient() {
-        this.quantity = 0 ;
-        //this.manager = new Manager() ;
-        //this.ingredient = new Ingredient() ;
-    }
-    
-    public InventoryIngredient(Manager manager, Ingredient ingredient, int quantity) {
-        id = new InventoryIngredientKey(manager.getIdManager(),ingredient.getIdIngredient());
-        this.quantity = quantity;
-=======
     
     public InventoryIngredient() { }
     
@@ -44,7 +32,6 @@ public class InventoryIngredient implements Serializable{
         this.manager= manager;
         this.ingredient=ingredient;
         this.quantity=quantity;
->>>>>>> origin/Spring-test-Alex6dev
     }
     /**
 	 * Deux InventoryIngredient sont les mêmes si ils ont le même identifiant.
@@ -77,7 +64,7 @@ public class InventoryIngredient implements Serializable{
     public void setId(InventoryIngredientKey id) {
         this.id = id;
     }
-/* 
+
     public Manager getManager() {
         return manager;
     }
@@ -96,7 +83,7 @@ public class InventoryIngredient implements Serializable{
     public void setIngredient(Ingredient ingredient) {
         this.ingredient = ingredient;
     }
-*/
+
 
     public Integer getQuantity() {
         return quantity;

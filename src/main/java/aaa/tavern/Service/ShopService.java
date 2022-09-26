@@ -1,7 +1,6 @@
 package aaa.tavern.service;
 
 import java.util.Map;
-import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -73,7 +72,7 @@ public class ShopService {
         if (ingredient != null){
             throw new EntityNotFoundException();   
         }else{
-            manager.removeIngredientQuantity(ingredient);
+            //manager.removeIngredientQuantity(ingredient);
         }
     }
 

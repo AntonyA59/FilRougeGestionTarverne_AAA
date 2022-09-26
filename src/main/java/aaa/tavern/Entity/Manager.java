@@ -23,27 +23,6 @@ import javax.validation.constraints.NotBlank;
 @Entity
 @Table(name = "manager")
 public class Manager {
-<<<<<<< HEAD
-=======
-    public Manager(){}
-
-    public Manager(
-    String name, 
-    Integer reputation, 
-    Integer chest, 
-    Integer level, 
-    Integer experience, 
-    Player player)
-    {
-        this.name =name;
-        this.reputation = reputation;
-        this.chest = chest;
-        this.level = level;
-        this.experience = experience;
-        this.player = player;
-    }
-
->>>>>>> origin/Spring-test-Alex6dev
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -84,7 +63,6 @@ public class Manager {
   
     }
     
-<<<<<<< HEAD
     public Manager(
     String name, 
     Integer reputation, 
@@ -100,11 +78,6 @@ public class Manager {
         this.experience = experience;
         this.player = player;
     }
-
-=======
-    //inventaire jeu
-    @Transient
-    private Map<Ingredient,Integer> ingredientQuantity;
 
     @PostLoad
     private void transformForIngredientQuantity(){
@@ -128,7 +101,6 @@ public class Manager {
         }
     }
     
->>>>>>> origin/Spring-test-Alex6dev
     //#region get/set 
     public Integer getIdManager() {
         return idManager;
@@ -218,20 +190,6 @@ public class Manager {
         }
     }
 
-<<<<<<< HEAD
-    public void removeIngredientQuantity(Ingredient ingredient){
-        Integer quantity = ingredientQuantity.get(ingredient) ;
-        if(quantity != null){
-            quantity-- ;
-            if(quantity <= 0){
-                ingredientQuantity.remove(ingredient) ;
-            }else{
-                ingredientQuantity.replace(ingredient, quantity) ;
-            }
-        }
-    }
-    
-=======
     public Map<Ingredient, Integer> getIngredientQuantity() {
         return ingredientQuantity;
     }
@@ -240,7 +198,6 @@ public class Manager {
         this.ingredientQuantity = ingredientQuantity;
     }
 
->>>>>>> origin/Spring-test-Alex6dev
     // #endregion
 
 }
