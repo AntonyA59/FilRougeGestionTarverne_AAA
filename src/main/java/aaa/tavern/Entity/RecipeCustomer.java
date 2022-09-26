@@ -1,34 +1,59 @@
 package aaa.tavern.entity;
 
+import java.io.Serializable;
+import java.util.Objects;
+
 import javax.persistence.*;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "recipe_customer")
-public class RecipeCustomer{
+public class RecipeCustomer implements Serializable{
 
     @EmbeddedId
     private RecipeCustomerKey id=new RecipeCustomerKey();
 
     @ManyToOne
     @MapsId("customerId")
-    @JoinColumn(name = "id_customer")
+    @JoinColumn(name = "customer_id")
     private Customer customer;
     
     @ManyToOne
     @MapsId("recipeId")
-    @JoinColumn(name = "id_recipe")
+    @JoinColumn(name = "recipe_id")
     private Recipe recipe;
     
-    private Integer quantity ;
+
     
     public RecipeCustomer() {
         customer = new Customer() ;
         recipe = new Recipe() ;
-        quantity = 0 ;
+
     }
 
-    //#region
+    /**
+	 * Deux RecipeCustomer sont les mêmes si ils ont le même identifiant.
+	 */
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+            RecipeCustomer that = (RecipeCustomer) o;
+        return Objects.equals(id, that.id);
+    }
+
+	/**
+	 * L'identifiant définit le hash.
+	 */
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    //#region get/set
     public RecipeCustomerKey getId() {
         return id;
     }
@@ -53,13 +78,6 @@ public class RecipeCustomer{
         this.recipe = recipe;
     }
 
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
 
     //#endregion
 

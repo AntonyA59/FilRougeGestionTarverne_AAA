@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Table(name = "player")
 public class Player {
 	@Id
-	@Column(name = "id_player")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idPlayer;
 
@@ -24,7 +24,9 @@ public class Player {
 	@Column(name = "password")
 	private String password;
 
-	public Player(){}
+	public Player(){
+		
+	}
 	public Player(String email, String nickname, String password){
 		this.email = email;
 		this.nickname = nickname;

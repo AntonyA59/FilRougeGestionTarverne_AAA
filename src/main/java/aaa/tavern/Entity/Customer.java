@@ -2,7 +2,6 @@ package aaa.tavern.entity;
 
 import java.sql.Time;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -11,41 +10,9 @@ import javax.persistence.Table;
 @Table(name = "customer")
 public class Customer{
     @Id
-    @Column(name = "id_customer")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Integer idCustomer;
-
-    public Customer(){
-
-    }
-    public Customer(
-        Integer purseOfGold, 
-        Float happiness, 
-        Float hunger, 
-        Float thirst, 
-        Float nausealevel, 
-        Float alcoholLevel, 
-        Float toilet, 
-        Float nauseaTolerance,
-        Float alcoholTolerance,
-        Boolean gender,
-        Integer expGiven
-
-        )
-        {
-        this.purseOfGold = purseOfGold;
-        this.happiness = happiness;
-        this.hunger = hunger;
-        this.thirst = thirst;
-        this.nauseaLevel = nausealevel;
-        this.alcoholLevel = alcoholLevel;
-        this.toilet = toilet;
-        this.nauseaTolerance = nauseaTolerance;
-        this.alcoholTolerance = alcoholTolerance;
-        this.gender = gender;
-        this.expGiven = expGiven;
-        this.commandList = new HashSet<RecipeCustomer>();
-    }
 
     @Column(name = "purse_of_gold")
     private Integer purseOfGold;
@@ -79,33 +46,55 @@ public class Customer{
     private Integer expGiven;
 
     @ManyToOne
-    @JoinColumn(name = "id_table_rest",nullable = true)
+    @JoinColumn(name = "table_rest_id",nullable = true)
     private TableRest tableRest;
 
     @OneToMany(mappedBy = "customer")
     private Set<RecipeCustomer> commandList=new HashSet<RecipeCustomer>();
 
-    @Transient
-    Random rand= new Random();
+    public Customer(){
 
-    
-    
+    }
+    public Customer(
+        Integer purseOfGold, 
+        Float happiness, 
+        Float hunger, 
+        Float thirst, 
+        Float nausealevel, 
+        Float alcoholLevel, 
+        Float toilet, 
+        Float nauseaTolerance,
+        Float alcoholTolerance,
+        Boolean gender,
+        Integer expGiven
+
+        )
+        {
+        this.purseOfGold = purseOfGold;
+        this.happiness = happiness;
+        this.hunger = hunger;
+        this.thirst = thirst;
+        this.nauseaLevel = nausealevel;
+        this.alcoholLevel = alcoholLevel;
+        this.toilet = toilet;
+        this.nauseaTolerance = nauseaTolerance;
+        this.alcoholTolerance = alcoholTolerance;
+        this.gender = gender;
+        this.expGiven = expGiven;
+        this.commandList = new HashSet<RecipeCustomer>();
+    }
     
     // #region Get/Set
     public Integer getIdCustomer() {
         return idCustomer;
     }
-
-
-    public void setCustomerId(Integer idCustomer) {
+    public void setIdCustomer(Integer idCustomer) {
         this.idCustomer = idCustomer;
     }
-
 
     public Integer getPurseOfGold() {
         return purseOfGold;
     }
-
 
     public void setPurseOfGold(Integer purseOfGold) {
         this.purseOfGold = purseOfGold;
@@ -241,15 +230,5 @@ public class Customer{
         this.commandList = commandList;
     }
 
-
-    public Random getRand() {
-        return rand;
-    }
-
-
-    public void setRand(Random rand) {
-        this.rand = rand;
-    }
-    
     // #endregion
 }

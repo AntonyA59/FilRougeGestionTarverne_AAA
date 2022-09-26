@@ -83,6 +83,7 @@ public class ShopService {
     }
 
     public void Remove(int idManager, int idIngredient){
+        /*
         InventoryIngredientKey id = new InventoryIngredientKey(idManager, idIngredient);
         Optional<InventoryIngredient> optInventoryIngredient = inventoryIngredientRepository.findById(id) ;
 
@@ -99,5 +100,6 @@ public class ShopService {
             }
             inventoryIngredientRepository.save(inventoryIngredient) ;
         }
+        */
     }
 }

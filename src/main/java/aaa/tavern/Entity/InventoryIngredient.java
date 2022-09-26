@@ -1,25 +1,26 @@
 package aaa.tavern.entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name="inventory_ingredient")
-public class InventoryIngredient {
+public class InventoryIngredient implements Serializable{
     
     @EmbeddedId
-    private InventoryIngredientKey id ;
+    private InventoryIngredientKey id = new InventoryIngredientKey() ;
 
     /*
     @ManyToOne
     @MapsId("managerId")
-    @JoinColumn(name = "id_manager")
+    @JoinColumn(name = "manager_id")
     private Manager manager;
     
     @ManyToOne
     @MapsId("ingredientId")
-    @JoinColumn(name = "id_ingredient")
+    @JoinColumn(name = "ingredient_id")
     private Ingredient ingredient;
     */
     
@@ -34,6 +35,27 @@ public class InventoryIngredient {
     public InventoryIngredient(Manager manager, Ingredient ingredient, int quantity) {
         id = new InventoryIngredientKey(manager.getIdManager(),ingredient.getIdIngredient());
         this.quantity = quantity;
+    }
+    /**
+	 * Deux InventoryIngredient sont les mêmes si ils ont le même identifiant.
+	 */
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        InventoryIngredient that = (InventoryIngredient) o;
+        return Objects.equals(id, that.id);
+    }
+
+	/**
+	 * L'identifiant définit le hash.
+	 */
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
     
     //#region get/set
@@ -76,26 +98,4 @@ public class InventoryIngredient {
     }
 
     //#endregion  
-
-    /**
-	 * Deux PlayerConsumable sont les mêmes si ils ont le même identifiant.
-	 */
-	@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
- 
-        if (o == null || getClass() != o.getClass())
-            return false;
- 
-        InventoryIngredient that = (InventoryIngredient) o;
-        return Objects.equals(id, that.id);
-    }
- 
-	/**
-	 * L'identifiant définit le hash.
-	 */
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
 }

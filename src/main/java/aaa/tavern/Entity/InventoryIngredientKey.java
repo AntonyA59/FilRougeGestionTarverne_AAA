@@ -7,51 +7,55 @@ import javax.persistence.*;
 
 @Embeddable
 public class InventoryIngredientKey implements Serializable{
-    private static final long serialVersionUID = 1L;
 
-    @Column(name = "id_manager")
-    private Integer idManager;
 
-    @Column(name = "id_ingredient")
-    private Integer idIngredient;
+    @Column(name = "manager_id")
+    private Integer managerId;
 
-    public InventoryIngredientKey(Integer idManager, Integer idIngredient) {
-        this.idManager = idManager;
-        this.idIngredient = idIngredient;
+    @Column(name = "ingredient_id")
+    private Integer ingredientId;
+
+    public InventoryIngredientKey() {
     }
 
-    //#region
-    public Integer getIdManager() {
-        return idManager;
+    public InventoryIngredientKey(Integer managerId, Integer ingredientId){
+        this.managerId = managerId ;
+        this.ingredientId = ingredientId ;
     }
-
-    public void setIdManager(Integer idManager) {
-        this.idManager = idManager;
-    }
-
-    public Integer getIdIngredient() {
-        return idIngredient;
-    }
-
-    public void setIdIngredient(Integer idIngredient) {
-        this.idIngredient = idIngredient;
-    }
-
-    //#endregion
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
- 
+
         if (o == null || getClass() != o.getClass())
             return false;
- 
+
         InventoryIngredientKey that = (InventoryIngredientKey) o;
-        return idManager == that.idManager && idIngredient == that.idIngredient;
+        return managerId == that.managerId && ingredientId == that.ingredientId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idManager, idIngredient);
+        return Objects.hash(managerId, ingredientId);
     }
+    
+    //#region get/set
+    public Integer getManagerId() {
+        return managerId;
+    }
+
+    public void setManagerId(Integer managerId) {
+        this.managerId = managerId;
+    }
+
+    public Integer getIngredientId() {
+        return ingredientId;
+    }
+
+    public void setIngredientId(Integer ingredientId) {
+        this.ingredientId = ingredientId;
+    }
+
+    //#endregion
+
 }

@@ -1,16 +1,34 @@
 package aaa.tavern.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.*;
 
 @Embeddable
 public class RecipeCustomerKey implements Serializable{
-    @Column(name = "id_customer")
+    @Column(name = "customer_id")
     private Integer customerId;
 
-    @Column(name = "id_recipe")
+    @Column(name = "recipe_id")
     private Integer recipeId;
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+            RecipeCustomerKey that = (RecipeCustomerKey) o;
+        return customerId == that.customerId && recipeId == that.recipeId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(customerId, recipeId);
+    }
 
     //#region
     public Integer getCustomerId() {
