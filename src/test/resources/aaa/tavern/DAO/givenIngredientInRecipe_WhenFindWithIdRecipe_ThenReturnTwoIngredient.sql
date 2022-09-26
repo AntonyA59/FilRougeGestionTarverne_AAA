@@ -1,24 +1,24 @@
-INSERT INTO category (name)
+INSERT INTO category (id, name)
 VALUES
-('testCategory');
+(1,'testCategory');
 
-INSERT INTO subcategory (name, category_id)
+INSERT INTO subcategory (id, name, category_id)
 VALUES
-('testSubCategory',1);
+(1, 'testSubCategory',1);
 
-INSERT INTO recipe (name, selling_price, level, consommation_time, preparation_time, peremption_date, exp_given, subcategory_id)
+INSERT INTO recipe (id, name, selling_price, level, consommation_time, preparation_time, peremption_date, exp_given, subcategory_id)
 VALUES
-('recipe1', 10, 1, '11:22:33', '11:22:33', '2022-01-02',1,1),
-('recipe2', 10, 1, '11:22:33', '11:22:33', '2022-01-02',1,1),
-('recipe3', 10, 1, '11:22:33', '11:22:33', '2022-01-02',1,1);
+(1, 'recipe1', 10, 1, '11:22:33', '11:22:33', '2022-01-02',1,1),
+(2, 'recipe2', 10, 1, '11:22:33', '11:22:33', '2022-01-02',1,1),
+(3, 'recipe3', 10, 1, '11:22:33', '11:22:33', '2022-01-02',1,1);
 
-INSERT INTO ingredient(name, level, buying_price, subcategory_id)
+INSERT INTO ingredient(id, name, level, buying_price, subcategory_id)
 VALUES
-('testIngredient1',1,2,1),
-('testIngredient2',1,2,1),
-('testIngredient3',1,2,1),
-('testIngredient4',1,2,1),
-('testIngredient5',1,2,1);
+(1, 'testIngredient1',1,2,1),
+(2, 'testIngredient2',1,2,1),
+(3, 'testIngredient3',1,2,1),
+(4, 'testIngredient4',1,2,1),
+(5, 'testIngredient5',1,2,1);
 
 INSERT INTO recipe_ingredient (ingredient_id, recipe_id, quantity)
 VALUES
