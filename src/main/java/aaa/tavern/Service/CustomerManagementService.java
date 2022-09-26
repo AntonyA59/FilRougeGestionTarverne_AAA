@@ -10,9 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import aaa.tavern.dao.CustomerRepository;
+import aaa.tavern.dao.ManagerCustomerRepository;
+import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dao.TableRestRepository;
+import aaa.tavern.dto.NewCustomerRandomDto;
 import aaa.tavern.dto.NewRecipeDto;
 import aaa.tavern.entity.Customer;
+import aaa.tavern.entity.Manager;
+import aaa.tavern.entity.ManagerCustomer;
 import aaa.tavern.entity.Recipe;
 import aaa.tavern.entity.TableRest;
 import aaa.tavern.service.utils.ListRecipe;
@@ -32,9 +37,15 @@ public class CustomerManagementService {
     @Autowired
     private TableRestRepository tableRestRepository;
 
+    @Autowired
+    private ManagerRepository managerRepository;
+
+    @Autowired
+    private ManagerCustomerRepository managerCustomerRepository;
+
     public NewRecipeDto getNewRecipe(){
         Object[] values= listRecipe.getListRecipe().values().toArray();
-        int index= randomService.getRandom(values.length);
+        int index= randomService.getRandomInt(values.length);
         Object randomObject= values[index];
         Recipe recipe=(Recipe)randomObject;
 
@@ -51,5 +62,16 @@ public class CustomerManagementService {
 
         tableRestRepository.save(tableRest);
         customerRepository.save(customer);
+    }
+
+    @Transactional
+    public NewCustomerRandomDto getNewCustomer(int managerId) throws EntityNotFoundException{
+        Manager manager= ServiceUtil.getEntity(managerRepository, managerId);
+        Customer newCustomer= new Customer();
+        customerRepository.save(newCustomer);
+        ManagerCustomer managerCustomer= new ManagerCustomer(manager,newCustomer);
+        managerCustomerRepository.save(managerCustomer);
+
+        return new NewCustomerRandomDto(newCustomer);
     }
 }

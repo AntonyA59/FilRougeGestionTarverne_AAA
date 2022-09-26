@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import aaa.tavern.dto.NewCustomerRandomDto;
 import aaa.tavern.dto.NewRecipeDto;
 import aaa.tavern.service.CustomerManagementService;
 
@@ -25,6 +26,12 @@ public class CustomerManagementController {
     public NewRecipeDto getNeWRecipeForCustomer(){
         return customerManagementService.getNewRecipe();
     }
+
+	@PostMapping("/api/newCustomer")
+	public NewCustomerRandomDto getNewCustomer(@RequestParam int managerId){
+		NewCustomerRandomDto newCustomer= customerManagementService.getNewCustomer(managerId);
+		return newCustomer;
+	}
 
 	@PostMapping("/api/customerAssignTable")
 	public ResponseEntity<String> assignNewTableForCustomer(@RequestParam int customerId, @RequestParam int tableId ){
