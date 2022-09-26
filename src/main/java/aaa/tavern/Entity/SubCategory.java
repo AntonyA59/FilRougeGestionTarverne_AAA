@@ -24,11 +24,7 @@ public class SubCategory {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    public SubCategory() {
-        this.idSubCategory = null ;
-        this.name = "";
-        this.category = new Category();
-    }
+    public SubCategory() {}
 
     // #region get/set
     

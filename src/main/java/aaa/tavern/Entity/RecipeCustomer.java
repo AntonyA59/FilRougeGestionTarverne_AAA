@@ -27,10 +27,11 @@ public class RecipeCustomer implements Serializable{
     
 
     
-    public RecipeCustomer() {
-        customer = new Customer() ;
-        recipe = new Recipe() ;
+    public RecipeCustomer() {}
 
+    public RecipeCustomer(Recipe recipe , Customer customer){
+        this.recipe= recipe;
+        this.customer= customer;
     }
 
     /**

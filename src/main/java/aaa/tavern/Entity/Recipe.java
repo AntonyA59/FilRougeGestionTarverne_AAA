@@ -7,10 +7,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 import java.sql.Date;
 
 @Entity
@@ -46,16 +49,22 @@ public class Recipe{
     @JoinColumn(name = "subcategory_id")
     private SubCategory subCategory;
 
-	public Recipe() {
-		this.idRecipe = null ;
-		this.name = "" ;
-		this.level = 0 ;
-		this.sellingPrice = 0 ;
-		this.consommationTime = new Time(0) ;
-		this.preparationTime = new Time(0) ;
-		this.peremptionDate = new Date(0) ;
-		this.expGiven = 0 ;
-		subCategory = new SubCategory() ;
+	@OneToMany(mappedBy = "recipe")
+	private List<RecipeIngredient> tabIngredientsForRecipe= new ArrayList<RecipeIngredient>();
+
+	public Recipe() {}
+
+	public Recipe( String name, Integer sellingPrice, Integer level, Time consommationTime,
+	Time preparationTime, Date peremptionDate, Integer expGiven, SubCategory subCategory,ArrayList<RecipeIngredient> tabIngredientsForRecipe) {
+		this.name = name;
+		this.sellingPrice = sellingPrice;
+		this.level = level;
+		this.consommationTime = consommationTime;
+		this.preparationTime = preparationTime;
+		this.peremptionDate = peremptionDate;
+		this.expGiven = expGiven;
+		this.subCategory = subCategory;
+		this.tabIngredientsForRecipe=tabIngredientsForRecipe;
 	}
 
 //#region get/set
@@ -144,6 +153,15 @@ public class Recipe{
 		return idRecipe;
 	}
 
+	public List<RecipeIngredient> getTabIngredientsForRecipe() {
+		return tabIngredientsForRecipe;
+	}
+
+	public void setTabIngredientsForRecipe(List<RecipeIngredient> tabIngredientsForRecipe) {
+		this.tabIngredientsForRecipe = tabIngredientsForRecipe;
+	}
+
+	
 //#endregion
 
 /*
