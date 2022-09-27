@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,11 +36,15 @@ public class RecipeService {
 
     @Autowired
     private RecipeCustomerRepository recipeCustomerRepository;
+    
     @Autowired
     private CustomerRepository customerRepository;
 
-    public void prepareRecipe(int idManager, Integer idRecipe ,Integer idCustomer) throws EntityNotFoundException,ForbiddenException{
-        Recipe recipe=ServiceUtil.getEntity(recipeRepository, idRecipe);
+
+    @Transactional(rollbackOn = {EntityNotFoundException.class,ForbiddenException.class}) 
+    public void prepareRecipe(int idManager, int idRecipe ,int idCustomer) throws EntityNotFoundException,ForbiddenException{
+        
+        Recipe recipe=ServiceUtil.getEntity(recipeRepository,idRecipe);
         Customer customer= ServiceUtil.getEntity(customerRepository, idCustomer);
         Manager manager= ServiceUtil.getEntity(managerRepository, idManager);
 

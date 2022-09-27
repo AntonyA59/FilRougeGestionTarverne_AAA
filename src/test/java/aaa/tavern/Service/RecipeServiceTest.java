@@ -26,6 +26,7 @@ import aaa.tavern.entity.Manager;
 import aaa.tavern.entity.Recipe;
 import aaa.tavern.entity.RecipeIngredient;
 import aaa.tavern.exception.ForbiddenException;
+import aaa.tavern.service.RecipeService;
 
 @SpringBootTest
 public class RecipeServiceTest {
@@ -179,7 +180,7 @@ public class RecipeServiceTest {
 
 
     @Test
-    public void requestRecipeFailure() throws EntityNotFoundException,ForbiddenException{
+    public void requestRecipeFailure(){
         //init recipe
         List<RecipeIngredient> tabIngredients= new ArrayList<RecipeIngredient>();
         Recipe recipe= new Recipe();

@@ -6,9 +6,14 @@ import java.util.Set;
 
 import javax.persistence.*;
 import javax.persistence.Table;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import aaa.tavern.service.RandomService;
 @Entity
 @Table(name = "customer")
 public class Customer{
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
@@ -51,9 +56,26 @@ public class Customer{
 
     @OneToMany(mappedBy = "customer")
     private Set<RecipeCustomer> commandList=new HashSet<RecipeCustomer>();
+    
+    @Transient
+    @Autowired
+    private RandomService randomService;
 
-    public Customer(){
-
+    public Customer() {
+        this.purseOfGold = randomService.getRandomInt(100);
+        this.happiness = randomService.getRandomFloat(100f);
+        this.hunger = randomService.getRandomFloat(100f);
+        this.thirst = randomService.getRandomFloat(100f);
+        this.nauseaLevel = randomService.getRandomFloat(100f);
+        this.alcoholLevel = randomService.getRandomFloat(100f);
+        this.toilet = randomService.getRandomFloat(100f);
+        this.timeInTavern= new Time(randomService.getRandomIntMinMax(500, 5000));
+        this.nauseaTolerance = randomService.getRandomFloat(100f);
+        this.alcoholTolerance = randomService.getRandomFloat(100f);
+        this.gender = randomService.getRandomBoolean();
+        this.expGiven = 0;
+        this.tableRest = new TableRest();
+        
     }
     public Customer(
         Integer purseOfGold, 
@@ -83,7 +105,7 @@ public class Customer{
         this.expGiven = expGiven;
         this.commandList = new HashSet<RecipeCustomer>();
     }
-    
+
     // #region Get/Set
     public Integer getIdCustomer() {
         return idCustomer;
