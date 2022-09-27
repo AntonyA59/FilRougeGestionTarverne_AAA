@@ -17,6 +17,7 @@ public class PlayerService {
     @Autowired 
     private PlayerRepository playerRepository;
 
+    //retourne l'id du player créer
     public int createPlayer(PlayerDto playerDto) {
         try{
             Player newPlayer = new Player(playerDto.getEmail(), playerDto.getNickname(), playerDto.getPassword()) ;
@@ -27,11 +28,12 @@ public class PlayerService {
         }
     }
 
-    public void deletePlayer(int idPlayer){
+    public boolean deletePlayer(int idPlayer){
         try{
             playerRepository.deleteById(idPlayer);
+            return true ;
         }catch(DataAccessException e){
-            throw e ;
+            return false ;
         }
     }
 
