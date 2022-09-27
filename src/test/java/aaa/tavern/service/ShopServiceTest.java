@@ -20,6 +20,7 @@ import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dto.IngredientDto;
 import aaa.tavern.entity.Ingredient;
 import aaa.tavern.entity.Manager;
+import aaa.tavern.entity.Player;
 import aaa.tavern.entity.SubCategory;
 import aaa.tavern.exception.ForbiddenException;
 
@@ -51,13 +52,15 @@ public class ShopServiceTest {
 
         Map<Ingredient,Integer> ingredientQuantity=new HashMap<Ingredient,Integer>();
         ingredientQuantity.put(ingredient1, 3);      
-        
+        Player player= new Player();
+        player.setIdPlayer(1);
         //init manager
         Manager manager =new Manager();
         manager.setChest(40);
         manager.setLevel(1);       
         manager.setIngredientQuantity(ingredientQuantity);
-
+        manager.setPlayer(player);
+        
         //Mokito
         Optional<Manager> optManager= Optional.of(manager);
         Optional<Ingredient> optIngredient= Optional.of(ingredient4);
