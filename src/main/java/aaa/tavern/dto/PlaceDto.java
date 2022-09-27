@@ -1,6 +1,6 @@
 package aaa.tavern.dto;
 
-import aaa.tavern.entity.Place;
+import aaa.tavern.Entity.Place;
 
 public class PlaceDto {
     
@@ -19,7 +19,12 @@ public class PlaceDto {
         this.level=place.getLevel();
     }
 
+
     //#region Get
+    public Integer getId() {
+        return id;
+    }
+    
     public String getName() {
         return name;
     }
@@ -33,10 +38,5 @@ public class PlaceDto {
     public Integer getLevel() {
         return level;
     }
-
-    public Integer getId() {
-        return id;
-    }
-
     //#endregion
 }

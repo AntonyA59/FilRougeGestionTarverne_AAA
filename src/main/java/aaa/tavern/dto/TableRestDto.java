@@ -1,6 +1,6 @@
 package aaa.tavern.dto;
 
-import aaa.tavern.entity.TableRest;
+import aaa.tavern.Entity.TableRest;
 
 public class TableRestDto {
     
@@ -28,6 +28,7 @@ public class TableRestDto {
     }
 
     //#region Get
+    
     public Integer getNumberPlace() {
         return numberPlace;
     }
@@ -51,9 +52,8 @@ public class TableRestDto {
     public Integer getPlace() {
         return place;
     }
-
-    
     //#endregion
+
 
     
 }

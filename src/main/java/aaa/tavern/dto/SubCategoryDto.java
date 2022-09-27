@@ -1,6 +1,6 @@
 package aaa.tavern.dto;
 
-import aaa.tavern.entity.SubCategory;
+import aaa.tavern.Entity.SubCategory;
 
 public class SubCategoryDto {
     
@@ -17,19 +17,19 @@ public class SubCategoryDto {
     }
 
     //#region Get
-    public String getName() {
-        return name;
-    }
-
     public Integer getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public Integer getCategoryDto() {
         return categoryDto;
     }
-
-    
     //#endregion
+
+
     
 }

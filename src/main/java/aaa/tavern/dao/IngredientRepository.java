@@ -1,11 +1,11 @@
-package aaa.tavern.dao;
+package aaa.tavern.DAO;
 
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import aaa.tavern.entity.Ingredient;
+import aaa.tavern.Entity.Ingredient;
 
 
 @Repository

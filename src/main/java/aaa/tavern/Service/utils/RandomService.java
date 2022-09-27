@@ -1,4 +1,4 @@
-package aaa.tavern.service.utils;
+package aaa.tavern.Service.utils;
 
 import java.util.Random;
 

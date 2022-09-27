@@ -1,14 +1,14 @@
-package aaa.tavern.dao;
+package aaa.tavern.DAO;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import aaa.tavern.entity.RecipeCustomer;
-import aaa.tavern.entity.RecipeCustomerKey;
+
+import aaa.tavern.Entity.RecipeCustomer;
 
 
 @Repository
-public interface RecipeCustomerRepository extends CrudRepository<RecipeCustomer, RecipeCustomerKey> {
+public interface RecipeCustomerRepository extends CrudRepository<RecipeCustomer, Integer> {
     
     
 }

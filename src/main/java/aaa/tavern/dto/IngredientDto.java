@@ -1,6 +1,6 @@
 package aaa.tavern.dto;
 
-import aaa.tavern.entity.Ingredient;
+import aaa.tavern.Entity.Ingredient;
 
 public class IngredientDto {
 
@@ -18,13 +18,7 @@ public class IngredientDto {
 
     }
 
-    public IngredientDto(int id, String name, int level, int buyingPrice, int idSubCategory){
-        this.id = id ;
-        this.name = name;
-        this.level = level;
-        this.buyingPrice = buyingPrice;
-        this.idSubCategory = idSubCategory ;
-    }
+
 
     public IngredientDto(Ingredient ingredient){
         this.id = ingredient.getIdIngredient() ;
@@ -73,5 +67,7 @@ public class IngredientDto {
 
 
     //#endregion
+
+
     
 }

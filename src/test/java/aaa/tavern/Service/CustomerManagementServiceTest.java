@@ -1,4 +1,4 @@
-package aaa.tavern.service;
+package aaa.tavern.Service;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -16,13 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import aaa.tavern.dao.CustomerRepository;
-import aaa.tavern.dao.TableRestRepository;
-import aaa.tavern.dto.RecipeDto;
-import aaa.tavern.entity.Customer;
-import aaa.tavern.entity.Recipe;
-import aaa.tavern.entity.TableRest;
-import aaa.tavern.service.utils.ListRecipe;
+import aaa.tavern.DAO.CustomerRepository;
+import aaa.tavern.DAO.TableRestRepository;
+import aaa.tavern.Entity.Customer;
+import aaa.tavern.Entity.TableRest;
+import aaa.tavern.Service.utils.ListRecipe;
 
 @SpringBootTest
 public class CustomerManagementServiceTest {

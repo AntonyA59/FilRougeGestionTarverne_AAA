@@ -4,8 +4,8 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.HashMap;
 
-import aaa.tavern.entity.Recipe;
-import aaa.tavern.entity.RecipeIngredient;
+import aaa.tavern.Entity.Recipe;
+import aaa.tavern.Entity.RecipeIngredient;
 
 public class RecipeDto {
     private Integer id ;
@@ -81,7 +81,6 @@ public class RecipeDto {
     public Integer getSubCategory() {
         return subCategory;
     }
-
 
     public HashMap<Integer, Integer> getTabIngredientsForRecipe() {
         return tabIngredientsForRecipe;

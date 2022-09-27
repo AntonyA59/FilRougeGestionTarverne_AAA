@@ -1,4 +1,4 @@
-package aaa.tavern.service;
+package aaa.tavern.Service;
 
 import java.util.List;
 
@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import aaa.tavern.dao.PlayerRepository;
+import aaa.tavern.DAO.PlayerRepository;
 import aaa.tavern.dto.PlayerDto;
-import aaa.tavern.entity.Player;
+import aaa.tavern.Entity.Player;
 
 @Service
 public class PlayerService {
