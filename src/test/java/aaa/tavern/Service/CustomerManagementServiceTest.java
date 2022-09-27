@@ -2,6 +2,9 @@ package aaa.tavern.service;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -15,8 +18,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import aaa.tavern.dao.CustomerRepository;
 import aaa.tavern.dao.TableRestRepository;
+import aaa.tavern.dto.RecipeDto;
 import aaa.tavern.entity.Customer;
+import aaa.tavern.entity.Recipe;
 import aaa.tavern.entity.TableRest;
+import aaa.tavern.service.utils.ListRecipe;
 
 @SpringBootTest
 public class CustomerManagementServiceTest {
@@ -28,6 +34,9 @@ public class CustomerManagementServiceTest {
 
     @Autowired
     private CustomerManagementService customerManagementService;
+
+    @MockBean
+    private ListRecipe listRecipe;
 
     @Test
     public void modifedTableRestWithAssignNewTable(){
@@ -87,7 +96,35 @@ public class CustomerManagementServiceTest {
 
         assertThrows(EntityNotFoundException.class, ()-> customerManagementService.assignNewTable(1, 1));
     }
+/* 
+    @Test
+    public void verifyReturnNewRecipeRandom(){
+        List<RecipeDto> listTestDto = new ArrayList<RecipeDto>();
+        Map<Integer,Recipe> listTest = new ArrayList<Recipe>();
 
+        Recipe recipe1= new Recipe();
+        recipe1.setIdRecipe(1);
+        recipe1.setName("recipe1");
+        listTest.add(recipe1);
+        RecipeDto recipeDto1= new RecipeDto(recipe1);
+        listTestDto.add(recipeDto1);
 
+        Recipe recipe2= new Recipe();
+        recipe2.setIdRecipe(2);
+        recipe2.setName("recipe2");
+        listTest.add(recipe2);
+        RecipeDto recipeDto2= new RecipeDto(recipe2);
+        listTestDto.add(recipeDto2);
+
+        Recipe recipe3= new Recipe();
+        recipe3.setIdRecipe(3);
+        recipe3.setName("recipe3");
+        listTest.add(recipe3);
+        RecipeDto recipeDto3= new RecipeDto(recipe3);
+        listTestDto.add(recipeDto3);
+
+        Mockito.when(listRecipe.getListRecipe()).thenReturn(listTest);
+
+    }*/
 
 }

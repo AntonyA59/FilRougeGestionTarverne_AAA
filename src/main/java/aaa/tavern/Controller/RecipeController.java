@@ -18,7 +18,13 @@ public class RecipeController {
 
     @Autowired
     private RecipeService recipeService ;
-    
+    /**
+     * 
+     * @param managerId
+     * @param recipeId
+     * @param customerId
+     * @return
+     */
     @PostMapping("/api/requestRecipe")
     public ResponseEntity<String> requestRecipe(@RequestParam int managerId,@RequestParam  int recipeId ,@RequestParam int customerId){
         try {
@@ -29,7 +35,7 @@ public class RecipeController {
         }catch (EntityNotFoundException e1){
 
 			throw new ResponseStatusException(
-				HttpStatus.NOT_FOUND, "Entity not found"
+				HttpStatus.NOT_FOUND, "recette,client ou manager ne sont pas dans la BDD"
 			);
 		}
 		catch (ForbiddenException e2){

@@ -24,13 +24,22 @@ public class CustomerManagementController {
     
     @GetMapping("/api/newRecipe")
     public RecipeDto getNeWRecipeForCustomer(){
+
         return customerManagementService.getNewRecipe();
     }
 
 	@PostMapping("/api/newCustomer")
 	public CustomerDto getNewCustomer(@RequestParam int managerId){
-		CustomerDto newCustomer= customerManagementService.getNewCustomer(managerId);
-		return newCustomer;
+		try {
+
+			return customerManagementService.getNewCustomer(managerId);
+		
+		} catch (EntityNotFoundException e) {
+		
+			throw new ResponseStatusException(
+				HttpStatus.NOT_FOUND, "Ce manager n'existe pas "
+			);
+		}
 	}
 
 	@PostMapping("/api/customerAssignTable")
@@ -39,9 +48,11 @@ public class CustomerManagementController {
 			customerManagementService.assignNewTable(customerId,tableId);
 			
 			return ResponseEntity.ok().build();
+		
 		} catch (EntityNotFoundException e) {
+		
 			throw new ResponseStatusException(
-				HttpStatus.NOT_FOUND, "Entity not found"
+				HttpStatus.NOT_FOUND, "Customer ou table non trouvé dans la BDD"
 			);
 		}
 	}
