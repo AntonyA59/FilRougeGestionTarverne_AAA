@@ -62,7 +62,7 @@ public class ShopService {
     }    
 
     //Charge l'ingredient et le manager pour ensuite vendre
-    public void prepareIngredientAndSell(int idManager, int idIngredient) throws EntityNotFoundException,ForbiddenException{
+    public ManagerDto prepareIngredientAndSell(int idManager, int idIngredient) throws EntityNotFoundException,ForbiddenException{
         Ingredient ingredient = ServiceUtil.getEntity(ingredientRepository, idIngredient);
         Manager manager= ServiceUtil.getEntity(managerRepository, idManager);
 
@@ -78,6 +78,9 @@ public class ShopService {
             throw new ForbiddenException();
         
         managerRepository.save(manager) ;
+
+        ManagerDto ManagerDto = new ManagerDto(manager) ;
+        return ManagerDto ;
     }  
 
     //Ajoute l'ingredient dans l'inventaire

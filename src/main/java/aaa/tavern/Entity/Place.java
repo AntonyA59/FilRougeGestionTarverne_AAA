@@ -9,7 +9,7 @@ public class Place{
     @Id 
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer placeId;
+    private Integer idPlace;
     
     private String name;
     
@@ -26,12 +26,12 @@ public class Place{
 
     //#region
     public Integer getPlaceId() {
-        return placeId;
+        return idPlace;
     }
 
 
-    public void setPlaceId(Integer placeId) {
-        this.placeId = placeId;
+    public void setPlaceId(Integer idPlace) {
+        this.idPlace = idPlace;
     }
 
 

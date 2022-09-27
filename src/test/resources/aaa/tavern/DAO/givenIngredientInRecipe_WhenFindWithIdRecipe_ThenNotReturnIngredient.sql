@@ -47,8 +47,6 @@ VALUES
 (3, 'testIngredient3',1,2,1),
 (4, 'testIngredient4',1,2,1),
 (5, 'testIngredient5',1,2,1);
->>>>>>> origin/master
->>>>>>> Spring_test-Adrien
 
 INSERT INTO recipe_ingredient (ingredient_id,recipe_id,quantity)
 VALUES

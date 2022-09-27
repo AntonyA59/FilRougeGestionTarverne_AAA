@@ -20,6 +20,7 @@ import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dto.IngredientDto;
 import aaa.tavern.entity.Ingredient;
 import aaa.tavern.entity.Manager;
+import aaa.tavern.entity.Player;
 import aaa.tavern.entity.SubCategory;
 import aaa.tavern.exception.ForbiddenException;
 
@@ -52,11 +53,16 @@ public class ShopServiceTest {
         Map<Ingredient,Integer> ingredientQuantity=new HashMap<Ingredient,Integer>();
         ingredientQuantity.put(ingredient1, 3);      
         
+        //init player
+        Player player = new Player() ;
+        player.setIdPlayer(1);
+
         //init manager
         Manager manager =new Manager();
         manager.setChest(40);
         manager.setLevel(1);       
         manager.setIngredientQuantity(ingredientQuantity);
+        manager.setPlayer(player);
 
         //Mokito
         Optional<Manager> optManager= Optional.of(manager);
@@ -197,11 +203,16 @@ public class ShopServiceTest {
         Map<Ingredient,Integer> ingredientQuantity=new HashMap<Ingredient,Integer>();
         ingredientQuantity.put(ingredient1, 3);
         
+        //init player
+        Player player = new Player() ;
+        player.setIdPlayer(1);
+
         //init manager
         Manager manager =new Manager();
         manager.setChest(200);
         manager.setLevel(1);       
         manager.setIngredientQuantity(ingredientQuantity);
+        manager.setPlayer(player);
 
         //Mokito
         Optional<Manager> optManager= Optional.of(manager);
@@ -327,11 +338,17 @@ public class ShopServiceTest {
 
         Map<Ingredient,Integer> ingredientQuantity=new HashMap<Ingredient,Integer>();
         ingredientQuantity.put(ingredient1, 1);
+
+        //init player
+        Player player = new Player() ;
+        player.setIdPlayer(1);
+
         //init manager
         Manager manager =new Manager();
         manager.setChest(200);
         manager.setLevel(1);       
         manager.setIngredientQuantity(ingredientQuantity);
+        manager.setPlayer(player);
 
         //Mokito
         Optional<Manager> optManager= Optional.of(manager);
@@ -344,7 +361,7 @@ public class ShopServiceTest {
         assertEquals(ingredientQuantity.size(), 0);
     }
 
-    /////// FONCTION DE LISTE DES INGREDIENTS ///////
+    /////// FONCTION POUR LISTER LES INGREDIENTS ///////
 
     @Test
     public void givenOrderListIngredients_WhenThreeIngredients_ThenLinkedByLevel() throws EntityNotFoundException, ForbiddenException{
@@ -352,8 +369,8 @@ public class ShopServiceTest {
         subCategory.setIdSubCategory(1);
 
         Ingredient ingredient1 = new Ingredient(1, "name1", 1, 10, subCategory) ;
-        Ingredient ingredient2 = new Ingredient(2, "name1", 1, 20, subCategory) ;
-        Ingredient ingredient3 = new Ingredient(3, "name1", 1, 30, subCategory) ;
+        Ingredient ingredient2 = new Ingredient(2, "name2", 1, 20, subCategory) ;
+        Ingredient ingredient3 = new Ingredient(3, "name3", 1, 30, subCategory) ;
 
         Manager manager =new Manager();
         manager.setLevel(1); 
