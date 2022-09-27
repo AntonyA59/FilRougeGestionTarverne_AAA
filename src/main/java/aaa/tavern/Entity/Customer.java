@@ -8,9 +8,6 @@ import java.util.Set;
 import javax.persistence.*;
 import javax.persistence.Table;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import aaa.tavern.service.RandomService;
 
 @Entity
 @Table(name = "customer")

@@ -26,7 +26,7 @@ public class ManagerService {
         return manager;
     }
 
-
+    
     public void deleteManager(Manager manager) {
         Optional<Manager> managerOpt= managerRepository.findById(manager.getIdManager());
         manager = managerOpt.get();
