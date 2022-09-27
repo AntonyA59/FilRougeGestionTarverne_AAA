@@ -18,7 +18,6 @@ import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.entity.Ingredient;
 import aaa.tavern.entity.Manager;
 import aaa.tavern.exception.ForbiddenException;
-import aaa.tavern.service.ShopService;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
 

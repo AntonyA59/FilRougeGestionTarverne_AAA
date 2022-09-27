@@ -7,7 +7,6 @@ import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatcher;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +16,6 @@ import aaa.tavern.dao.CustomerRepository;
 import aaa.tavern.dao.TableRestRepository;
 import aaa.tavern.entity.Customer;
 import aaa.tavern.entity.TableRest;
-import aaa.tavern.service.CustomerManagementService;
 
 @SpringBootTest
 public class CustomerManagementServiceTest {
