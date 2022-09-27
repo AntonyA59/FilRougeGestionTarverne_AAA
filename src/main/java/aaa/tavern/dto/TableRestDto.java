@@ -1,7 +1,11 @@
 package aaa.tavern.dto;
 
+import aaa.tavern.entity.TableRest;
+
 public class TableRestDto {
     
+    private Integer id;
+
     private Integer numberPlace;
     
     private Float hygiene;
@@ -10,8 +14,18 @@ public class TableRestDto {
 
     private Float posY;
     
-    private PlaceDto placeDto;
+    private Integer place;
 
+    
+    public TableRestDto(TableRest tableRest){
+
+        this.id=tableRest.getTableId();
+        this.numberPlace=tableRest.getNumberPlace();
+        this.hygiene=tableRest.getHygiene();
+        this.posX=tableRest.getPosX();
+        this.posY=tableRest.getPosY();
+        this.place= tableRest.getPlace().getPlaceId();
+    }
 
     //#region Get
     public Integer getNumberPlace() {
@@ -30,9 +44,15 @@ public class TableRestDto {
         return posY;
     }
 
-    public PlaceDto getPlaceDto() {
-        return placeDto;
+    public Integer getId() {
+        return id;
     }
+
+    public Integer getPlace() {
+        return place;
+    }
+
+    
     //#endregion
 
     

@@ -53,13 +53,14 @@ public class CustomerManagementServiceTest {
         
         TableRest tableRest= new TableRest();
         tableRest.setNumberPlace(5);
+        tableRest.setTableId(1);
         Optional<TableRest> optTableRest= Optional.of(tableRest);
         Mockito.when(tableRestRepository.findById(1)).thenReturn(optTableRest);
 
         customerManagementService.assignNewTable(1, 1);
 
         //à voir avec Loic
-        //Mockito.verify(customerRepository).save(ArgumentMatcher.argThat(customer->customer.getTableRest==1));
+        Mockito.verify(customerRepository).save(ArgumentMatchers.argThat(customer2->customer2.getTableRest().getTableId()==1));
     }
 
     @Test

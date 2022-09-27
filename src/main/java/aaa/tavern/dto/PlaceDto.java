@@ -1,14 +1,23 @@
 package aaa.tavern.dto;
 
+import aaa.tavern.entity.Place;
+
 public class PlaceDto {
     
+    private Integer id;
+
     private String name;
     
     private Integer type;
     
     private Integer level;
-    
-    private ManagerDto managerDto;
+
+    public PlaceDto(Place place){
+        this.id=place.getPlaceId();
+        this.name= place.getName();
+        this.type=place.getType();
+        this.level=place.getLevel();
+    }
 
     //#region Get
     public String getName() {
@@ -25,9 +34,9 @@ public class PlaceDto {
         return level;
     }
 
-
-    public ManagerDto getManagerDto() {
-        return managerDto;
+    public Integer getId() {
+        return id;
     }
+
     //#endregion
 }

@@ -48,7 +48,7 @@ public class ManagerService {
     }
 
     public ManagerDto loadManager(Manager manager){
-        return new ManagerDto(manager.getName(), manager.getReputation(), manager.getChest(), manager.getLevel(), manager.getIngredientQuantity());
+        return new ManagerDto(manager);
 
     }
 

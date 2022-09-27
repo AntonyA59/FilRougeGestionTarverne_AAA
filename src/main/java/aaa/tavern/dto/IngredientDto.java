@@ -1,15 +1,22 @@
 package aaa.tavern.dto;
 
+import aaa.tavern.entity.Ingredient;
+
 public class IngredientDto {
     protected IngredientDto(){
 
     }
 
-    public IngredientDto(String name, int level, int buyingPrice){
-        this.name = name;
-        this.level = level;
-        this.buyingPrice = buyingPrice;
+    public IngredientDto(Ingredient ingredient){
+        this.name = ingredient.getName();
+        this.level = ingredient.getLevel();
+        this.buyingPrice = ingredient.getBuyingPrice();
+        this.id=ingredient.getIdIngredient();
+        this.subCategory= ingredient.getSubCategory().getIdSubCategory();
     }
+
+
+    private Integer id;
 
 	private String name;
 
@@ -20,10 +27,11 @@ public class IngredientDto {
 	private int buyingPrice;
 
 
-    private SubCategoryDto subCategoryDto;
+    private Integer subCategory;
 
 
     //#region Get
+    
     public String getName() {
         return name;
     }
@@ -39,8 +47,12 @@ public class IngredientDto {
     }
 
 
-    public SubCategoryDto getSubCategoryDto() {
-        return subCategoryDto;
+    public Integer getSubCategory() {
+        return subCategory;
+    }
+    
+    public Integer getId() {
+        return id;
     }
     //#endregion
     

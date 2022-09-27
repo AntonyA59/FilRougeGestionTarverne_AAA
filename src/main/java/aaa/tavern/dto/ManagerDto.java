@@ -7,6 +7,7 @@ import java.util.Map;
 
 import aaa.tavern.entity.Ingredient;
 import aaa.tavern.entity.InventoryIngredient;
+import aaa.tavern.entity.Manager;
 
 public class ManagerDto {
 
@@ -14,13 +15,24 @@ public class ManagerDto {
 
     }
 
-    public ManagerDto(String name, Integer reputation, Integer chest, Integer level, Map<Ingredient,Integer> ingredientQuantity ){
-        this.name = name;
-        this.reputation = reputation;
-        this.chest = chest;
-        this.level = level;
-        this.ingredientQuantity= ingredientQuantity;
+    public ManagerDto(Manager manager){
+        this.id=manager.getManagerId();
+        this.name = manager.getName();
+        this.reputation = manager.getReputation();
+        this.chest = manager.getChest();
+        this.level = manager.getLevel();
+        this.experience=manager.getExperience();
+        this.player=manager.getPlayer().getPlayerId();
+        this.maxExp=manager.getMaxExp();
+        for(InventoryIngredient inventoryIngredient: manager.getInventoryIngredient()){
+            Integer ingredientId= inventoryIngredient.getIngredient().getIdIngredient();
+            Integer quantity= inventoryIngredient.getQuantity();
+            this.ingredientQuantity.put(ingredientId,quantity);
+        }
     }
+
+    private Integer id;
+
     private String name;
 
     private Integer reputation;
@@ -31,12 +43,24 @@ public class ManagerDto {
 
     private Integer experience;
 
-    private Map<Ingredient,Integer> ingredientQuantity = new HashMap<Ingredient, Integer>();
+    private Integer player;
+    
+    private Integer maxExp;
+    
+    private Map<Integer,Integer> ingredientQuantity = new HashMap<Integer, Integer>();
 
     
     //#region get/set
     public String getName() {
         return name;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Integer getPlayer() {
+        return player;
     }
 
     public Integer getReputation() {
@@ -55,8 +79,12 @@ public class ManagerDto {
         return experience;
     }
 
-    public Map<Ingredient, Integer> getIngredientQuantity() {
+    public Map<Integer, Integer> getIngredientQuantity() {
         return ingredientQuantity;
+    }
+
+    public Integer getMaxExp() {
+        return maxExp;
     }
 
 

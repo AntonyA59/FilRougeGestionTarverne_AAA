@@ -2,11 +2,9 @@ package aaa.tavern.service;
 
 import java.sql.Time;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.Table;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +14,8 @@ import aaa.tavern.dao.CustomerRepository;
 import aaa.tavern.dao.ManagerCustomerRepository;
 import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dao.TableRestRepository;
-import aaa.tavern.dto.NewCustomerRandomDto;
-import aaa.tavern.dto.NewRecipeDto;
+import aaa.tavern.dto.CustomerDto;
+import aaa.tavern.dto.RecipeDto;
 import aaa.tavern.entity.Customer;
 import aaa.tavern.entity.Manager;
 import aaa.tavern.entity.ManagerCustomer;
@@ -47,13 +45,13 @@ public class CustomerManagementService {
     @Autowired
     private ManagerCustomerRepository managerCustomerRepository;
 
-    public NewRecipeDto getNewRecipe(){
+    public RecipeDto getNewRecipe(){
         Object[] values= listRecipe.getListRecipe().values().toArray();
         int index= randomService.getRandomInt(values.length);
         Object randomObject= values[index];
         Recipe recipe=(Recipe)randomObject;
 
-        return new NewRecipeDto(recipe);
+        return new RecipeDto(recipe);
     }
 
     @Transactional(rollbackOn = EntityNotFoundException.class) 
@@ -69,7 +67,7 @@ public class CustomerManagementService {
     }
 
     @Transactional
-    public NewCustomerRandomDto getNewCustomer(int managerId) throws EntityNotFoundException{
+    public CustomerDto getNewCustomer(int managerId) throws EntityNotFoundException{
         Manager manager= ServiceUtil.getEntity(managerRepository, managerId);
         
         //init newCustomer 
@@ -96,6 +94,6 @@ public class CustomerManagementService {
         
         managerCustomerRepository.save(managerCustomer);
 
-        return new NewCustomerRandomDto(newCustomer);
+        return new CustomerDto(newCustomer);
     }
 }

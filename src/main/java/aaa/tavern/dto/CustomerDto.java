@@ -4,45 +4,13 @@ import java.sql.Time;
 import java.util.HashSet;
 import java.util.Set;
 
+import aaa.tavern.entity.Customer;
 import aaa.tavern.entity.RecipeCustomer;
+import aaa.tavern.entity.TableRest;
+
 
 public class CustomerDto {
-    
-    protected CustomerDto(){
 
-    }
-
-    public CustomerDto(
-    Integer purseOfGold, 
-    Float happiness, 
-    Float hunger,
-    Float nauseaLevel,
-    Float alcoholLevel,
-    Float toilet,
-    Time timeInTavern,
-    Float nauseaTolerance,
-    Float alcoholTolerance,
-    Boolean gender,
-    Integer expGiven,
-    TableRestDto tableRestDto,
-    Set<RecipeCustomer> commandList
-    )
-    {
-        this.purseOfGold = purseOfGold;
-        this.happiness = happiness;
-        this.hunger = hunger;
-        this.nauseaLevel = nauseaLevel;
-        this.alcoholLevel = alcoholLevel;
-        this.toilet = toilet;
-        this.timeInTavern = timeInTavern;
-        this.nauseaTolerance = nauseaTolerance;
-        this.alcoholTolerance = alcoholTolerance;
-        this.gender = gender;
-        this.expGiven = expGiven;
-        this.tableRestDto = tableRestDto;
-        this.commandList = commandList;
-    }
-    
     private Integer purseOfGold;
 
     private Float happiness;
@@ -67,13 +35,29 @@ public class CustomerDto {
 
     private Integer expGiven;
 
-    private TableRestDto tableRestDto;
+    private TableRest tableRest;
 
-    private Set<RecipeCustomer> commandList = new HashSet<RecipeCustomer>();
+    private Set<RecipeCustomer> commandList=new HashSet<RecipeCustomer>();
 
+    public CustomerDto(Customer customer) {
 
+        this.purseOfGold = customer.getPurseOfGold();
+        this.happiness = customer.getHappiness();
+        this.hunger = customer.getHunger();
+        this.thirst = customer.getThirst();
+        this.nauseaLevel = customer.getNauseaLevel();
+        this.alcoholLevel = customer.getAlcoholLevel();
+        this.toilet = customer.getToilet();
+        this.timeInTavern= customer.getTimeInTavern();
+        this.nauseaTolerance = customer.getNauseaTolerance();
+        this.alcoholTolerance = customer.getAlcoholTolerance();
+        this.gender = customer.getGender();
+        this.expGiven = 0;
+        this.tableRest = customer.getTableRest();
+        
+    }
 
-    //#region Get
+    //#region
     public Integer getPurseOfGold() {
         return purseOfGold;
     }
@@ -122,14 +106,12 @@ public class CustomerDto {
         return expGiven;
     }
 
-    public TableRestDto getTableRestDto() {
-        return tableRestDto;
+    public TableRest getTableRest() {
+        return tableRest;
     }
 
     public Set<RecipeCustomer> getCommandList() {
         return commandList;
     }
-    //#endregion
-
-    
+    //#endregion 
 }
