@@ -1,8 +1,10 @@
 package aaa.tavern.Service;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -19,8 +21,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import aaa.tavern.DAO.CustomerRepository;
 import aaa.tavern.DAO.TableRestRepository;
 import aaa.tavern.Entity.Customer;
+import aaa.tavern.Entity.Recipe;
 import aaa.tavern.Entity.TableRest;
 import aaa.tavern.Service.utils.ListRecipe;
+import aaa.tavern.dto.RecipeDto;
 
 @SpringBootTest
 public class CustomerManagementServiceTest {
@@ -94,35 +98,38 @@ public class CustomerManagementServiceTest {
 
         assertThrows(EntityNotFoundException.class, ()-> customerManagementService.assignNewTable(1, 1));
     }
-/* 
+
     @Test
     public void verifyReturnNewRecipeRandom(){
+        Map<Integer,Recipe> listTest = new HashMap<Integer,Recipe>();
         List<RecipeDto> listTestDto = new ArrayList<RecipeDto>();
-        Map<Integer,Recipe> listTest = new ArrayList<Recipe>();
-
+        
         Recipe recipe1= new Recipe();
         recipe1.setIdRecipe(1);
         recipe1.setName("recipe1");
-        listTest.add(recipe1);
+        listTest.put(recipe1.getIdRecipe(), recipe1);
+        //set tout les infos de la recipe //////////////////////////////////////////////////////////////
         RecipeDto recipeDto1= new RecipeDto(recipe1);
         listTestDto.add(recipeDto1);
-
+        
         Recipe recipe2= new Recipe();
         recipe2.setIdRecipe(2);
         recipe2.setName("recipe2");
-        listTest.add(recipe2);
+        listTest.put(recipe2.getIdRecipe(), recipe2);
         RecipeDto recipeDto2= new RecipeDto(recipe2);
         listTestDto.add(recipeDto2);
-
+        
         Recipe recipe3= new Recipe();
         recipe3.setIdRecipe(3);
         recipe3.setName("recipe3");
-        listTest.add(recipe3);
+        listTest.put(recipe3.getIdRecipe(), recipe3);
         RecipeDto recipeDto3= new RecipeDto(recipe3);
         listTestDto.add(recipeDto3);
 
         Mockito.when(listRecipe.getListRecipe()).thenReturn(listTest);
+        RecipeDto recipeDto=customerManagementService.getNewRecipe();
 
-    }*/
+        assertTrue(listTestDto.contains(recipeDto));
+    }
 
 }
