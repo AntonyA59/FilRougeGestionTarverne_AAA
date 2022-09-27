@@ -5,20 +5,27 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import aaa.tavern.DAO.ManagerRepository;
 import aaa.tavern.Entity.Manager;
 import aaa.tavern.Entity.Player;
 import aaa.tavern.dto.ManagerDto;
+import aaa.tavern.exception.ForbiddenException;
+import aaa.tavern.utils.ServiceUtil;
 
 @Service
 public class ManagerService {
     
     @Autowired
     private ManagerRepository managerRepository;
+
+   
+
 
     public Manager createManager(String name, Player player ) {
         Manager manager = new Manager(name, 0, 100, 1, 0, player);
@@ -61,14 +68,10 @@ public class ManagerService {
         return managersDto;
     }
 
-    /**
-     * Retrieves a manager from the database by ID
-     * @param manager
-     * @return Manager
-     */
-    public Manager selectManager(Manager manager){
-        Optional<Manager> managerOpt = managerRepository.findById(manager.getIdManager());
-        manager = managerOpt.get();
+    @Transactional(rollbackOn = {EntityNotFoundException.class, ForbiddenException.class})
+    public Manager selectManager(int idManager){
+        Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
+
         return manager;
     }
 
