@@ -27,7 +27,7 @@ public class Ingredient {
 	private Integer buyingPrice;
 
 	@ManyToOne
-    @JoinColumn(name = "id_subcategory")
+    @JoinColumn(name = "subcategory_id")
 	private SubCategory subCategory;
 
 	public Ingredient() {}
