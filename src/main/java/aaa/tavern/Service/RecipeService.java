@@ -1,6 +1,5 @@
 package aaa.tavern.Service;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityNotFoundException;
@@ -40,7 +39,14 @@ public class RecipeService {
     @Autowired
     private CustomerRepository customerRepository;
 
-
+    /**
+     * High-level methods to create the recipe you want to launch
+     * @param idManager id of the manager who wants to make the recipe
+     * @param idRecipe id of the recipe we want to make
+     * @param idCustomer id of the customer for whom we want to make the recipe
+     * @throws EntityNotFoundException One of the entities was not found in the database
+     * @throws ForbiddenException the manager does not have enough ingredients to make the recipe
+     */
     @Transactional(rollbackOn = {EntityNotFoundException.class,ForbiddenException.class}) 
     public void prepareRecipe(int idManager, int idRecipe ,int idCustomer) throws EntityNotFoundException,ForbiddenException{
         
@@ -51,14 +57,12 @@ public class RecipeService {
         requestRecipe(manager, recipe, customer);
     }
 
-    //a voir si besoin 
-    public List<RecipeIngredient> ListIngredientForRecipe(Integer idRecipe) throws EntityNotFoundException{        
-        Recipe recipe=ServiceUtil.getEntity(recipeRepository, idRecipe);
-        List<RecipeIngredient> listGet= recipeIngredientRepository.findByRecipe(recipe);
-
-        return listGet; 
-    }
-
+    /**
+     * We check if the manager has the resources to make the recipe
+     * @param manager manager who wants to make the recipe
+     * @param recipe recipe we want to make
+     * @return  returns (Y/N) if we have the necessary resources
+     */
     private boolean haveQuantityIngredientInInventaire(Manager manager,Recipe recipe){
         for (RecipeIngredient recipeIngredient : recipe.getTabIngredientsForRecipe()) {
             Ingredient ingredient= recipeIngredient.getIngredient();
@@ -70,6 +74,13 @@ public class RecipeService {
         return true;
     }
 
+    /**
+     * remove the resources from the inventory of the manager then create a RecipeCustomer and finally save
+     * @param manager manager who wants to make the recipe
+     * @param recipe recipe we want to make
+     * @param customer customer for whom we want to make the recipe
+     * @throws ForbiddenException the manager does not have enough ingredients to make the recipe
+     */
     private void requestRecipe(Manager manager, Recipe recipe,Customer customer) throws ForbiddenException{
         if(haveQuantityIngredientInInventaire(manager,recipe)){
             for (RecipeIngredient recipeIngredient : recipe.getTabIngredientsForRecipe()) {

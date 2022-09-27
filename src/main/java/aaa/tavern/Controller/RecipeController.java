@@ -25,7 +25,7 @@ public class RecipeController {
      * @param customerId
      * @return
      */
-    @PostMapping("/api/requestRecipe")
+    @PostMapping("/api/recipe/requestRecipe")
     public ResponseEntity<String> requestRecipe(@RequestParam int managerId,@RequestParam  int recipeId ,@RequestParam int customerId){
         try {
             recipeService.prepareRecipe(managerId,recipeId,customerId);

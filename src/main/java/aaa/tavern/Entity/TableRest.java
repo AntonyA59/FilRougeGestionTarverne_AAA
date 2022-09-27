@@ -1,5 +1,7 @@
 package aaa.tavern.Entity;
 
+import java.util.Objects;
+
 import javax.persistence.*;
 
 @Entity
@@ -26,6 +28,29 @@ public class TableRest {
     private Place place;
 
     public TableRest() {}
+
+    /**
+	 * Deux Tables sont les mêmes si ils ont le même identifiant.
+	 */
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        TableRest that = (TableRest) o;
+        return Objects.equals(tableId, that.tableId);
+    }
+
+	/**
+	 * L'identifiant définit le hash.
+	 */
+    @Override
+    public int hashCode() {
+        return tableId.hashCode();
+    }
+
     /* 
     public boolean tableOccupied(){
         int nbCustomer = 0 ;

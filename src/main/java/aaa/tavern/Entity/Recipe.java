@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.sql.Date;
 
 @Entity
@@ -66,6 +67,28 @@ public class Recipe{
 		this.subCategory = subCategory;
 		this.tabIngredientsForRecipe=tabIngredientsForRecipe;
 	}
+
+	/**
+	 * Deux Recipe sont les mêmes si ils ont le même identifiant.
+	 */
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        Recipe that = (Recipe) o;
+        return Objects.equals(idRecipe, that.idRecipe);
+    }
+
+	/**
+	 * L'identifiant définit le hash.
+	 */
+    @Override
+    public int hashCode() {
+        return idRecipe.hashCode();
+    }
 
 //#region get/set
 

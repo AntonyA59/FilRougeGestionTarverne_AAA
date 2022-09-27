@@ -46,6 +46,10 @@ public class CustomerManagementService {
     @Autowired
     private ManagerCustomerRepository managerCustomerRepository;
 
+    /**
+     * allows to send a random recipe which is in listRecipe in the utils folder
+     * @return RecipeDto Object that contains the information of the chosen recipe
+     */
     public RecipeDto getNewRecipe(){
         Object[] values= listRecipe.getListRecipe().values().toArray();
         int index= randomService.getRandomInt(values.length);
@@ -55,6 +59,12 @@ public class CustomerManagementService {
         return new RecipeDto(recipe);
     }
 
+    /**
+     * allows you to assign a customer to a place
+     * @param customerId Id of the customer to whom we must assign a table
+     * @param tableId table id to which a customer has been assigned
+     * @throws EntityNotFoundException 
+     */
     @Transactional(rollbackOn = EntityNotFoundException.class) 
     public void assignNewTable(int customerId,int tableId) throws EntityNotFoundException{
         Customer customer= ServiceUtil.getEntity(customerRepository, customerId);
@@ -67,6 +77,13 @@ public class CustomerManagementService {
         customerRepository.save(customer);
     }
 
+
+    /**
+     * allows you to create a new customer randomly
+     * @param managerId id of the manager to whom we create a new customer
+     * @return CustomerDto Object that contains the information of the new customer
+     * @throws EntityNotFoundException exception if the id maager is not in the database
+     */
     @Transactional
     public CustomerDto getNewCustomer(int managerId) throws EntityNotFoundException{
         Manager manager= ServiceUtil.getEntity(managerRepository, managerId);

@@ -1,5 +1,7 @@
 package aaa.tavern.Entity;
 
+import java.util.Objects;
+
 import javax.persistence.*;
 import javax.persistence.Table;
 
@@ -23,6 +25,27 @@ public class Place{
     
     public Place() {}
     
+    /**
+	 * Deux Places sont les mêmes si ils ont le même identifiant.
+	 */
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        Place that = (Place) o;
+        return Objects.equals(idPlace, that.idPlace);
+    }
+
+	/**
+	 * L'identifiant définit le hash.
+	 */
+    @Override
+    public int hashCode() {
+        return idPlace.hashCode();
+    }
 
     //#region
     public Integer getPlaceId() {

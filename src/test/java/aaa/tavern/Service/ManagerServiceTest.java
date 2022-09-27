@@ -20,6 +20,7 @@ import aaa.tavern.DAO.ManagerRepository;
 import aaa.tavern.DAO.PlayerRepository;
 import aaa.tavern.Entity.Manager;
 import aaa.tavern.Entity.Player;
+import aaa.tavern.Service.ManagerService;
 import aaa.tavern.dto.ManagerDto;
 
 

@@ -22,13 +22,13 @@ public class CustomerManagementController {
 	@Autowired
 	private CustomerManagementService customerManagementService;
     
-    @GetMapping("/api/newRecipe")
+    @GetMapping("/api/customerManagement/newRecipe")
     public RecipeDto getNeWRecipeForCustomer(){
 
         return customerManagementService.getNewRecipe();
     }
 
-	@PostMapping("/api/newCustomer")
+	@PostMapping("/api/customerManagement/newCustomer")
 	public CustomerDto getNewCustomer(@RequestParam int managerId){
 		try {
 
@@ -42,7 +42,7 @@ public class CustomerManagementController {
 		}
 	}
 
-	@PostMapping("/api/customerAssignTable")
+	@PostMapping("/api/customerManagement/customerAssignTable")
 	public ResponseEntity<String> assignNewTableForCustomer(@RequestParam int customerId, @RequestParam int tableId ){
 		try {
 			customerManagementService.assignNewTable(customerId,tableId);
@@ -56,4 +56,6 @@ public class CustomerManagementController {
 			);
 		}
 	}
+
+	////////////////////////////////customer leaver (client partir)   a faire !!!!!!
 }
