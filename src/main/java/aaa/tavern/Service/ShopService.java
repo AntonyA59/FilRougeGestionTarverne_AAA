@@ -1,5 +1,6 @@
 package aaa.tavern.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import aaa.tavern.dao.IngredientRepository;
 import aaa.tavern.dao.ManagerRepository;
+import aaa.tavern.dto.IngredientDto;
+import aaa.tavern.dto.ManagerDto;
 import aaa.tavern.entity.Ingredient;
 import aaa.tavern.entity.Manager;
 import aaa.tavern.exception.ForbiddenException;
@@ -24,13 +27,20 @@ public class ShopService {
     IngredientRepository ingredientRepository ;
 
     //retourne la liste des ingredients du jeu en foncion du niveau du Manager
-    public List<Ingredient> getAllIngredients(int idManager){
-        Manager manager= ServiceUtil.getEntity(managerRepository, idManager);
-        return ingredientRepository.findByLevelLessThanEqual(manager.getLevel()) ;
+    public List<IngredientDto> getAllIngredients(int idManager){
+        Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
+        List<Ingredient> listEntityIngredients = ingredientRepository.findByLevelLessThanEqual(manager.getLevel()) ;
+        List<IngredientDto> listIngredientsDto = new ArrayList<IngredientDto>() ;
+
+        for (Ingredient ingredientElement : listEntityIngredients) {
+            listIngredientsDto.add(new IngredientDto(ingredientElement)) ;
+        }
+
+        return listIngredientsDto ;
     }
 
     //Charge l'ingredient et le manager pour ensuite acheter
-    public void prepareIngredientAndBuy(int idManager, int idIngredient) throws EntityNotFoundException,ForbiddenException{
+    public ManagerDto prepareIngredientAndBuy(int idManager, int idIngredient) throws EntityNotFoundException,ForbiddenException{
         Ingredient ingredient = ServiceUtil.getEntity(ingredientRepository, idIngredient);
         Manager manager= ServiceUtil.getEntity(managerRepository, idManager);
 
@@ -46,6 +56,9 @@ public class ShopService {
         Add(ingredient,manager) ;
         
         managerRepository.save(manager) ;
+
+        ManagerDto ManagerDto = new ManagerDto(manager) ;
+        return ManagerDto ;
     }    
 
     //Charge l'ingredient et le manager pour ensuite vendre

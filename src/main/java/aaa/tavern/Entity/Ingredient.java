@@ -36,6 +36,14 @@ public class Ingredient {
 		this.idIngredient = idIngredient;
 		this.name = name;
 	}
+
+	public Ingredient(int idIngredient, String name, int level, int buyingPrice, SubCategory subCategory) {
+		this.idIngredient = idIngredient;
+		this.name = name;
+		this.level = level ;
+		this.buyingPrice = buyingPrice ;
+		this.subCategory = subCategory ;
+	}
 	// #region Get/Set
 	
 	public String getName() {

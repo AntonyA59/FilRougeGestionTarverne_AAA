@@ -1,6 +1,8 @@
 package aaa.tavern.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -15,8 +17,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import aaa.tavern.dao.IngredientRepository;
 import aaa.tavern.dao.ManagerRepository;
+import aaa.tavern.dto.IngredientDto;
 import aaa.tavern.entity.Ingredient;
 import aaa.tavern.entity.Manager;
+import aaa.tavern.entity.SubCategory;
 import aaa.tavern.exception.ForbiddenException;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -338,5 +342,34 @@ public class ShopServiceTest {
         shopService.prepareIngredientAndSell(1, 1) ;
 
         assertEquals(ingredientQuantity.size(), 0);
+    }
+
+    /////// FONCTION DE LISTE DES INGREDIENTS ///////
+
+    @Test
+    public void givenOrderListIngredients_WhenThreeIngredients_ThenLinkedByLevel() throws EntityNotFoundException, ForbiddenException{
+        SubCategory subCategory = new SubCategory() ;
+        subCategory.setIdSubCategory(1);
+
+        Ingredient ingredient1 = new Ingredient(1, "name1", 1, 10, subCategory) ;
+        Ingredient ingredient2 = new Ingredient(2, "name1", 1, 20, subCategory) ;
+        Ingredient ingredient3 = new Ingredient(3, "name1", 1, 30, subCategory) ;
+
+        Manager manager =new Manager();
+        manager.setLevel(1); 
+        manager.setIdManager(1);      
+
+        //Mokito
+        List<Ingredient> listIngredients = new ArrayList<Ingredient>() ;
+        listIngredients.add(ingredient1) ;
+        listIngredients.add(ingredient2) ; 
+        listIngredients.add(ingredient3) ; 
+        Optional<Manager> optManager= Optional.of(manager);
+        Mockito.when(ingredientRepository.findByLevelLessThanEqual(1)).thenReturn(listIngredients);
+        Mockito.when(managerRepository.findById(1)).thenReturn(optManager);
+
+        List<IngredientDto> listIngredientsDto = shopService.getAllIngredients(1) ;
+
+        assertEquals(listIngredientsDto.size(), 3);
     }
 }
