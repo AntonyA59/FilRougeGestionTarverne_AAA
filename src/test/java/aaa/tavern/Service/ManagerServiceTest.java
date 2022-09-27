@@ -8,19 +8,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.assertj.core.api.Assert;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.jdbc.Sql;
+
 
 import aaa.tavern.DAO.ManagerRepository;
 import aaa.tavern.DAO.PlayerRepository;
 import aaa.tavern.Entity.Manager;
 import aaa.tavern.Entity.Player;
-import aaa.tavern.Service.ManagerService;
 import aaa.tavern.dto.ManagerDto;
 
 

@@ -27,6 +27,7 @@ public class TableRestDto {
 
 
     //#region Get
+    
     public Integer getNumberPlace() {
         return numberPlace;
     }
@@ -47,6 +48,9 @@ public class TableRestDto {
         return placeDto;
     }
     //#endregion
+    public Integer getId() {
+        return id;
+    }
 
     
 }

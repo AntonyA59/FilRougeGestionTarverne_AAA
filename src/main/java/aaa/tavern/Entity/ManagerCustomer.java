@@ -50,4 +50,32 @@ public class ManagerCustomer implements Serializable{
     public int hashCode() {
         return id.hashCode();
     }
+
+    //#region get/set
+    public ManagerCustomerKey getId() {
+        return id;
+    }
+
+    public void setId(ManagerCustomerKey id) {
+        this.id = id;
+    }
+
+    public Manager getManager() {
+        return manager;
+    }
+
+    public void setManager(Manager manager) {
+        this.manager = manager;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+    //#endregion
+
+    
 }
