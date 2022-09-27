@@ -3,8 +3,8 @@ package aaa.tavern.dto;
 import java.util.HashMap;
 import java.util.Map;
 
-import aaa.tavern.entity.InventoryIngredient;
-import aaa.tavern.entity.Manager;
+import aaa.tavern.Entity.InventoryIngredient;
+import aaa.tavern.Entity.Manager;
 
 public class ManagerDto {
 
@@ -46,21 +46,15 @@ public class ManagerDto {
     
     private Map<Integer,Integer> ingredientQuantity = new HashMap<Integer, Integer>();
 
-    public ManagerDto(String name, Integer reputation, Integer chest, Integer level, Map<Integer,Integer> ingredientQuantity ){
-        this.name = name;
-        this.reputation = reputation;
-        this.chest = chest;
-        this.level = level;
-        this.ingredientQuantity= ingredientQuantity;
-    }
-    
-    //#region get/set
-    public String getName() {
-        return name;
-    }
 
+    
+    //#region get
     public Integer getId() {
         return id;
+    }
+    
+    public String getName() {
+        return name;
     }
 
     public Integer getPlayer() {
@@ -90,9 +84,5 @@ public class ManagerDto {
     public Integer getMaxExp() {
         return maxExp;
     }
-
-
     //#endregion
-
-    
 }

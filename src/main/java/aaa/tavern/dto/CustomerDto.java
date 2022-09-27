@@ -5,9 +5,9 @@ import java.sql.Time;
 import java.util.HashSet;
 import java.util.Set;
 
-import aaa.tavern.entity.Customer;
-import aaa.tavern.entity.RecipeCustomer;
-import aaa.tavern.entity.TableRest;
+import aaa.tavern.Entity.Customer;
+import aaa.tavern.Entity.RecipeCustomer;
+import aaa.tavern.Entity.TableRest;
 
 
 public class CustomerDto {
@@ -125,6 +125,8 @@ public class CustomerDto {
     public Date getConsommationStart() {
         return consommationStart;
     }
+
+
 
     
     //#endregion 

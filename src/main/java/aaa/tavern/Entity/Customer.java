@@ -1,4 +1,4 @@
-package aaa.tavern.entity;
+package aaa.tavern.Entity;
 
 import java.sql.Date;
 import java.sql.Time;
