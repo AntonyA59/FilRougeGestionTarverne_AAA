@@ -2,6 +2,19 @@ package aaa.tavern.dto;
 
 public class TableRestDto {
     
+    protected TableRestDto(){
+
+    }
+    public TableRestDto(Integer numberPlace, Float hygiene, Float posX, Float posY, PlaceDto placeDto){
+        this.numberPlace = numberPlace;
+        this.hygiene = hygiene;
+        this.posX = posX;
+        this.posY = posY;
+        this.placeDto = placeDto;
+    }
+
+    private Integer id;
+    
     private Integer numberPlace;
     
     private Float hygiene;

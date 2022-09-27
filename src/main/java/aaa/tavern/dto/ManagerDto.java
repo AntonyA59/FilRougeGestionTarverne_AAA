@@ -1,12 +1,11 @@
 package aaa.tavern.dto;
 
-import java.util.ArrayList;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import aaa.tavern.entity.Ingredient;
-import aaa.tavern.entity.InventoryIngredient;
+import aaa.tavern.Entity.Ingredient;
+
 
 public class ManagerDto {
 
@@ -14,13 +13,17 @@ public class ManagerDto {
 
     }
 
-    public ManagerDto(String name, Integer reputation, Integer chest, Integer level, Map<Ingredient,Integer> ingredientQuantity ){
+    public ManagerDto(Integer id,String name, Integer reputation, Integer chest, Integer level, Map<Ingredient,Integer> ingredientQuantity ){
+        this.id = id;
         this.name = name;
         this.reputation = reputation;
         this.chest = chest;
         this.level = level;
         this.ingredientQuantity= ingredientQuantity;
     }
+
+    private Integer id;
+
     private String name;
 
     private Integer reputation;
@@ -34,7 +37,12 @@ public class ManagerDto {
     private Map<Ingredient,Integer> ingredientQuantity = new HashMap<Ingredient, Integer>();
 
     
-    //#region get/set
+    //#region get
+
+    public Integer getId() {
+        return id;
+    }
+    
     public String getName() {
         return name;
     }
@@ -60,6 +68,8 @@ public class ManagerDto {
     }
 
 
+
+    
     //#endregion
 
     

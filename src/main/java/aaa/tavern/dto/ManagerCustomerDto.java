@@ -3,9 +3,16 @@ package aaa.tavern.dto;
 public class ManagerCustomerDto {
     
     
-    private ManagerDto managerDto;
+    protected ManagerCustomerDto(){
 
-    
+    }
+
+    public ManagerCustomerDto(ManagerDto managerDto, CustomerDto customerDto) {
+        this.managerDto = managerDto;
+        this.customerDto = customerDto;
+    }
+
+    private ManagerDto managerDto;
     private CustomerDto customerDto;
 
     //#region Get

@@ -5,11 +5,14 @@ public class IngredientDto {
 
     }
 
-    public IngredientDto(String name, int level, int buyingPrice){
+    public IngredientDto(Integer id, String name, int level, int buyingPrice){
+        this.id = id;
         this.name = name;
         this.level = level;
         this.buyingPrice = buyingPrice;
     }
+
+    private Integer id; 
 
 	private String name;
 
@@ -24,6 +27,10 @@ public class IngredientDto {
 
 
     //#region Get
+    public Integer getId() {
+        return id;
+    }
+    
     public String getName() {
         return name;
     }
@@ -43,5 +50,7 @@ public class IngredientDto {
         return subCategoryDto;
     }
     //#endregion
+
+
     
 }

@@ -4,7 +4,7 @@ import java.sql.Time;
 import java.util.HashSet;
 import java.util.Set;
 
-import aaa.tavern.entity.RecipeCustomer;
+import aaa.tavern.Entity.RecipeCustomer;
 
 public class CustomerDto {
     
@@ -13,6 +13,7 @@ public class CustomerDto {
     }
 
     public CustomerDto(
+    Integer id,
     Integer purseOfGold, 
     Float happiness, 
     Float hunger,
@@ -28,6 +29,7 @@ public class CustomerDto {
     Set<RecipeCustomer> commandList
     )
     {
+        this.id = id;
         this.purseOfGold = purseOfGold;
         this.happiness = happiness;
         this.hunger = hunger;
@@ -43,6 +45,8 @@ public class CustomerDto {
         this.commandList = commandList;
     }
     
+    private Integer id;
+
     private Integer purseOfGold;
 
     private Float happiness;
@@ -74,6 +78,10 @@ public class CustomerDto {
 
 
     //#region Get
+    public Integer getId() {
+        return id;
+    }
+    
     public Integer getPurseOfGold() {
         return purseOfGold;
     }
@@ -130,6 +138,8 @@ public class CustomerDto {
         return commandList;
     }
     //#endregion
+
+
 
     
 }

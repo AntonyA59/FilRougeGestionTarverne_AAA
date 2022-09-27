@@ -1,4 +1,4 @@
-package aaa.tavern.entity;
+package aaa.tavern.Entity;
 
 import java.sql.Time;
 import java.util.HashSet;

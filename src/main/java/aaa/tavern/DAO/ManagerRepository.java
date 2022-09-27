@@ -1,12 +1,12 @@
-package aaa.tavern.dao;
+package aaa.tavern.DAO;
 
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import aaa.tavern.entity.Manager;
-import aaa.tavern.entity.Player;
+import aaa.tavern.Entity.Manager;
+import aaa.tavern.Entity.Player;
 
 
 @Repository

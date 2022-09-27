@@ -5,6 +5,23 @@ import java.sql.Date;
 
 public class RecipeDto {
     
+    protected RecipeDto(){
+
+    }
+
+    public RecipeDto(Integer id,String name, Integer sellingPrice, Integer level, Time consommationTime, Time preparationTime, 
+    Date peremptionDate, Integer ExpGiven, SubCategoryDto subCategoryDto ){
+        this.id = id;
+        this.name = name;
+        this.sellingPrice = sellingPrice;
+        this.level = level;
+        this.consommationTime = consommationTime;
+        this.preparationTime = preparationTime;
+        this.peremptionDate = peremptionDate;
+        this.expGiven = expGiven;
+        this.subCategoryDto = subCategoryDto;
+    }
+    private Integer id;
 
     private String name;
 
@@ -23,6 +40,10 @@ public class RecipeDto {
     private SubCategoryDto subCategoryDto;
 
     //#region Get
+    public Integer getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
@@ -55,6 +76,8 @@ public class RecipeDto {
         return subCategoryDto;
     }
     //#endregion
+
+
 
 
     
