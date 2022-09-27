@@ -3,7 +3,6 @@ package aaa.tavern.dto;
 import java.util.HashMap;
 import java.util.Map;
 
-import aaa.tavern.entity.Ingredient;
 import aaa.tavern.entity.InventoryIngredient;
 import aaa.tavern.entity.Manager;
 
