@@ -19,7 +19,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import aaa.tavern.DAO.CustomerRepository;
 import aaa.tavern.DAO.ManagerRepository;
-import aaa.tavern.DAO.RecipeCustomerRepository;
 import aaa.tavern.DAO.RecipeRepository;
 import aaa.tavern.Entity.Customer;
 import aaa.tavern.Entity.Ingredient;
@@ -41,9 +40,6 @@ public class RecipeServiceTest {
 
     @MockBean
     private ManagerRepository managerRepository;
-
-    @Autowired
-    private RecipeCustomerRepository recipeCustomerRepository;
 
     @MockBean
     private CustomerRepository customerRepository;
@@ -176,9 +172,9 @@ public class RecipeServiceTest {
         Mockito.when(managerRepository.findById(1)).thenReturn(optManager);
 
          //init customer
-         Customer customer= new Customer(null, null, null, null, null, null, null, null, null, null, null);
-         Optional<Customer> optCustomer= Optional.of(customer);        
-         Mockito.when(customerRepository.findById(1)).thenReturn(optCustomer);
+        Customer customer= new Customer(null, null, null, null, null, null, null, null, null, null, null);
+        Optional<Customer> optCustomer= Optional.of(customer);        
+        Mockito.when(customerRepository.findById(1)).thenReturn(optCustomer);
         
         assertThrows(EntityNotFoundException.class, ()->recipeService.prepareRecipe(1, 1, 1));
     }

@@ -29,6 +29,12 @@ public class ManagerCustomer implements Serializable{
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
+    public ManagerCustomer(Manager manager, Customer newCustomer) {
+        this.manager=manager;
+        this.customer=newCustomer;
+    }
+
+    public ManagerCustomer(){}
     /**
 	 * Deux ManagerCustomer sont les mêmes si ils ont le même identifiant.
 	 */

@@ -7,11 +7,21 @@ import javax.persistence.*;
 
 @Embeddable
 public class InventoryIngredientKey implements Serializable{
+
+
     @Column(name = "manager_id")
     private Integer managerId;
 
     @Column(name = "ingredient_id")
     private Integer ingredientId;
+
+    public InventoryIngredientKey() {
+    }
+
+    public InventoryIngredientKey(Integer managerId, Integer ingredientId){
+        this.managerId = managerId ;
+        this.ingredientId = ingredientId ;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -45,7 +55,7 @@ public class InventoryIngredientKey implements Serializable{
     public void setIngredientId(Integer ingredientId) {
         this.ingredientId = ingredientId;
     }
-    //#endregion
 
+    //#endregion
 
 }

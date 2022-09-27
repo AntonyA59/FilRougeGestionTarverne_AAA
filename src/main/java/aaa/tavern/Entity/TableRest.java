@@ -22,7 +22,7 @@ public class TableRest {
     private Float posY;
     
     @ManyToOne
-    @JoinColumn(name = "id_place")
+    @JoinColumn(name = "place_id")
     private Place place;
 
     public TableRest() {}

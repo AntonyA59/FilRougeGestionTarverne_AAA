@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import aaa.tavern.DAO.PlayerRepository;
 import aaa.tavern.Entity.Player;
+import aaa.tavern.dto.PlayerDto;
 
 @Service
 public class InscriptionPlayerService {

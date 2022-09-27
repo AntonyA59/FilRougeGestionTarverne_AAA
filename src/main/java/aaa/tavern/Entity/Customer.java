@@ -1,17 +1,52 @@
 package aaa.tavern.Entity;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
 import javax.persistence.Table;
+
+
 @Entity
 @Table(name = "customer")
 public class Customer{
-    public Customer(){
 
+
+    public Customer() {}
+    
+    //constructeur pour le service newCustomer in customerManagementService
+    public Customer(Integer purseOfGold, 
+                    Float happiness, 
+                    Float hunger, 
+                    Float thirst, 
+                    Float nauseaLevel,
+                    Float alcoholLevel, 
+                    Float toilet, 
+                    Time timeInTavern, 
+                    Float nauseaTolerance, 
+                    Float alcoholTolerance,
+                    Boolean gender, 
+                    Integer expGiven, 
+                    TableRest tableRest, 
+                    Set<RecipeCustomer> commandList) {
+        this.purseOfGold = purseOfGold;
+        this.happiness = happiness;
+        this.hunger = hunger;
+        this.thirst = thirst;
+        this.nauseaLevel = nauseaLevel;
+        this.alcoholLevel = alcoholLevel;
+        this.toilet = toilet;
+        this.timeInTavern = timeInTavern;
+        this.nauseaTolerance = nauseaTolerance;
+        this.alcoholTolerance = alcoholTolerance;
+        this.gender = gender;
+        this.expGiven = expGiven;
+        this.tableRest = tableRest;
+        this.commandList = commandList;
     }
+
     public Customer(
         Integer purseOfGold, 
         Float happiness, 
@@ -82,10 +117,9 @@ public class Customer{
 
     @OneToMany(mappedBy = "customer")
     private Set<RecipeCustomer> commandList=new HashSet<RecipeCustomer>();
-
-
     
-    
+    @Column(name="consommation_start")
+    private Date consommationStart;
     
     // #region Get/Set
     public Integer getIdCustomer() {
@@ -231,6 +265,14 @@ public class Customer{
 
     public void setCommandList(Set<RecipeCustomer> commandList) {
         this.commandList = commandList;
+    }
+
+    public Date getConsommationStart() {
+        return consommationStart;
+    }
+
+    public void setConsommationStart(Date consommationStart) {
+        this.consommationStart = consommationStart;
     }
 
     // #endregion

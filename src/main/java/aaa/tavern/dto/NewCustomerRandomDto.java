@@ -1,6 +1,5 @@
 package aaa.tavern.dto;
 
-import java.sql.Date;
 import java.sql.Time;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,7 +9,8 @@ import aaa.tavern.Entity.RecipeCustomer;
 import aaa.tavern.Entity.TableRest;
 
 
-public class CustomerDto {
+//a voir avec loic si on fait un dto puis .save dans un dao ou faire dans l'entity
+public class NewCustomerRandomDto {
 
     private Integer purseOfGold;
 
@@ -38,12 +38,9 @@ public class CustomerDto {
 
     private TableRest tableRest;
 
-    private Date consommationStart;
+    private Set<RecipeCustomer> commandList=new HashSet<RecipeCustomer>();
 
-    private Set<Integer> commandList=new HashSet<Integer>();
-
-    public CustomerDto(Customer customer) {
-
+    public NewCustomerRandomDto(Customer customer) {
         this.purseOfGold = customer.getPurseOfGold();
         this.happiness = customer.getHappiness();
         this.hunger = customer.getHunger();
@@ -57,12 +54,6 @@ public class CustomerDto {
         this.gender = customer.getGender();
         this.expGiven = 0;
         this.tableRest = customer.getTableRest();
-        this.consommationStart=customer.getConsommationStart();
-        for(RecipeCustomer recipeCustomer: customer.getCommandList()){
-            Integer recipeId= recipeCustomer.getRecipe().getIdRecipe();
-            this.commandList.add(recipeId);
-        }
-        
     }
 
     //#region
@@ -118,16 +109,8 @@ public class CustomerDto {
         return tableRest;
     }
 
-    public Set<Integer> getCommandList() {
+    public Set<RecipeCustomer> getCommandList() {
         return commandList;
     }
-
-    public Date getConsommationStart() {
-        return consommationStart;
-    }
-
-
-
-    
     //#endregion 
 }

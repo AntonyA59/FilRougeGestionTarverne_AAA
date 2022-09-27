@@ -1,27 +1,29 @@
 package aaa.tavern.dto;
 
+import aaa.tavern.Entity.Category;
+
 public class CategoryDto {
     
     private Integer id;
     private String name;
+
     
     protected CategoryDto(){
 
     }
 
-    public CategoryDto(Integer id ,String name){
-        this.name = name;
+    public CategoryDto(Category category){
+        this.name = category.getName();
+        this.id= category.getIdCategory();
     }
 
-    //#region get
-    public Integer getId() {
-        return id;
-    }
-
+//#region
     public String getName() {
         return name;
     }
-    //#endregion
 
-    
+    public Integer getId() {
+        return id;
+    }
+//#endregion
 }

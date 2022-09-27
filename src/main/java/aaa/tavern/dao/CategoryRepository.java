@@ -9,5 +9,4 @@ import aaa.tavern.Entity.Category;
 @Repository
 public interface CategoryRepository extends CrudRepository<Category, Integer> {
     
-    
 }

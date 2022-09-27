@@ -1,7 +1,5 @@
 package aaa.tavern.Entity;
 
-
-
 import java.io.Serializable;
 import java.util.Objects;
 

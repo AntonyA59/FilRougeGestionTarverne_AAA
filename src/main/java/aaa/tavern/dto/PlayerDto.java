@@ -1,4 +1,4 @@
-package aaa.tavern.Service;
+package aaa.tavern.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -8,22 +8,27 @@ import javax.validation.constraints.Size;
 
 public class PlayerDto {
     @NotNull
-    @NotEmpty
+    @NotEmpty(message = "E-mail obligatoire")
     @Email
     private String email;
 
     @NotNull
-    @NotBlank(message = "username is mandatory")
+    @NotBlank(message = "Nom d'utilisateur obligatoire")
 	private String nickname;
 
     @NotNull
     @Size(min=8, max=30)
-    @NotBlank(message = "New password is mandatory")
+    @NotBlank(message = "Mot de passe obligatoire")
 	private String password;
 
     protected PlayerDto(String email, String nickname, String password){
         this.email = email.toLowerCase() ;
         this.nickname = nickname ;
+        this.password = password ;
+    }
+
+    protected PlayerDto(String email, String password){
+        this.email = email.toLowerCase() ;
         this.password = password ;
     }
 

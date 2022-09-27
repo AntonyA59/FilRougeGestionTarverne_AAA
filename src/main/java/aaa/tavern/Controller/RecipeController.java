@@ -27,15 +27,16 @@ public class RecipeController {
             return ResponseEntity.ok().build();
             
         }catch (EntityNotFoundException e1){
+
 			throw new ResponseStatusException(
-				  HttpStatus.NOT_FOUND, "Entity not found"
-				);
+				HttpStatus.NOT_FOUND, "Entity not found"
+			);
 		}
-		catch (ForbiddenException e2)
-		{
+		catch (ForbiddenException e2){
+			
 			throw new ResponseStatusException(
-					  HttpStatus.BAD_REQUEST, "Forbidden"
-					);
+				HttpStatus.BAD_REQUEST, "l'inventaire du manager ne permet pas la création de la recette"
+			);
 		}
     }
 }

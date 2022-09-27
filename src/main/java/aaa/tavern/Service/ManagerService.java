@@ -21,17 +21,16 @@ public class ManagerService {
     private ManagerRepository managerRepository;
 
     public Manager createManager(String name, Player player ) {
-        
         Manager manager = new Manager(name, 0, 100, 1, 0, player);
         managerRepository.save(manager);
         return manager;
     }
 
+    
     public void deleteManager(Manager manager) {
-        Optional<Manager> managerOpt= managerRepository.findById(manager.getManagerId());
+        Optional<Manager> managerOpt= managerRepository.findById(manager.getIdManager());
         manager = managerOpt.get();
         managerRepository.delete(manager);
-
     }
 
     /**
@@ -40,7 +39,7 @@ public class ManagerService {
      * @return ManagerDto
      */
     public ManagerDto loadManagerDto(Manager manager){
-        return new ManagerDto(manager.getManagerId(), manager.getName(), manager.getReputation(), manager.getChest(), manager.getLevel(), manager.getIngredientQuantity());
+        return new ManagerDto(manager);
     }
 
     /**
@@ -68,11 +67,9 @@ public class ManagerService {
      * @return Manager
      */
     public Manager selectManager(Manager manager){
-        Optional<Manager> managerOpt = managerRepository.findById(manager.getManagerId());
+        Optional<Manager> managerOpt = managerRepository.findById(manager.getIdManager());
         manager = managerOpt.get();
         return manager;
     }
-
-
 
 }
