@@ -15,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PostLoad;
+import javax.persistence.PostPersist;
+import javax.persistence.PostUpdate;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -80,6 +82,8 @@ public class Manager {
 
     @PostLoad
     private void transformForIngredientQuantity(){
+        getCalcMaxExp();
+
         Map<Ingredient,Integer> tab= new HashMap<Ingredient,Integer>();
         for(InventoryIngredient inventoryIngredient:this.inventoryIngredient){
             Ingredient ingredient= inventoryIngredient.getIngredient();
@@ -99,7 +103,11 @@ public class Manager {
             this.inventoryIngredient.add(inventoryIngredient);
         }
     }
-    
+
+    private void getCalcMaxExp(){
+        this.maxExp= this.level*5;
+    }
+
     //#region get/set 
     public Integer getManagerId() {
         return managerId;
@@ -148,6 +156,7 @@ public class Manager {
 
     public void setLevel(Integer level) {
         this.level = level;
+        getCalcMaxExp();
     }
 
 

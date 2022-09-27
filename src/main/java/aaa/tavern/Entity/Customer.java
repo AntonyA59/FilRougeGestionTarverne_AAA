@@ -1,5 +1,6 @@
 package aaa.tavern.entity;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,6 +15,7 @@ public class Customer{
 
     public Customer() {}
     
+    //constructeur pour le service newCustomer in customerManagementService
     public Customer(Integer purseOfGold, 
                     Float happiness, 
                     Float hunger, 
@@ -114,6 +116,9 @@ public class Customer{
 
     @OneToMany(mappedBy = "customer")
     private Set<RecipeCustomer> commandList=new HashSet<RecipeCustomer>();
+    
+    @Column(name="consommation_start")
+    private Date consommationStart;
     
     // #region Get/Set
     public Integer getIdCustomer() {
@@ -259,6 +264,14 @@ public class Customer{
 
     public void setCommandList(Set<RecipeCustomer> commandList) {
         this.commandList = commandList;
+    }
+
+    public Date getConsommationStart() {
+        return consommationStart;
+    }
+
+    public void setConsommationStart(Date consommationStart) {
+        this.consommationStart = consommationStart;
     }
 
     // #endregion
