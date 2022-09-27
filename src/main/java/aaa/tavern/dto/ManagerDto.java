@@ -1,8 +1,6 @@
 package aaa.tavern.dto;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import aaa.tavern.entity.Ingredient;
@@ -16,13 +14,13 @@ public class ManagerDto {
     }
 
     public ManagerDto(Manager manager){
-        this.id=manager.getManagerId();
+        this.id=manager.getIdManager();
         this.name = manager.getName();
         this.reputation = manager.getReputation();
         this.chest = manager.getChest();
         this.level = manager.getLevel();
         this.experience=manager.getExperience();
-        this.player=manager.getPlayer().getPlayerId();
+        this.player=manager.getPlayer().getIdPlayer();
         this.maxExp=manager.getMaxExp();
         for(InventoryIngredient inventoryIngredient: manager.getInventoryIngredient()){
             Integer ingredientId= inventoryIngredient.getIngredient().getIdIngredient();
@@ -49,6 +47,13 @@ public class ManagerDto {
     
     private Map<Integer,Integer> ingredientQuantity = new HashMap<Integer, Integer>();
 
+    public ManagerDto(String name, Integer reputation, Integer chest, Integer level, Map<Integer,Integer> ingredientQuantity ){
+        this.name = name;
+        this.reputation = reputation;
+        this.chest = chest;
+        this.level = level;
+        this.ingredientQuantity= ingredientQuantity;
+    }
     
     //#region get/set
     public String getName() {

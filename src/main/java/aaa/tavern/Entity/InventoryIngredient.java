@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class InventoryIngredient implements Serializable{
     
     @EmbeddedId
-    private InventoryIngredientKey id = new InventoryIngredientKey();
+    private InventoryIngredientKey id = new InventoryIngredientKey() ;
     
     @ManyToOne
     @MapsId("managerId")
@@ -21,6 +21,7 @@ public class InventoryIngredient implements Serializable{
     @MapsId("ingredientId")
     @JoinColumn(name = "ingredient_id")
     private Ingredient ingredient;
+    
     
     private Integer quantity ;
     
@@ -64,7 +65,6 @@ public class InventoryIngredient implements Serializable{
         this.id = id;
     }
 
-
     public Manager getManager() {
         return manager;
     }
@@ -95,5 +95,4 @@ public class InventoryIngredient implements Serializable{
     }
 
     //#endregion  
-
 }

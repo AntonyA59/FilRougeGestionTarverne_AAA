@@ -20,17 +20,15 @@ public class ManagerService {
     private ManagerRepository managerRepository;
 
     public Manager createManager(String name, Player player ) {
-        
         Manager manager = new Manager(name, 0, 100, 1, 0, player);
         managerRepository.save(manager);
         return manager;
     }
 
     public void deleteManager(Manager manager) {
-        Optional<Manager> managerOpt= managerRepository.findById(manager.getManagerId());
+        Optional<Manager> managerOpt= managerRepository.findById(manager.getIdManager());
         manager = managerOpt.get();
         managerRepository.delete(manager);
-
     }
 
     public List<Manager> listExistingManager(Player player) {
@@ -42,7 +40,7 @@ public class ManagerService {
     }
 
     public Manager selectManager(Manager manager){
-        Optional<Manager> managerOpt = managerRepository.findById(manager.getManagerId());
+        Optional<Manager> managerOpt = managerRepository.findById(manager.getIdManager());
         manager = managerOpt.get();
         return manager;
     }

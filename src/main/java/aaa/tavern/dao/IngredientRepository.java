@@ -10,6 +10,5 @@ import aaa.tavern.entity.Ingredient;
 
 @Repository
 public interface IngredientRepository extends CrudRepository<Ingredient, Integer> {
-    List<Ingredient>findByLevelLessThanEqual(Integer level);
-    
+    List<Ingredient> findByLevelLessThanEqual(int level) ;
 }

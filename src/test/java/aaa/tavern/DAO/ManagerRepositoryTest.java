@@ -1,6 +1,5 @@
 package aaa.tavern.dao;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
@@ -28,7 +27,7 @@ public class ManagerRepositoryTest {
     @Test
     @Sql("givenManagerAndPlayer_findByIdPlayer_thenReturnManager.sql")
     public void givenManagerAndPlayer_findByIdPlayer_thenReturnManager() {
-        List<Player> players = playerRepository.findByPlayerId(2);
+        List<Player> players = playerRepository.findByIdPlayer(2);
         Player player = players.get(0);
         List<Manager> managers = managerRepository.findByPlayer(player);
         assertEquals(managers.size(), 3);

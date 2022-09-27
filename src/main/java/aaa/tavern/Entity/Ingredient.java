@@ -21,13 +21,13 @@ public class Ingredient {
 	private String name;
 
 	@Column(name="level")
-	private int level;
+	private Integer level;
 
 	@Column(name="buying_price")
-	private int buyingPrice;
+	private Integer buyingPrice;
 
 	@ManyToOne
-    @JoinColumn(name = "subcategory_id")
+    @JoinColumn(name = "id_subcategory")
 	private SubCategory subCategory;
 
 	public Ingredient() {}
@@ -35,6 +35,14 @@ public class Ingredient {
 	public Ingredient(Integer idIngredient, String name) {
 		this.idIngredient = idIngredient;
 		this.name = name;
+	}
+
+	public Ingredient(int idIngredient, String name, int level, int buyingPrice, SubCategory subCategory) {
+		this.idIngredient = idIngredient;
+		this.name = name;
+		this.level = level ;
+		this.buyingPrice = buyingPrice ;
+		this.subCategory = subCategory ;
 	}
 	// #region Get/Set
 	
@@ -46,19 +54,19 @@ public class Ingredient {
 		this.name = name;
 	}
 
-	public int getBuyingPrice() {
+	public Integer getBuyingPrice() {
 		return buyingPrice;
 	}
 
-	public void setBuyingPrice(int buyingPrice) {
+	public void setBuyingPrice(Integer buyingPrice) {
 		this.buyingPrice = buyingPrice;
 	}
 
-	public int getLevel() {
+	public Integer getLevel() {
 		return level;
 	}
 
-	public void setLevel(int level) {
+	public void setLevel(Integer level) {
 		this.level = level;
 	}
 

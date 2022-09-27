@@ -7,71 +7,14 @@ import java.util.Set;
 import javax.persistence.*;
 import javax.persistence.Table;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import aaa.tavern.service.RandomService;
+
 @Entity
 @Table(name = "customer")
 public class Customer{
 
-
-    public Customer() {}
-    
-    public Customer(Integer purseOfGold, 
-                    Float happiness, 
-                    Float hunger, 
-                    Float thirst, 
-                    Float nauseaLevel,
-                    Float alcoholLevel, 
-                    Float toilet, 
-                    Time timeInTavern, 
-                    Float nauseaTolerance, 
-                    Float alcoholTolerance,
-                    Boolean gender, 
-                    Integer expGiven, 
-                    TableRest tableRest, 
-                    Set<RecipeCustomer> commandList) {
-        this.purseOfGold = purseOfGold;
-        this.happiness = happiness;
-        this.hunger = hunger;
-        this.thirst = thirst;
-        this.nauseaLevel = nauseaLevel;
-        this.alcoholLevel = alcoholLevel;
-        this.toilet = toilet;
-        this.timeInTavern = timeInTavern;
-        this.nauseaTolerance = nauseaTolerance;
-        this.alcoholTolerance = alcoholTolerance;
-        this.gender = gender;
-        this.expGiven = expGiven;
-        this.tableRest = tableRest;
-        this.commandList = commandList;
-    }
-
-    public Customer(
-        Integer purseOfGold, 
-        Float happiness, 
-        Float hunger, 
-        Float thirst, 
-        Float nausealevel, 
-        Float alcoholLevel, 
-        Float toilet, 
-        Float nauseaTolerance,
-        Float alcoholTolerance,
-        Boolean gender,
-        Integer expGiven
-
-        )
-        {
-        this.purseOfGold = purseOfGold;
-        this.happiness = happiness;
-        this.hunger = hunger;
-        this.thirst = thirst;
-        this.nauseaLevel = nausealevel;
-        this.alcoholLevel = alcoholLevel;
-        this.toilet = toilet;
-        this.nauseaTolerance = nauseaTolerance;
-        this.alcoholTolerance = alcoholTolerance;
-        this.gender = gender;
-        this.expGiven = expGiven;
-        this.commandList = new HashSet<RecipeCustomer>();
-    }
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
@@ -115,6 +58,71 @@ public class Customer{
     @OneToMany(mappedBy = "customer")
     private Set<RecipeCustomer> commandList=new HashSet<RecipeCustomer>();
     
+    @Transient
+    @Autowired
+    private RandomService randomService;
+    
+    public Customer(
+        Integer purseOfGold, 
+        Float happiness, 
+        Float hunger, 
+        Float thirst, 
+        Float nausealevel, 
+        Float alcoholLevel, 
+        Float toilet, 
+        Float nauseaTolerance,
+        Float alcoholTolerance,
+        Boolean gender,
+        Integer expGiven
+
+        )
+        {
+        this.purseOfGold = purseOfGold;
+        this.happiness = happiness;
+        this.hunger = hunger;
+        this.thirst = thirst;
+        this.nauseaLevel = nausealevel;
+        this.alcoholLevel = alcoholLevel;
+        this.toilet = toilet;
+        this.nauseaTolerance = nauseaTolerance;
+        this.alcoholTolerance = alcoholTolerance;
+        this.gender = gender;
+        this.expGiven = expGiven;
+        this.commandList = new HashSet<RecipeCustomer>();
+    }
+
+    public Customer() {}
+    
+    public Customer(Integer purseOfGold, 
+                    Float happiness, 
+                    Float hunger, 
+                    Float thirst, 
+                    Float nauseaLevel,
+                    Float alcoholLevel, 
+                    Float toilet, 
+                    Time timeInTavern, 
+                    Float nauseaTolerance, 
+                    Float alcoholTolerance,
+                    Boolean gender, 
+                    Integer expGiven, 
+                    TableRest tableRest, 
+                    Set<RecipeCustomer> commandList) {
+        this.purseOfGold = purseOfGold;
+        this.happiness = happiness;
+        this.hunger = hunger;
+        this.thirst = thirst;
+        this.nauseaLevel = nauseaLevel;
+        this.alcoholLevel = alcoholLevel;
+        this.toilet = toilet;
+        this.timeInTavern = timeInTavern;
+        this.nauseaTolerance = nauseaTolerance;
+        this.alcoholTolerance = alcoholTolerance;
+        this.gender = gender;
+        this.expGiven = expGiven;
+        this.tableRest = tableRest;
+        this.commandList = commandList;
+    }
+
     // #region Get/Set
     public Integer getIdCustomer() {
         return idCustomer;

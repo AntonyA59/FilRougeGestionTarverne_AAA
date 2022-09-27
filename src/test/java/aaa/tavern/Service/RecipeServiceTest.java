@@ -19,7 +19,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import aaa.tavern.dao.CustomerRepository;
 import aaa.tavern.dao.ManagerRepository;
-import aaa.tavern.dao.RecipeCustomerRepository;
 import aaa.tavern.dao.RecipeRepository;
 import aaa.tavern.entity.Customer;
 import aaa.tavern.entity.Ingredient;
@@ -27,7 +26,6 @@ import aaa.tavern.entity.Manager;
 import aaa.tavern.entity.Recipe;
 import aaa.tavern.entity.RecipeIngredient;
 import aaa.tavern.exception.ForbiddenException;
-
 
 @SpringBootTest
 public class RecipeServiceTest {
@@ -40,9 +38,6 @@ public class RecipeServiceTest {
 
     @MockBean
     private ManagerRepository managerRepository;
-
-    @Autowired
-    private RecipeCustomerRepository recipeCustomerRepository;
 
     @MockBean
     private CustomerRepository customerRepository;
