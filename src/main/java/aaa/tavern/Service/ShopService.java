@@ -1,4 +1,4 @@
-package aaa.tavern.service;
+package aaa.tavern.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,12 +9,12 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import aaa.tavern.dao.IngredientRepository;
-import aaa.tavern.dao.ManagerRepository;
+import aaa.tavern.DAO.IngredientRepository;
+import aaa.tavern.DAO.ManagerRepository;
+import aaa.tavern.Entity.Ingredient;
+import aaa.tavern.Entity.Manager;
 import aaa.tavern.dto.IngredientDto;
 import aaa.tavern.dto.ManagerDto;
-import aaa.tavern.entity.Ingredient;
-import aaa.tavern.entity.Manager;
 import aaa.tavern.exception.ForbiddenException;
 import aaa.tavern.utils.ServiceUtil;
 
@@ -39,6 +39,14 @@ public class ShopService {
         return listIngredientsDto ;
     }
 
+    /**
+     * 
+     * @param idManager
+     * @param idIngredient
+     * @return ManagerDto
+     * @throws EntityNotFoundException
+     * @throws ForbiddenException
+     */
     //Charge l'ingredient et le manager pour ensuite acheter
     public ManagerDto prepareIngredientAndBuy(int idManager, int idIngredient) throws EntityNotFoundException,ForbiddenException{
         Ingredient ingredient = ServiceUtil.getEntity(ingredientRepository, idIngredient);

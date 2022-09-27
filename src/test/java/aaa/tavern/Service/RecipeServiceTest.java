@@ -1,4 +1,4 @@
-package aaa.tavern.service;
+package aaa.tavern.Service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -17,15 +17,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import aaa.tavern.dao.CustomerRepository;
-import aaa.tavern.dao.ManagerRepository;
-import aaa.tavern.dao.RecipeRepository;
-import aaa.tavern.entity.Customer;
-import aaa.tavern.entity.Ingredient;
-import aaa.tavern.entity.Manager;
-import aaa.tavern.entity.Recipe;
-import aaa.tavern.entity.RecipeIngredient;
+import aaa.tavern.DAO.CustomerRepository;
+import aaa.tavern.DAO.ManagerRepository;
+import aaa.tavern.DAO.RecipeRepository;
+import aaa.tavern.Entity.Customer;
+import aaa.tavern.Entity.Ingredient;
+import aaa.tavern.Entity.Manager;
+import aaa.tavern.Entity.Recipe;
+import aaa.tavern.Entity.RecipeIngredient;
 import aaa.tavern.exception.ForbiddenException;
+
+
 
 @SpringBootTest
 public class RecipeServiceTest {
@@ -170,9 +172,9 @@ public class RecipeServiceTest {
         Mockito.when(managerRepository.findById(1)).thenReturn(optManager);
 
          //init customer
-         Customer customer= new Customer(null, null, null, null, null, null, null, null, null, null, null);
-         Optional<Customer> optCustomer= Optional.of(customer);        
-         Mockito.when(customerRepository.findById(1)).thenReturn(optCustomer);
+        Customer customer= new Customer(null, null, null, null, null, null, null, null, null, null, null);
+        Optional<Customer> optCustomer= Optional.of(customer);        
+        Mockito.when(customerRepository.findById(1)).thenReturn(optCustomer);
         
         assertThrows(EntityNotFoundException.class, ()->recipeService.prepareRecipe(1, 1, 1));
     }

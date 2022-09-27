@@ -1,11 +1,11 @@
-package aaa.tavern.service.utils;
+package aaa.tavern.Service.utils;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import aaa.tavern.entity.Recipe;
+import aaa.tavern.Entity.Recipe;
 
 @Service
 public class ListRecipe {

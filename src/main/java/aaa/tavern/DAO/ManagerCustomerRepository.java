@@ -1,12 +1,14 @@
-package aaa.tavern.dao;
+package aaa.tavern.DAO;
+
+import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import aaa.tavern.entity.ManagerCustomer;
-import aaa.tavern.entity.ManagerCustomerKey;
+import aaa.tavern.Entity.ManagerCustomer;
+import aaa.tavern.Entity.Manager;
 
 @Repository
-public interface ManagerCustomerRepository extends CrudRepository<ManagerCustomer, ManagerCustomerKey> {
-    
+public interface ManagerCustomerRepository extends CrudRepository<ManagerCustomer, Integer> {
+    List<ManagerCustomer> findByManager(Manager manager);
 }

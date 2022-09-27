@@ -1,4 +1,4 @@
-package aaa.tavern.controller;
+package aaa.tavern.Controller;
 
 import javax.validation.Valid;
 
@@ -12,7 +12,10 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import aaa.tavern.dto.PlayerDto;
-import aaa.tavern.service.PlayerService;
+import aaa.tavern.Service.PlayerService;
+
+
+
 
 @Controller
 public class PlayerController {

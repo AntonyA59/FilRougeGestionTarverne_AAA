@@ -1,11 +1,12 @@
 package aaa.tavern.dto;
 
-import aaa.tavern.entity.Category;
+import aaa.tavern.Entity.Category;
 
 public class CategoryDto {
     
-    private String name;
     private Integer id;
+    private String name;
+
     
     protected CategoryDto(){
 

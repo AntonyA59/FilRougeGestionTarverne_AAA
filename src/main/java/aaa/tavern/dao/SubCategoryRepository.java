@@ -1,9 +1,9 @@
-package aaa.tavern.dao;
+package aaa.tavern.DAO;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import aaa.tavern.entity.SubCategory;
+import aaa.tavern.Entity.SubCategory;
 
 
 @Repository
