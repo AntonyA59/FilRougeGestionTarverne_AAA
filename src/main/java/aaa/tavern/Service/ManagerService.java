@@ -1,11 +1,15 @@
 package aaa.tavern.service;
 
+import java.util.List;
 import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import aaa.tavern.dao.ManagerRepository;
+import aaa.tavern.dto.ManagerDto;
 import aaa.tavern.entity.Manager;
 import aaa.tavern.entity.Player;
 
@@ -27,7 +31,23 @@ public class ManagerService {
         managerRepository.delete(manager);
     }
 
-    public void listExistingManager() {
-        
+    public List<Manager> listExistingManager(Player player) {
+        List<Manager> managers = managerRepository.findByPlayer(player);
+        if(managers.isEmpty()){
+            throw new EntityNotFoundException();
+        }
+        return managers;
     }
+
+    public Manager selectManager(Manager manager){
+        Optional<Manager> managerOpt = managerRepository.findById(manager.getIdManager());
+        manager = managerOpt.get();
+        return manager;
+    }
+
+    public ManagerDto loadManager(Manager manager){
+        return new ManagerDto(manager.getName(), manager.getReputation(), manager.getChest(), manager.getLevel(), manager.getIngredientQuantity());
+
+    }
+
 }
