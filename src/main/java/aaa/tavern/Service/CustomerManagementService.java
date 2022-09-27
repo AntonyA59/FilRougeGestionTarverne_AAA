@@ -1,6 +1,9 @@
 package aaa.tavern.service;
 
+import java.sql.Time;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Table;
@@ -19,6 +22,7 @@ import aaa.tavern.entity.Customer;
 import aaa.tavern.entity.Manager;
 import aaa.tavern.entity.ManagerCustomer;
 import aaa.tavern.entity.Recipe;
+import aaa.tavern.entity.RecipeCustomer;
 import aaa.tavern.entity.TableRest;
 import aaa.tavern.service.utils.ListRecipe;
 import aaa.tavern.utils.ServiceUtil;
@@ -26,10 +30,10 @@ import aaa.tavern.utils.ServiceUtil;
 @Service
 public class CustomerManagementService {
     @Autowired
-    private ListRecipe listRecipe;
+    private RandomService randomService;
     
     @Autowired
-    private RandomService randomService;
+    private ListRecipe listRecipe;
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -67,9 +71,29 @@ public class CustomerManagementService {
     @Transactional
     public NewCustomerRandomDto getNewCustomer(int managerId) throws EntityNotFoundException{
         Manager manager= ServiceUtil.getEntity(managerRepository, managerId);
-        Customer newCustomer= new Customer();
+        
+        //init newCustomer 
+        int purseOfGold = randomService.getRandomInt(100);
+        float happiness = randomService.getRandomFloat(100f);
+        float hunger = randomService.getRandomFloat(100f);
+        float thirst = randomService.getRandomFloat(100f);
+        float nauseaLevel = randomService.getRandomFloat(100f);
+        float alcoholLevel = randomService.getRandomFloat(100f);
+        float toilet = randomService.getRandomFloat(100f);
+        Time timeInTavern= new Time(randomService.getRandomIntMinMax(500, 5000));
+        float nauseaTolerance = randomService.getRandomFloat(100f);
+        float alcoholTolerance = randomService.getRandomFloat(100f);
+        boolean gender = randomService.getRandomBoolean();
+        int expGiven = 0;
+        TableRest tableRest = new TableRest();
+        Set<RecipeCustomer> commandList= new HashSet<RecipeCustomer>();
+        Customer newCustomer= new Customer(purseOfGold,happiness,hunger,thirst,nauseaLevel,alcoholLevel,
+                                            toilet,timeInTavern,nauseaTolerance,alcoholTolerance,gender,
+                                            expGiven,tableRest,commandList);
         customerRepository.save(newCustomer);
+
         ManagerCustomer managerCustomer= new ManagerCustomer(manager,newCustomer);
+        
         managerCustomerRepository.save(managerCustomer);
 
         return new NewCustomerRandomDto(newCustomer);

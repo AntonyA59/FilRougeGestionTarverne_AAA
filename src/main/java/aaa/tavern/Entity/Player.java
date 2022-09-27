@@ -25,6 +25,7 @@ public class Player {
 	private String password;
 
 	public Player(){}
+	
 	public Player(String email, String nickname, String password){
 		this.email = email;
 		this.nickname = nickname;

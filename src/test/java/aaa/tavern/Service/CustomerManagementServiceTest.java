@@ -7,7 +7,7 @@ import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatcher;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,8 +42,7 @@ public class CustomerManagementServiceTest {
 
         customerManagementService.assignNewTable(1, 1);
 
-        //à voir avec Loic
-        //Mockito.verify(tableRestRepository).save(ArgumentMatcher.argThat(tableRest->tableRest.getNumberPlace==4));
+        Mockito.verify(tableRestRepository).save(ArgumentMatchers.argThat(tableRest2->tableRest2.getNumberPlace()==4));
     }
 
     @Test
