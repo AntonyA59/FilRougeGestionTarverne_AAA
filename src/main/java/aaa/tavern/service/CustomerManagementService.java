@@ -1,4 +1,4 @@
-package aaa.tavern.Service;
+package aaa.tavern.service;
 
 import java.sql.Time;
 import java.util.HashSet;
@@ -10,20 +10,20 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import aaa.tavern.DAO.CustomerRepository;
-import aaa.tavern.DAO.ManagerCustomerRepository;
-import aaa.tavern.DAO.ManagerRepository;
-import aaa.tavern.DAO.TableRestRepository;
 import aaa.tavern.dto.CustomerDto;
 import aaa.tavern.dto.RecipeDto;
-import aaa.tavern.Service.utils.RandomService;
+import aaa.tavern.service.utils.RandomService;
+import aaa.tavern.dao.CustomerRepository;
+import aaa.tavern.dao.ManagerCustomerRepository;
+import aaa.tavern.dao.ManagerRepository;
+import aaa.tavern.dao.TableRestRepository;
 import aaa.tavern.Entity.Customer;
 import aaa.tavern.Entity.Manager;
 import aaa.tavern.Entity.ManagerCustomer;
 import aaa.tavern.Entity.Recipe;
 import aaa.tavern.Entity.RecipeCustomer;
 import aaa.tavern.Entity.TableRest;
-import aaa.tavern.Service.utils.ListRecipe;
+import aaa.tavern.service.utils.ListRecipe;
 import aaa.tavern.utils.ServiceUtil;
 
 @Service

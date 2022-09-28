@@ -1,4 +1,4 @@
-package aaa.tavern.Service.utils;
+package aaa.tavern.service.utils;
 
 import java.util.HashMap;
 import java.util.Map;

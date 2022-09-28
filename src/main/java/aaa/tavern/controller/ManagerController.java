@@ -1,4 +1,4 @@
-package aaa.tavern.Controller;
+package aaa.tavern.controller;
 
 import org.springframework.stereotype.Controller;
 

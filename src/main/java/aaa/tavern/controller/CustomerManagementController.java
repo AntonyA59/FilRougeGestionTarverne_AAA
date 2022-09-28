@@ -1,4 +1,4 @@
-package aaa.tavern.Controller;
+package aaa.tavern.controller;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -13,7 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import aaa.tavern.dto.CustomerDto;
 import aaa.tavern.dto.RecipeDto;
-import aaa.tavern.Service.CustomerManagementService;
+import aaa.tavern.service.CustomerManagementService;
 
 
 

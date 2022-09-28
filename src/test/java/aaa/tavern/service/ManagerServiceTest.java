@@ -1,4 +1,4 @@
-package aaa.tavern.Service;
+package aaa.tavern.service;
 
 
 
@@ -15,13 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-
-import aaa.tavern.DAO.ManagerRepository;
-import aaa.tavern.DAO.PlayerRepository;
 import aaa.tavern.Entity.Manager;
 import aaa.tavern.Entity.Player;
-import aaa.tavern.Service.ManagerService;
+import aaa.tavern.dao.ManagerRepository;
+import aaa.tavern.dao.PlayerRepository;
 import aaa.tavern.dto.ManagerDto;
+import aaa.tavern.service.ManagerService;
 
 
 @SpringBootTest

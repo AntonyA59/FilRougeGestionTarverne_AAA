@@ -1,4 +1,4 @@
-package aaa.tavern.Controller;
+package aaa.tavern.controller;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -13,7 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import aaa.tavern.exception.ForbiddenException;
-import aaa.tavern.Service.ShopService;
+import aaa.tavern.service.ShopService;
 
 @RestController
 public class ShopController {

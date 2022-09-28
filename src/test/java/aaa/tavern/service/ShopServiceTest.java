@@ -1,4 +1,4 @@
-package aaa.tavern.Service;
+package aaa.tavern.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,14 +15,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import aaa.tavern.DAO.IngredientRepository;
-import aaa.tavern.DAO.ManagerRepository;
 import aaa.tavern.dto.IngredientDto;
 import aaa.tavern.Entity.Ingredient;
 import aaa.tavern.Entity.Manager;
 import aaa.tavern.Entity.Player;
 import aaa.tavern.Entity.SubCategory;
+import aaa.tavern.dao.IngredientRepository;
+import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.exception.ForbiddenException;
+import aaa.tavern.service.ShopService;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
 

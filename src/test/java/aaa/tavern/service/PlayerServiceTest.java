@@ -1,10 +1,11 @@
-package aaa.tavern.Service;
+package aaa.tavern.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import aaa.tavern.DAO.PlayerRepository;
+import aaa.tavern.dao.PlayerRepository;
+import aaa.tavern.service.PlayerService;
 
 @SpringBootTest
 public class PlayerServiceTest {

@@ -1,4 +1,4 @@
-package aaa.tavern.DAO;
+package aaa.tavern.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -12,10 +12,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import aaa.tavern.DAO.RecipeIngredientRepository;
-import aaa.tavern.DAO.RecipeRepository;
 import aaa.tavern.Entity.Recipe;
 import aaa.tavern.Entity.RecipeIngredient;
+import aaa.tavern.dao.RecipeIngredientRepository;
+import aaa.tavern.dao.RecipeRepository;
 
 @DataJpaTest
 @ExtendWith(SpringExtension.class)

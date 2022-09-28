@@ -1,4 +1,4 @@
-package aaa.tavern.Service;
+package aaa.tavern.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +10,9 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-import aaa.tavern.DAO.ManagerRepository;
 import aaa.tavern.Entity.Manager;
 import aaa.tavern.Entity.Player;
+import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dto.ManagerDto;
 import aaa.tavern.exception.ForbiddenException;
 import aaa.tavern.utils.ServiceUtil;

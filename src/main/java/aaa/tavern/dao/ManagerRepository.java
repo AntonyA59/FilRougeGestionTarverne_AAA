@@ -1,4 +1,4 @@
-package aaa.tavern.DAO;
+package aaa.tavern.dao;
 
 import java.util.List;
 

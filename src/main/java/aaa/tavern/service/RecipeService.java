@@ -1,4 +1,4 @@
-package aaa.tavern.Service;
+package aaa.tavern.service;
 
 import java.util.Map;
 
@@ -8,17 +8,17 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import aaa.tavern.DAO.CustomerRepository;
-import aaa.tavern.DAO.ManagerRepository;
-import aaa.tavern.DAO.RecipeCustomerRepository;
-import aaa.tavern.DAO.RecipeIngredientRepository;
-import aaa.tavern.DAO.RecipeRepository;
 import aaa.tavern.Entity.Customer;
 import aaa.tavern.Entity.Ingredient;
 import aaa.tavern.Entity.Manager;
 import aaa.tavern.Entity.Recipe;
 import aaa.tavern.Entity.RecipeCustomer;
 import aaa.tavern.Entity.RecipeIngredient;
+import aaa.tavern.dao.CustomerRepository;
+import aaa.tavern.dao.ManagerRepository;
+import aaa.tavern.dao.RecipeCustomerRepository;
+import aaa.tavern.dao.RecipeIngredientRepository;
+import aaa.tavern.dao.RecipeRepository;
 import aaa.tavern.exception.ForbiddenException;
 import aaa.tavern.utils.ServiceUtil;
 
