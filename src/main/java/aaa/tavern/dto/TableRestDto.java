@@ -1,6 +1,6 @@
 package aaa.tavern.dto;
 
-import aaa.tavern.Entity.TableRest;
+import aaa.tavern.entity.TableRest;
 
 public class TableRestDto {
     

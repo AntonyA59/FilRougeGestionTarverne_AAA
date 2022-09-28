@@ -12,17 +12,17 @@ import org.springframework.stereotype.Service;
 
 import aaa.tavern.dto.CustomerDto;
 import aaa.tavern.dto.RecipeDto;
+import aaa.tavern.entity.Customer;
+import aaa.tavern.entity.Manager;
+import aaa.tavern.entity.ManagerCustomer;
+import aaa.tavern.entity.Recipe;
+import aaa.tavern.entity.RecipeCustomer;
+import aaa.tavern.entity.TableRest;
 import aaa.tavern.service.utils.RandomService;
 import aaa.tavern.dao.CustomerRepository;
 import aaa.tavern.dao.ManagerCustomerRepository;
 import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dao.TableRestRepository;
-import aaa.tavern.Entity.Customer;
-import aaa.tavern.Entity.Manager;
-import aaa.tavern.Entity.ManagerCustomer;
-import aaa.tavern.Entity.Recipe;
-import aaa.tavern.Entity.RecipeCustomer;
-import aaa.tavern.Entity.TableRest;
 import aaa.tavern.service.utils.ListRecipe;
 import aaa.tavern.utils.ServiceUtil;
 

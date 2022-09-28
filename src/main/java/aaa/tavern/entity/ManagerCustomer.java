@@ -1,4 +1,4 @@
-package aaa.tavern.Entity;
+package aaa.tavern.entity;
 
 import java.io.Serializable;
 import java.util.Objects;

@@ -9,7 +9,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import aaa.tavern.dto.PlayerDto;
-import aaa.tavern.Entity.Player;
+import aaa.tavern.entity.Player;
 import aaa.tavern.dao.PlayerRepository;
 
 @Service

@@ -1,6 +1,6 @@
 package aaa.tavern.dto;
 
-import aaa.tavern.Entity.Place;
+import aaa.tavern.entity.Place;
 
 public class PlaceDto {
     

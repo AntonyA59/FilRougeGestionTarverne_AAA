@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import aaa.tavern.Entity.InventoryIngredient;
-import aaa.tavern.Entity.Manager;
+import aaa.tavern.entity.InventoryIngredient;
+import aaa.tavern.entity.Manager;
 
 
 @Repository

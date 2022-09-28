@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import aaa.tavern.Entity.Recipe;
+import aaa.tavern.entity.Recipe;
 
 @Service
 public class ListRecipe {

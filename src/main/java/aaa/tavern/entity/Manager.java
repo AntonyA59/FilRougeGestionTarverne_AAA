@@ -1,4 +1,4 @@
-package aaa.tavern.Entity;
+package aaa.tavern.entity;
 
 import java.util.ArrayList;
 import java.util.HashMap;

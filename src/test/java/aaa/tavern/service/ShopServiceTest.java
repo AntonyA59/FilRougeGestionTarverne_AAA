@@ -16,10 +16,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import aaa.tavern.dto.IngredientDto;
-import aaa.tavern.Entity.Ingredient;
-import aaa.tavern.Entity.Manager;
-import aaa.tavern.Entity.Player;
-import aaa.tavern.Entity.SubCategory;
+import aaa.tavern.entity.Ingredient;
+import aaa.tavern.entity.Manager;
+import aaa.tavern.entity.Player;
+import aaa.tavern.entity.SubCategory;
 import aaa.tavern.dao.IngredientRepository;
 import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.exception.ForbiddenException;

@@ -12,10 +12,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import aaa.tavern.Entity.InventoryIngredient;
-import aaa.tavern.Entity.Manager;
 import aaa.tavern.dao.InventoryIngredientRepository;
 import aaa.tavern.dao.ManagerRepository;
+import aaa.tavern.entity.InventoryIngredient;
+import aaa.tavern.entity.Manager;
 
 @DataJpaTest
 @ExtendWith(SpringExtension.class)

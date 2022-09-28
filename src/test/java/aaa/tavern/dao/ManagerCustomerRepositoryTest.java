@@ -10,10 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 
-import aaa.tavern.Entity.Manager;
-import aaa.tavern.Entity.ManagerCustomer;
 import aaa.tavern.dao.ManagerCustomerRepository;
 import aaa.tavern.dao.ManagerRepository;
+import aaa.tavern.entity.Manager;
+import aaa.tavern.entity.ManagerCustomer;
 
 
 

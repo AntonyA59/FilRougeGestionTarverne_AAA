@@ -9,12 +9,12 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import aaa.tavern.Entity.Ingredient;
-import aaa.tavern.Entity.Manager;
 import aaa.tavern.dao.IngredientRepository;
 import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dto.IngredientDto;
 import aaa.tavern.dto.ManagerDto;
+import aaa.tavern.entity.Ingredient;
+import aaa.tavern.entity.Manager;
 import aaa.tavern.exception.ForbiddenException;
 import aaa.tavern.utils.ServiceUtil;
 

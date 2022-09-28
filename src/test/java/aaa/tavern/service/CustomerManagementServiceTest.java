@@ -20,14 +20,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import aaa.tavern.Entity.Customer;
-import aaa.tavern.Entity.Recipe;
-import aaa.tavern.Entity.RecipeIngredient;
-import aaa.tavern.Entity.SubCategory;
-import aaa.tavern.Entity.TableRest;
 import aaa.tavern.dao.CustomerRepository;
 import aaa.tavern.dao.TableRestRepository;
 import aaa.tavern.dto.RecipeDto;
+import aaa.tavern.entity.Customer;
+import aaa.tavern.entity.Recipe;
+import aaa.tavern.entity.RecipeIngredient;
+import aaa.tavern.entity.SubCategory;
+import aaa.tavern.entity.TableRest;
 import aaa.tavern.service.CustomerManagementService;
 import aaa.tavern.service.utils.ListRecipe;
 
