@@ -1,5 +1,7 @@
 package aaa.tavern.Entity;
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,6 +27,28 @@ public class SubCategory {
     private Category category;
 
     public SubCategory() {}
+
+    /**
+	 * Deux SubCategory sont les mêmes si ils ont le même identifiant.
+	 */
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        SubCategory that = (SubCategory) o;
+        return Objects.equals(idSubCategory, that.idSubCategory);
+    }
+
+	/**
+	 * L'identifiant définit le hash.
+	 */
+    @Override
+    public int hashCode() {
+        return idSubCategory.hashCode();
+    }
 
     // #region get/set
     

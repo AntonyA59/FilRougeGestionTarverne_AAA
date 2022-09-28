@@ -3,11 +3,11 @@ package aaa.tavern.Entity;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.*;
 import javax.persistence.Table;
-
 
 @Entity
 @Table(name = "customer")
@@ -121,6 +121,27 @@ public class Customer{
     @Column(name="consommation_start")
     private Date consommationStart;
     
+    /**
+	 * Deux Customer sont les mêmes si ils ont le même identifiant.
+	 */
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        Customer that = (Customer) o;
+        return Objects.equals(idCustomer, that.idCustomer);
+    }
+
+	/**
+	 * L'identifiant définit le hash.
+	 */
+    @Override
+    public int hashCode() {
+        return idCustomer.hashCode();
+    }
     // #region Get/Set
     public Integer getIdCustomer() {
         return idCustomer;

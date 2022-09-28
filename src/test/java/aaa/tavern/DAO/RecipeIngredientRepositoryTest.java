@@ -12,7 +12,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-
+import aaa.tavern.DAO.RecipeIngredientRepository;
+import aaa.tavern.DAO.RecipeRepository;
 import aaa.tavern.Entity.Recipe;
 import aaa.tavern.Entity.RecipeIngredient;
 

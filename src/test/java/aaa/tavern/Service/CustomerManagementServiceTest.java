@@ -1,7 +1,14 @@
 package aaa.tavern.Service;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -16,7 +23,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import aaa.tavern.DAO.CustomerRepository;
 import aaa.tavern.DAO.TableRestRepository;
 import aaa.tavern.Entity.Customer;
+import aaa.tavern.Entity.Recipe;
+import aaa.tavern.Entity.RecipeIngredient;
+import aaa.tavern.Entity.SubCategory;
 import aaa.tavern.Entity.TableRest;
+import aaa.tavern.Service.CustomerManagementService;
+import aaa.tavern.Service.utils.ListRecipe;
+import aaa.tavern.dto.RecipeDto;
 
 @SpringBootTest
 public class CustomerManagementServiceTest {
@@ -28,6 +41,9 @@ public class CustomerManagementServiceTest {
 
     @Autowired
     private CustomerManagementService customerManagementService;
+
+    @MockBean
+    private ListRecipe listRecipe;
 
     @Test
     public void modifedTableRestWithAssignNewTable(){
@@ -88,6 +104,39 @@ public class CustomerManagementServiceTest {
         assertThrows(EntityNotFoundException.class, ()-> customerManagementService.assignNewTable(1, 1));
     }
 
+    @Test
+    public void verifyReturnNewRecipeRandom(){
+        Map<Integer,Recipe> listTest = new HashMap<Integer,Recipe>();
+        List<RecipeDto> listTestDto = new ArrayList<RecipeDto>();
+        SubCategory subCategory= new SubCategory();
+        subCategory.setIdSubCategory(1);
+        ArrayList<RecipeIngredient> tabIngredientsForRecipe = new ArrayList<RecipeIngredient>();
+        Recipe recipe1= new Recipe("recipe1", Integer.valueOf(1), Integer.valueOf(1), new Time(1l), new Time(1l), new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
+        recipe1.setIdRecipe(1);
+        listTest.put(recipe1.getIdRecipe(), recipe1);
 
+        RecipeDto recipeDto1= new RecipeDto(recipe1);
+        listTestDto.add(recipeDto1);
+        
+        Recipe recipe2= new Recipe("recipe2", Integer.valueOf(1), Integer.valueOf(1), new Time(1l), new Time(1l), new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
+        recipe2.setIdRecipe(2);
+        recipe2.setName("recipe2");
+        listTest.put(recipe2.getIdRecipe(), recipe2);
+        RecipeDto recipeDto2= new RecipeDto(recipe2);
+        listTestDto.add(recipeDto2);
+        
+        Recipe recipe3= new Recipe("recipe3", Integer.valueOf(1), Integer.valueOf(1), new Time(1l), new Time(1l), new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
+        recipe3.setIdRecipe(3);
+        recipe3.setName("recipe3");
+        listTest.put(recipe3.getIdRecipe(), recipe3);
+        RecipeDto recipeDto3= new RecipeDto(recipe3);
+        listTestDto.add(recipeDto3);
+
+        Mockito.when(listRecipe.getListRecipe()).thenReturn(listTest);
+        RecipeDto recipeDto=customerManagementService.getNewRecipe();
+
+        assertTrue(listTestDto.contains(recipeDto));
+    }
+    
 
 }

@@ -1,6 +1,8 @@
 package aaa.tavern.Entity;
 
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +22,28 @@ public class Category {
     private String name;
 
 	public Category() {}
+
+    /**
+	 * Deux Category sont les mêmes si ils ont le même identifiant.
+	 */
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        Category that = (Category) o;
+        return Objects.equals(idCategory, that.idCategory);
+    }
+
+	/**
+	 * L'identifiant définit le hash.
+	 */
+    @Override
+    public int hashCode() {
+        return idCategory.hashCode();
+    }
 //#region Get/Set
 	public String getName() {
 		return name;

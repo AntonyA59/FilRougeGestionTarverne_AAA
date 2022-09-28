@@ -1,5 +1,7 @@
 package aaa.tavern.Entity;
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,6 +46,29 @@ public class Ingredient {
 		this.buyingPrice = buyingPrice ;
 		this.subCategory = subCategory ;
 	}
+
+	/**
+	 * Deux Ingredients sont les mêmes si ils ont le même identifiant.
+	 */
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        Ingredient that = (Ingredient) o;
+        return Objects.equals(idIngredient, that.idIngredient);
+    }
+
+	/**
+	 * L'identifiant définit le hash.
+	 */
+    @Override
+    public int hashCode() {
+        return idIngredient.hashCode();
+    }
+
 	// #region Get/Set
 	
 	public String getName() {

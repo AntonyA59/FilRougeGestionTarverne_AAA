@@ -22,27 +22,40 @@ public class CustomerManagementController {
 	@Autowired
 	private CustomerManagementService customerManagementService;
     
-    @GetMapping("/api/newRecipe")
+    @GetMapping("/api/customerManagement/newRecipe")
     public RecipeDto getNeWRecipeForCustomer(){
+
         return customerManagementService.getNewRecipe();
     }
 
-	@PostMapping("/api/newCustomer")
+	@PostMapping("/api/customerManagement/newCustomer")
 	public CustomerDto getNewCustomer(@RequestParam int managerId){
-		CustomerDto newCustomer= customerManagementService.getNewCustomer(managerId);
-		return newCustomer;
+		try {
+
+			return customerManagementService.getNewCustomer(managerId);
+		
+		} catch (EntityNotFoundException e) {
+		
+			throw new ResponseStatusException(
+				HttpStatus.NOT_FOUND, "Ce manager n'existe pas "
+			);
+		}
 	}
 
-	@PostMapping("/api/customerAssignTable")
+	@PostMapping("/api/customerManagement/customerAssignTable")
 	public ResponseEntity<String> assignNewTableForCustomer(@RequestParam int customerId, @RequestParam int tableId ){
 		try {
 			customerManagementService.assignNewTable(customerId,tableId);
 			
 			return ResponseEntity.ok().build();
+		
 		} catch (EntityNotFoundException e) {
+		
 			throw new ResponseStatusException(
-				HttpStatus.NOT_FOUND, "Entity not found"
+				HttpStatus.NOT_FOUND, "Customer ou table non trouvé dans la BDD"
 			);
 		}
 	}
+
+	////////////////////////////////customer leaver (client partir)   a faire !!!!!!
 }

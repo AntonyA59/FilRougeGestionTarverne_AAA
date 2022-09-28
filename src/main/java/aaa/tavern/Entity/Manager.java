@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -106,6 +107,29 @@ public class Manager {
     private void getCalcMaxExp(){
         this.maxExp= this.level*5;
     }
+
+    /**
+	 * Deux Managers sont les mêmes si ils ont le même identifiant.
+	 */
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        Manager that = (Manager) o;
+        return Objects.equals(idManager, that.idManager);
+    }
+
+	/**
+	 * L'identifiant définit le hash.
+	 */
+    @Override
+    public int hashCode() {
+        return idManager.hashCode();
+    }
+
 
     //#region get/set 
     public Integer getIdManager() {

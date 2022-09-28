@@ -3,6 +3,7 @@ package aaa.tavern.dto;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.HashMap;
+import java.util.Objects;
 
 import aaa.tavern.Entity.Recipe;
 import aaa.tavern.Entity.RecipeIngredient;
@@ -35,6 +36,28 @@ public class RecipeDto {
             Integer quantity= recipeIngredient.getQuantity();
             this.tabIngredientsForRecipe.put(ingredientId,quantity);
         }
+    }
+
+    /**
+	 * Deux RecipeDto sont les mêmes si ils ont le même identifiant.
+	 */
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        RecipeDto that = (RecipeDto) o;
+        return Objects.equals(id, that.id);
+    }
+
+	/**
+	 * L'identifiant définit le hash.
+	 */
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 
 //#region

@@ -1,4 +1,3 @@
-
 INSERT INTO category (id, name)
 VALUES
 (1, 'testCategory');
@@ -20,7 +19,6 @@ VALUES
 (3, 'testIngredient3',1,2,1),
 (4, 'testIngredient4',1,2,1),
 (5, 'testIngredient5',1,2,1);
-
 
 INSERT INTO recipe_ingredient (ingredient_id,recipe_id,quantity)
 VALUES

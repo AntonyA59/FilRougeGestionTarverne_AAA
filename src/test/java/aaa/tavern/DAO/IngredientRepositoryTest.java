@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import aaa.tavern.DAO.IngredientRepository;
 import aaa.tavern.Entity.Ingredient;
 
 @DataJpaTest
