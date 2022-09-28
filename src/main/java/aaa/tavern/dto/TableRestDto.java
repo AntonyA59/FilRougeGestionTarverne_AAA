@@ -16,10 +16,9 @@ public class TableRestDto {
     
     private Integer place;
 
-    
     public TableRestDto(TableRest tableRest){
 
-        this.id=tableRest.getTableId();
+        this.id=tableRest.getIdTable();
         this.numberPlace=tableRest.getNumberPlace();
         this.hygiene=tableRest.getHygiene();
         this.posX=tableRest.getPosX();

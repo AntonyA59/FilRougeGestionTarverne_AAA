@@ -8,7 +8,7 @@ public class TableRest {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer tableId;
+    private Integer idTable;
 
     @Column(name = "number_place")
     private Integer numberPlace;
@@ -122,12 +122,12 @@ public class TableRest {
         }
     }*/
     //#region
-    public Integer getTableId() {
-        return tableId;
+    public Integer getIdTable() {
+        return idTable;
     }
 
-    public void setTableId(Integer tableId) {
-        this.tableId = tableId;
+    public void setIdTable(Integer tableId) {
+        this.idTable = tableId;
     }
 
     public Integer getNumberPlace() {

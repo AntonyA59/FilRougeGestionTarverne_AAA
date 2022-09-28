@@ -1,6 +1,6 @@
 package aaa.tavern.Service;
 
-import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -15,13 +15,13 @@ import aaa.tavern.Entity.Player;
 @Service
 public class PlayerService {
     @Autowired 
-    private PlayerRepository playerRepository;
+    private PlayerRepository userRepository;
 
     //retourne l'id du player créer
-    public int createPlayer(PlayerDto playerDto) {
+    public int createPlayer(PlayerDto userDto) {
         try{
-            Player newPlayer = new Player(playerDto.getEmail(), playerDto.getNickname(), playerDto.getPassword()) ;
-            playerRepository.save(newPlayer) ;
+            Player newPlayer = new Player(userDto.getEmail(), userDto.getNickname(), userDto.getPassword()) ;
+            userRepository.save(newPlayer) ;
             return newPlayer.getIdPlayer() ;
         }catch(DataAccessException e){
             throw e ;
@@ -30,21 +30,21 @@ public class PlayerService {
 
     public boolean deletePlayer(int idPlayer){
         try{
-            playerRepository.deleteById(idPlayer);
+            userRepository.deleteById(idPlayer);
             return true ;
         }catch(DataAccessException e){
             return false ;
         }
     }
 
-    public int Connexion(PlayerDto playerDto) throws EntityNotFoundException {
+    public int Connexion(PlayerDto userDto) throws EntityNotFoundException {
         try{
-            List<Player> player = playerRepository.findByEmail(playerDto.getEmail()) ;
+            Optional<Player> user = userRepository.findByEmail(userDto.getEmail()) ;
 
-            if(!player.isEmpty())
+            if(!user.isEmpty())
 			    throw new EntityNotFoundException();
 
-            if(player.get(0).getPassword().equals(playerDto.getPassword())){
+            if(user.get().getPassword().equals(userDto.getPassword())){
                 
             }else{
                 // password invalid
