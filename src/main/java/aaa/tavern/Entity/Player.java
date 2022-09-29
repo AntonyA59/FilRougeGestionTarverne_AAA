@@ -42,10 +42,12 @@ public class Player {
 
 	public Player(){}
 	
-	public Player(String email, String nickname, String password){
+	public Player(String email, String nickname, String password, boolean enabled,Collection<Role> roles){
 		this.email = email;
 		this.nickname = nickname;
 		this.password = password;
+		this.enabled = enabled ;
+		this.roles = roles ;
 	}
 	
 	//#region get / set

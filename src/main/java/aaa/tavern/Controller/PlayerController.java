@@ -11,12 +11,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import aaa.tavern.dto.PlayerDto;
 import aaa.tavern.Service.PlayerService;
-
-
 
 
 @Controller
@@ -26,11 +23,11 @@ public class PlayerController {
     PlayerService playerService ;
 
     @PostMapping("/register")
-    public String createPlayer(@Valid PlayerDto playerDto, BindingResult bindingResult, RedirectAttributes redirectAttrs){
+    public String createPlayer(@Valid PlayerDto playerDto, BindingResult bindingResult){
         if(!bindingResult.hasErrors()){
             try{
                 playerService.createPlayer(playerDto) ;
-                return "/login" ;
+                return "redirect:/login" ;
             }catch(DataAccessException e){
                 throw new ResponseStatusException(
                     HttpStatus.NOT_ACCEPTABLE, "Utilisateur déjà existant"
@@ -43,11 +40,8 @@ public class PlayerController {
 
     @GetMapping("/register")
     public String getForm(Model model){
-        return "" ;
+        model.addAttribute("user", model) ;
+        return "/register" ;
     }
 
-    @PostMapping("/testConnexion")
-    public String connexionPlayer(@Valid PlayerDto playerDto, BindingResult bindingResult, RedirectAttributes redirectAttrs){
-        return null ;
-    }
 }

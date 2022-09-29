@@ -1,11 +1,12 @@
 package aaa.tavern.Entity;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.JoinTable;
@@ -24,21 +25,22 @@ public class Role {
     @Column(unique = true, nullable = false)
     private String name; 
 
-    @ManyToMany(mappedBy = "roles")
-    private Collection<Player> users;
-
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "roles_privileges", 
-    joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"), 
-    inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id"))
-    private List<Role> privileges;
+        joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"), 
+        inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id"))
+    private List<Privilege> privileges;
     
     public Role() {
     }
 
-    public Role(String name, List<Player> users, List<Role> privileges) {
+    public Role(String name) {
         this.name = name;
-        //this.users = users;
+        privileges = new ArrayList<Privilege>() ;
+    }
+
+    public Role(String name, List<Privilege> privileges) {
+        this.name = name;
         this.privileges = privileges;
     }
 
@@ -54,22 +56,12 @@ public class Role {
         this.name = name;
     }
 
-    public List<Role> getPrivileges() {
+    public List<Privilege> getPrivileges() {
         return privileges;
     }
 
-    public void setPrivileges(List<Role> privileges) {
+    public void setPrivileges(List<Privilege> privileges) {
         this.privileges = privileges;
-    }
-
-    
-
-    public Collection<Player> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Collection<Player> users) {
-        this.users = users;
     }
 
     @Override

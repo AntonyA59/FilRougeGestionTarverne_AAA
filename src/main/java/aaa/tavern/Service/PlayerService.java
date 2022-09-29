@@ -1,28 +1,47 @@
 package aaa.tavern.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import aaa.tavern.DAO.PlayerRepository;
+import aaa.tavern.DAO.RoleRepository;
 import aaa.tavern.dto.PlayerDto;
 import aaa.tavern.Entity.Player;
+import aaa.tavern.Entity.Role;
 
 @Service
 public class PlayerService {
     @Autowired 
     private PlayerRepository userRepository;
 
+    @Autowired 
+    private RoleRepository roleRepository ;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     //retourne l'id du player créer
-    public int createPlayer(PlayerDto userDto) {
+    public Player createPlayer(PlayerDto playerDto) {
         try{
-            Player newPlayer = new Player(userDto.getEmail(), userDto.getNickname(), userDto.getPassword()) ;
-            userRepository.save(newPlayer) ;
-            return newPlayer.getIdPlayer() ;
+            Role playerRole = roleRepository.findByName("USER").get() ;
+            List<Role> roles = new ArrayList<Role>();
+            roles.add(playerRole);
+            Player newPlayer = new Player(
+                playerDto.getEmail(), 
+                playerDto.getNickname(), 
+                passwordEncoder.encode(playerDto.getPassword()),
+                true,
+                roles
+                ) ;
+            return userRepository.save(newPlayer) ;
         }catch(DataAccessException e){
             throw e ;
         }

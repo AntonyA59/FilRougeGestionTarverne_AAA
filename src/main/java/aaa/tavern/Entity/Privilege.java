@@ -42,10 +42,7 @@ public class Privilege {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    
-    
+    }   
 
     @Override
     public int hashCode() {
