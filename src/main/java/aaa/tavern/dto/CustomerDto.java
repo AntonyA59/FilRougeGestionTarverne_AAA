@@ -1,7 +1,7 @@
 package aaa.tavern.dto;
 
-import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,7 +38,7 @@ public class CustomerDto {
 
     private TableRest tableRest;
 
-    private Date consommationStart;
+    private Timestamp consommationStart;
 
     private Set<Integer> commandList=new HashSet<Integer>();
 
@@ -122,7 +122,7 @@ public class CustomerDto {
         return commandList;
     }
 
-    public Date getConsommationStart() {
+    public Timestamp getConsommationStart() {
         return consommationStart;
     }
 

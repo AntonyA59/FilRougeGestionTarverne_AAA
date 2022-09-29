@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import aaa.tavern.DAO.CustomerRepository;
 import aaa.tavern.DAO.ManagerRepository;
 import aaa.tavern.DAO.RecipeCustomerRepository;
-import aaa.tavern.DAO.RecipeIngredientRepository;
 import aaa.tavern.DAO.RecipeRepository;
 import aaa.tavern.Entity.Customer;
 import aaa.tavern.Entity.Ingredient;
@@ -29,9 +28,6 @@ public class RecipeService {
     
     @Autowired
     private ManagerRepository managerRepository;
-
-    @Autowired
-    private RecipeIngredientRepository recipeIngredientRepository;
 
     @Autowired
     private RecipeCustomerRepository recipeCustomerRepository;

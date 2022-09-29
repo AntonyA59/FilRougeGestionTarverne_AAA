@@ -8,9 +8,9 @@ VALUES
 
 INSERT INTO recipe (id,name, selling_price, level, consommation_time, preparation_time, peremption_date, exp_given, subcategory_id)
 VALUES
-(1,'recipe1', 10, 1, '11:22:33', '11:22:33', '2022-01-02',1,1),
-(2,'recipe2', 10, 1, '11:22:33', '11:22:33', '2022-01-02',1,1),
-(3,'recipe3', 10, 1, '11:22:33', '11:22:33', '2022-01-02',1,1);
+(1,'recipe1', 10, 1, 1, '11:22:33', '2022-01-02',1,1),
+(2,'recipe2', 10, 1, 1, '11:22:33', '2022-01-02',1,1),
+(3,'recipe3', 10, 1, 1, '11:22:33', '2022-01-02',1,1);
 
 INSERT INTO ingredient(id,name, level, buying_price, subcategory_id)
 VALUES

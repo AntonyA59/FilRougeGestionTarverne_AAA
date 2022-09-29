@@ -1,7 +1,7 @@
 package aaa.tavern.Entity;
 
-import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -119,7 +119,7 @@ public class Customer{
     private Set<RecipeCustomer> commandList=new HashSet<RecipeCustomer>();
     
     @Column(name="consommation_start")
-    private Date consommationStart;
+    private Timestamp consommationStart;
     
     /**
 	 * Deux Customer sont les mêmes si ils ont le même identifiant.
@@ -288,11 +288,11 @@ public class Customer{
         this.commandList = commandList;
     }
 
-    public Date getConsommationStart() {
+    public Timestamp getConsommationStart() {
         return consommationStart;
     }
 
-    public void setConsommationStart(Date consommationStart) {
+    public void setConsommationStart(Timestamp consommationStart) {
         this.consommationStart = consommationStart;
     }
 

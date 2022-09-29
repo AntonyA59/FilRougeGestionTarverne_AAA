@@ -13,7 +13,7 @@ public class RecipeDto {
     private String name ;
 	private Integer sellingPrice;
 	private Integer level;
-	private Time consommationTime;
+	private Long consommationTime;
 	private Time preparationTime;
 	private Date peremptionDate;
 	private Integer expGiven;
@@ -81,7 +81,7 @@ public class RecipeDto {
     }
 
 
-    public Time getConsommationTime() {
+    public Long getConsommationTime() {
         return consommationTime;
     }
 

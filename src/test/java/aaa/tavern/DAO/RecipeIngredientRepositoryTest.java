@@ -6,14 +6,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import aaa.tavern.DAO.RecipeIngredientRepository;
-import aaa.tavern.DAO.RecipeRepository;
 import aaa.tavern.Entity.Recipe;
 import aaa.tavern.Entity.RecipeIngredient;
 

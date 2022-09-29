@@ -1,14 +1,14 @@
 package aaa.tavern.Service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -30,8 +30,8 @@ import aaa.tavern.Entity.Recipe;
 import aaa.tavern.Entity.RecipeIngredient;
 import aaa.tavern.Entity.SubCategory;
 import aaa.tavern.Entity.TableRest;
-import aaa.tavern.Service.CustomerManagementService;
 import aaa.tavern.dto.RecipeDto;
+import aaa.tavern.utils.ServiceUtil;
 
 @SpringBootTest
 public class CustomerManagementServiceTest {
@@ -124,20 +124,20 @@ public class CustomerManagementServiceTest {
         List<RecipeDto> listTestDto = new ArrayList<RecipeDto>();
         ArrayList<RecipeIngredient> tabIngredientsForRecipe = new ArrayList<RecipeIngredient>();
        
-        Recipe recipe1= new Recipe("recipe1", Integer.valueOf(1), Integer.valueOf(1), new Time(1l), new Time(1l), new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
+        Recipe recipe1= new Recipe("recipe1", Integer.valueOf(1), Integer.valueOf(1), 1L, new Time(1l), new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
         recipe1.setIdRecipe(1);
         RecipeDto recipeDto1= new RecipeDto(recipe1);
         listTest.add(recipe1);
         listTestDto.add(recipeDto1);
         
-        Recipe recipe2= new Recipe("recipe2", Integer.valueOf(1), Integer.valueOf(1), new Time(1l), new Time(1l), new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
+        Recipe recipe2= new Recipe("recipe2", Integer.valueOf(1), Integer.valueOf(1), 1L, new Time(1l), new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
         recipe2.setIdRecipe(2);
         recipe2.setName("recipe2");
         RecipeDto recipeDto2= new RecipeDto(recipe2);
         listTest.add(recipe2);
         listTestDto.add(recipeDto2);
         
-        Recipe recipe3= new Recipe("recipe3", Integer.valueOf(1), Integer.valueOf(1), new Time(1l), new Time(1l), new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
+        Recipe recipe3= new Recipe("recipe3", Integer.valueOf(1), Integer.valueOf(1),1l, new Time(1l), new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
         recipe3.setIdRecipe(3);
         recipe3.setName("recipe3");
         RecipeDto recipeDto3= new RecipeDto(recipe3);
@@ -148,6 +148,19 @@ public class CustomerManagementServiceTest {
         RecipeDto recipeDto=customerManagementService.getNewRecipe(1);
 
         assertTrue(listTestDto.contains(recipeDto));
+    }
+
+    //TODO A VOIR AVEC LOIC
+    @Test
+    public void givenCustomerServed_WhenCustomerEat(){
+        Customer customer= new Customer();
+        customer.setIdCustomer(1);
+        Optional<Customer> optCutomer= Optional.of(customer);
+        Mockito.when(customerRepository.findById(1)).thenReturn(optCutomer);
+        Timestamp now= new Timestamp(System.currentTimeMillis());
+        customerManagementService.customerServed(1);
+        Customer customer2= ServiceUtil.getEntity(customerRepository, 1);
+        assertEquals(now, customer2.getConsommationStart());
     }
     
 

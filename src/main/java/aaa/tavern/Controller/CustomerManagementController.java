@@ -5,7 +5,6 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +15,13 @@ import aaa.tavern.dto.RecipeDto;
 import aaa.tavern.exception.ForbiddenException;
 import aaa.tavern.Service.CustomerManagementService;
 
-
+/**
+ * creer un customer           0
+ * assigner table              0
+ * creer la recette            0
+ * servire la recette		   0
+ * recolter l'argent           0
+ */
 
 @RestController
 public class CustomerManagementController {
@@ -74,6 +79,27 @@ public class CustomerManagementController {
 		}
 	}
 
+	@PostMapping("/api/customerManager/customerServed")
+	public ResponseEntity<String> customerServed(@RequestParam int customerId){
+		try {
+			customerManagementService.customerServed(customerId);
+
+			return ResponseEntity.ok().build();
+
+		} catch (EntityNotFoundException e) {
+			throw new ResponseStatusException(
+				HttpStatus.NOT_FOUND, "Customer non trouvé dans la BDD"
+			);
+		}
+	}
+
+
+	/**
+	 * TODO A FAIRE
+	 * @param customerId
+	 * @param managerId
+	 * @return
+	 */
 	@PostMapping("/api/customerManager/customerFinish")
 	public ResponseEntity<String> customerFinish(@RequestParam int customerId, @RequestParam int managerId){
 		try {

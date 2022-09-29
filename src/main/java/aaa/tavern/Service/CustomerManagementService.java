@@ -1,10 +1,7 @@
 package aaa.tavern.Service;
 
-import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -33,7 +30,6 @@ import aaa.tavern.Entity.Recipe;
 import aaa.tavern.Entity.RecipeCustomer;
 import aaa.tavern.Entity.TableRest;
 import aaa.tavern.utils.ServiceUtil;
-import net.bytebuddy.asm.Advice.Local;
 
 @Service
 public class CustomerManagementService {
@@ -136,7 +132,26 @@ public class CustomerManagementService {
         return new CustomerDto(newCustomer);
     }
 
-
+    /**
+     * TODO a faire
+     * @param customerId
+     * @throws EntityNotFoundException
+     */
+    @Transactional(rollbackOn = EntityNotFoundException.class)
+    public void customerServed(int customerId)throws EntityNotFoundException{
+        Customer customer = ServiceUtil.getEntity(customerRepository, customerId);
+        Timestamp timeNow = new Timestamp(System.currentTimeMillis());
+        customer.setConsommationStart(timeNow);
+        customerRepository.save(customer);
+    }
+    
+    /**
+     * TODO a faire 
+     * @param customerId
+     * @param managerId
+     * @throws EntityNotFoundException
+     * @throws ForbiddenException
+     */
     @Transactional(rollbackOn = {EntityNotFoundException.class,ForbiddenException.class}) 
     public void customerFinishRecipe(int customerId, int managerId)throws EntityNotFoundException,ForbiddenException{
         
@@ -146,37 +161,49 @@ public class CustomerManagementService {
         for(RecipeCustomer recipeCustomer: customer.getCommandList()){
             checkRecipe(recipeCustomer.getRecipe(), manager, customer);
         }
+        //TODO a voir si dans la BDD il y a bien la cascade pour les recipeCustomers !
+        //TODO a voir si dans la BDD il y a bien la cascade pour les CustomerManagers !
+        customerRepository.delete(customer);
+        managerRepository.save(manager);
     }
 
 
-
+    /**
+     * TODO a faire
+     * @param recipe
+     * @param manager
+     * @param customer
+     * @throws ForbiddenException
+     */
     private void checkRecipe(Recipe recipe, Manager manager,Customer customer) throws ForbiddenException{
         if(checkTime(recipe, customer)){
-            //donner argent au manger
-        }else{
+            Integer goldWin= recipe.getSellingPrice();
+            Integer goldManager= manager.getChest();
+            manager.setChest(goldManager+goldWin);
+            
+        }else
             throw new ForbiddenException();
-        }
     }
 
 
 
-
+    /**
+     * TODO a faire 
+     * @param recipe
+     * @param customer
+     * @return
+     */
     private boolean checkTime(Recipe recipe, Customer customer){
-        //test que le debut +time consommation et bien < time actuelle 
-        
-        Time timeConsommmation= recipe.getConsommationTime();
-        LocalDateTime timeNow= LocalDateTime.now();
-        // customer = début consommation (date+ heure)
+        //TODO changer la BDD de recipe et customer (Timestamp et Long) !!
+        Timestamp startConsommation = customer.getConsommationStart();
+        Long timeConsomation = recipe.getConsommationTime();
 
-        LocalDateTime localDebut= new LocalDateTime();
-        Timestamp debutConsomation= new Timestamp(1);
-        
-        //recipe = temps de comsomation
-        // il faut pouvoir debut consommation+ temps de consommation       compare       date et heure locale
+        Long totalMilli = startConsommation.getTime()+timeConsomation;
+        Timestamp totalTimestamp = new Timestamp(totalMilli);
 
-        // date et heure locale
+        Timestamp timeNow = new Timestamp(System.currentTimeMillis());
 
+        return timeNow.after(totalTimestamp) ? true : false ;
 
-        return true;
     }
 }
