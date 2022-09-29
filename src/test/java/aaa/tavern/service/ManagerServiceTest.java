@@ -20,7 +20,9 @@ import aaa.tavern.dao.PlayerRepository;
 import aaa.tavern.dto.ManagerDto;
 import aaa.tavern.entity.Manager;
 import aaa.tavern.entity.Player;
+import aaa.tavern.entity.Recipe;
 import aaa.tavern.service.ManagerService;
+import aaa.tavern.utils.ServiceUtil;
 
 
 @SpringBootTest
@@ -40,24 +42,25 @@ public class ManagerServiceTest {
 
     @Test
     public void createManager() {
-        Manager manager = Mockito.mock(Manager.class);
-        Player player = Mockito.mock(Player.class);
-        manager = managerService.createManager("test", player);
-        Mockito.verify(managerRepository).save(manager);
+    	ManagerDto managerDto = Mockito.mock(ManagerDto.class);
+        
+        Mockito.when(managerService.createManager(managerDto, 0));
+        
     }
 
     @Test
     public void deleteManager() {
         Manager manager = Mockito.mock(Manager.class);
         Mockito.when(managerRepository.findById(0)).thenReturn(Optional.of(manager));
-        managerService.deleteManager(manager);
+        managerService.deleteManager(0);
         
-        Mockito.verify(managerRepository).delete(manager);
+        Mockito.verify(managerRepository).deleteById(0);
     }
 
     @Test
     public void listExistingManagerDto(){
         Player player = new Player();
+        playerRepository.save(player);
         Manager manager1 = new Manager("Test1", 10, 20, 20, 20, player);
         Manager manager2 = new Manager("Test2", 10, 20, 20, 20, player);
         Manager manager3 = new Manager("Test3", 10, 20, 20, 20, player);
@@ -65,8 +68,16 @@ public class ManagerServiceTest {
         managers.add(manager1);
         managers.add(manager2);
         managers.add(manager3);
-        Mockito.when(managerRepository.findByPlayer(player)).thenReturn(managers);
-        List<ManagerDto> managerDtos = managerService.listExistingManagerDto(player) ;
+        Optional<Player> optPlayer= Optional.of(player);
+        Mockito.when(playerRepository.findById(1)).thenReturn(optPlayer);
+        
+        
+        List<ManagerDto> managerDtos = managerService.listExistingManagerDto(1) ;
+
+        
+  
+        
+        
         
         assertEquals(managerDtos.size(), 3);
     }
