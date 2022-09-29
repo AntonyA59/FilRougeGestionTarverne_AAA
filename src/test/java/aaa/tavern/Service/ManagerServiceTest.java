@@ -5,6 +5,7 @@ package aaa.tavern.Service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +37,6 @@ public class ManagerServiceTest {
 
     @Autowired
     private ManagerService managerService;
-
 
 
     @Test

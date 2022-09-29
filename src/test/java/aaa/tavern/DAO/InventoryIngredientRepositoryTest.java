@@ -15,7 +15,6 @@ import aaa.tavern.Entity.InventoryIngredient;
 import aaa.tavern.Entity.Manager;
 
 @DataJpaTest
-@ExtendWith(SpringExtension.class)
 public class InventoryIngredientRepositoryTest {
 
     

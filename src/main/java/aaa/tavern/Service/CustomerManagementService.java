@@ -1,7 +1,11 @@
 package aaa.tavern.Service;
 
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.EntityNotFoundException;
@@ -13,6 +17,7 @@ import org.springframework.stereotype.Service;
 import aaa.tavern.DAO.CustomerRepository;
 import aaa.tavern.DAO.ManagerCustomerRepository;
 import aaa.tavern.DAO.ManagerRepository;
+import aaa.tavern.DAO.RecipeRepository;
 import aaa.tavern.DAO.TableRestRepository;
 import aaa.tavern.dto.CustomerDto;
 import aaa.tavern.dto.RecipeDto;
@@ -23,16 +28,12 @@ import aaa.tavern.Entity.ManagerCustomer;
 import aaa.tavern.Entity.Recipe;
 import aaa.tavern.Entity.RecipeCustomer;
 import aaa.tavern.Entity.TableRest;
-import aaa.tavern.Service.utils.ListRecipe;
 import aaa.tavern.utils.ServiceUtil;
 
 @Service
 public class CustomerManagementService {
     @Autowired
     private RandomService randomService;
-    
-    @Autowired
-    private ListRecipe listRecipe;
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -46,14 +47,27 @@ public class CustomerManagementService {
     @Autowired
     private ManagerCustomerRepository managerCustomerRepository;
 
+    @Autowired
+    private RecipeRepository recipeRepository;
+
     /**
      * allows to send a random recipe which is in listRecipe in the utils folder
+     * @param managerId id of the manager to be provided with a random recipe
      * @return RecipeDto Object that contains the information of the chosen recipe
+     * @throws EntityNotFoundException exception if the id manager is not in the database
      */
-    public RecipeDto getNewRecipe(){
-        Object[] values= listRecipe.getListRecipe().values().toArray();
+    public RecipeDto getNewRecipe(int managerId) throws EntityNotFoundException{
+
+        Manager manager= ServiceUtil.getEntity(managerRepository, managerId);
+        List<Recipe> listRecipe= recipeRepository.findByLevelLessThanEqual(manager.getLevel());
+        Map<Integer,Recipe>mapRecipe = new HashMap<Integer,Recipe>();
+        
+        listRecipe.forEach(element->mapRecipe.put(element.getIdRecipe(), element));
+        
+        Object[] values= mapRecipe.values().toArray();
         int index= randomService.getRandomInt(values.length);
         Object randomObject= values[index];
+        
         Recipe recipe=(Recipe)randomObject;
 
         return new RecipeDto(recipe);
@@ -63,7 +77,7 @@ public class CustomerManagementService {
      * allows you to assign a customer to a place
      * @param customerId Id of the customer to whom we must assign a table
      * @param tableId table id to which a customer has been assigned
-     * @throws EntityNotFoundException 
+     * @throws EntityNotFoundException exception if the id table or id customer are not in the database
      */
     @Transactional(rollbackOn = EntityNotFoundException.class) 
     public void assignNewTable(int customerId,int tableId) throws EntityNotFoundException{
@@ -82,7 +96,7 @@ public class CustomerManagementService {
      * allows you to create a new customer randomly
      * @param managerId id of the manager to whom we create a new customer
      * @return CustomerDto Object that contains the information of the new customer
-     * @throws EntityNotFoundException exception if the id maager is not in the database
+     * @throws EntityNotFoundException exception if the id manager is not in the database
      */
     @Transactional
     public CustomerDto getNewCustomer(int managerId) throws EntityNotFoundException{

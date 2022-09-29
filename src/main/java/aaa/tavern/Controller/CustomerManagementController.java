@@ -22,12 +22,23 @@ public class CustomerManagementController {
 	@Autowired
 	private CustomerManagementService customerManagementService;
     
-    @GetMapping("/api/customerManagement/newRecipe")
-    public RecipeDto getNeWRecipeForCustomer(){
+	/**
+	 * Controller that requests a new recipe
+	 * @return object with the recipe randomly found
+	 */
+    @PostMapping("/api/customerManagement/newRecipe")
+    public RecipeDto getNeWRecipeForCustomer(@RequestParam int managerId){
 
-        return customerManagementService.getNewRecipe();
+        return customerManagementService.getNewRecipe(managerId);
     }
 
+	/**
+	 * Controller that allows to create a new customer
+	 * @param managerId  id of the manager to whom we create a new customer
+	 * @return CustomerDto Object that contains the information of the new customer
+	 * 
+	 * @throws EntityNotFoundException exception if the id manager is not in the database
+	 */
 	@PostMapping("/api/customerManagement/newCustomer")
 	public CustomerDto getNewCustomer(@RequestParam int managerId){
 		try {
@@ -41,7 +52,12 @@ public class CustomerManagementController {
 			);
 		}
 	}
-
+	/**
+	 * Controller that assigns a table to a customer
+	 * @param customerId id customer which receives the id of the table
+	 * @param tableId id table that receives the customer
+	 * @throws EntityNotFoundException exception if the id customer or table are not in the database
+	 */
 	@PostMapping("/api/customerManagement/customerAssignTable")
 	public ResponseEntity<String> assignNewTableForCustomer(@RequestParam int customerId, @RequestParam int tableId ){
 		try {
@@ -56,6 +72,8 @@ public class CustomerManagementController {
 			);
 		}
 	}
+
+
 
 	////////////////////////////////customer leaver (client partir)   a faire !!!!!!
 }

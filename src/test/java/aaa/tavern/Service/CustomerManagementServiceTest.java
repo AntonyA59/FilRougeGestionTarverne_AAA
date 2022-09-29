@@ -21,14 +21,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import aaa.tavern.DAO.CustomerRepository;
+import aaa.tavern.DAO.ManagerRepository;
+import aaa.tavern.DAO.RecipeRepository;
 import aaa.tavern.DAO.TableRestRepository;
 import aaa.tavern.Entity.Customer;
+import aaa.tavern.Entity.Manager;
 import aaa.tavern.Entity.Recipe;
 import aaa.tavern.Entity.RecipeIngredient;
 import aaa.tavern.Entity.SubCategory;
 import aaa.tavern.Entity.TableRest;
 import aaa.tavern.Service.CustomerManagementService;
-import aaa.tavern.Service.utils.ListRecipe;
 import aaa.tavern.dto.RecipeDto;
 
 @SpringBootTest
@@ -43,8 +45,10 @@ public class CustomerManagementServiceTest {
     private CustomerManagementService customerManagementService;
 
     @MockBean
-    private ListRecipe listRecipe;
+    private RecipeRepository recipeRepository;
 
+    @MockBean
+    private ManagerRepository managerRepository;
     @Test
     public void modifedTableRestWithAssignNewTable(){
         Customer customer= new Customer();
@@ -106,34 +110,42 @@ public class CustomerManagementServiceTest {
 
     @Test
     public void verifyReturnNewRecipeRandom(){
-        Map<Integer,Recipe> listTest = new HashMap<Integer,Recipe>();
-        List<RecipeDto> listTestDto = new ArrayList<RecipeDto>();
+    
+        Manager manager= new Manager();
+        manager.setIdManager(1);
+        manager.setLevel(1);
+        Optional<Manager> optManager= Optional.of(manager);
+        Mockito.when(managerRepository.findById(1)).thenReturn(optManager);
+        
         SubCategory subCategory= new SubCategory();
         subCategory.setIdSubCategory(1);
+
+        List<Recipe> listTest = new ArrayList<Recipe>();
+        List<RecipeDto> listTestDto = new ArrayList<RecipeDto>();
         ArrayList<RecipeIngredient> tabIngredientsForRecipe = new ArrayList<RecipeIngredient>();
+       
         Recipe recipe1= new Recipe("recipe1", Integer.valueOf(1), Integer.valueOf(1), new Time(1l), new Time(1l), new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
         recipe1.setIdRecipe(1);
-        listTest.put(recipe1.getIdRecipe(), recipe1);
-
         RecipeDto recipeDto1= new RecipeDto(recipe1);
+        listTest.add(recipe1);
         listTestDto.add(recipeDto1);
         
         Recipe recipe2= new Recipe("recipe2", Integer.valueOf(1), Integer.valueOf(1), new Time(1l), new Time(1l), new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
         recipe2.setIdRecipe(2);
         recipe2.setName("recipe2");
-        listTest.put(recipe2.getIdRecipe(), recipe2);
         RecipeDto recipeDto2= new RecipeDto(recipe2);
+        listTest.add(recipe2);
         listTestDto.add(recipeDto2);
         
         Recipe recipe3= new Recipe("recipe3", Integer.valueOf(1), Integer.valueOf(1), new Time(1l), new Time(1l), new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
         recipe3.setIdRecipe(3);
         recipe3.setName("recipe3");
-        listTest.put(recipe3.getIdRecipe(), recipe3);
         RecipeDto recipeDto3= new RecipeDto(recipe3);
+        listTest.add(recipe3);
         listTestDto.add(recipeDto3);
 
-        Mockito.when(listRecipe.getListRecipe()).thenReturn(listTest);
-        RecipeDto recipeDto=customerManagementService.getNewRecipe();
+        Mockito.when(recipeRepository.findByLevelLessThanEqual(1)).thenReturn(listTest);
+        RecipeDto recipeDto=customerManagementService.getNewRecipe(1);
 
         assertTrue(listTestDto.contains(recipeDto));
     }

@@ -15,7 +15,6 @@ import aaa.tavern.DAO.IngredientRepository;
 import aaa.tavern.Entity.Ingredient;
 
 @DataJpaTest
-@ExtendWith(SpringExtension.class)
 public class IngredientRepositoryTest {
 
     @Autowired

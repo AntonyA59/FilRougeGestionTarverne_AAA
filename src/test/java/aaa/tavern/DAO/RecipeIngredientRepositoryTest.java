@@ -18,7 +18,6 @@ import aaa.tavern.Entity.Recipe;
 import aaa.tavern.Entity.RecipeIngredient;
 
 @DataJpaTest
-@ExtendWith(SpringExtension.class)
 public class RecipeIngredientRepositoryTest {
     @Autowired
     private RecipeIngredientRepository recipeIngredientRepository;

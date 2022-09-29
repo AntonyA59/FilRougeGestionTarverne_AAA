@@ -18,7 +18,6 @@ import aaa.tavern.Entity.Player;
 
 
 @DataJpaTest
-@ExtendWith(SpringExtension.class)
 public class ManagerRepositoryTest {
     @Autowired
     private ManagerRepository managerRepository;
