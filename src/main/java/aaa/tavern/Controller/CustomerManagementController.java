@@ -13,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import aaa.tavern.dto.CustomerDto;
 import aaa.tavern.dto.RecipeDto;
+import aaa.tavern.exception.ForbiddenException;
 import aaa.tavern.Service.CustomerManagementService;
 
 
@@ -73,7 +74,23 @@ public class CustomerManagementController {
 		}
 	}
 
-
-
-	////////////////////////////////customer leaver (client partir)   a faire !!!!!!
+	@PostMapping("/api/customerManager/customerFinish")
+	public ResponseEntity<String> customerFinish(@RequestParam int customerId, @RequestParam int managerId){
+		try {
+			customerManagementService.customerFinishRecipe(customerId,managerId);
+			
+			return ResponseEntity.ok().build();
+		
+		} catch (EntityNotFoundException e) {
+		
+			throw new ResponseStatusException(
+				HttpStatus.NOT_FOUND, "Customer ou manager non trouvé dans la BDD"
+			);
+		} catch(ForbiddenException e1){
+			throw new ResponseStatusException(
+				HttpStatus.BAD_REQUEST, "Le temps n'est pas terminé !"
+			);
+		}
+	}
+	
 }

@@ -1,6 +1,9 @@
 package aaa.tavern.Service;
 
+import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -21,6 +24,7 @@ import aaa.tavern.DAO.RecipeRepository;
 import aaa.tavern.DAO.TableRestRepository;
 import aaa.tavern.dto.CustomerDto;
 import aaa.tavern.dto.RecipeDto;
+import aaa.tavern.exception.ForbiddenException;
 import aaa.tavern.Service.utils.RandomService;
 import aaa.tavern.Entity.Customer;
 import aaa.tavern.Entity.Manager;
@@ -29,6 +33,7 @@ import aaa.tavern.Entity.Recipe;
 import aaa.tavern.Entity.RecipeCustomer;
 import aaa.tavern.Entity.TableRest;
 import aaa.tavern.utils.ServiceUtil;
+import net.bytebuddy.asm.Advice.Local;
 
 @Service
 public class CustomerManagementService {
@@ -56,6 +61,8 @@ public class CustomerManagementService {
      * @return RecipeDto Object that contains the information of the chosen recipe
      * @throws EntityNotFoundException exception if the id manager is not in the database
      */
+
+    @Transactional(rollbackOn = EntityNotFoundException.class) 
     public RecipeDto getNewRecipe(int managerId) throws EntityNotFoundException{
 
         Manager manager= ServiceUtil.getEntity(managerRepository, managerId);
@@ -98,7 +105,7 @@ public class CustomerManagementService {
      * @return CustomerDto Object that contains the information of the new customer
      * @throws EntityNotFoundException exception if the id manager is not in the database
      */
-    @Transactional
+    @Transactional(rollbackOn = EntityNotFoundException.class) 
     public CustomerDto getNewCustomer(int managerId) throws EntityNotFoundException{
         Manager manager= ServiceUtil.getEntity(managerRepository, managerId);
         
@@ -127,5 +134,49 @@ public class CustomerManagementService {
         managerCustomerRepository.save(managerCustomer);
 
         return new CustomerDto(newCustomer);
+    }
+
+
+    @Transactional(rollbackOn = {EntityNotFoundException.class,ForbiddenException.class}) 
+    public void customerFinishRecipe(int customerId, int managerId)throws EntityNotFoundException,ForbiddenException{
+        
+        Customer customer= ServiceUtil.getEntity(customerRepository, customerId);
+        Manager manager= ServiceUtil.getEntity(managerRepository, managerId);
+        
+        for(RecipeCustomer recipeCustomer: customer.getCommandList()){
+            checkRecipe(recipeCustomer.getRecipe(), manager, customer);
+        }
+    }
+
+
+
+    private void checkRecipe(Recipe recipe, Manager manager,Customer customer) throws ForbiddenException{
+        if(checkTime(recipe, customer)){
+            //donner argent au manger
+        }else{
+            throw new ForbiddenException();
+        }
+    }
+
+
+
+
+    private boolean checkTime(Recipe recipe, Customer customer){
+        //test que le debut +time consommation et bien < time actuelle 
+        
+        Time timeConsommmation= recipe.getConsommationTime();
+        LocalDateTime timeNow= LocalDateTime.now();
+        // customer = début consommation (date+ heure)
+
+        LocalDateTime localDebut= new LocalDateTime();
+        Timestamp debutConsomation= new Timestamp(1);
+        
+        //recipe = temps de comsomation
+        // il faut pouvoir debut consommation+ temps de consommation       compare       date et heure locale
+
+        // date et heure locale
+
+
+        return true;
     }
 }
