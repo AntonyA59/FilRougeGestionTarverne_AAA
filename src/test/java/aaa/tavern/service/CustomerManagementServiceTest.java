@@ -28,7 +28,6 @@ import aaa.tavern.entity.Recipe;
 import aaa.tavern.entity.RecipeIngredient;
 import aaa.tavern.entity.SubCategory;
 import aaa.tavern.entity.TableRest;
-import aaa.tavern.service.CustomerManagementService;
 import aaa.tavern.service.utils.ListRecipe;
 
 @SpringBootTest
@@ -69,14 +68,14 @@ public class CustomerManagementServiceTest {
         
         TableRest tableRest= new TableRest();
         tableRest.setNumberPlace(5);
-        tableRest.setTableId(1);
+        tableRest.setIdTable(1);
         Optional<TableRest> optTableRest= Optional.of(tableRest);
         Mockito.when(tableRestRepository.findById(1)).thenReturn(optTableRest);
 
         customerManagementService.assignNewTable(1, 1);
 
         //à voir avec Loic
-        Mockito.verify(customerRepository).save(ArgumentMatchers.argThat(customer2->customer2.getTableRest().getTableId()==1));
+        Mockito.verify(customerRepository).save(ArgumentMatchers.argThat(customer2->customer2.getTableRest().getIdTable()==1));
     }
 
     @Test

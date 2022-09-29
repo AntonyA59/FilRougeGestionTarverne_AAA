@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import aaa.tavern.dao.IngredientRepository;
 import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dto.IngredientDto;
-import aaa.tavern.dto.ManagerDto;
 import aaa.tavern.entity.Ingredient;
 import aaa.tavern.entity.Manager;
 import aaa.tavern.exception.ForbiddenException;
@@ -27,6 +26,11 @@ public class ShopService {
     @Autowired
     IngredientRepository ingredientRepository ;
 
+    /**
+     * 
+     * @param idManager
+     * @return List<IngredientDto>
+     */
     //retourne la liste des ingredients du jeu en foncion du niveau du Manager
     public List<IngredientDto> getAllIngredients(int idManager){
         Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
@@ -44,12 +48,12 @@ public class ShopService {
      * 
      * @param idManager
      * @param idIngredient
-     * @return ManagerDto
+     * @return 
      * @throws EntityNotFoundException
      * @throws ForbiddenException
      */
     //Charge l'ingredient et le manager pour ensuite acheter
-    public ManagerDto prepareIngredientAndBuy(int idManager, int idIngredient) throws EntityNotFoundException,ForbiddenException{
+    public void prepareIngredientAndBuy(int idManager, int idIngredient) throws EntityNotFoundException,ForbiddenException{
         Ingredient ingredient = ServiceUtil.getEntity(ingredientRepository, idIngredient);
         Manager manager= ServiceUtil.getEntity(managerRepository, idManager);
 
@@ -65,13 +69,17 @@ public class ShopService {
         Add(ingredient,manager) ;
         
         managerRepository.save(manager) ;
-
-        ManagerDto ManagerDto = new ManagerDto(manager) ;
-        return ManagerDto ;
     }    
 
+    /**
+     * 
+     * @param idManager
+     * @param idIngredient
+     * @throws EntityNotFoundException
+     * @throws ForbiddenException
+     */
     //Charge l'ingredient et le manager pour ensuite vendre
-    public ManagerDto prepareIngredientAndSell(int idManager, int idIngredient) throws EntityNotFoundException,ForbiddenException{
+    public void prepareIngredientAndSell(int idManager, int idIngredient) throws EntityNotFoundException,ForbiddenException{
         Ingredient ingredient = ServiceUtil.getEntity(ingredientRepository, idIngredient);
         Manager manager= ServiceUtil.getEntity(managerRepository, idManager);
 
@@ -87,11 +95,13 @@ public class ShopService {
             throw new ForbiddenException();
         
         managerRepository.save(manager) ;
-
-        ManagerDto ManagerDto = new ManagerDto(manager) ;
-        return ManagerDto ;
     }  
 
+    /**
+     * 
+     * @param ingredient
+     * @param manager
+     */
     //Ajoute l'ingredient dans l'inventaire
     private void Add(Ingredient ingredient, Manager manager){
         Map<Ingredient,Integer> inventory = manager.getIngredientQuantity() ;
@@ -107,6 +117,12 @@ public class ShopService {
         manager.setIngredientQuantity(inventory);
     }
 
+    /**
+     * 
+     * @param ingredient
+     * @param manager
+     * @return boolean
+     */
     //Supprimer l'ingredient dans l'inventaire
     private boolean Remove(Ingredient ingredient, Manager manager){
         Map<Ingredient,Integer> inventory = manager.getIngredientQuantity() ;
@@ -126,6 +142,12 @@ public class ShopService {
         }
     }
 
+    /**
+     * 
+     * @param ingredient
+     * @param manager
+     * @return boolean
+     */
     //Retire l'argent au Manager
     private boolean Buy(Ingredient ingredient,Manager manager){
         if (manager.getChest() >= ingredient.getBuyingPrice()){
@@ -136,6 +158,11 @@ public class ShopService {
         }
     }
 
+    /**
+     * 
+     * @param ingredient
+     * @param manager
+     */
     //Ajoute l'argent au Manager arondi à l'entier supérieur
     private void Sell(Ingredient ingredient, Manager manager){
         manager.setChest(manager.getChest() + ((int)Math.ceil(ingredient.getBuyingPrice()/2)));

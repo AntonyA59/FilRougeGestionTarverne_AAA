@@ -10,14 +10,16 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import aaa.tavern.dao.CustomerRepository;
+import aaa.tavern.dao.IngredientRepository;
 import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dto.ManagerDto;
+import aaa.tavern.entity.Customer;
+import aaa.tavern.entity.Ingredient;
 import aaa.tavern.entity.Manager;
 import aaa.tavern.entity.Player;
 import aaa.tavern.exception.ForbiddenException;
 import aaa.tavern.utils.ServiceUtil;
-
-
 
 @Service
 public class ManagerService {
@@ -25,8 +27,11 @@ public class ManagerService {
     @Autowired
     private ManagerRepository managerRepository;
 
-   
+    @Autowired
+    private IngredientRepository ingredientRepository ;
 
+    @Autowired
+    private CustomerRepository customerRepository ;
 
     public Manager createManager(String name, Player player ) {
         Manager manager = new Manager(name, 0, 100, 1, 0, player);
@@ -76,4 +81,22 @@ public class ManagerService {
         return manager;
     }
 
+    public void giveExperienceManagerWithRecipe(int idManager, int idIngredient){
+        Manager manager= ServiceUtil.getEntity(managerRepository, idManager);
+        Ingredient ingredient = ServiceUtil.getEntity(ingredientRepository, idIngredient);
+
+        if(ingredient == null || manager == null)
+            throw new EntityNotFoundException(); 
+
+        
+    }
+
+    public void giveExperienceManagerWithCustomer(int idManager, int idCustomer){
+        Manager manager= ServiceUtil.getEntity(managerRepository, idManager);
+        Customer customer = ServiceUtil.getEntity(customerRepository, idCustomer);
+
+        if(customer == null || manager == null)
+            throw new EntityNotFoundException(); 
+
+    }
 }

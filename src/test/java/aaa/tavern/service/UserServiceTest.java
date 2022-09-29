@@ -9,12 +9,12 @@ import aaa.tavern.dao.PlayerRepository;
 
 
 @SpringBootTest
-public class PlayerServiceTest {
+public class UserServiceTest {
     @MockBean
-	PlayerRepository playerRepository;
+	PlayerRepository userRepository;
 	
 	@Autowired 
-	PlayerService PlayerService ;
+	PlayerService userService ;
 
 
 }

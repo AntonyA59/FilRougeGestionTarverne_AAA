@@ -10,7 +10,7 @@ public class TableRest {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer tableId;
+    private Integer idTable;
 
     @Column(name = "number_place")
     private Integer numberPlace;
@@ -40,7 +40,7 @@ public class TableRest {
             return false;
 
         TableRest that = (TableRest) o;
-        return Objects.equals(tableId, that.tableId);
+        return Objects.equals(idTable, that.idTable);
     }
 
 	/**
@@ -48,7 +48,7 @@ public class TableRest {
 	 */
     @Override
     public int hashCode() {
-        return tableId.hashCode();
+        return idTable.hashCode();
     }
 
     /* 
@@ -147,12 +147,12 @@ public class TableRest {
         }
     }*/
     //#region
-    public Integer getTableId() {
-        return tableId;
+    public Integer getIdTable() {
+        return idTable;
     }
 
-    public void setTableId(Integer tableId) {
-        this.tableId = tableId;
+    public void setIdTable(Integer tableId) {
+        this.idTable = tableId;
     }
 
     public Integer getNumberPlace() {
