@@ -1,6 +1,6 @@
 package aaa.tavern.dto;
 
-import aaa.tavern.Entity.Ingredient;
+import aaa.tavern.entity.Ingredient;
 
 public class IngredientDto {
 

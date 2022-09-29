@@ -1,4 +1,7 @@
-package aaa.tavern.Service;
+package aaa.tavern.service;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,19 +15,16 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import aaa.tavern.DAO.IngredientRepository;
-import aaa.tavern.DAO.ManagerRepository;
-import aaa.tavern.dto.IngredientDto;
-import aaa.tavern.Entity.Ingredient;
-import aaa.tavern.Entity.Manager;
-import aaa.tavern.Entity.Player;
-import aaa.tavern.Entity.SubCategory;
-import aaa.tavern.exception.ForbiddenException;
-
 import org.springframework.boot.test.mock.mockito.MockBean;
+
+import aaa.tavern.dao.IngredientRepository;
+import aaa.tavern.dao.ManagerRepository;
+import aaa.tavern.dto.IngredientDto;
+import aaa.tavern.entity.Ingredient;
+import aaa.tavern.entity.Manager;
+import aaa.tavern.entity.Player;
+import aaa.tavern.entity.SubCategory;
+import aaa.tavern.exception.ForbiddenException;
 
 @SpringBootTest
 public class ShopServiceTest {

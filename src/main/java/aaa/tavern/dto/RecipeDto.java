@@ -5,8 +5,8 @@ import java.sql.Time;
 import java.util.HashMap;
 import java.util.Objects;
 
-import aaa.tavern.Entity.Recipe;
-import aaa.tavern.Entity.RecipeIngredient;
+import aaa.tavern.entity.Recipe;
+import aaa.tavern.entity.RecipeIngredient;
 
 public class RecipeDto {
     private Integer id ;
