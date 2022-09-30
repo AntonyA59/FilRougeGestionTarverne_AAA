@@ -9,7 +9,10 @@ import javax.persistence.Column;
 
 @Embeddable
 public class ManagerCustomerKey implements Serializable{
-    @Column(name = "customer_id")
+    
+	private static final long serialVersionUID = -1382558260368613954L;
+
+	@Column(name = "customer_id")
     private Integer idCustomer;
 
     @Column(name = "manager_id")

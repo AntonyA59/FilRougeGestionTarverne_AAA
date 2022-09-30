@@ -1,6 +1,7 @@
 package aaa.tavern.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,8 +13,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import aaa.tavern.dao.InventoryIngredientRepository;
-import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.entity.InventoryIngredient;
 import aaa.tavern.entity.Manager;
 
@@ -21,21 +20,32 @@ import aaa.tavern.entity.Manager;
 @ExtendWith(SpringExtension.class)
 public class InventoryIngredientRepositoryTest {
 
-    
-    @Autowired
-    InventoryIngredientRepository inventoryIngredientRepository;
-    
-    @Autowired
-    ManagerRepository managerRepository;
+	@Autowired
+	InventoryIngredientRepository inventoryIngredientRepository;
 
-    @Test
-    @Sql("givenIngredientAndManager_findByManager_thenReturnInventoryIngredient.sql")
-    public void givenIngredientAndManager_findByManager_thenReturnInventoryIngredient() {
-        Manager manager = new Manager();
-        Optional<Manager> managerOpt = managerRepository.findById(1);
-        manager = managerOpt.get();
-        List<InventoryIngredient> inventoryIngredients = inventoryIngredientRepository.findByManager(manager);
+	@Autowired
+	ManagerRepository managerRepository;
 
-        assertEquals(inventoryIngredients.size(), 3);
-    }
+	@Test
+	@Sql("givenIngredientAndManager_findByManager_thenReturnInventoryIngredient.sql")
+	public void givenIngredientAndManager_findByManager_thenReturnInventoryIngredient() {
+		Manager manager = new Manager();
+		Optional<Manager> managerOpt = managerRepository.findById(1);
+		manager = managerOpt.get();
+		List<InventoryIngredient> inventoryIngredients = inventoryIngredientRepository.findByManager(manager);
+
+		assertEquals(inventoryIngredients.size(), 3);
+	}
+
+	@Test
+	@Sql("givenIngredientAndManager_findByManager_thenReturnAnEmptyListInventoryIngredient.sql")
+	public void givenIngredientAndManager_findByManager_thenReturnAnEmptyListInventoryIngredient() {
+		Manager manager = new Manager();
+		Optional<Manager> managerOpt = managerRepository.findById(3);
+		manager = managerOpt.get();
+		List<InventoryIngredient> inventoryIngredients = inventoryIngredientRepository.findByManager(manager);
+
+		assertTrue(inventoryIngredients.isEmpty());
+		;
+	}
 }

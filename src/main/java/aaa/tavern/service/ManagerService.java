@@ -23,18 +23,19 @@ public class ManagerService {
 	@Autowired
 	private ManagerRepository managerRepository;
 
+	@Autowired
 	private PlayerRepository playerRepository;
 
 	//TODO: Refaire les tests
-	public Manager createManager(ManagerDto managerDto, int idPlayer) {
+	public void createManager(ManagerDto managerDto, int idPlayer) throws EntityNotFoundException {
 		Player player = ServiceUtil.getEntity(playerRepository, idPlayer);
 		Manager manager = new Manager(managerDto.getName(), 0, 100, 1, 0, player);
 		managerRepository.save(manager);
-		return manager;
+		
 	}
 
 	public void deleteManager(Integer managerId) {
-
+		
 		managerRepository.deleteById(managerId);
 	}
 
@@ -64,7 +65,7 @@ public class ManagerService {
 		}
 		List<ManagerDto> ListManagersDto = new ArrayList<ManagerDto>();
 		for (Manager manager : ListManagers) {
-			ManagerDto managerDto = loadManagerDto(manager.getIdManager());
+			ManagerDto managerDto = new ManagerDto(manager);
 			ListManagersDto.add(managerDto);
 		}
 

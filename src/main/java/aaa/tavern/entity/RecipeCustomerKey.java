@@ -7,7 +7,10 @@ import javax.persistence.*;
 
 @Embeddable
 public class RecipeCustomerKey implements Serializable{
-    @Column(name = "customer_id")
+	
+	private static final long serialVersionUID = 5520985500021746614L;
+
+	@Column(name = "customer_id")
     private Integer customerId;
 
     @Column(name = "recipe_id")

@@ -20,9 +20,6 @@ import aaa.tavern.dao.PlayerRepository;
 import aaa.tavern.dto.ManagerDto;
 import aaa.tavern.entity.Manager;
 import aaa.tavern.entity.Player;
-import aaa.tavern.entity.Recipe;
-import aaa.tavern.service.ManagerService;
-import aaa.tavern.utils.ServiceUtil;
 
 
 @SpringBootTest
@@ -41,10 +38,19 @@ public class ManagerServiceTest {
 
 
     @Test
-    public void createManager() {
-    	ManagerDto managerDto = Mockito.mock(ManagerDto.class);
-        
-        Mockito.when(managerService.createManager(managerDto, 0));
+    public void whenCreateManager_thenSaveOnDatabase() {
+    	Manager manager = new Manager();
+    	
+    	Player player = Mockito.mock(Player.class);
+
+    	Mockito.when(playerRepository.findById(0)).thenReturn(Optional.of(player));
+    	manager.setPlayer(player);
+    	ManagerDto managerDto = new ManagerDto(manager);
+    	managerService.createManager(managerDto, 0);
+    	
+    	Mockito.verify(managerRepository).save(manager);
+    	
+
         
     }
 
@@ -59,27 +65,28 @@ public class ManagerServiceTest {
 
     @Test
     public void listExistingManagerDto(){
-        Player player = new Player();
-        playerRepository.save(player);
-        Manager manager1 = new Manager("Test1", 10, 20, 20, 20, player);
-        Manager manager2 = new Manager("Test2", 10, 20, 20, 20, player);
-        Manager manager3 = new Manager("Test3", 10, 20, 20, 20, player);
-        List<Manager> managers = new ArrayList<Manager>();
-        managers.add(manager1);
-        managers.add(manager2);
-        managers.add(manager3);
-        Optional<Player> optPlayer= Optional.of(player);
-        Mockito.when(playerRepository.findById(1)).thenReturn(optPlayer);
+    	Player player = Mockito.mock(Player.class);
+    	Mockito.when(playerRepository.findById(1)).thenReturn(Optional.of(player));
+    	Manager manager1 = new Manager("Test1", 10, 20, 20, 20, player);
+    	Manager manager2 = new Manager("Test2", 10, 20, 20, 20, player);
+    	Manager manager3 = new Manager("Test3", 10, 20, 20, 20, player);
+    	List<Manager> managers = new ArrayList<Manager>();
+    	managers.add(manager1);
+    	managers.add(manager2);
+    	managers.add(manager3);
+    	Mockito.when(managerRepository.findByPlayer(player)).thenReturn(managers);
+    	
+        List<ManagerDto> listManagerDtos = new ArrayList<ManagerDto>();
+        ManagerDto managerDto1 = new ManagerDto(manager1);
+        ManagerDto managerDto2 = new ManagerDto(manager2);
+        ManagerDto managerDto3 = new ManagerDto(manager3);
+        listManagerDtos.add(managerDto1);
+        listManagerDtos.add(managerDto2);
+        listManagerDtos.add(managerDto3);
         
-        
-        List<ManagerDto> managerDtos = managerService.listExistingManagerDto(1) ;
-
-        
-  
-        
-        
-        
-        assertEquals(managerDtos.size(), 3);
+        List<ManagerDto> listManagerDtos2= managerService.listExistingManagerDto(1);
+       
+        assertEquals(listManagerDtos, listManagerDtos2);
     }
 
     

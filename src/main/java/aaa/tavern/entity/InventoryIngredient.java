@@ -9,7 +9,10 @@ import javax.persistence.*;
 @Table(name="inventory_ingredient")
 public class InventoryIngredient implements Serializable{
     
-    @EmbeddedId
+
+	private static final long serialVersionUID = 4058658748506881792L;
+
+	@EmbeddedId
     private InventoryIngredientKey id = new InventoryIngredientKey() ;
     
     @ManyToOne
