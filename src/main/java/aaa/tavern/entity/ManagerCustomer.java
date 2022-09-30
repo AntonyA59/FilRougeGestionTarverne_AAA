@@ -37,7 +37,9 @@ public class ManagerCustomer implements Serializable{
         this.customer=newCustomer;
     }
 
-    public ManagerCustomer(){}
+    public ManagerCustomer(){
+    	
+    }
     /**
 	 * Deux ManagerCustomer sont les mêmes si ils ont le même identifiant.
 	 */
