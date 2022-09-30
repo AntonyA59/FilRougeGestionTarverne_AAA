@@ -12,6 +12,8 @@ import aaa.tavern.Entity.TableRest;
 
 public class CustomerDto {
 
+    private Integer idCustomer;
+
     private Integer purseOfGold;
 
     private Float happiness;
@@ -43,7 +45,7 @@ public class CustomerDto {
     private Set<Integer> commandList=new HashSet<Integer>();
 
     public CustomerDto(Customer customer) {
-
+        this.idCustomer= customer.getIdCustomer();
         this.purseOfGold = customer.getPurseOfGold();
         this.happiness = customer.getHappiness();
         this.hunger = customer.getHunger();

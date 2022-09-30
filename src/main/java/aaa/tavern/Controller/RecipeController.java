@@ -19,11 +19,13 @@ public class RecipeController {
     @Autowired
     private RecipeService recipeService ;
     /**
-     * 
-     * @param managerId
-     * @param recipeId
-     * @param customerId
-     * @return
+     * controller who creates the preparation of the recipe
+     * @param managerId id manager who wants to launch the preparation of the recipe
+     * @param recipeId id recipe that the manager wants to prepare
+     * @param customerId id customer who wants this recipe
+	 * @return return promise without body with header ok
+     * @throws EntityNotFoundException exception if the id manager or recipe or customer is not in the database
+     * @throws ForbiddenException exception if the inventory does not allow the creation of this revenue
      */
     @PostMapping("/api/recipe/requestRecipe")
     public ResponseEntity<String> requestRecipe(@RequestParam int managerId,@RequestParam  int recipeId ,@RequestParam int customerId){

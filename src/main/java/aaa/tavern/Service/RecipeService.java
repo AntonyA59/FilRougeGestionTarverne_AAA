@@ -45,7 +45,7 @@ public class RecipeService {
      */
     @Transactional(rollbackOn = {EntityNotFoundException.class,ForbiddenException.class}) 
     public void prepareRecipe(int idManager, int idRecipe ,int idCustomer) throws EntityNotFoundException,ForbiddenException{
-        
+        //TODO verifier par lvl RECIPE ET MANAGER
         Recipe recipe=ServiceUtil.getEntity(recipeRepository,idRecipe);
         Customer customer= ServiceUtil.getEntity(customerRepository, idCustomer);
         Manager manager= ServiceUtil.getEntity(managerRepository, idManager);

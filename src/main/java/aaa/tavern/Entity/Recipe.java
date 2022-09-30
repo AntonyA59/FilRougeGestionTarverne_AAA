@@ -38,7 +38,7 @@ public class Recipe{
     private Long consommationTime ;
 
 	@Column(name="preparation_time")
-    private Time preparationTime ;
+    private Long preparationTime ;
 
 	@Column(name="peremption_date")
     private Date peremptionDate;
@@ -55,8 +55,15 @@ public class Recipe{
 
 	public Recipe() {}
 
-	public Recipe( String name, Integer sellingPrice, Integer level, Long consommationTime,
-	Time preparationTime, Date peremptionDate, Integer expGiven, SubCategory subCategory,ArrayList<RecipeIngredient> tabIngredientsForRecipe) {
+	public Recipe( String name, 
+					Integer sellingPrice,
+					Integer level, 
+					Long consommationTime,
+					Long preparationTime,
+					Date peremptionDate, 
+					Integer expGiven, 
+					SubCategory subCategory,
+					ArrayList<RecipeIngredient> tabIngredients) {
 		this.name = name;
 		this.sellingPrice = sellingPrice;
 		this.level = level;
@@ -65,7 +72,6 @@ public class Recipe{
 		this.peremptionDate = peremptionDate;
 		this.expGiven = expGiven;
 		this.subCategory = subCategory;
-		this.tabIngredientsForRecipe=tabIngredientsForRecipe;
 	}
 
 	/**
@@ -140,11 +146,11 @@ public class Recipe{
 		this.consommationTime = consommationTime;
 	}
 
-	public Time getPreparationTime() {
+	public Long getPreparationTime() {
 		return preparationTime;
 	}
 
-	public void setPreparationTime(Time preparationTime) {
+	public void setPreparationTime(Long preparationTime) {
 		this.preparationTime = preparationTime;
 	}
 

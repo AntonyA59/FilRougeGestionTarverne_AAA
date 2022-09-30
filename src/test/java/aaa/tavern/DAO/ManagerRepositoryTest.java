@@ -3,6 +3,7 @@ package aaa.tavern.DAO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,8 @@ public class ManagerRepositoryTest {
     @Test
     @Sql("givenManagerAndPlayer_findByIdPlayer_thenReturnManager.sql")
     public void givenManagerAndPlayer_findByIdPlayer_thenReturnManager() {
-        List<Player> players = playerRepository.findByIdPlayer(2);
-        Player player = players.get(0);
+        Optional<Player> optPlayer = playerRepository.findById(2);
+        Player player= optPlayer.get();
         List<Manager> managers = managerRepository.findByPlayer(player);
         assertEquals(managers.size(), 3);
     }

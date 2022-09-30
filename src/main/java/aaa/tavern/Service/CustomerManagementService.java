@@ -133,9 +133,9 @@ public class CustomerManagementService {
     }
 
     /**
-     * TODO a faire
-     * @param customerId
-     * @throws EntityNotFoundException
+     * Method high level to serve the recipe to the customer
+     * @param customerId id customer to whom the recipe is served
+     * @throws EntityNotFoundException exception if the id customer is not in the database
      */
     @Transactional(rollbackOn = EntityNotFoundException.class)
     public void customerServed(int customerId)throws EntityNotFoundException{
@@ -146,11 +146,11 @@ public class CustomerManagementService {
     }
     
     /**
-     * TODO a faire 
-     * @param customerId
-     * @param managerId
-     * @throws EntityNotFoundException
-     * @throws ForbiddenException
+     * Method high level which indicates that the customer has finished eating
+     * @param customerId id customer who has finished eating
+     * @param managerId id manager who should be given the money 
+     * @throws EntityNotFoundException exception if the id customer or manager is not in the database
+     * @throws ForbiddenException exception if the consumption time is not good
      */
     @Transactional(rollbackOn = {EntityNotFoundException.class,ForbiddenException.class}) 
     public void customerFinishRecipe(int customerId, int managerId)throws EntityNotFoundException,ForbiddenException{
@@ -180,6 +180,7 @@ public class CustomerManagementService {
             Integer goldWin= recipe.getSellingPrice();
             Integer goldManager= manager.getChest();
             manager.setChest(goldManager+goldWin);
+            //TODO PAS OUBLIER DE UP LES XP
             
         }else
             throw new ForbiddenException();

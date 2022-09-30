@@ -14,7 +14,7 @@ public class RecipeDto {
 	private Integer sellingPrice;
 	private Integer level;
 	private Long consommationTime;
-	private Time preparationTime;
+	private Long preparationTime;
 	private Date peremptionDate;
 	private Integer expGiven;
 	private Integer subCategory;
@@ -86,7 +86,7 @@ public class RecipeDto {
     }
 
 
-    public Time getPreparationTime() {
+    public Long getPreparationTime() {
         return preparationTime;
     }
 

@@ -34,15 +34,20 @@ public class CustomerManagementController {
 	 */
     @PostMapping("/api/customerManagement/newRecipe")
     public RecipeDto getNeWRecipeForCustomer(@RequestParam int managerId){
-
-        return customerManagementService.getNewRecipe(managerId);
+		try{
+			return customerManagementService.getNewRecipe(managerId);
+		}catch (EntityNotFoundException e) {
+		
+			throw new ResponseStatusException(
+				HttpStatus.NOT_FOUND, "Ce manager n'existe pas "
+			);
+		}
     }
 
 	/**
 	 * Controller that allows to create a new customer
 	 * @param managerId  id of the manager to whom we create a new customer
 	 * @return CustomerDto Object that contains the information of the new customer
-	 * 
 	 * @throws EntityNotFoundException exception if the id manager is not in the database
 	 */
 	@PostMapping("/api/customerManagement/newCustomer")
@@ -62,6 +67,7 @@ public class CustomerManagementController {
 	 * Controller that assigns a table to a customer
 	 * @param customerId id customer which receives the id of the table
 	 * @param tableId id table that receives the customer
+	 * @return return promise without body with header ok
 	 * @throws EntityNotFoundException exception if the id customer or table are not in the database
 	 */
 	@PostMapping("/api/customerManagement/customerAssignTable")
@@ -79,6 +85,12 @@ public class CustomerManagementController {
 		}
 	}
 
+	/**
+	 * Controller which indicates that the customer is served
+	 * @param customerId id customer who starts to eat 
+	 * @return return promise without body with header ok
+	 * @throws EntityNotFoundException exception if the id customer are not in the database
+	 */
 	@PostMapping("/api/customerManager/customerServed")
 	public ResponseEntity<String> customerServed(@RequestParam int customerId){
 		try {
@@ -95,10 +107,12 @@ public class CustomerManagementController {
 
 
 	/**
-	 * TODO A FAIRE
-	 * @param customerId
-	 * @param managerId
-	 * @return
+	 * Controller that allows to get the money from the recipe consume from the customer
+	 * @param customerId id customer who finished the recipe
+	 * @param managerId id manager who should be given the money
+	 * @return return promise without body with header ok
+	 * @throws EntityNotFoundException exception if the id customer or manager are not in the database.
+	 * @throws ForbiddenException exception if the consumption time is not good
 	 */
 	@PostMapping("/api/customerManager/customerFinish")
 	public ResponseEntity<String> customerFinish(@RequestParam int customerId, @RequestParam int managerId){
