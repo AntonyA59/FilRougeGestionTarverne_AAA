@@ -3,6 +3,7 @@ package aaa.tavern.dto;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import aaa.tavern.entity.Customer;
@@ -12,6 +13,8 @@ import aaa.tavern.entity.TableRest;
 
 public class CustomerDto {
 
+	private Integer id;
+	
     private Integer purseOfGold;
 
     private Float happiness;
@@ -43,7 +46,7 @@ public class CustomerDto {
     private Set<Integer> commandList=new HashSet<Integer>();
 
     public CustomerDto(Customer customer) {
-
+    	this.id = customer.getIdCustomer();
         this.purseOfGold = customer.getPurseOfGold();
         this.happiness = customer.getHappiness();
         this.hunger = customer.getHunger();
@@ -64,8 +67,28 @@ public class CustomerDto {
         }
         
     }
+    
+    
+    @Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
 
-    //#region
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CustomerDto other = (CustomerDto) obj;
+		return Objects.equals(id, other.id);
+	}
+
+
+	//#region
     public Integer getPurseOfGold() {
         return purseOfGold;
     }
@@ -126,8 +149,9 @@ public class CustomerDto {
         return consommationStart;
     }
 
-
-
+	public Integer getId() {
+		return id;
+	} 
     
     //#endregion 
 }

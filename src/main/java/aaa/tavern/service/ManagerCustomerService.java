@@ -25,12 +25,18 @@ public class ManagerCustomerService {
 	@Autowired
 	private ManagerCustomerRepository managerCustomerRepository;
 
-	
-	public List<CustomerDto> loadCustomerByManager(int idManager) throws EntityNotFoundException{
+	/**
+	 * Returns a list containing customers of a manager converted to Dto
+	 * 
+	 * @param idManager
+	 * @return List<CustomerDto>
+	 * @throws EntityNotFoundException
+	 */
+	public List<CustomerDto> loadCustomerByManager(int idManager) throws EntityNotFoundException {
 		Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
-		
+
 		List<ManagerCustomer> listManagerCustomer = managerCustomerRepository.findByManager(manager);
-		if(listManagerCustomer.isEmpty()) {
+		if (listManagerCustomer.isEmpty()) {
 			throw new EntityNotFoundException();
 		}
 		List<Customer> listCustomers = new ArrayList<Customer>();

@@ -15,9 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import aaa.tavern.dao.CustomerRepository;
 import aaa.tavern.dao.ManagerCustomerRepository;
 import aaa.tavern.dao.ManagerRepository;
-
 import aaa.tavern.dto.CustomerDto;
-
 import aaa.tavern.entity.Customer;
 import aaa.tavern.entity.Manager;
 import aaa.tavern.entity.ManagerCustomer;
@@ -41,30 +39,32 @@ public class CustomerManagerServiceTest {
 	public void whenLoadCustomer_thenReturnListCustomerDto() {
 		Manager manager = new Manager();
 
-		Mockito.when(managerRepository.findById(1)).thenReturn(Optional.of(manager));
-		;
+		Mockito.when(managerRepository.findById(0)).thenReturn(Optional.of(manager));
 
-		List<ManagerCustomer> listManagersCustomer = new ArrayList<ManagerCustomer>();
+		List<ManagerCustomer> listManagerCustomers = new ArrayList<ManagerCustomer>();
+
 		ManagerCustomer managerCustomer1 = new ManagerCustomer(manager, new Customer());
 		ManagerCustomer managerCustomer2 = new ManagerCustomer(manager, new Customer());
 		ManagerCustomer managerCustomer3 = new ManagerCustomer(manager, new Customer());
-		listManagersCustomer.add(managerCustomer1);
-		listManagersCustomer.add(managerCustomer2);
-		listManagersCustomer.add(managerCustomer3);
+		listManagerCustomers.add(managerCustomer1);
+		listManagerCustomers.add(managerCustomer2);
+		listManagerCustomers.add(managerCustomer3);
 
-		Mockito.when(managerCustomerRepository.findByManager(manager)).thenReturn(listManagersCustomer);
+		Mockito.when(managerCustomerRepository.findByManager(manager)).thenReturn(listManagerCustomers);
 
-		List<CustomerDto> listCustomerDtos = new ArrayList<CustomerDto>();
-		CustomerDto customerDto1 = new CustomerDto(managerCustomer1.getCustomer());
-		CustomerDto customerDto2 = new CustomerDto(managerCustomer2.getCustomer());
-		CustomerDto customerDto3 = new CustomerDto(managerCustomer3.getCustomer());
-		listCustomerDtos.add(customerDto1);
-		listCustomerDtos.add(customerDto2);
-		listCustomerDtos.add(customerDto3);
+		List<Customer> listCustomers = new ArrayList<Customer>();
+		List<CustomerDto> listCustomersDto = new ArrayList<CustomerDto>();
+		for (ManagerCustomer managerCustomer : listManagerCustomers) {
+			listCustomers.add(managerCustomer.getCustomer());
+		}
 
-		List<CustomerDto> listCustomerDtos2 = managerCustomerService.loadCustomerByManager(1);
+		for (Customer customer : listCustomers) {
+			CustomerDto customerDto = new CustomerDto(customer);
+			listCustomersDto.add(customerDto);
+		}
 
-		assertEquals(listCustomerDtos, listCustomerDtos2);
+		List<CustomerDto> listCustomersDto2 = managerCustomerService.loadCustomerByManager(0);
 
+		assertEquals(listCustomersDto, listCustomersDto2);
 	}
 }

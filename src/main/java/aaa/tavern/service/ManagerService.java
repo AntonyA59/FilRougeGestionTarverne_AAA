@@ -26,16 +26,27 @@ public class ManagerService {
 	@Autowired
 	private PlayerRepository playerRepository;
 
-	//TODO: Refaire les tests
+	/**
+	 * Create a manager from a Dto and save it in the database
+	 * 
+	 * @param managerDto
+	 * @param idPlayer
+	 * @throws EntityNotFoundException
+	 */
 	public void createManager(ManagerDto managerDto, int idPlayer) throws EntityNotFoundException {
 		Player player = ServiceUtil.getEntity(playerRepository, idPlayer);
 		Manager manager = new Manager(managerDto.getName(), 0, 100, 1, 0, player);
 		managerRepository.save(manager);
-		
+
 	}
 
-	public void deleteManager(Integer managerId) {
-		
+	/**
+	 * Remove a manager from the database
+	 * 
+	 * @param managerId
+	 */
+	public void deleteManager(int managerId) {
+
 		managerRepository.deleteById(managerId);
 	}
 
@@ -44,8 +55,9 @@ public class ManagerService {
 	 * 
 	 * @param manager
 	 * @return ManagerDto
+	 * @throws EntityNotFoundException
 	 */
-	public ManagerDto loadManagerDto(int managerId) {
+	public ManagerDto loadManagerDto(int managerId) throws EntityNotFoundException {
 		Manager manager = ServiceUtil.getEntity(managerRepository, managerId);
 		return new ManagerDto(manager);
 	}
@@ -72,8 +84,15 @@ public class ManagerService {
 		return ListManagersDto;
 	}
 
+	/**
+	 * Selects an existing manager in the database
+	 * 
+	 * @param idManager
+	 * @return Manager
+	 * @throws EntityNotFoundException
+	 */
 	@Transactional(rollbackOn = { EntityNotFoundException.class, ForbiddenException.class })
-	public Manager selectManager(int idManager) {
+	public Manager selectManager(int idManager) throws EntityNotFoundException {
 		Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
 		return manager;
 	}
