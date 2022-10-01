@@ -15,7 +15,6 @@ import aaa.tavern.entity.Recipe;
 import aaa.tavern.entity.RecipeIngredient;
 
 @DataJpaTest
-
 public class RecipeIngredientRepositoryTest {
 	@Autowired
 	private RecipeIngredientRepository recipeIngredientRepository;
