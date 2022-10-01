@@ -9,9 +9,13 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import aaa.tavern.dao.InventoryIngredientRepository;
 import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dao.PlayerRepository;
+import aaa.tavern.dto.InventoryManagerIngredientDto;
 import aaa.tavern.dto.ManagerDto;
+import aaa.tavern.entity.Ingredient;
+import aaa.tavern.entity.InventoryIngredient;
 import aaa.tavern.entity.Manager;
 import aaa.tavern.entity.Player;
 import aaa.tavern.exception.ForbiddenException;
@@ -20,6 +24,11 @@ import aaa.tavern.utils.ServiceUtil;
 @Service
 public class ManagerService {
 
+	
+	
+	@Autowired
+	private InventoryIngredientRepository inventoryIngredientRepository;
+	
 	@Autowired
 	private ManagerRepository managerRepository;
 
@@ -95,6 +104,31 @@ public class ManagerService {
 	public Manager selectManager(int idManager) throws EntityNotFoundException {
 		Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
 		return manager;
+	}
+	
+	
+	public List<InventoryManagerIngredientDto> loadInventoryIngredientsByManager(int idManager) {
+		Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
+		
+		List<InventoryIngredient> listInventoryIngredients = inventoryIngredientRepository.findByManager(manager);
+		
+		if(listInventoryIngredients.isEmpty()) {
+			throw new EntityNotFoundException();
+		}
+		
+
+		
+		List<InventoryManagerIngredientDto> listInventoryManagerIngredientDto = new ArrayList<InventoryManagerIngredientDto>();
+		
+		for (InventoryIngredient inventoryIngredient : listInventoryIngredients) {
+			Ingredient ingredient = inventoryIngredient.getIngredient();
+			InventoryManagerIngredientDto inventoryManagerIngredientDto = new InventoryManagerIngredientDto(ingredient, inventoryIngredient.getQuantity());
+			listInventoryManagerIngredientDto.add(inventoryManagerIngredientDto);
+		}
+		
+
+		
+		return listInventoryManagerIngredientDto;
 	}
 
 }

@@ -12,11 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import aaa.tavern.dao.InventoryIngredientRepository;
 import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dao.PlayerRepository;
+import aaa.tavern.dto.InventoryManagerIngredientDto;
 import aaa.tavern.dto.ManagerDto;
+import aaa.tavern.entity.Ingredient;
+import aaa.tavern.entity.InventoryIngredient;
 import aaa.tavern.entity.Manager;
 import aaa.tavern.entity.Player;
+import aaa.tavern.entity.SubCategory;
 
 @SpringBootTest
 public class ManagerServiceTest {
@@ -26,6 +31,9 @@ public class ManagerServiceTest {
 
 	@MockBean
 	private ManagerRepository managerRepository;
+
+	@MockBean
+	private InventoryIngredientRepository inventoryIngredientRepository;
 
 	@Autowired
 	private ManagerService managerService;
@@ -78,6 +86,39 @@ public class ManagerServiceTest {
 		List<ManagerDto> listManagerDtos2 = managerService.listExistingManagerDto(1);
 
 		assertEquals(listManagerDtos, listManagerDtos2);
+	}
+
+	
+	@Test
+	public void givenInventoryIngredient_whenFindByManager_thenReturnListInventoryManagerIngredientDto() {
+		Manager manager = new Manager();
+		SubCategory subCategory = new SubCategory();
+		subCategory.setIdSubCategory(1);
+		Mockito.when(managerRepository.findById(0)).thenReturn(Optional.of(manager));
+
+		List<InventoryIngredient> listInventoryIngredient = new ArrayList<InventoryIngredient>();
+
+		for (int i = 0; i < 5; i++) {
+			Ingredient ingredient = new Ingredient(i + 1, "ingrédientTest " + (i + 1), i + 1, 20, subCategory);
+
+			InventoryIngredient inventoryIngredient = new InventoryIngredient(manager, ingredient, 3);
+			listInventoryIngredient.add(inventoryIngredient);
+		}
+
+		Mockito.when(inventoryIngredientRepository.findByManager(manager)).thenReturn(listInventoryIngredient);
+
+		List<InventoryManagerIngredientDto> listInventoryManagerIngredientDto = new ArrayList<InventoryManagerIngredientDto>();
+
+		for (InventoryIngredient inventoryIngredient : listInventoryIngredient) {
+			InventoryManagerIngredientDto inventoryManagerIngredientDto = new InventoryManagerIngredientDto(
+					inventoryIngredient.getIngredient(), inventoryIngredient.getQuantity());
+			listInventoryManagerIngredientDto.add(inventoryManagerIngredientDto);
+		}
+
+		List<InventoryManagerIngredientDto> listInventoryManagerIngredientDto2 = managerService
+				.loadInventoryIngredientsByManager(0);
+
+		assertEquals(listInventoryManagerIngredientDto, listInventoryManagerIngredientDto2);
 	}
 
 }
