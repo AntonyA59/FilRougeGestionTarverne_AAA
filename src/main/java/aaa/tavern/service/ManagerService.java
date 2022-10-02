@@ -21,6 +21,7 @@ import aaa.tavern.entity.Player;
 import aaa.tavern.exception.ForbiddenException;
 import aaa.tavern.utils.ServiceUtil;
 
+
 @Service
 public class ManagerService {
 
@@ -107,6 +108,12 @@ public class ManagerService {
 	}
 	
 	
+	/**
+	 * Loads manager's Inventory
+	 * 
+	 * @param idManager
+	 * @return List<InventoryManagerIngredientDto>
+	 */
 	public List<InventoryManagerIngredientDto> loadInventoryIngredientsByManager(int idManager) {
 		Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
 		
@@ -115,8 +122,6 @@ public class ManagerService {
 		if(listInventoryIngredients.isEmpty()) {
 			throw new EntityNotFoundException();
 		}
-		
-
 		
 		List<InventoryManagerIngredientDto> listInventoryManagerIngredientDto = new ArrayList<InventoryManagerIngredientDto>();
 		

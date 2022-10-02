@@ -13,8 +13,8 @@ VALUES
         (5,'IngredientTest5', 1,20,1),
         (6,'IngredientTest6', 1,20,1);
 
-INSERT INTO player (id, email, nickname, password)
-VALUES (1, 'Test1@example.com', 'TestPlayer1', 'azerty');
+INSERT INTO player (id, email, nickname, password, enabled)
+VALUES (1, 'Test1@example.com', 'TestPlayer1', 'azerty', 1);
 
 INSERT INTO manager (id, name, reputation, chest, level, experience, player_id)
 VALUES  
