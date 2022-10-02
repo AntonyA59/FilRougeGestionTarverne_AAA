@@ -30,7 +30,9 @@ public class Customer{
                     Boolean gender, 
                     Integer expGiven, 
                     TableRest tableRest, 
-                    Set<RecipeCustomer> commandList) {
+                    Set<RecipeCustomer> commandList,
+                    Timestamp consommationStart
+                    ) {
         this.purseOfGold = purseOfGold;
         this.happiness = happiness;
         this.hunger = hunger;
@@ -45,6 +47,7 @@ public class Customer{
         this.expGiven = expGiven;
         this.tableRest = tableRest;
         this.commandList = commandList;
+        this.consommationStart=consommationStart;
     }
 
     public Customer(

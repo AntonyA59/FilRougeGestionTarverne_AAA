@@ -7,7 +7,6 @@ import java.util.Set;
 
 import aaa.tavern.Entity.Customer;
 import aaa.tavern.Entity.RecipeCustomer;
-import aaa.tavern.Entity.TableRest;
 
 
 public class CustomerDto {
@@ -38,7 +37,7 @@ public class CustomerDto {
 
     private Integer expGiven;
 
-    private TableRest tableRest;
+    private Integer tableRest;
 
     private Timestamp consommationStart;
 
@@ -58,7 +57,7 @@ public class CustomerDto {
         this.alcoholTolerance = customer.getAlcoholTolerance();
         this.gender = customer.getGender();
         this.expGiven = 0;
-        this.tableRest = customer.getTableRest();
+        this.tableRest = customer.getTableRest().getTableId();
         this.consommationStart=customer.getConsommationStart();
         for(RecipeCustomer recipeCustomer: customer.getCommandList()){
             Integer recipeId= recipeCustomer.getRecipe().getIdRecipe();
@@ -116,7 +115,7 @@ public class CustomerDto {
         return expGiven;
     }
 
-    public TableRest getTableRest() {
+    public Integer getTableRest() {
         return tableRest;
     }
 
@@ -126,6 +125,10 @@ public class CustomerDto {
 
     public Timestamp getConsommationStart() {
         return consommationStart;
+    }
+
+    public Integer getIdCustomer() {
+        return idCustomer;
     }
 
 

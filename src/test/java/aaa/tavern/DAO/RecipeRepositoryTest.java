@@ -1,8 +1,10 @@
 package aaa.tavern.DAO;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,13 @@ public class RecipeRepositoryTest {
     
     }
 
+    //@Test
+    //@Sql("givenRecipeLevel2AndById1_WhenFindWithLevelAndIdRecipe_ThenNotReturnRecipe.sql")
+    //public void givenRecipeLevel2AndById1_WhenFindWithLevelAndIdRecipe_ThenNotReturnRecipe(){
+    //    Optional<Recipe> optRecipe2= recipeRepository.findByidAndByLevelLessThanEqual(2,1);
+    //    assertFalse(optRecipe2.isPresent());
+    //
+    //}
 }
 
 

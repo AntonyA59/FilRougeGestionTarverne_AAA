@@ -120,9 +120,10 @@ public class CustomerManagementService {
         int expGiven = 0;
         TableRest tableRest = new TableRest();
         Set<RecipeCustomer> commandList= new HashSet<RecipeCustomer>();
+        Timestamp consommationStart= null;
         Customer newCustomer= new Customer(purseOfGold,happiness,hunger,thirst,nauseaLevel,alcoholLevel,
                                             toilet,timeInTavern,nauseaTolerance,alcoholTolerance,gender,
-                                            expGiven,tableRest,commandList);
+                                            expGiven,tableRest,commandList,consommationStart);
         customerRepository.save(newCustomer);
 
         ManagerCustomer managerCustomer= new ManagerCustomer(manager,newCustomer);
@@ -161,26 +162,25 @@ public class CustomerManagementService {
         for(RecipeCustomer recipeCustomer: customer.getCommandList()){
             checkRecipe(recipeCustomer.getRecipe(), manager, customer);
         }
-        //TODO a voir si dans la BDD il y a bien la cascade pour les recipeCustomers !
-        //TODO a voir si dans la BDD il y a bien la cascade pour les CustomerManagers !
         customerRepository.delete(customer);
         managerRepository.save(manager);
     }
 
 
     /**
-     * TODO a faire
-     * @param recipe
-     * @param manager
-     * @param customer
-     * @throws ForbiddenException
+     * receive a recipe and check it only if it is well finished, if so we give the money and the exp to the customer
+     * @param recipe recipe that has been consumed
+     * @param manager manager who earns money and expands it
+     * @param customer customer who has finished eating
+     * @throws ForbiddenException execption rise if the recipe is not finished consuming
      */
     private void checkRecipe(Recipe recipe, Manager manager,Customer customer) throws ForbiddenException{
         if(checkTime(recipe, customer)){
             Integer goldWin= recipe.getSellingPrice();
             Integer goldManager= manager.getChest();
             manager.setChest(goldManager+goldWin);
-            //TODO PAS OUBLIER DE UP LES XP
+            manager.setExperience(manager.getExperience()+recipe.getExpGiven());
+            managerRepository.findById(1);
             
         }else
             throw new ForbiddenException();
@@ -189,13 +189,13 @@ public class CustomerManagementService {
 
 
     /**
-     * TODO a faire 
-     * @param recipe
-     * @param customer
-     * @return
+     * methods that return a boolean depending on the end of consumption
+     * @param recipe recipe we want to check 
+     * @param customer customer from whom consumption is recovered start
+     * @return Y/N according to the end of the consumption of the recipe
      */
     private boolean checkTime(Recipe recipe, Customer customer){
-        //TODO changer la BDD de recipe et customer (Timestamp et Long) !!
+
         Timestamp startConsommation = customer.getConsommationStart();
         Long timeConsomation = recipe.getConsommationTime();
 

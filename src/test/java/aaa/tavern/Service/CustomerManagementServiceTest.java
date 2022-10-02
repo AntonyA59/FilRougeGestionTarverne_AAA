@@ -150,7 +150,7 @@ public class CustomerManagementServiceTest {
         assertTrue(listTestDto.contains(recipeDto));
     }
 
-    //TODO A VOIR AVEC LOIC
+    
     @Test
     public void givenCustomerServed_WhenCustomerEat(){
 

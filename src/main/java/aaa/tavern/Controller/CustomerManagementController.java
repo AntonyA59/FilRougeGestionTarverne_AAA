@@ -91,7 +91,7 @@ public class CustomerManagementController {
 	 * @return return promise without body with header ok
 	 * @throws EntityNotFoundException exception if the id customer are not in the database
 	 */
-	@PostMapping("/api/customerManager/customerServed")
+	@PostMapping("/api/customerManagement/customerServed")
 	public ResponseEntity<String> customerServed(@RequestParam int customerId){
 		try {
 			customerManagementService.customerServed(customerId);
@@ -114,7 +114,7 @@ public class CustomerManagementController {
 	 * @throws EntityNotFoundException exception if the id customer or manager are not in the database.
 	 * @throws ForbiddenException exception if the consumption time is not good
 	 */
-	@PostMapping("/api/customerManager/customerFinish")
+	@PostMapping("/api/customerManagement/customerFinish")
 	public ResponseEntity<String> customerFinish(@RequestParam int customerId, @RequestParam int managerId){
 		try {
 			customerManagementService.customerFinishRecipe(customerId,managerId);

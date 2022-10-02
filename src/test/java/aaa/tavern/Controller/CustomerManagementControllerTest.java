@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.EntityNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doNothing;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -34,6 +35,7 @@ import aaa.tavern.Entity.TableRest;
 import aaa.tavern.Service.CustomerManagementService;
 import aaa.tavern.dto.CustomerDto;
 import aaa.tavern.dto.RecipeDto;
+import aaa.tavern.exception.ForbiddenException;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -134,8 +136,7 @@ public class CustomerManagementControllerTest {
        Mockito.when(customerManagementService.getNewRecipe(1)).thenThrow(EntityNotFoundException.class);
     	
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/api/customerManagement/newRecipe")
-                .param("manager", "1");
+				.post("/api/customerManagement/newRecipe");
 		
 		int status = mockMvc
 				.perform(query)
@@ -160,85 +161,145 @@ public class CustomerManagementControllerTest {
                                         Float.valueOf(1f) , new Time(1l),
                                         Float.valueOf(1f) ,Float.valueOf(1f) , 
                                         true, Integer.valueOf(1),
-                                        tableRest,tabCustomer);
-        customer.setIdCustomer(1);
-        CustomerDto customerDto = new CustomerDto(customer);
-
-        Mockito.when(customerManagementService.getNewCustomer(1)).thenReturn(customerDto);
-    
-        MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                                                    .post("/api/customerManagement/newCustomer")
-                                                    .param("managerId", "1");
-
+                                        tableRest,tabCustomer,null);
+                                        customer.setIdCustomer(1);
+                                        CustomerDto customerDto = new CustomerDto(customer);
+                                        
+                                        Mockito.when(customerManagementService.getNewCustomer(1)).thenReturn(customerDto);
+                                        
+                                        MockHttpServletRequestBuilder query = MockMvcRequestBuilders
+                                        .post("/api/customerManagement/newCustomer")
+                                        .param("managerId", "1");
+                                        
         MvcResult result = mockMvc.perform(query).andReturn();
         String returnedJsonStr= result.getResponse().getContentAsString();
         
         JsonNode returnedJson = objectMapper.readTree(returnedJsonStr);
-
+        
         String jsonStr="""
-                {
-                    "idCustomer": 1 ,
+            {
+                "idCustomer": 1 ,
                     "purseOfGold":1,
-                    "happiness": 1,
-                    "hunger":1,
-                    "thirst":1,
-                    "nauseaLevel":1,
-                    "alcoholLevel":1,
-                    "toilet":1,
-                    "timeInTavern": ,
-
-                    private Float nauseaTolerance;
-
-                    private Float alcoholTolerance;
-                    
-                    private Boolean gender;
-
-                    private Integer expGiven;
-
-                    private TableRest tableRest;
-
-                    private Timestamp consommationStart;
-
-                    private Set<Integer> commandList=new HashSet<Integer>();
+                    "happiness": 1.0,
+                    "hunger":1.0,
+                    "thirst":1.0,
+                    "nauseaLevel":1.0,
+                    "alcoholLevel":1.0,
+                    "toilet":1.0,
+                    "timeInTavern": "01:00:00",
+                    "nauseaTolerance": 1.0,
+                    "alcoholTolerance": 1.0,
+                    "gender": true,
+                    "expGiven": 0,
+                    "tableRest": 1,
+                    "consommationStart": null ,
+                    "commandList": []
                 }
                 """;
-        JsonNode expectedJson= objectMapper.readTree(jsonStr);
-        
-        assertEquals(expectedJson, returnedJson);
-    }
-/*
-    @Test
-    public void givenCorrectParam_whenPostNewRecipe_thenReturn200() throws Exception{
-		    
-        SubCategory subCategory= new SubCategory();
-        subCategory.setIdSubCategory(1);
-        Recipe recipe = new Recipe("test", Integer.valueOf(1), Integer.valueOf(1), Long.valueOf(1l), Long.valueOf(1l), new Date(1664488800l), Integer.valueOf(1), subCategory, new ArrayList<RecipeIngredient>());
-        recipe.setIdRecipe(1);
-        RecipeDto recipeDto = new RecipeDto(recipe);
+                JsonNode expectedJson= objectMapper.readTree(jsonStr);
+                
+                assertEquals(expectedJson, returnedJson);
+            }
+            
+            @Test
+            public void givenCorrectParam_whenPostNewCustomer_thenReturn200() throws Exception{
+                
+                TableRest tableRest= new TableRest();
+                tableRest.setTableId(1);
+                Set<RecipeCustomer> tabCustomer= new HashSet<RecipeCustomer>();
+                Customer customer = new Customer(Integer.valueOf(1), Float.valueOf(1f),
+                Float.valueOf(1f) ,Float.valueOf(1f)  ,
+                Float.valueOf(1f) ,Float.valueOf(1f) , 
+                Float.valueOf(1f) , new Time(1l),
+                Float.valueOf(1f) ,Float.valueOf(1f) , 
+                true, Integer.valueOf(1),
+                tableRest,tabCustomer,null);
+                customer.setIdCustomer(1);
+                CustomerDto customerDto = new CustomerDto(customer);
+                
+                Mockito.when(customerManagementService.getNewCustomer(1)).thenReturn(customerDto);
 
-        Mockito.when(customerManagementService.getNewRecipe(1)).thenReturn(recipeDto);
-    	
-		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/api/customerManagement/newRecipe")
+                MockHttpServletRequestBuilder query = MockMvcRequestBuilders
+				.post("/api/customerManagement/newCustomer")
                 .param("managerId", "1");
-		
-		int status = mockMvc
+                
+                int status = mockMvc
 				.perform(query)
 				.andReturn()
 				.getResponse()
 				.getStatus();
 		
-		assertEquals(200, status);
+                assertEquals(200, status);
+            }
+
+    @Test
+    public void givenCorrectParamButNotPresentBDD_whenPostNewCustomer_thenReturn404() throws Exception{
+		
+        Mockito.when(customerManagementService.getNewCustomer(1)).thenThrow(EntityNotFoundException.class);
+		
+        MockHttpServletRequestBuilder query = MockMvcRequestBuilders
+        .post("/api/customerManagement/newCustomer")
+        .param("managerId", "1");
+		
+		int status = mockMvc
+        .perform(query)
+        .andReturn()
+        .getResponse()
+        .getStatus();
+		
+		assertEquals(404, status);
     }
 
     @Test
-    public void givenCorrectParamButNotPresentBDD_whenPostNewRecipe_thenReturn404() throws Exception{
+    public void givenIncorrectParam_whenPostNewCustomer_thenReturn404() throws Exception{
 		
-        Mockito.when(customerManagementService.getNewRecipe(1)).thenThrow(EntityNotFoundException.class);
+     	
+		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
+        .post("/api/customerManagement/newCustomer");
+		
+		int status = mockMvc
+        .perform(query)
+        .andReturn()
+        .getResponse()
+        .getStatus();
+		
+		assertEquals(400, status);
+    }
+   
+   
+    //Test controller customerAssignTable
+    @Test 
+    public void givenCorrectParam_WhenPostCustomerAssignTable_thenReturn200() throws Exception{
+
+        
+        
+        doNothing().when(customerManagementService).assignNewTable(1,1);
+        
+        MockHttpServletRequestBuilder query = MockMvcRequestBuilders
+                                                    .post("/api/customerManagement/customerAssignTable")
+                                                    .param("customerId", "1")
+                                                    .param("tableId","1" );
+
+        int status = mockMvc
+                        .perform(query)
+                        .andReturn()
+                        .getResponse()
+                        .getStatus();
+        
+
+        assertEquals(200, status);
+    }
+
+    @Test
+    public void givenCorrectParamButNotPresentBDD_whenPostCustomerAssignTable_thenReturn404() throws Exception{
+		
+        Mockito.doThrow(EntityNotFoundException.class).when(customerManagementService).assignNewTable(1, 10);
 		
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/api/customerManagement/newRecipe")
-                .param("managerId", "1");
+				.post("/api/customerManagement/customerAssignTable")
+                .param("customerId", "1")
+                .param("tableId", "10");
+                
 		
 		int status = mockMvc
 				.perform(query)
@@ -250,13 +311,11 @@ public class CustomerManagementControllerTest {
     }
 
     @Test
-    public void givenIncorrectParam_whenPostNewRecipe_thenReturn404() throws Exception{
+    public void givenIncorrectParam_whenPostCustomerAssignTable_thenReturn404() throws Exception{
 		
-       Mockito.when(customerManagementService.getNewRecipe(1)).thenThrow(EntityNotFoundException.class);
     	
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/api/customerManagement/newRecipe")
-                .param("manager", "1");
+				.post("/api/customerManagement/customerAssignTable");
 		
 		int status = mockMvc
 				.perform(query)
@@ -265,5 +324,139 @@ public class CustomerManagementControllerTest {
 				.getStatus();
 		
 		assertEquals(400, status);
-    }*/
+    }
+
+
+    //Test customerServed
+    @Test 
+    public void givenCorrectParam_WhenPostCustomerServed_thenReturn200() throws Exception{
+
+        doNothing().when(customerManagementService).customerServed(1);
+        
+        MockHttpServletRequestBuilder query = MockMvcRequestBuilders
+                                                    .post("/api/customerManagement/customerServed")
+                                                    .param("customerId", "1");
+
+        int status = mockMvc
+                        .perform(query)
+                        .andReturn()
+                        .getResponse()
+                        .getStatus();
+        
+
+        assertEquals(200, status);
+    }
+
+    @Test
+    public void givenCorrectParamButNotPresentBDD_whenPostCustomerServed_thenReturn404() throws Exception{
+		
+        Mockito.doThrow(EntityNotFoundException.class).when(customerManagementService).customerServed(1);
+		
+        MockHttpServletRequestBuilder query = MockMvcRequestBuilders
+				.post("/api/customerManagement/customerServed")
+                .param("customerId", "1");
+                
+		
+		int status = mockMvc
+				.perform(query)
+				.andReturn()
+				.getResponse()
+				.getStatus();
+		
+		assertEquals(404, status);
+    }
+
+    @Test
+    public void givenIncorrectParam_whenPostCustomerServed_thenReturn404() throws Exception{
+		
+    	
+		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
+				.post("/api/customerManagement/customerServed");
+		
+		int status = mockMvc
+				.perform(query)
+				.andReturn()
+				.getResponse()
+				.getStatus();
+		
+		assertEquals(400, status);
+    }
+
+    //test customerFinish
+
+    @Test 
+    public void givenCorrectParam_WhenPostCustomerFinish_thenReturn200() throws Exception{
+
+        doNothing().when(customerManagementService).customerFinishRecipe(1,1);
+        
+        MockHttpServletRequestBuilder query = MockMvcRequestBuilders
+                                                    .post("/api/customerManagement/customerFinish")
+                                                    .param("customerId", "1")
+                                                    .param("managerId", "1");
+
+        int status = mockMvc
+                        .perform(query)
+                        .andReturn()
+                        .getResponse()
+                        .getStatus();
+        
+
+        assertEquals(200, status);
+    }
+
+    @Test
+    public void givenCorrectParamButNotPresentBDD_whenPostCustomerFinish_thenReturn404() throws Exception{
+		
+        Mockito.doThrow(EntityNotFoundException.class).when(customerManagementService).customerFinishRecipe(1, 1);
+		
+        MockHttpServletRequestBuilder query = MockMvcRequestBuilders
+				.post("/api/customerManagement/customerFinish")
+                .param("customerId", "1")
+                .param("managerId", "1");
+                
+		
+		int status = mockMvc
+				.perform(query)
+				.andReturn()
+				.getResponse()
+				.getStatus();
+		
+		assertEquals(404, status);
+    }
+
+    @Test
+    public void givenCorrectParam_whenPostCustomerFinish_thenReturn400withForbidden() throws Exception{
+		
+        Mockito.doThrow(ForbiddenException.class).when(customerManagementService).customerFinishRecipe(1, 1);
+		
+        MockHttpServletRequestBuilder query = MockMvcRequestBuilders
+				.post("/api/customerManagement/customerFinish")
+                .param("customerId", "1")
+                .param("managerId", "1");
+                
+		
+		int status = mockMvc
+				.perform(query)
+				.andReturn()
+				.getResponse()
+				.getStatus();
+		
+		assertEquals(400, status);
+    }
+
+    @Test
+    public void givenIncorrectParam_whenPostCustomerFinish_thenReturn404() throws Exception{
+		
+    	
+		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
+				.post("/api/customerManagement/customerFinish");
+		
+		int status = mockMvc
+				.perform(query)
+				.andReturn()
+				.getResponse()
+				.getStatus();
+		
+		assertEquals(400, status);
+    }
 }
