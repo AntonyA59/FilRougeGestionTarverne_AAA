@@ -2,9 +2,6 @@ package aaa.tavern.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -29,33 +26,37 @@ public class PlayerService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    /** Create a new player
+     * 
+     * @param playerDto
+     * @return return id of Player
+     */
     //retourne l'id du player créer
-    public Player createPlayer(PlayerDto playerDto) {
-        try{
-            Role playerRole = roleRepository.findByName("USER").get() ;
-            List<Role> roles = new ArrayList<Role>();
-            roles.add(playerRole);
-            Player newPlayer = new Player(
-                playerDto.getEmail(), 
-                playerDto.getNickname(), 
-                passwordEncoder.encode(playerDto.getPassword()),
-                true,
-                roles
-                ) ;
-            return userRepository.save(newPlayer) ;
-        }catch(DataAccessException e){
-            throw e ;
-        }
+    public void createPlayer(PlayerDto playerDto) throws DataAccessException {
+        Role playerRole = roleRepository.findByName("USER").get() ;
+        List<Role> roles = new ArrayList<Role>();
+        roles.add(playerRole);
+        Player newPlayer = new Player(
+            playerDto.getEmail(), 
+            playerDto.getNickname(), 
+            passwordEncoder.encode(playerDto.getPassword()),
+            true,
+            roles
+            ) ;
+        userRepository.save(newPlayer) ;
     }
 
-    public boolean deletePlayer(int idPlayer){
-        try{
-            userRepository.deleteById(idPlayer);
-            return true ;
-        }catch(DataAccessException e){
-            return false ;
-        }
+    /**
+     * 
+     * @param idPlayer
+     * @return return false 
+     */
+    public boolean deletePlayer(int idPlayer) throws DataAccessException {
+        userRepository.deleteById(idPlayer);
+        return true ;
     }
+    /*
+    ////// Inutile avec Baeldung ///////
 
     public int Connexion(PlayerDto userDto) throws EntityNotFoundException {
         try{
@@ -75,4 +76,5 @@ public class PlayerService {
             throw e ;
         }
     }
+    */
 }

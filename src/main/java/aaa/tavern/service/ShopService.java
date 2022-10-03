@@ -26,12 +26,13 @@ public class ShopService {
     @Autowired
     IngredientRepository ingredientRepository ;
 
-    /**
+    /** returns the list ingredients of game according to the Manager level
+     * /!\ Use the same method of ManagerService instead /!\
      * 
      * @param idManager
-     * @return List<IngredientDto>
+     * @return List of Ingredients according to level
      */
-    //retourne la liste des ingredients du jeu en foncion du niveau du Manager
+    // Liste l'inventaire en fonction du niveau du manager
     public List<IngredientDto> getAllIngredients(int idManager){
         Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
         List<Ingredient> listEntityIngredients = ingredientRepository.findByLevelLessThanEqual(manager.getLevel()) ;
@@ -44,21 +45,18 @@ public class ShopService {
         return listIngredientsDto ;
     }
 
-    /**
+    /** Loads manager and ingredient to purchase and add to inventory
      * 
      * @param idManager
      * @param idIngredient
-     * @return 
-     * @throws EntityNotFoundException
-     * @throws ForbiddenException
+     * @return void
+     * @throws EntityNotFoundException the ingredient and/or the manager are not found
+     * @throws ForbiddenException the manager tries to buy a too high level ingredient OR the manager does not have enough money to buy the ingredient
      */
-    //Charge l'ingredient et le manager pour ensuite acheter
+    // charge le manager et l'ingredient pour acheter et ajouter ce dernier dans l'inventaire
     public void prepareIngredientAndBuy(int idManager, int idIngredient) throws EntityNotFoundException,ForbiddenException{
         Ingredient ingredient = ServiceUtil.getEntity(ingredientRepository, idIngredient);
         Manager manager= ServiceUtil.getEntity(managerRepository, idManager);
-
-        if(ingredient == null || manager == null)
-            throw new EntityNotFoundException();  
 
         if(ingredient.getLevel() > manager.getLevel())
             throw new ForbiddenException();  
@@ -71,20 +69,18 @@ public class ShopService {
         managerRepository.save(manager) ;
     }    
 
-    /**
+    /** Load the manager and the ingredient sell and remove the latter from the inventory
      * 
      * @param idManager
      * @param idIngredient
-     * @throws EntityNotFoundException
-     * @throws ForbiddenException
+     * @return void
+     * @throws EntityNotFoundException the ingredient and/or the manager are not found
+     * @throws ForbiddenException the manager tries to sell a too high level ingredient OR the manager does not have the ingredient in its inventory
      */
-    //Charge l'ingredient et le manager pour ensuite vendre
+    //Charge le manager et l'ingredient vendre et retirer ce dernier de l'inventaire
     public void prepareIngredientAndSell(int idManager, int idIngredient) throws EntityNotFoundException,ForbiddenException{
         Ingredient ingredient = ServiceUtil.getEntity(ingredientRepository, idIngredient);
         Manager manager= ServiceUtil.getEntity(managerRepository, idManager);
-
-        if(ingredient == null || manager == null)
-            throw new EntityNotFoundException();  
 
         if(ingredient.getLevel() > manager.getLevel())
             throw new ForbiddenException(); 
@@ -97,12 +93,13 @@ public class ShopService {
         managerRepository.save(manager) ;
     }  
 
-    /**
+    /** Adds the ingredient to the manager’s inventory
      * 
      * @param ingredient
      * @param manager
+     * @return void
      */
-    //Ajoute l'ingredient dans l'inventaire
+    //Ajoute l'ingredient dans l'inventaire du manager
     private void Add(Ingredient ingredient, Manager manager){
         Map<Ingredient,Integer> inventory = manager.getIngredientQuantity() ;
         Integer quantity = inventory.get(ingredient) ;
@@ -117,13 +114,13 @@ public class ShopService {
         manager.setIngredientQuantity(inventory);
     }
 
-    /**
+    /** Deletes the ingredient in the manager’s inventory
      * 
      * @param ingredient
      * @param manager
-     * @return boolean
+     * @return returns false if the manager does not have the ingredient in its inventory
      */
-    //Supprimer l'ingredient dans l'inventaire
+    //Supprime l'ingredient dans l'inventaire du manager
     private boolean Remove(Ingredient ingredient, Manager manager){
         Map<Ingredient,Integer> inventory = manager.getIngredientQuantity() ;
         Integer quantity = inventory.get(ingredient) ;
@@ -142,11 +139,11 @@ public class ShopService {
         }
     }
 
-    /**
+    /** Withdraws the money from the Manager
      * 
      * @param ingredient
      * @param manager
-     * @return boolean
+     * @return returns false if the manager does not have enough money to buy the ingredient
      */
     //Retire l'argent au Manager
     private boolean Buy(Ingredient ingredient,Manager manager){
@@ -158,12 +155,13 @@ public class ShopService {
         }
     }
 
-    /**
+    /** Adds money to the manager rounded to the top integer
      * 
      * @param ingredient
      * @param manager
+     * @return void
      */
-    //Ajoute l'argent au Manager arondi à l'entier supérieur
+    //Ajoute l'argent au manager arrondi à l'entier supérieur
     private void Sell(Ingredient ingredient, Manager manager){
         manager.setChest(manager.getChest() + ((int)Math.ceil(ingredient.getBuyingPrice()/2)));
     }
