@@ -1,5 +1,7 @@
 package aaa.tavern.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityNotFoundException;
@@ -12,6 +14,7 @@ import aaa.tavern.dao.CustomerRepository;
 import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dao.RecipeCustomerRepository;
 import aaa.tavern.dao.RecipeRepository;
+import aaa.tavern.dto.RecipeDto;
 import aaa.tavern.entity.Customer;
 import aaa.tavern.entity.Ingredient;
 import aaa.tavern.entity.Manager;
@@ -93,4 +96,20 @@ public class RecipeService {
             throw new ForbiddenException();
         }  
     }
+    
+    public List<RecipeDto> loadRecipeByLessOrEqualLevel(int managerLevel) {
+    	List<Recipe> listRecipe = recipeRepository.findByLevelLessThanEqual(managerLevel);
+    	
+    	if(listRecipe.isEmpty()) {
+    		throw new EntityNotFoundException();
+    	}
+    	
+    	List<RecipeDto> listRecipeDto = new ArrayList<RecipeDto>();
+    	for (Recipe recipe : listRecipe) {
+			RecipeDto recipeDto = new RecipeDto(recipe);
+			listRecipeDto.add(recipeDto);
+		}
+    	
+		return listRecipeDto;
+	}
 }

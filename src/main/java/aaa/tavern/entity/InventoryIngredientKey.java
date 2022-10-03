@@ -8,8 +8,9 @@ import javax.persistence.*;
 @Embeddable
 public class InventoryIngredientKey implements Serializable{
 
+	private static final long serialVersionUID = -910108551941824015L;
 
-    @Column(name = "manager_id")
+	@Column(name = "manager_id")
     private Integer managerId;
 
     @Column(name = "ingredient_id")

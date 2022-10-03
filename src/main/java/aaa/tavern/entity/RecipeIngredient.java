@@ -14,7 +14,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name="recipe_ingredient")
 public class RecipeIngredient implements Serializable {
-    @EmbeddedId
+
+	private static final long serialVersionUID = -8104241206055761620L;
+
+	@EmbeddedId
     private RecipeIngredientKey id ;
 
     @ManyToOne

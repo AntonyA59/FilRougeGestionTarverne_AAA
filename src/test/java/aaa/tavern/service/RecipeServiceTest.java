@@ -3,7 +3,9 @@ package aaa.tavern.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.sql.Time;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,13 +22,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import aaa.tavern.dao.CustomerRepository;
 import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dao.RecipeRepository;
+import aaa.tavern.dto.RecipeDto;
 import aaa.tavern.entity.Customer;
 import aaa.tavern.entity.Ingredient;
 import aaa.tavern.entity.Manager;
 import aaa.tavern.entity.Recipe;
 import aaa.tavern.entity.RecipeIngredient;
+import aaa.tavern.entity.SubCategory;
 import aaa.tavern.exception.ForbiddenException;
-
 
 
 
@@ -218,4 +221,32 @@ public class RecipeServiceTest {
         
         assertThrows(ForbiddenException.class, ()->recipeService.prepareRecipe(1, 1, 1));
     }
+    
+    @Test
+    public void givenListRecipe_whenFindByLevelManager_thenReturnListRecipeDto() {
+		Manager manager = new Manager();
+		manager.setLevel(5);
+
+		SubCategory subCategory = new SubCategory();
+		subCategory.setIdSubCategory(1);
+		
+		List<Recipe> listRecipe = new ArrayList<Recipe>();
+		for (int i = 0; i < 5; i++) {
+			Recipe recipe = new Recipe("test", 10, i+1, new Time(1l), new Time(1l), new Date(1l), 10, subCategory, new ArrayList<RecipeIngredient>());
+			listRecipe.add(recipe);
+		}
+		
+		Mockito.when(recipeRepository.findByLevelLessThanEqual(manager.getLevel())).thenReturn(listRecipe);
+		
+		List<RecipeDto> listRecipeDto = new ArrayList<RecipeDto>();
+		for (Recipe recipe : listRecipe) {
+			RecipeDto recipeDto = new RecipeDto(recipe);
+			
+			listRecipeDto.add(recipeDto);
+		}
+		
+		List<RecipeDto> listRecipeDto2 = recipeService.loadRecipeByLessOrEqualLevel(manager.getLevel());
+		
+		assertEquals(listRecipeDto, listRecipeDto2);
+	}
 }

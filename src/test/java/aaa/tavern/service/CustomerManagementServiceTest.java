@@ -32,110 +32,114 @@ import aaa.tavern.service.utils.ListRecipe;
 
 @SpringBootTest
 public class CustomerManagementServiceTest {
-    @MockBean
-    private CustomerRepository customerRepository;
+	@MockBean
+	private CustomerRepository customerRepository;
 
-    @MockBean
-    private TableRestRepository tableRestRepository;
+	@MockBean
+	private TableRestRepository tableRestRepository;
 
-    @Autowired
-    private CustomerManagementService customerManagementService;
+	@Autowired
+	private CustomerManagementService customerManagementService;
 
-    @MockBean
-    private ListRecipe listRecipe;
+	@MockBean
+	private ListRecipe listRecipe;
 
-    @Test
-    public void modifedTableRestWithAssignNewTable(){
-        Customer customer= new Customer();
-        Optional<Customer> optCustomer= Optional.of(customer);
-        Mockito.when(customerRepository.findById(1)).thenReturn(optCustomer);
-        
-        TableRest tableRest= new TableRest();
-        tableRest.setNumberPlace(5);
-        Optional<TableRest> optTableRest= Optional.of(tableRest);
-        Mockito.when(tableRestRepository.findById(1)).thenReturn(optTableRest);
+	@Test
+	public void modifedTableRestWithAssignNewTable() {
+		Customer customer = new Customer();
+		Optional<Customer> optCustomer = Optional.of(customer);
+		Mockito.when(customerRepository.findById(1)).thenReturn(optCustomer);
 
-        customerManagementService.assignNewTable(1, 1);
+		TableRest tableRest = new TableRest();
+		tableRest.setNumberPlace(5);
+		Optional<TableRest> optTableRest = Optional.of(tableRest);
+		Mockito.when(tableRestRepository.findById(1)).thenReturn(optTableRest);
 
-        Mockito.verify(tableRestRepository).save(ArgumentMatchers.argThat(tableRest2->tableRest2.getNumberPlace()==4));
-    }
+		customerManagementService.assignNewTable(1, 1);
 
-    @Test
-    public void modifedCustomerTableIdWithAssignNewTable(){
-        Customer customer= new Customer();
-        Optional<Customer> optCustomer= Optional.of(customer);
-        Mockito.when(customerRepository.findById(1)).thenReturn(optCustomer);
-        
-        TableRest tableRest= new TableRest();
-        tableRest.setNumberPlace(5);
-        tableRest.setIdTable(1);
-        Optional<TableRest> optTableRest= Optional.of(tableRest);
-        Mockito.when(tableRestRepository.findById(1)).thenReturn(optTableRest);
+		Mockito.verify(tableRestRepository)
+				.save(ArgumentMatchers.argThat(tableRest2 -> tableRest2.getNumberPlace() == 4));
+	}
 
-        customerManagementService.assignNewTable(1, 1);
+	@Test
+	public void modifedCustomerTableIdWithAssignNewTable() {
+		Customer customer = new Customer();
+		Optional<Customer> optCustomer = Optional.of(customer);
+		Mockito.when(customerRepository.findById(1)).thenReturn(optCustomer);
 
-        //à voir avec Loic
-        Mockito.verify(customerRepository).save(ArgumentMatchers.argThat(customer2->customer2.getTableRest().getIdTable()==1));
-    }
+		TableRest tableRest = new TableRest();
+		tableRest.setNumberPlace(5);
+		tableRest.setIdTable(1);
+		Optional<TableRest> optTableRest = Optional.of(tableRest);
+		Mockito.when(tableRestRepository.findById(1)).thenReturn(optTableRest);
 
-    @Test
-    public void returnEntityNotFoundExceptionInCustomerWithAssignNewTable(){
-        Optional<Customer> optCustomer= Optional.empty();
-        Mockito.when(customerRepository.findById(1)).thenReturn(optCustomer);
-        
-        TableRest tableRest= new TableRest();
-        tableRest.setNumberPlace(5);
-        Optional<TableRest> optTableRest= Optional.of(tableRest);
-        Mockito.when(tableRestRepository.findById(1)).thenReturn(optTableRest);
+		customerManagementService.assignNewTable(1, 1);
 
-        assertThrows(EntityNotFoundException.class, ()-> customerManagementService.assignNewTable(1, 1));
-    }
+		// à voir avec Loic
+		Mockito.verify(customerRepository)
+				.save(ArgumentMatchers.argThat(customer2 -> customer2.getTableRest().getIdTable() == 1));
+	}
 
-    @Test
-    public void returnEntityNotFoundExceptionInTableWithAssignNewTable(){
-        Customer customer= new Customer();
-        Optional<Customer> optCustomer= Optional.of(customer);
-        Mockito.when(customerRepository.findById(1)).thenReturn(optCustomer);
-        
-        Optional<TableRest> optTableRest= Optional.empty();
-        Mockito.when(tableRestRepository.findById(1)).thenReturn(optTableRest);
+	@Test
+	public void returnEntityNotFoundExceptionInCustomerWithAssignNewTable() {
+		Optional<Customer> optCustomer = Optional.empty();
+		Mockito.when(customerRepository.findById(1)).thenReturn(optCustomer);
 
-        assertThrows(EntityNotFoundException.class, ()-> customerManagementService.assignNewTable(1, 1));
-    }
+		TableRest tableRest = new TableRest();
+		tableRest.setNumberPlace(5);
+		Optional<TableRest> optTableRest = Optional.of(tableRest);
+		Mockito.when(tableRestRepository.findById(1)).thenReturn(optTableRest);
 
-    @Test
-    public void verifyReturnNewRecipeRandom(){
-        Map<Integer,Recipe> listTest = new HashMap<Integer,Recipe>();
-        List<RecipeDto> listTestDto = new ArrayList<RecipeDto>();
-        SubCategory subCategory= new SubCategory();
-        subCategory.setIdSubCategory(1);
-        ArrayList<RecipeIngredient> tabIngredientsForRecipe = new ArrayList<RecipeIngredient>();
-        Recipe recipe1= new Recipe("recipe1", Integer.valueOf(1), Integer.valueOf(1), new Time(1l), new Time(1l), new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
-        recipe1.setIdRecipe(1);
-        listTest.put(recipe1.getIdRecipe(), recipe1);
+		assertThrows(EntityNotFoundException.class, () -> customerManagementService.assignNewTable(1, 1));
+	}
 
-        RecipeDto recipeDto1= new RecipeDto(recipe1);
-        listTestDto.add(recipeDto1);
-        
-        Recipe recipe2= new Recipe("recipe2", Integer.valueOf(1), Integer.valueOf(1), new Time(1l), new Time(1l), new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
-        recipe2.setIdRecipe(2);
-        recipe2.setName("recipe2");
-        listTest.put(recipe2.getIdRecipe(), recipe2);
-        RecipeDto recipeDto2= new RecipeDto(recipe2);
-        listTestDto.add(recipeDto2);
-        
-        Recipe recipe3= new Recipe("recipe3", Integer.valueOf(1), Integer.valueOf(1), new Time(1l), new Time(1l), new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
-        recipe3.setIdRecipe(3);
-        recipe3.setName("recipe3");
-        listTest.put(recipe3.getIdRecipe(), recipe3);
-        RecipeDto recipeDto3= new RecipeDto(recipe3);
-        listTestDto.add(recipeDto3);
+	@Test
+	public void returnEntityNotFoundExceptionInTableWithAssignNewTable() {
+		Customer customer = new Customer();
+		Optional<Customer> optCustomer = Optional.of(customer);
+		Mockito.when(customerRepository.findById(1)).thenReturn(optCustomer);
 
-        Mockito.when(listRecipe.getListRecipe()).thenReturn(listTest);
-        RecipeDto recipeDto=customerManagementService.getNewRecipe();
+		Optional<TableRest> optTableRest = Optional.empty();
+		Mockito.when(tableRestRepository.findById(1)).thenReturn(optTableRest);
 
-        assertTrue(listTestDto.contains(recipeDto));
-    }
-    
+		assertThrows(EntityNotFoundException.class, () -> customerManagementService.assignNewTable(1, 1));
+	}
+
+	@Test
+	public void verifyReturnNewRecipeRandom() {
+		Map<Integer, Recipe> listTest = new HashMap<Integer, Recipe>();
+		List<RecipeDto> listTestDto = new ArrayList<RecipeDto>();
+		SubCategory subCategory = new SubCategory();
+		subCategory.setIdSubCategory(1);
+		ArrayList<RecipeIngredient> tabIngredientsForRecipe = new ArrayList<RecipeIngredient>();
+		Recipe recipe1 = new Recipe("recipe1", Integer.valueOf(1), Integer.valueOf(1), new Time(1l), new Time(1l),
+				new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
+		recipe1.setIdRecipe(1);
+		listTest.put(recipe1.getIdRecipe(), recipe1);
+
+		RecipeDto recipeDto1 = new RecipeDto(recipe1);
+		listTestDto.add(recipeDto1);
+
+		Recipe recipe2 = new Recipe("recipe2", Integer.valueOf(1), Integer.valueOf(1), new Time(1l), new Time(1l),
+				new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
+		recipe2.setIdRecipe(2);
+		recipe2.setName("recipe2");
+		listTest.put(recipe2.getIdRecipe(), recipe2);
+		RecipeDto recipeDto2 = new RecipeDto(recipe2);
+		listTestDto.add(recipeDto2);
+
+		Recipe recipe3 = new Recipe("recipe3", Integer.valueOf(1), Integer.valueOf(1), new Time(1l), new Time(1l),
+				new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
+		recipe3.setIdRecipe(3);
+		recipe3.setName("recipe3");
+		listTest.put(recipe3.getIdRecipe(), recipe3);
+		RecipeDto recipeDto3 = new RecipeDto(recipe3);
+		listTestDto.add(recipeDto3);
+
+		Mockito.when(listRecipe.getListRecipe()).thenReturn(listTest);
+		RecipeDto recipeDto = customerManagementService.getNewRecipe();
+
+		assertTrue(listTestDto.contains(recipeDto));
+	}
 
 }
