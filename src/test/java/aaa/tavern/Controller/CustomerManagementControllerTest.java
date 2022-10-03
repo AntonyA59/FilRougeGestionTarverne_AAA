@@ -26,16 +26,16 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import aaa.tavern.Entity.Customer;
-import aaa.tavern.Entity.Recipe;
-import aaa.tavern.Entity.RecipeCustomer;
-import aaa.tavern.Entity.RecipeIngredient;
-import aaa.tavern.Entity.SubCategory;
-import aaa.tavern.Entity.TableRest;
-import aaa.tavern.Service.CustomerManagementService;
+import aaa.tavern.entity.Customer;
+import aaa.tavern.entity.Recipe;
+import aaa.tavern.entity.RecipeCustomer;
+import aaa.tavern.entity.RecipeIngredient;
+import aaa.tavern.entity.SubCategory;
+import aaa.tavern.entity.TableRest;
 import aaa.tavern.dto.CustomerDto;
 import aaa.tavern.dto.RecipeDto;
 import aaa.tavern.exception.ForbiddenException;
+import aaa.tavern.service.CustomerManagementService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -153,7 +153,7 @@ public class CustomerManagementControllerTest {
     public void givenCorrectParam_WhenPostNewCustomer_thenReturnCustomerDto() throws Exception{
         ObjectMapper objectMapper= new ObjectMapper();
         TableRest tableRest= new TableRest();
-        tableRest.setTableId(1);
+        tableRest.setIdTable(1);
         Set<RecipeCustomer> tabCustomer= new HashSet<RecipeCustomer>();
         Customer customer = new Customer(Integer.valueOf(1), Float.valueOf(1f),
                                         Float.valueOf(1f) ,Float.valueOf(1f)  ,
@@ -205,7 +205,7 @@ public class CustomerManagementControllerTest {
             public void givenCorrectParam_whenPostNewCustomer_thenReturn200() throws Exception{
                 
                 TableRest tableRest= new TableRest();
-                tableRest.setTableId(1);
+                tableRest.setIdTable(1);
                 Set<RecipeCustomer> tabCustomer= new HashSet<RecipeCustomer>();
                 Customer customer = new Customer(Integer.valueOf(1), Float.valueOf(1f),
                 Float.valueOf(1f) ,Float.valueOf(1f)  ,

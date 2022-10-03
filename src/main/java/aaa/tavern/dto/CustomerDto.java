@@ -5,8 +5,8 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
-import aaa.tavern.Entity.Customer;
-import aaa.tavern.Entity.RecipeCustomer;
+import aaa.tavern.entity.Customer;
+import aaa.tavern.entity.RecipeCustomer;
 
 
 public class CustomerDto {
@@ -57,7 +57,7 @@ public class CustomerDto {
         this.alcoholTolerance = customer.getAlcoholTolerance();
         this.gender = customer.getGender();
         this.expGiven = 0;
-        this.tableRest = customer.getTableRest().getTableId();
+        this.tableRest = customer.getTableRest().getIdTable();
         this.consommationStart=customer.getConsommationStart();
         for(RecipeCustomer recipeCustomer: customer.getCommandList()){
             Integer recipeId= recipeCustomer.getRecipe().getId();

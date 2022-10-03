@@ -26,11 +26,11 @@ public class PlayerDto {
         this.nickname = nickname ;
         this.password = password ;
     }
-
+    /*
     protected PlayerDto(String email, String password){
         this.email = email.toLowerCase() ;
         this.password = password ;
-    }
+    }*/
 
     public String getEmail() {
         return email;

@@ -1,6 +1,6 @@
 package aaa.tavern.dto;
 
-import aaa.tavern.Entity.TableRest;
+import aaa.tavern.entity.TableRest;
 
 public class TableRestDto {
     
@@ -16,10 +16,9 @@ public class TableRestDto {
     
     private Integer place;
 
-    
     public TableRestDto(TableRest tableRest){
 
-        this.id=tableRest.getTableId();
+        this.id=tableRest.getIdTable();
         this.numberPlace=tableRest.getNumberPlace();
         this.hygiene=tableRest.getHygiene();
         this.posX=tableRest.getPosX();

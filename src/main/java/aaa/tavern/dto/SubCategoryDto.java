@@ -1,6 +1,6 @@
 package aaa.tavern.dto;
 
-import aaa.tavern.Entity.SubCategory;
+import aaa.tavern.entity.SubCategory;
 
 public class SubCategoryDto {
     

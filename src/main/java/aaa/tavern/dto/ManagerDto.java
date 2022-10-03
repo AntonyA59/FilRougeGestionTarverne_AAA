@@ -3,8 +3,8 @@ package aaa.tavern.dto;
 import java.util.HashMap;
 import java.util.Map;
 
-import aaa.tavern.Entity.InventoryIngredient;
-import aaa.tavern.Entity.Manager;
+import aaa.tavern.entity.InventoryIngredient;
+import aaa.tavern.entity.Manager;
 
 public class ManagerDto {
 

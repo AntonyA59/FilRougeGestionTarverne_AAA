@@ -1,6 +1,6 @@
 package aaa.tavern.dto;
 
-import aaa.tavern.Entity.Category;
+import aaa.tavern.entity.Category;
 
 public class CategoryDto {
     

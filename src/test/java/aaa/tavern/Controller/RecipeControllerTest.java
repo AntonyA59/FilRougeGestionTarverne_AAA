@@ -15,8 +15,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import aaa.tavern.Service.RecipeService;
 import aaa.tavern.exception.ForbiddenException;
+import aaa.tavern.service.RecipeService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
