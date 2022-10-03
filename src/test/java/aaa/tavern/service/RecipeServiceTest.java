@@ -226,7 +226,7 @@ public class RecipeServiceTest {
     public void givenListRecipe_whenFindByLevelManager_thenReturnListRecipeDto() {
 		Manager manager = new Manager();
 		manager.setLevel(5);
-    	
+
 		SubCategory subCategory = new SubCategory();
 		subCategory.setIdSubCategory(1);
 		

@@ -1,58 +1,74 @@
 package aaa.tavern.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import aaa.tavern.dao.PlayerRepository;
+import aaa.tavern.dao.RoleRepository;
 import aaa.tavern.dto.PlayerDto;
 import aaa.tavern.entity.Player;
-import aaa.tavern.dao.PlayerRepository;
+import aaa.tavern.entity.Role;
 
 @Service
 public class PlayerService {
-    @Autowired 
+    @Autowired
     private PlayerRepository playerRepository;
 
-    //retourne l'id du player créer
-    public int createPlayer(PlayerDto playerDto) {
-        try{
-            Player newPlayer = new Player(playerDto.getEmail(), playerDto.getNickname(), playerDto.getPassword()) ;
-            playerRepository.save(newPlayer) ;
-            return newPlayer.getIdPlayer() ;
-        }catch(DataAccessException e){
-            throw e ;
-        }
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    // retourne l'id du player créer
+    public Player createPlayer(PlayerDto playerDto) {
+        //TODO avoir avec Adrien
+            Role playerRole = roleRepository.findByName("USER").get() ;
+            List<Role> roles = new ArrayList<Role>();
+            roles.add(playerRole);
+            Player newPlayer = new Player(
+                playerDto.getEmail(), 
+                playerDto.getNickname(), 
+                passwordEncoder.encode(playerDto.getPassword()),
+                true,
+                roles
+                ) ;
+            return playerRepository.save(newPlayer) ;
     }
 
-    public boolean deletePlayer(int idPlayer){
-        try{
+    public boolean deletePlayer(int idPlayer) {
+        try {
             playerRepository.deleteById(idPlayer);
-            return true ;
-        }catch(DataAccessException e){
-            return false ;
+            return true;
+        } catch (DataAccessException e) {
+            return false;
         }
     }
 
-    public int Connexion(PlayerDto playerDto) throws EntityNotFoundException {
-        try{
-            List<Player> player = playerRepository.findByEmail(playerDto.getEmail()) ;
+    public int Connexion(PlayerDto userDto) throws EntityNotFoundException {
+        try {
+            Optional<Player> user = playerRepository.findByEmail(userDto.getEmail());
 
-            if(!player.isEmpty())
-			    throw new EntityNotFoundException();
+            if (!user.isEmpty())
+                throw new EntityNotFoundException();
 
-            if(player.get(0).getPassword().equals(playerDto.getPassword())){
-                
-            }else{
+            if (user.get().getPassword().equals(userDto.getPassword())) {
+
+            } else {
                 // password invalid
             }
 
-            return 0 ;
-        }catch(DataAccessException e){
-            throw e ;
+            return 0;
+        } catch (DataAccessException e) {
+            throw e;
         }
     }
 }

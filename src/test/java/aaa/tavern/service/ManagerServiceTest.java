@@ -1,5 +1,7 @@
 package aaa.tavern.service;
 
+
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
@@ -59,7 +61,7 @@ public class ManagerServiceTest {
 		Mockito.when(managerRepository.findById(0)).thenReturn(Optional.of(manager));
 		managerService.deleteManager(0);
 
-		Mockito.verify(managerRepository).deleteById(0);
+		Mockito.verify(managerRepository).delete(manager);
 	}
 
 	@Test

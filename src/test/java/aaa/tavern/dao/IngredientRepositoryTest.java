@@ -14,16 +14,17 @@ import org.springframework.test.context.jdbc.Sql;
 import aaa.tavern.entity.Ingredient;
 
 @DataJpaTest
+
 public class IngredientRepositoryTest {
 
-	@Autowired
-	IngredientRepository ingredientRepository;
+    @Autowired
+    IngredientRepository ingredientRepository;
+    
+    @Test
+    @Sql("giventIngredients_findByLessThanEqualsLevel_ThenReturnIngredients.sql")
+    public void giventIngredients_findByLessThanEqualsLevel_ThenReturnIngredients() {
+        List<Ingredient> ingredients = ingredientRepository.findByLevelLessThanEqual(4);
 
-	@Test
-	@Sql("giventIngredients_findByLessThanEqualsLevel_ThenReturnIngredients.sql")
-	public void giventIngredients_findByLessThanEqualsLevel_ThenReturnIngredients() {
-		List<Ingredient> ingredients = ingredientRepository.findByLevelLessThanEqual(4);
-
-		assertEquals(ingredients.size(), 4);
-	}
+        assertEquals(ingredients.size(), 4);
+    }
 }

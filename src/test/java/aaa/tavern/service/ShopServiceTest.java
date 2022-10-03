@@ -1,5 +1,8 @@
 package aaa.tavern.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,8 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 import aaa.tavern.dto.IngredientDto;
 import aaa.tavern.entity.Ingredient;
@@ -25,6 +27,7 @@ import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.exception.ForbiddenException;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
+
 
 @SpringBootTest
 public class ShopServiceTest {

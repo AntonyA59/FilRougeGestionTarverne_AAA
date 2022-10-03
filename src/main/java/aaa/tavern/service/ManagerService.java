@@ -9,11 +9,14 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import aaa.tavern.dao.CustomerRepository;
+import aaa.tavern.dao.IngredientRepository;
 import aaa.tavern.dao.InventoryIngredientRepository;
 import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dao.PlayerRepository;
 import aaa.tavern.dto.InventoryManagerIngredientDto;
 import aaa.tavern.dto.ManagerDto;
+import aaa.tavern.entity.Customer;
 import aaa.tavern.entity.Ingredient;
 import aaa.tavern.entity.InventoryIngredient;
 import aaa.tavern.entity.Manager;
@@ -21,119 +24,117 @@ import aaa.tavern.entity.Player;
 import aaa.tavern.exception.ForbiddenException;
 import aaa.tavern.utils.ServiceUtil;
 
-
 @Service
 public class ManagerService {
 
-	
-	
-	@Autowired
-	private InventoryIngredientRepository inventoryIngredientRepository;
-	
-	@Autowired
-	private ManagerRepository managerRepository;
+    @Autowired
+    private InventoryIngredientRepository inventoryIngredientRepository;
 
-	@Autowired
-	private PlayerRepository playerRepository;
+    @Autowired
+    private ManagerRepository managerRepository;
 
-	/**
-	 * Create a manager from a Dto and save it in the database
-	 * 
-	 * @param managerDto
-	 * @param idPlayer
-	 * @throws EntityNotFoundException
-	 */
-	public void createManager(ManagerDto managerDto, int idPlayer) throws EntityNotFoundException {
-		Player player = ServiceUtil.getEntity(playerRepository, idPlayer);
-		Manager manager = new Manager(managerDto.getName(), 0, 100, 1, 0, player);
-		managerRepository.save(manager);
+    @Autowired
+    private IngredientRepository ingredientRepository;
 
-	}
+    @Autowired
+    private CustomerRepository customerRepository;
 
-	/**
-	 * Remove a manager from the database
-	 * 
-	 * @param managerId
-	 */
-	public void deleteManager(int managerId) {
+    @Autowired
+    private PlayerRepository playerRepository;
 
-		managerRepository.deleteById(managerId);
-	}
+    public Manager createManager(ManagerDto managerDto, int playerId) {
+        Player player = ServiceUtil.getEntity(playerRepository, playerId);
+        Manager manager = new Manager(managerDto.getName(), 0, 100, 1, 0, player);
+        managerRepository.save(manager);
+        return manager;
+    }
 
-	/**
-	 * Convert a Manager class instance into a ManagerDto class instance
-	 * 
-	 * @param manager
-	 * @return ManagerDto
-	 * @throws EntityNotFoundException
-	 */
-	public ManagerDto loadManagerDto(int managerId) throws EntityNotFoundException {
-		Manager manager = ServiceUtil.getEntity(managerRepository, managerId);
-		return new ManagerDto(manager);
-	}
+    public void deleteManager(int idManager) {
+        Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
+        managerRepository.delete(manager);
+    }
 
-	/**
-	 * Lists player's managers in the database and returns them in List of
-	 * managerDto
-	 * 
-	 * @param playerId
-	 * @return List<ManagerDto>
-	 */
-	public List<ManagerDto> listExistingManagerDto(int playerId) {
-		Player player = ServiceUtil.getEntity(playerRepository, playerId);
-		List<Manager> ListManagers = managerRepository.findByPlayer(player);
-		if (ListManagers.isEmpty()) {
-			throw new EntityNotFoundException();
-		}
-		List<ManagerDto> ListManagersDto = new ArrayList<ManagerDto>();
-		for (Manager manager : ListManagers) {
-			ManagerDto managerDto = new ManagerDto(manager);
-			ListManagersDto.add(managerDto);
-		}
+    /**
+     * Convert a Manager class instance into a ManagerDto class instance
+     * 
+     * @param manager
+     * @return ManagerDto
+     */
+    public ManagerDto loadManagerDto(Manager manager) {
+        return new ManagerDto(manager);
+    }
 
-		return ListManagersDto;
-	}
+    /**
+     * Lists player's managers in the database and returns them in List of
+     * managerDto
+     * 
+     * @param player
+     * @return List<ManagerDto>
+     */
+    public List<ManagerDto> listExistingManagerDto(int idPlayer) {
+        Player player = ServiceUtil.getEntity(playerRepository, idPlayer);
+        List<Manager> managers = managerRepository.findByPlayer(player);
+        if (managers.isEmpty()) {
+            throw new EntityNotFoundException();
+        }
+        List<ManagerDto> managersDto = new ArrayList<ManagerDto>();
+        for (Manager manager : managers) {
+            ManagerDto managerDto = loadManagerDto(manager);
+            managersDto.add(managerDto);
+        }
 
-	/**
-	 * Selects an existing manager in the database
-	 * 
-	 * @param idManager
-	 * @return Manager
-	 * @throws EntityNotFoundException
-	 */
-	@Transactional(rollbackOn = { EntityNotFoundException.class, ForbiddenException.class })
-	public Manager selectManager(int idManager) throws EntityNotFoundException {
-		Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
-		return manager;
-	}
-	
-	
-	/**
-	 * Loads manager's Inventory
-	 * 
-	 * @param idManager
-	 * @return List<InventoryManagerIngredientDto>
-	 */
-	public List<InventoryManagerIngredientDto> loadInventoryIngredientsByManager(int idManager) {
-		Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
-		
-		List<InventoryIngredient> listInventoryIngredients = inventoryIngredientRepository.findByManager(manager);
-		
-		if(listInventoryIngredients.isEmpty()) {
-			throw new EntityNotFoundException();
-		}
-		
-		List<InventoryManagerIngredientDto> listInventoryManagerIngredientDto = new ArrayList<InventoryManagerIngredientDto>();
-		
-		for (InventoryIngredient inventoryIngredient : listInventoryIngredients) {
-			Ingredient ingredient = inventoryIngredient.getIngredient();
-			InventoryManagerIngredientDto inventoryManagerIngredientDto = new InventoryManagerIngredientDto(ingredient, inventoryIngredient.getQuantity());
-			listInventoryManagerIngredientDto.add(inventoryManagerIngredientDto);
-		}
-		
+        return managersDto;
+    }
 
-		
-		return listInventoryManagerIngredientDto;
-	}
+    @Transactional(rollbackOn = { EntityNotFoundException.class, ForbiddenException.class })
+    public Manager selectManager(int idManager) {
+        Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
 
+        return manager;
+    }
+
+    public void giveExperienceManagerWithRecipe(int idManager, int idIngredient) {
+        Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
+        Ingredient ingredient = ServiceUtil.getEntity(ingredientRepository, idIngredient);
+
+        if (ingredient == null || manager == null)
+            throw new EntityNotFoundException();
+
+    }
+
+    public void giveExperienceManagerWithCustomer(int idManager, int idCustomer) {
+        Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
+        Customer customer = ServiceUtil.getEntity(customerRepository, idCustomer);
+
+        if (customer == null || manager == null)
+            throw new EntityNotFoundException();
+
+    }
+
+    /**
+     * Loads manager's Inventory
+     * 
+     * @param idManager
+     * @return List<InventoryManagerIngredientDto>
+     */
+    public List<InventoryManagerIngredientDto> loadInventoryIngredientsByManager(int idManager) {
+        Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
+
+        List<InventoryIngredient> listInventoryIngredients = inventoryIngredientRepository.findByManager(manager);
+
+        if (listInventoryIngredients.isEmpty()) {
+            throw new EntityNotFoundException();
+        }
+
+        List<InventoryManagerIngredientDto> listInventoryManagerIngredientDto = new ArrayList<InventoryManagerIngredientDto>();
+
+        for (InventoryIngredient inventoryIngredient : listInventoryIngredients) {
+            Ingredient ingredient = inventoryIngredient.getIngredient();
+            InventoryManagerIngredientDto inventoryManagerIngredientDto = new InventoryManagerIngredientDto(ingredient,
+                    inventoryIngredient.getQuantity());
+            listInventoryManagerIngredientDto.add(inventoryManagerIngredientDto);
+        }
+
+        return listInventoryManagerIngredientDto;
+    }
 }
