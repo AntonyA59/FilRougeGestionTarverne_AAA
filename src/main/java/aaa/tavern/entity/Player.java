@@ -35,8 +35,7 @@ public class Player {
 	@Column(name = "enabled")
 	private boolean enabled;
 
-	@Column(name = "enabled")
-	private boolean enabled;
+
 
 
 	@ManyToMany(fetch = FetchType.EAGER)
