@@ -22,7 +22,7 @@ public class Recipe{
 	@Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idRecipe;
+	private Integer id;
 
 	@Column(name="name")
     private String name;
@@ -84,7 +84,7 @@ public class Recipe{
             return false;
 
         Recipe that = (Recipe) o;
-        return Objects.equals(idRecipe, that.idRecipe);
+        return Objects.equals(id, that.id);
     }
 
 	/**
@@ -92,7 +92,7 @@ public class Recipe{
 	 */
     @Override
     public int hashCode() {
-        return idRecipe.hashCode();
+        return id.hashCode();
     }
 
 //#region get/set
@@ -101,8 +101,8 @@ public class Recipe{
 		return name;
 	}
 
-	public void setIdRecipe(Integer idRecipe) {
-		this.idRecipe = idRecipe;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public void setSellingPrice(Integer sellingPrice) {
@@ -177,8 +177,8 @@ public class Recipe{
 		this.subCategory = subCategory;
 	}
 
-	public Integer getIdRecipe() {
-		return idRecipe;
+	public Integer getId() {
+		return id;
 	}
 
 	public List<RecipeIngredient> getTabIngredientsForRecipe() {
@@ -191,77 +191,5 @@ public class Recipe{
 
 	
 //#endregion
-
-/*
-	public ArrayList<Recipe> listRecipeByLevel(int levelMax){
-		try{
-            ArrayList<Recipe> listRecipe = new ArrayList<Recipe>() ;
-            ResultSet resultat = DBManager.execute("SELECT id_recipe FROM recipe WHERE level BETWEEN 1 AND "+levelMax+" ;");
-			Recipe recipe ;
-            
-            while(resultat.next()){
-				recipe = new Recipe(resultat.getInt("id_recipe")) ;
-				listRecipe.add(recipe) ;
-            }
-            return listRecipe ;
-        }
-        catch (SQLException ex) {
-            // handle any errors
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-            return null ;
-        }
-	}
-
-	private void getIngredientsQuantityBDD(int id_recipe){
-		try{
-			ResultSet resultat2=DBManager.execute("SELECT id_ingredient , quantity FROM recipe_ingredient WHERE id_recipe= "+id_recipe+" ;");
-			this.tabIngredients=new HashMap<Integer,Integer>();
-			while(resultat2.next()){
-				this.tabIngredients.put(resultat2.getInt("id_ingredient"),resultat2.getInt("quantity"));
-			}
-
-		}catch(SQLException ex){
-			System.out.println("SQLException" + ex.getMessage());
-			System.out.println("SQLState" + ex.getSQLState());
-			System.out.println("VendorError"+ ex.getErrorCode());
-		}
-	}
-	
-	private void saveIngredientsQuantityBDD(){
-		String sqlIngredientQuantity ;
-		
-		for (int id_ingredient : this.tabIngredients.keySet()){
-			try{
-				sqlIngredientQuantity = "SELECT COUNT(*) FROM recipe_ingredient WHERE id_recipe = "+this.id+" AND id_ingredient = "+id_ingredient ;
-				ResultSet resultat = DBManager.execute(sqlIngredientQuantity) ;
-            	if(resultat.next()){
-					if(resultat.getInt("COUNT(*)") > 0){
-						sqlIngredientQuantity = "UPDATE recipe_ingredient SET quantity=? WHERE id_recipe = ? AND id_ingredient = ?" ;
-					}else{
-						sqlIngredientQuantity = "INSERT INTO recipe_ingredient (quantity,id_ingredient,id_recipe) VALUES (?,?,?)" ;
-					}
-					PreparedStatement pstmtIngQuan =  DBManager.conn.prepareStatement(sqlIngredientQuantity,Statement.RETURN_GENERATED_KEYS) ;
-					int quantity=this.tabIngredients.get(id_ingredient);
-					if(this.id!=0){
-						pstmtIngQuan.setInt(1,quantity);
-						pstmtIngQuan.setInt(2,id_ingredient);
-						pstmtIngQuan.setInt(3,this.id);
-					}else{
-						pstmtIngQuan.setInt(1,quantity);
-						pstmtIngQuan.setInt(2,id_ingredient);
-						pstmtIngQuan.setInt(3,this.id);
-					}
-					pstmtIngQuan.executeUpdate();
-				}
-			}catch(SQLException ex){
-				System.out.println("SQLException" + ex.getMessage());
-				System.out.println("SQLState" + ex.getSQLState());
-				System.out.println("VendorError"+ ex.getErrorCode());
-			}
-		}
-	}
-	*/
 
 }

@@ -22,7 +22,7 @@ public class ManagerDto {
         this.player=manager.getPlayer().getIdPlayer();
         this.maxExp=manager.getMaxExp();
         for(InventoryIngredient inventoryIngredient: manager.getInventoryIngredient()){
-            Integer ingredientId= inventoryIngredient.getIngredient().getIdIngredient();
+            Integer ingredientId= inventoryIngredient.getIngredient().getId();
             Integer quantity= inventoryIngredient.getQuantity();
             this.ingredientQuantity.put(ingredientId,quantity);
         }

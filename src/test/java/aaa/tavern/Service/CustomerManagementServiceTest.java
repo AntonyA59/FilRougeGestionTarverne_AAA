@@ -125,20 +125,20 @@ public class CustomerManagementServiceTest {
         ArrayList<RecipeIngredient> tabIngredientsForRecipe = new ArrayList<RecipeIngredient>();
        
         Recipe recipe1= new Recipe("recipe1", Integer.valueOf(1), Integer.valueOf(1), 1L, Long.valueOf(1l), new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
-        recipe1.setIdRecipe(1);
+        recipe1.setId(1);
         RecipeDto recipeDto1= new RecipeDto(recipe1);
         listTest.add(recipe1);
         listTestDto.add(recipeDto1);
         
         Recipe recipe2= new Recipe("recipe2", Integer.valueOf(1), Integer.valueOf(1), 1L, Long.valueOf(1l), new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
-        recipe2.setIdRecipe(2);
+        recipe2.setId(2);
         recipe2.setName("recipe2");
         RecipeDto recipeDto2= new RecipeDto(recipe2);
         listTest.add(recipe2);
         listTestDto.add(recipeDto2);
         
         Recipe recipe3= new Recipe("recipe3", Integer.valueOf(1), Integer.valueOf(1),1l, Long.valueOf(1l), new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
-        recipe3.setIdRecipe(3);
+        recipe3.setId(3);
         recipe3.setName("recipe3");
         RecipeDto recipeDto3= new RecipeDto(recipe3);
         listTest.add(recipe3);

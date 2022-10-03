@@ -21,7 +21,7 @@ public class RecipeDto {
 
     
     public RecipeDto(Recipe recipe){
-        this.id=recipe.getIdRecipe();
+        this.id=recipe.getId();
         this.name = recipe.getName() ;
 		this.sellingPrice = recipe.getSellingPrice() ;
 		this.level = recipe.getLevel() ;
@@ -31,7 +31,7 @@ public class RecipeDto {
 		this.expGiven = recipe.getExpGiven() ;
 		this.subCategory = recipe.getSubCategory().getIdSubCategory() ;
 		for(RecipeIngredient recipeIngredient: recipe.getTabIngredientsForRecipe()){
-            Integer ingredientId= recipeIngredient.getIngredient().getIdIngredient();
+            Integer ingredientId= recipeIngredient.getIngredient().getId();
             Integer quantity= recipeIngredient.getQuantity();
             this.tabIngredientsForRecipe.put(ingredientId,quantity);
         }

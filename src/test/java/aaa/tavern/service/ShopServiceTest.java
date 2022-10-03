@@ -43,9 +43,9 @@ public class ShopServiceTest {
     @Test
     public void givenIngredientToBuy_WhenAllCondition_ThenSuccess() throws EntityNotFoundException, ForbiddenException{
         Ingredient ingredient1=new Ingredient();
-        ingredient1.setIdIngredient(1);
+        ingredient1.setId(1);
         Ingredient ingredient4=new Ingredient();
-        ingredient4.setIdIngredient(4);
+        ingredient4.setId(4);
 
         ingredient1.setBuyingPrice(10);
         ingredient1.setLevel(1);
@@ -80,9 +80,9 @@ public class ShopServiceTest {
     @Test
     public void givenIngredientToBuy_WhenTooHightLevel_ThenForbiddenException() throws EntityNotFoundException, ForbiddenException{
         Ingredient ingredient1=new Ingredient();
-        ingredient1.setIdIngredient(1);
+        ingredient1.setId(1);
         Ingredient ingredient4=new Ingredient();
-        ingredient4.setIdIngredient(4);
+        ingredient4.setId(4);
 
         ingredient1.setBuyingPrice(10);
         ingredient1.setLevel(1);
@@ -111,9 +111,9 @@ public class ShopServiceTest {
     @Test
     public void givenIngredientToBuy_WhenChestEmpty_ThenForbiddenException() throws EntityNotFoundException, ForbiddenException{
         Ingredient ingredient1=new Ingredient();
-        ingredient1.setIdIngredient(1);
+        ingredient1.setId(1);
         Ingredient ingredient4=new Ingredient();
-        ingredient4.setIdIngredient(4);
+        ingredient4.setId(4);
 
         ingredient1.setBuyingPrice(10);
         ingredient1.setLevel(1);
@@ -142,9 +142,9 @@ public class ShopServiceTest {
     @Test
     public void givenIngredientToBuy_WhenManagerEmpty_ThenEntityNotFoundException() throws EntityNotFoundException, ForbiddenException{
         Ingredient ingredient1=new Ingredient();
-        ingredient1.setIdIngredient(1);
+        ingredient1.setId(1);
         Ingredient ingredient4=new Ingredient();
-        ingredient4.setIdIngredient(4);
+        ingredient4.setId(4);
 
         ingredient1.setBuyingPrice(10);
         ingredient1.setLevel(1);
@@ -173,9 +173,9 @@ public class ShopServiceTest {
     @Test
     public void givenIngredientToBuy_WhenIngredientEmpty_ThenEntityNotFoundException() throws EntityNotFoundException, ForbiddenException{
         Ingredient ingredient1=new Ingredient();
-        ingredient1.setIdIngredient(1);
+        ingredient1.setId(1);
         Ingredient ingredient4=new Ingredient();
-        ingredient4.setIdIngredient(4);
+        ingredient4.setId(4);
 
         ingredient1.setBuyingPrice(10);
         ingredient1.setLevel(1);
@@ -205,7 +205,7 @@ public class ShopServiceTest {
     @Test
     public void givenIngredientToSell_WhenAllCondition_ThenSuccess() throws EntityNotFoundException, ForbiddenException{
         Ingredient ingredient1=new Ingredient();
-        ingredient1.setIdIngredient(1);
+        ingredient1.setId(1);
 
 
         ingredient1.setBuyingPrice(10);
@@ -240,7 +240,7 @@ public class ShopServiceTest {
     @Test
     public void givenIngredientToSell_WhenTooHightLevel_ThenForbiddenException() throws EntityNotFoundException, ForbiddenException{
         Ingredient ingredient1=new Ingredient();
-        ingredient1.setIdIngredient(1);
+        ingredient1.setId(1);
 
 
         ingredient1.setBuyingPrice(10);
@@ -268,7 +268,7 @@ public class ShopServiceTest {
     @Test
     public void givenIngredientToSell_WhenIngredientEmpty_ThenEntityNotFoundException() throws EntityNotFoundException, ForbiddenException{
         Ingredient ingredient1=new Ingredient();
-        ingredient1.setIdIngredient(1);
+        ingredient1.setId(1);
 
 
         ingredient1.setBuyingPrice(10);
@@ -296,7 +296,7 @@ public class ShopServiceTest {
     @Test
     public void givenIngredientToSell_WhenManagerEmpty_ThenEntityNotFoundException() throws EntityNotFoundException, ForbiddenException{
         Ingredient ingredient1=new Ingredient();
-        ingredient1.setIdIngredient(1);
+        ingredient1.setId(1);
 
 
         ingredient1.setBuyingPrice(10);
@@ -324,7 +324,7 @@ public class ShopServiceTest {
     @Test
     public void givenIngredientToSell_WhenManagerNotGetIngredient_ThenForbiddenException() throws EntityNotFoundException, ForbiddenException{
         Ingredient ingredient1=new Ingredient();
-        ingredient1.setIdIngredient(1);
+        ingredient1.setId(1);
 
 
         ingredient1.setBuyingPrice(10);
@@ -351,7 +351,7 @@ public class ShopServiceTest {
     @Test
     public void givenIngredientToSell_WhenManagerGetOneIngredient_ThenInventoryEmpty() throws EntityNotFoundException, ForbiddenException{
         Ingredient ingredient1=new Ingredient();
-        ingredient1.setIdIngredient(1);
+        ingredient1.setId(1);
 
 
         ingredient1.setBuyingPrice(10);

@@ -2,6 +2,7 @@ package aaa.tavern.DAO;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,13 +35,21 @@ public class RecipeRepositoryTest {
     
     }
 
-    //@Test
-    //@Sql("givenRecipeLevel2AndById1_WhenFindWithLevelAndIdRecipe_ThenNotReturnRecipe.sql")
-    //public void givenRecipeLevel2AndById1_WhenFindWithLevelAndIdRecipe_ThenNotReturnRecipe(){
-    //    Optional<Recipe> optRecipe2= recipeRepository.findByidAndByLevelLessThanEqual(2,1);
-    //    assertFalse(optRecipe2.isPresent());
-    //
-    //}
+    @Test
+    @Sql("givenRecipeLevel2AndById1_WhenFindWithLevelAndIdRecipe_ThenNotReturnRecipe.sql")
+    public void givenRecipeLevel2AndById1_WhenFindWithLevelAndIdRecipe_ThenNotReturnRecipe(){
+       Optional<Recipe> optRecipe2= recipeRepository.findByIdAndLevelLessThanEqual(2,1);
+       assertFalse(optRecipe2.isPresent());
+    
+    }
+
+    @Test
+    @Sql("givenRecipeLevel2AndById1_WhenFindWithLevelAndIdRecipe_ThenReturnOneRecipe.sql")
+    public void givenRecipeLevel2AndById1_WhenFindWithLevelAndIdRecipe_ThenReturnOneRecipe(){
+       Optional<Recipe> optRecipe2= recipeRepository.findByIdAndLevelLessThanEqual(2,5);
+       assertTrue(optRecipe2.isPresent());
+    
+    }
 }
 
 

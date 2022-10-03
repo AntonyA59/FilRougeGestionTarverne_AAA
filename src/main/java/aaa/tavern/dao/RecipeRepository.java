@@ -12,6 +12,5 @@ import aaa.tavern.Entity.Recipe;
 @Repository
 public interface RecipeRepository extends CrudRepository<Recipe, Integer> {
    List<Recipe> findByLevelLessThanEqual(Integer level); 
-   //TODO A VOIR POUR UN FIND PAR ID ET LEVEL
-   //Optional<Recipe> findByidAndByLevelLessThanEqual(Integer id ,Integer level); 
+   Optional<Recipe> findByIdAndLevelLessThanEqual(Integer id ,Integer level); 
 }

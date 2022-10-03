@@ -55,7 +55,7 @@ public class CustomerManagementControllerTest {
         SubCategory subCategory= new SubCategory();
         subCategory.setIdSubCategory(1);
         Recipe recipe = new Recipe("test", Integer.valueOf(1), Integer.valueOf(1), Long.valueOf(1l), Long.valueOf(1l), new Date(1664488800l), Integer.valueOf(1), subCategory, new ArrayList<RecipeIngredient>());
-        recipe.setIdRecipe(1);
+        recipe.setId(1);
         RecipeDto recipeDto = new RecipeDto(recipe);
 
         Mockito.when(customerManagementService.getNewRecipe(1)).thenReturn(recipeDto);
@@ -94,7 +94,7 @@ public class CustomerManagementControllerTest {
         SubCategory subCategory= new SubCategory();
         subCategory.setIdSubCategory(1);
         Recipe recipe = new Recipe("test", Integer.valueOf(1), Integer.valueOf(1), Long.valueOf(1l), Long.valueOf(1l), new Date(1664488800l), Integer.valueOf(1), subCategory, new ArrayList<RecipeIngredient>());
-        recipe.setIdRecipe(1);
+        recipe.setId(1);
         RecipeDto recipeDto = new RecipeDto(recipe);
 
         Mockito.when(customerManagementService.getNewRecipe(1)).thenReturn(recipeDto);

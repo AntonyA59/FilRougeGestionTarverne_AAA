@@ -60,7 +60,7 @@ public class CustomerDto {
         this.tableRest = customer.getTableRest().getTableId();
         this.consommationStart=customer.getConsommationStart();
         for(RecipeCustomer recipeCustomer: customer.getCommandList()){
-            Integer recipeId= recipeCustomer.getRecipe().getIdRecipe();
+            Integer recipeId= recipeCustomer.getRecipe().getId();
             this.commandList.add(recipeId);
         }
         

@@ -65,7 +65,7 @@ public class CustomerManagementService {
         List<Recipe> listRecipe= recipeRepository.findByLevelLessThanEqual(manager.getLevel());
         Map<Integer,Recipe>mapRecipe = new HashMap<Integer,Recipe>();
         
-        listRecipe.forEach(element->mapRecipe.put(element.getIdRecipe(), element));
+        listRecipe.forEach(element->mapRecipe.put(element.getId(), element));
         
         Object[] values= mapRecipe.values().toArray();
         int index= randomService.getRandomInt(values.length);
