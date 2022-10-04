@@ -8,8 +8,8 @@ import aaa.tavern.entity.Recipe;
 import aaa.tavern.entity.RecipeIngredient;
 
 public class RecipeDto {
-    private Integer id ;
-    private String name ;
+	private Integer id;
+	private String name;
 	private Integer sellingPrice;
 	private Integer level;
 	private Long consommationTime;
@@ -17,7 +17,7 @@ public class RecipeDto {
 	private Date peremptionDate;
 	private Integer expGiven;
 	private Integer subCategory;
-	private HashMap<Integer,Integer> tabIngredientsForRecipe=new HashMap<Integer,Integer>();
+	private HashMap<Integer, Integer> tabIngredientsForRecipe = new HashMap<Integer, Integer>();
 
     
     public RecipeDto(Recipe recipe){
@@ -37,48 +37,45 @@ public class RecipeDto {
         }
     }
 
-    /**
+	/**
 	 * Deux RecipeDto sont les mêmes si ils ont le même identifiant.
 	 */
 	@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
 
-        if (o == null || getClass() != o.getClass())
-            return false;
+		if (o == null || getClass() != o.getClass())
+			return false;
 
-        RecipeDto that = (RecipeDto) o;
-        return Objects.equals(id, that.id);
-    }
+		RecipeDto that = (RecipeDto) o;
+		return Objects.equals(id, that.id);
+	}
 
 	/**
 	 * L'identifiant définit le hash.
 	 */
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
+	@Override
+	public int hashCode() {
+		return id.hashCode();
+	}
 
 //#region
-    public Integer getId() {
-        return id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
+	public String getName() {
+		return name;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public Integer getSellingPrice() {
+		return sellingPrice;
+	}
 
-
-    public Integer getSellingPrice() {
-        return sellingPrice;
-    }
-
-
-    public Integer getLevel() {
-        return level;
-    }
-
+	public Integer getLevel() {
+		return level;
+	}
 
     public Long getConsommationTime() {
         return consommationTime;

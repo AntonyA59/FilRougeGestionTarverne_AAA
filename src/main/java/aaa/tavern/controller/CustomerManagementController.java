@@ -15,13 +15,6 @@ import aaa.tavern.dto.RecipeDto;
 import aaa.tavern.exception.ForbiddenException;
 import aaa.tavern.service.CustomerManagementService;
 
-/**
- * creer un customer           0
- * assigner table              0
- * creer la recette            0
- * servire la recette		   0
- * recolter l'argent           0
- */
 
 @RestController
 public class CustomerManagementController {

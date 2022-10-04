@@ -178,7 +178,7 @@ public class CustomerManagementControllerTest {
         
         String jsonStr="""
             {
-                "idCustomer": 1 ,
+                "id": 1 ,
                     "purseOfGold":1,
                     "happiness": 1.0,
                     "hunger":1.0,

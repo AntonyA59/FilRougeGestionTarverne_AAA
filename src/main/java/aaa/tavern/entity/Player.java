@@ -31,9 +31,11 @@ public class Player {
 
 	@Column(name = "password")
 	private String password;
-
+	
 	@Column(name = "enabled")
 	private boolean enabled;
+
+
 
 
 	@ManyToMany(fetch = FetchType.EAGER)

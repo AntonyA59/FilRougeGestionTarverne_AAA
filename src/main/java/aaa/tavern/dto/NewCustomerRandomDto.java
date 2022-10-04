@@ -1,19 +1,17 @@
 package aaa.tavern.dto;
 
 import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 import aaa.tavern.entity.Customer;
 import aaa.tavern.entity.RecipeCustomer;
+import aaa.tavern.entity.TableRest;
 
 
-public class CustomerDto {
+//a voir avec loic si on fait un dto puis .save dans un dao ou faire dans l'entity
+public class NewCustomerRandomDto {
 
-	private Integer id;
-	
     private Integer purseOfGold;
 
     private Float happiness;
@@ -38,14 +36,11 @@ public class CustomerDto {
 
     private Integer expGiven;
 
-    private Integer tableRest;
+    private TableRest tableRest;
 
-    private Timestamp consommationStart;
+    private Set<RecipeCustomer> commandList=new HashSet<RecipeCustomer>();
 
-    private Set<Integer> commandList=new HashSet<Integer>();
-
-    public CustomerDto(Customer customer) {
-    	this.id = customer.getIdCustomer();
+    public NewCustomerRandomDto(Customer customer) {
         this.purseOfGold = customer.getPurseOfGold();
         this.happiness = customer.getHappiness();
         this.hunger = customer.getHunger();
@@ -58,36 +53,10 @@ public class CustomerDto {
         this.alcoholTolerance = customer.getAlcoholTolerance();
         this.gender = customer.getGender();
         this.expGiven = 0;
-        this.tableRest = customer.getTableRest().getIdTable();
-        this.consommationStart=customer.getConsommationStart();
-        for(RecipeCustomer recipeCustomer: customer.getCommandList()){
-            Integer recipeId= recipeCustomer.getRecipe().getId();
-            this.commandList.add(recipeId);
-        }
-        
+        this.tableRest = customer.getTableRest();
     }
-    
-    
-    @Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
 
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		CustomerDto other = (CustomerDto) obj;
-		return Objects.equals(id, other.id);
-	}
-
-
-	//#region
+    //#region
     public Integer getPurseOfGold() {
         return purseOfGold;
     }
@@ -136,21 +105,12 @@ public class CustomerDto {
         return expGiven;
     }
 
-    public Integer getTableRest() {
+    public TableRest getTableRest() {
         return tableRest;
     }
 
-    public Set<Integer> getCommandList() {
+    public Set<RecipeCustomer> getCommandList() {
         return commandList;
     }
-
-    public Timestamp getConsommationStart() {
-        return consommationStart;
-    }
-
-	public Integer getId() {
-		return id;
-	} 
-    
     //#endregion 
 }

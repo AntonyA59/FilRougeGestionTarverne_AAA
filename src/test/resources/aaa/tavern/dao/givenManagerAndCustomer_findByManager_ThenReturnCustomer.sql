@@ -1,5 +1,5 @@
-INSERT INTO player (id, email, nickname, password,enabled)
-VALUES (1, 'Test@test.com', 'test1', 'azerty',true);
+INSERT INTO player (id, email, nickname, password, enabled)
+VALUES (1, 'Test@test.com', 'test1', 'azerty', 1);
 
 INSERT INTO manager (id, name, reputation, chest, level, experience, player_id)
 VALUES 

@@ -14,61 +14,113 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import aaa.tavern.dao.InventoryIngredientRepository;
 import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dao.PlayerRepository;
+import aaa.tavern.dto.InventoryManagerIngredientDto;
 import aaa.tavern.dto.ManagerDto;
+import aaa.tavern.entity.Ingredient;
+import aaa.tavern.entity.InventoryIngredient;
 import aaa.tavern.entity.Manager;
 import aaa.tavern.entity.Player;
-
-
-
+import aaa.tavern.entity.SubCategory;
 
 @SpringBootTest
 public class ManagerServiceTest {
 
+	@MockBean
+	private PlayerRepository playerRepository;
 
-    @MockBean
-    private PlayerRepository playerRepository;
+	@MockBean
+	private ManagerRepository managerRepository;
 
-    @MockBean
-    private ManagerRepository managerRepository;
+	@MockBean
+	private InventoryIngredientRepository inventoryIngredientRepository;
 
-    @Autowired
-    private ManagerService managerService;
+	@Autowired
+	private ManagerService managerService;
 
+	@Test
+	public void whenCreateManager_thenSaveOnDatabase() {
+		Manager manager = new Manager();
 
-    @Test
-    public void createManager() {
-        Manager manager = Mockito.mock(Manager.class);
-        Player player = Mockito.mock(Player.class);
-        manager = managerService.createManager("test", player);
-        Mockito.verify(managerRepository).save(manager);
-    }
+		Player player = Mockito.mock(Player.class);
 
-    @Test
-    public void deleteManager() {
-        Manager manager = Mockito.mock(Manager.class);
-        Mockito.when(managerRepository.findById(0)).thenReturn(Optional.of(manager));
-        managerService.deleteManager(manager);
-        
-        Mockito.verify(managerRepository).delete(manager);
-    }
+		Mockito.when(playerRepository.findById(0)).thenReturn(Optional.of(player));
+		manager.setPlayer(player);
+		ManagerDto managerDto = new ManagerDto(manager);
+		managerService.createManager(managerDto, 0);
 
-    @Test
-    public void listExistingManagerDto(){
-        Player player = new Player();
-        Manager manager1 = new Manager("Test1", 10, 20, 20, 20, player);
-        Manager manager2 = new Manager("Test2", 10, 20, 20, 20, player);
-        Manager manager3 = new Manager("Test3", 10, 20, 20, 20, player);
-        List<Manager> managers = new ArrayList<Manager>();
-        managers.add(manager1);
-        managers.add(manager2);
-        managers.add(manager3);
-        Mockito.when(managerRepository.findByPlayer(player)).thenReturn(managers);
-        List<ManagerDto> managerDtos = managerService.listExistingManagerDto(player) ;
-        
-        assertEquals(managerDtos.size(), 3);
-    }
+		Mockito.verify(managerRepository).save(manager);
 
-    
+	}
+
+	@Test
+	public void deleteManager() {
+		Manager manager = Mockito.mock(Manager.class);
+		Mockito.when(managerRepository.findById(0)).thenReturn(Optional.of(manager));
+		managerService.deleteManager(0);
+
+		Mockito.verify(managerRepository).delete(manager);
+	}
+
+	@Test
+	public void listExistingManagerDto() {
+		Player player = Mockito.mock(Player.class);
+		Mockito.when(playerRepository.findById(1)).thenReturn(Optional.of(player));
+		Manager manager1 = new Manager("Test1", 10, 20, 20, 20, player);
+		Manager manager2 = new Manager("Test2", 10, 20, 20, 20, player);
+		Manager manager3 = new Manager("Test3", 10, 20, 20, 20, player);
+		List<Manager> managers = new ArrayList<Manager>();
+		managers.add(manager1);
+		managers.add(manager2);
+		managers.add(manager3);
+		Mockito.when(managerRepository.findByPlayer(player)).thenReturn(managers);
+
+		List<ManagerDto> listManagerDtos = new ArrayList<ManagerDto>();
+		ManagerDto managerDto1 = new ManagerDto(manager1);
+		ManagerDto managerDto2 = new ManagerDto(manager2);
+		ManagerDto managerDto3 = new ManagerDto(manager3);
+		listManagerDtos.add(managerDto1);
+		listManagerDtos.add(managerDto2);
+		listManagerDtos.add(managerDto3);
+
+		List<ManagerDto> listManagerDtos2 = managerService.listExistingManagerDto(1);
+
+		assertEquals(listManagerDtos, listManagerDtos2);
+	}
+
+	
+	@Test
+	public void givenInventoryIngredient_whenFindByManager_thenReturnListInventoryManagerIngredientDto() {
+		Manager manager = new Manager();
+		SubCategory subCategory = new SubCategory();
+		subCategory.setIdSubCategory(1);
+		Mockito.when(managerRepository.findById(0)).thenReturn(Optional.of(manager));
+
+		List<InventoryIngredient> listInventoryIngredient = new ArrayList<InventoryIngredient>();
+
+		for (int i = 0; i < 5; i++) {
+			Ingredient ingredient = new Ingredient(i + 1, "ingrédientTest " + (i + 1), i + 1, 20, subCategory);
+
+			InventoryIngredient inventoryIngredient = new InventoryIngredient(manager, ingredient, 3);
+			listInventoryIngredient.add(inventoryIngredient);
+		}
+
+		Mockito.when(inventoryIngredientRepository.findByManager(manager)).thenReturn(listInventoryIngredient);
+
+		List<InventoryManagerIngredientDto> listInventoryManagerIngredientDto = new ArrayList<InventoryManagerIngredientDto>();
+
+		for (InventoryIngredient inventoryIngredient : listInventoryIngredient) {
+			InventoryManagerIngredientDto inventoryManagerIngredientDto = new InventoryManagerIngredientDto(
+					inventoryIngredient.getIngredient(), inventoryIngredient.getQuantity());
+			listInventoryManagerIngredientDto.add(inventoryManagerIngredientDto);
+		}
+
+		List<InventoryManagerIngredientDto> listInventoryManagerIngredientDto2 = managerService
+				.loadInventoryIngredientsByManager(0);
+
+		assertEquals(listInventoryManagerIngredientDto, listInventoryManagerIngredientDto2);
+	}
+
 }

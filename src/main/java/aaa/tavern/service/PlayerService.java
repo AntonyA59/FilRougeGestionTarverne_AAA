@@ -17,21 +17,20 @@ import aaa.tavern.dto.PlayerDto;
 import aaa.tavern.entity.Player;
 import aaa.tavern.entity.Role;
 
-
 @Service
 public class PlayerService {
-    @Autowired 
-    private PlayerRepository userRepository;
+    @Autowired
+    private PlayerRepository playerRepository;
 
-    @Autowired 
-    private RoleRepository roleRepository ;
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    //retourne l'id du player créer
+    // retourne l'id du player créer
     public Player createPlayer(PlayerDto playerDto) {
-        try{
+        //TODO avoir avec Adrien
             Role playerRole = roleRepository.findByName("USER").get() ;
             List<Role> roles = new ArrayList<Role>();
             roles.add(playerRole);
@@ -42,37 +41,34 @@ public class PlayerService {
                 true,
                 roles
                 ) ;
-            return userRepository.save(newPlayer) ;
-        }catch(DataAccessException e){
-            throw e ;
-        }
+            return playerRepository.save(newPlayer) ;
     }
 
-    public boolean deletePlayer(int idPlayer){
-        try{
-            userRepository.deleteById(idPlayer);
-            return true ;
-        }catch(DataAccessException e){
-            return false ;
+    public boolean deletePlayer(int idPlayer) {
+        try {
+            playerRepository.deleteById(idPlayer);
+            return true;
+        } catch (DataAccessException e) {
+            return false;
         }
     }
 
     public int Connexion(PlayerDto userDto) throws EntityNotFoundException {
-        try{
-            Optional<Player> user = userRepository.findByEmail(userDto.getEmail()) ;
+        try {
+            Optional<Player> user = playerRepository.findByEmail(userDto.getEmail());
 
-            if(!user.isEmpty())
-			    throw new EntityNotFoundException();
+            if (!user.isEmpty())
+                throw new EntityNotFoundException();
 
-            if(user.get().getPassword().equals(userDto.getPassword())){
-                
-            }else{
+            if (user.get().getPassword().equals(userDto.getPassword())) {
+
+            } else {
                 // password invalid
             }
 
-            return 0 ;
-        }catch(DataAccessException e){
-            throw e ;
+            return 0;
+        } catch (DataAccessException e) {
+            throw e;
         }
     }
 }

@@ -15,30 +15,30 @@ import aaa.tavern.entity.RecipeIngredient;
 
 @DataJpaTest
 public class RecipeIngredientRepositoryTest {
-    @Autowired
-    private RecipeIngredientRepository recipeIngredientRepository;
-    
-    //test
-    @Autowired
-    private RecipeRepository recipeRepository;
+	@Autowired
+	private RecipeIngredientRepository recipeIngredientRepository;
 
-    @Test
-    @Sql("givenIngredientInRecipe_WhenFindWithIdRecipe_ThenNotReturnIngredient.sql")
-    public void givenIngredientInRecipe_WhenFindWithIdRecipe_ThenNotReturnIngredient(){
-        Optional<Recipe> optRecipe= recipeRepository.findById(3);
-        Recipe recipe=optRecipe.get();
-        List<RecipeIngredient> listRecipeIngredient= recipeIngredientRepository.findByRecipe(recipe);
-        
-        assertEquals(0, listRecipeIngredient.size());
-    } 
+	// test
+	@Autowired
+	private RecipeRepository recipeRepository;
 
-    @Test
-    @Sql("givenIngredientInRecipe_WhenFindWithIdRecipe_ThenReturnTwoIngredient.sql")
-    public void givenIngredientInRecipe_WhenFindWithIdRecipe_ThenReturnTwoIngredient(){
-        Optional<Recipe> optRecipe= recipeRepository.findById(1);
-        Recipe recipe=optRecipe.get();
-        List<RecipeIngredient> listRecipeIngredient= recipeIngredientRepository.findByRecipe(recipe);
-        
-        assertEquals(2, listRecipeIngredient.size());
-    } 
+	@Test
+	@Sql("givenIngredientInRecipe_WhenFindWithIdRecipe_ThenNotReturnIngredient.sql")
+	public void givenIngredientInRecipe_WhenFindWithIdRecipe_ThenNotReturnIngredient() {
+		Optional<Recipe> optRecipe = recipeRepository.findById(3);
+		Recipe recipe = optRecipe.get();
+		List<RecipeIngredient> listRecipeIngredient = recipeIngredientRepository.findByRecipe(recipe);
+
+		assertEquals(0, listRecipeIngredient.size());
+	}
+
+	@Test
+	@Sql("givenIngredientInRecipe_WhenFindWithIdRecipe_ThenReturnTwoIngredient.sql")
+	public void givenIngredientInRecipe_WhenFindWithIdRecipe_ThenReturnTwoIngredient() {
+		Optional<Recipe> optRecipe = recipeRepository.findById(1);
+		Recipe recipe = optRecipe.get();
+		List<RecipeIngredient> listRecipeIngredient = recipeIngredientRepository.findByRecipe(recipe);
+
+		assertEquals(2, listRecipeIngredient.size());
+	}
 }

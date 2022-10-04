@@ -28,19 +28,18 @@ import aaa.tavern.entity.Recipe;
 import aaa.tavern.entity.RecipeIngredient;
 import aaa.tavern.entity.SubCategory;
 import aaa.tavern.entity.TableRest;
-import aaa.tavern.service.CustomerManagementService;
 
 //whenassertThrow 
 @SpringBootTest
 public class CustomerManagementServiceTest {
-    @MockBean
-    private CustomerRepository customerRepository;
+	@MockBean
+	private CustomerRepository customerRepository;
 
-    @MockBean
-    private TableRestRepository tableRestRepository;
+	@MockBean
+	private TableRestRepository tableRestRepository;
 
-    @Autowired
-    private CustomerManagementService customerManagementService;
+	@Autowired
+	private CustomerManagementService customerManagementService;
 
     @MockBean
     private RecipeRepository recipeRepository;
@@ -61,53 +60,41 @@ public class CustomerManagementServiceTest {
         Optional<TableRest> optTableRest= Optional.of(tableRest);
         Mockito.when(tableRestRepository.findById(1)).thenReturn(optTableRest);
 
-        customerManagementService.assignNewTable(1, 1);
+		customerManagementService.assignNewTable(1, 1);
 
-        Mockito.verify(tableRestRepository).save(ArgumentMatchers.argThat(tableRest2->tableRest2.getNumberPlace()==4));
-    }
+		Mockito.verify(tableRestRepository)
+				.save(ArgumentMatchers.argThat(tableRest2 -> tableRest2.getNumberPlace() == 4));
+	}
 
-    @Test
-    public void modifedCustomerTableIdWithAssignNewTable(){
-        Customer customer= new Customer();
-        Optional<Customer> optCustomer= Optional.of(customer);
-        Mockito.when(customerRepository.findById(1)).thenReturn(optCustomer);
-        
-        TableRest tableRest= new TableRest();
-        tableRest.setNumberPlace(5);
-        tableRest.setIdTable(1);
-        Optional<TableRest> optTableRest= Optional.of(tableRest);
-        Mockito.when(tableRestRepository.findById(1)).thenReturn(optTableRest);
+	@Test
+	public void modifedCustomerTableIdWithAssignNewTable() {
+		Customer customer = new Customer();
+		Optional<Customer> optCustomer = Optional.of(customer);
+		Mockito.when(customerRepository.findById(1)).thenReturn(optCustomer);
 
-        customerManagementService.assignNewTable(1, 1);
+		TableRest tableRest = new TableRest();
+		tableRest.setNumberPlace(5);
+		tableRest.setIdTable(1);
+		Optional<TableRest> optTableRest = Optional.of(tableRest);
+		Mockito.when(tableRestRepository.findById(1)).thenReturn(optTableRest);
 
-        //à voir avec Loic
-        Mockito.verify(customerRepository).save(ArgumentMatchers.argThat(customer2->customer2.getTableRest().getIdTable()==1));
-    }
+		customerManagementService.assignNewTable(1, 1);
 
-    @Test
-    public void returnEntityNotFoundExceptionInCustomerWithAssignNewTable(){
-        Optional<Customer> optCustomer= Optional.empty();
-        Mockito.when(customerRepository.findById(1)).thenReturn(optCustomer);
-        
-        TableRest tableRest= new TableRest();
-        tableRest.setNumberPlace(5);
-        Optional<TableRest> optTableRest= Optional.of(tableRest);
-        Mockito.when(tableRestRepository.findById(1)).thenReturn(optTableRest);
+		Mockito.verify(customerRepository)
+				.save(ArgumentMatchers.argThat(customer2 -> customer2.getTableRest().getIdTable() == 1));
+	}
 
-        assertThrows(EntityNotFoundException.class, ()-> customerManagementService.assignNewTable(1, 1));
-    }
+	@Test
+	public void returnEntityNotFoundExceptionInCustomerWithAssignNewTable() {
+		Optional<Customer> optCustomer = Optional.empty();
+		Mockito.when(customerRepository.findById(1)).thenReturn(optCustomer);
 
-    @Test
-    public void returnEntityNotFoundExceptionInTableWithAssignNewTable(){
-        Customer customer= new Customer();
-        Optional<Customer> optCustomer= Optional.of(customer);
-        Mockito.when(customerRepository.findById(1)).thenReturn(optCustomer);
-        
-        Optional<TableRest> optTableRest= Optional.empty();
-        Mockito.when(tableRestRepository.findById(1)).thenReturn(optTableRest);
-
-        assertThrows(EntityNotFoundException.class, ()-> customerManagementService.assignNewTable(1, 1));
-    }
+		TableRest tableRest = new TableRest();
+		tableRest.setNumberPlace(5);
+		Optional<TableRest> optTableRest = Optional.of(tableRest);
+		Mockito.when(tableRestRepository.findById(1)).thenReturn(optTableRest);
+		assertThrows(EntityNotFoundException.class, ()-> customerManagementService.assignNewTable(1, 1));
+	}
 
     @Test
     public void verifyReturnNewRecipeRandom(){

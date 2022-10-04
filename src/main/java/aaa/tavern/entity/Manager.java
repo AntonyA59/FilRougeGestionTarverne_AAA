@@ -64,6 +64,7 @@ public class Manager {
   
     }
     
+    
     public Manager(
     String name, 
     Integer reputation, 

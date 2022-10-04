@@ -16,7 +16,10 @@ import javax.persistence.Table;
 @Table(name = "manager_customer")
 public class ManagerCustomer implements Serializable{
     
-    @EmbeddedId
+ 
+	private static final long serialVersionUID = 6590933195588818011L;
+
+	@EmbeddedId
     private ManagerCustomerKey id = new ManagerCustomerKey();
 
     @ManyToOne
@@ -34,7 +37,9 @@ public class ManagerCustomer implements Serializable{
         this.customer=newCustomer;
     }
 
-    public ManagerCustomer(){}
+    public ManagerCustomer(){
+    	
+    }
     /**
 	 * Deux ManagerCustomer sont les mêmes si ils ont le même identifiant.
 	 */

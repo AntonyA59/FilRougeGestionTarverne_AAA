@@ -2,6 +2,7 @@ package aaa.tavern.dto;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import aaa.tavern.entity.InventoryIngredient;
 import aaa.tavern.entity.Manager;
@@ -48,7 +49,24 @@ public class ManagerDto {
 
 
     
-    //#region get
+    @Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ManagerDto other = (ManagerDto) obj;
+		return Objects.equals(id, other.id);
+	}
+
+	//#region get
     public Integer getId() {
         return id;
     }
