@@ -1,4 +1,4 @@
-package aaa.tavern.Controller;
+package aaa.tavern.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doNothing;
@@ -19,7 +19,7 @@ import aaa.tavern.exception.ForbiddenException;
 import aaa.tavern.service.RecipeService;
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 public class RecipeControllerTest {
     @Autowired
     private MockMvc mockMvc;

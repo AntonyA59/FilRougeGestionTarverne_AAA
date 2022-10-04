@@ -1,4 +1,4 @@
-package aaa.tavern.Controller;
+package aaa.tavern.controller;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -38,7 +38,7 @@ import aaa.tavern.exception.ForbiddenException;
 import aaa.tavern.service.CustomerManagementService;
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 public class CustomerManagementControllerTest {
     @Autowired
     private MockMvc mockMvc;

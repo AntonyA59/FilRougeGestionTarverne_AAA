@@ -23,6 +23,7 @@ import aaa.tavern.dao.RecipeRepository;
 import aaa.tavern.dao.TableRestRepository;
 import aaa.tavern.dto.RecipeDto;
 import aaa.tavern.entity.Customer;
+import aaa.tavern.entity.Manager;
 import aaa.tavern.entity.Recipe;
 import aaa.tavern.entity.RecipeIngredient;
 import aaa.tavern.entity.SubCategory;

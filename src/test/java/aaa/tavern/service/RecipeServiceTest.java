@@ -64,10 +64,11 @@ public class RecipeServiceTest {
 
         recipe.setTabIngredientsForRecipe(tabIngredients);
         Optional<Recipe> optRecipe= Optional.of(recipe);
-        Mockito.when(recipeRepository.findById(1)).thenReturn(optRecipe);
+        Mockito.when(recipeRepository.findByIdAndLevelLessThanEqual(1,1)).thenReturn(optRecipe);
         
         //init manager
         Manager manager2 =new Manager();
+        manager2.setLevel(1);
         Map<Ingredient,Integer> ingredientQuantity=new HashMap<Ingredient,Integer>();
         ingredientQuantity.put(ingredient1, 3);
         ingredientQuantity.put(ingredient2, 3);
@@ -91,10 +92,11 @@ public class RecipeServiceTest {
         //init recipe
         
         Optional<Recipe> optRecipe= Optional.empty();
-        Mockito.when(recipeRepository.findById(1)).thenReturn(optRecipe);
+        Mockito.when(recipeRepository.findByIdAndLevelLessThanEqual(1,1)).thenReturn(optRecipe);
         
         //init manager
         Manager manager2 =new Manager();
+        manager2.setLevel(1);
         Ingredient ingredient1=new Ingredient(1,"test1");
         Ingredient ingredient2=new Ingredient(2,"test2");
         Ingredient ingredient3=new Ingredient(3,"test3");
@@ -111,7 +113,7 @@ public class RecipeServiceTest {
         Optional<Customer> optCustomer= Optional.of(customer);        
         Mockito.when(customerRepository.findById(1)).thenReturn(optCustomer);
         
-        assertThrows(EntityNotFoundException.class, ()->recipeService.prepareRecipe(1, 1, 1));
+        assertThrows(ForbiddenException.class, ()->recipeService.prepareRecipe(1, 1, 1));
     }
 
     @Test
