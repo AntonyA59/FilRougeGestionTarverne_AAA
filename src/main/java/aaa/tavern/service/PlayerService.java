@@ -2,9 +2,6 @@ package aaa.tavern.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -29,7 +26,7 @@ public class PlayerService {
     private PasswordEncoder passwordEncoder;
 
     // retourne l'id du player créer
-    public Player createPlayer(PlayerDto playerDto) {
+    public void createPlayer(PlayerDto playerDto) {
         //TODO avoir avec Adrien
             Role playerRole = roleRepository.findByName("USER").get() ;
             List<Role> roles = new ArrayList<Role>();
@@ -41,7 +38,7 @@ public class PlayerService {
                 true,
                 roles
                 ) ;
-            return playerRepository.save(newPlayer) ;
+            playerRepository.save(newPlayer);
     }
 
     public boolean deletePlayer(int idPlayer) {
@@ -52,6 +49,8 @@ public class PlayerService {
             return false;
         }
     }
+    /*
+    ////// Inutile avec Baeldung ///////
 
     public int Connexion(PlayerDto userDto) throws EntityNotFoundException {
         try {
@@ -71,4 +70,5 @@ public class PlayerService {
             throw e;
         }
     }
+    */
 }
