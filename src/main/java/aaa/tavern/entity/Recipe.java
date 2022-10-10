@@ -10,53 +10,53 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.sql.Date;
 
 @Entity
-@Table(name="recipe")
-public class Recipe{
+@Table(name = "recipe")
+public class Recipe {
 	@Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idRecipe;
 
-	@Column(name="name")
-    private String name;
+	@Column(name = "name")
+	private String name;
 
-	@Column(name="selling_price")
-    private Integer sellingPrice;
+	@Column(name = "selling_price")
+	private Integer sellingPrice;
 
-	@Column(name="level")
-    private Integer level ;
+	@Column(name = "level")
+	private Integer level;
 
-	@Column(name="consommation_time")
-    private Time consommationTime ;
+	@Column(name = "consommation_time")
+	private float consommationTime;
 
-	@Column(name="preparation_time")
-    private Time preparationTime ;
+	@Column(name = "preparation_time")
+	private float preparationTime;
 
-	@Column(name="peremption_date")
-    private Date peremptionDate;
+	@Column(name = "peremption_date")
+	private Date peremptionDate;
 
-	@Column(name="exp_given")
-    private Integer expGiven;
+	@Column(name = "exp_given")
+	private Integer expGiven;
 
 	@ManyToOne
-    @JoinColumn(name = "subcategory_id")
-    private SubCategory subCategory;
+	@JoinColumn(name = "subcategory_id")
+	private SubCategory subCategory;
 
 	@OneToMany(mappedBy = "recipe")
-	private List<RecipeIngredient> tabIngredientsForRecipe= new ArrayList<RecipeIngredient>();
+	private List<RecipeIngredient> tabIngredientsForRecipe = new ArrayList<RecipeIngredient>();
 
-	public Recipe() {}
+	public Recipe() {
+	}
 
-	public Recipe( String name, Integer sellingPrice, Integer level, Time consommationTime,
-	Time preparationTime, Date peremptionDate, Integer expGiven, SubCategory subCategory,ArrayList<RecipeIngredient> tabIngredientsForRecipe) {
+	public Recipe(String name, Integer sellingPrice, Integer level, float consommationTime,
+			float preparationTime, Date peremptionDate, Integer expGiven, SubCategory subCategory,
+			ArrayList<RecipeIngredient> tabIngredientsForRecipe) {
 		this.name = name;
 		this.sellingPrice = sellingPrice;
 		this.level = level;
@@ -65,32 +65,33 @@ public class Recipe{
 		this.peremptionDate = peremptionDate;
 		this.expGiven = expGiven;
 		this.subCategory = subCategory;
-		this.tabIngredientsForRecipe=tabIngredientsForRecipe;
+		this.tabIngredientsForRecipe = tabIngredientsForRecipe;
 	}
 
 	/**
 	 * Deux Recipe sont les mêmes si ils ont le même identifiant.
 	 */
 	@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
 
-        if (o == null || getClass() != o.getClass())
-            return false;
+		if (o == null || getClass() != o.getClass())
+			return false;
 
-        Recipe that = (Recipe) o;
-        return Objects.equals(idRecipe, that.idRecipe);
-    }
+		Recipe that = (Recipe) o;
+		return Objects.equals(idRecipe, that.idRecipe);
+	}
 
 	/**
 	 * L'identifiant définit le hash.
 	 */
-    @Override
-    public int hashCode() {
-        return idRecipe.hashCode();
-    }
+	@Override
+	public int hashCode() {
+		return idRecipe.hashCode();
+	}
 
-//#region get/set
+	// #region get/set
 
 	public String getName() {
 		return name;
@@ -132,19 +133,19 @@ public class Recipe{
 		this.sellingPrice = sellingPrice;
 	}
 
-	public Time getConsommationTime() {
+	public float getConsommationTime() {
 		return consommationTime;
 	}
 
-	public void setConsommationTime(Time consommationTime) {
+	public void setConsommationTime(float consommationTime) {
 		this.consommationTime = consommationTime;
 	}
 
-	public Time getPreparationTime() {
+	public float getPreparationTime() {
 		return preparationTime;
 	}
 
-	public void setPreparationTime(Time preparationTime) {
+	public void setPreparationTime(float preparationTime) {
 		this.preparationTime = preparationTime;
 	}
 
@@ -184,7 +185,6 @@ public class Recipe{
 		this.tabIngredientsForRecipe = tabIngredientsForRecipe;
 	}
 
-	
-//#endregion
+	// #endregion
 
 }

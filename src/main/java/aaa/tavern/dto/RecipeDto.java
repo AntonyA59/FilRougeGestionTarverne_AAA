@@ -1,7 +1,6 @@
 package aaa.tavern.dto;
 
 import java.sql.Date;
-import java.sql.Time;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -13,8 +12,8 @@ public class RecipeDto {
 	private String name;
 	private Integer sellingPrice;
 	private Integer level;
-	private Time consommationTime;
-	private Time preparationTime;
+	private float consommationTime;
+	private float preparationTime;
 	private Date peremptionDate;
 	private Integer expGiven;
 	private Integer subCategory;
@@ -60,7 +59,7 @@ public class RecipeDto {
 		return id.hashCode();
 	}
 
-//#region
+	// #region
 	public Integer getId() {
 		return id;
 	}
@@ -77,11 +76,11 @@ public class RecipeDto {
 		return level;
 	}
 
-	public Time getConsommationTime() {
+	public float getConsommationTime() {
 		return consommationTime;
 	}
 
-	public Time getPreparationTime() {
+	public float getPreparationTime() {
 		return preparationTime;
 	}
 
@@ -100,6 +99,6 @@ public class RecipeDto {
 	public HashMap<Integer, Integer> getTabIngredientsForRecipe() {
 		return tabIngredientsForRecipe;
 	}
-//#endregion 
+	// #endregion
 
 }

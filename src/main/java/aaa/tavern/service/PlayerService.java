@@ -30,18 +30,16 @@ public class PlayerService {
 
     // retourne l'id du player créer
     public Player createPlayer(PlayerDto playerDto) {
-        //TODO avoir avec Adrien
-            Role playerRole = roleRepository.findByName("USER").get() ;
-            List<Role> roles = new ArrayList<Role>();
-            roles.add(playerRole);
-            Player newPlayer = new Player(
-                playerDto.getEmail(), 
-                playerDto.getNickname(), 
+        Role playerRole = roleRepository.findByName("USER").get();
+        List<Role> roles = new ArrayList<Role>();
+        roles.add(playerRole);
+        Player newPlayer = new Player(
+                playerDto.getEmail(),
+                playerDto.getNickname(),
                 passwordEncoder.encode(playerDto.getPassword()),
                 true,
-                roles
-                ) ;
-            return playerRepository.save(newPlayer) ;
+                roles);
+        return playerRepository.save(newPlayer);
     }
 
     public boolean deletePlayer(int idPlayer) {

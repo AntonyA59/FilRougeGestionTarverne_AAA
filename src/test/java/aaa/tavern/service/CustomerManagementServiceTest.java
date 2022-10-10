@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Date;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -112,7 +111,7 @@ public class CustomerManagementServiceTest {
 		SubCategory subCategory = new SubCategory();
 		subCategory.setIdSubCategory(1);
 		ArrayList<RecipeIngredient> tabIngredientsForRecipe = new ArrayList<RecipeIngredient>();
-		Recipe recipe1 = new Recipe("recipe1", Integer.valueOf(1), Integer.valueOf(1), new Time(1l), new Time(1l),
+		Recipe recipe1 = new Recipe("recipe1", Integer.valueOf(1), Integer.valueOf(1), 1f, 1f,
 				new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
 		recipe1.setIdRecipe(1);
 		listTest.put(recipe1.getIdRecipe(), recipe1);
@@ -120,16 +119,16 @@ public class CustomerManagementServiceTest {
 		RecipeDto recipeDto1 = new RecipeDto(recipe1);
 		listTestDto.add(recipeDto1);
 
-		Recipe recipe2 = new Recipe("recipe2", Integer.valueOf(1), Integer.valueOf(1), new Time(1l), new Time(1l),
-				new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
+		Recipe recipe2 = new Recipe("recipe2", Integer.valueOf(1), Integer.valueOf(1), 1f, 1f,
+		new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
 		recipe2.setIdRecipe(2);
 		recipe2.setName("recipe2");
 		listTest.put(recipe2.getIdRecipe(), recipe2);
 		RecipeDto recipeDto2 = new RecipeDto(recipe2);
 		listTestDto.add(recipeDto2);
 
-		Recipe recipe3 = new Recipe("recipe3", Integer.valueOf(1), Integer.valueOf(1), new Time(1l), new Time(1l),
-				new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
+		Recipe recipe3 = new Recipe("recipe2", Integer.valueOf(1), Integer.valueOf(1), 1f, 1f,
+		new Date(1l), Integer.valueOf(1), subCategory, tabIngredientsForRecipe);
 		recipe3.setIdRecipe(3);
 		recipe3.setName("recipe3");
 		listTest.put(recipe3.getIdRecipe(), recipe3);

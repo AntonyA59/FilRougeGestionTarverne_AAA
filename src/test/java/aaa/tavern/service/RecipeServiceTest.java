@@ -3,7 +3,6 @@ package aaa.tavern.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.HashMap;
@@ -31,12 +30,9 @@ import aaa.tavern.entity.RecipeIngredient;
 import aaa.tavern.entity.SubCategory;
 import aaa.tavern.exception.ForbiddenException;
 
-
-
-
 @SpringBootTest
 public class RecipeServiceTest {
-    
+
     @Autowired
     private RecipeService recipeService;
 
@@ -48,7 +44,6 @@ public class RecipeServiceTest {
 
     @MockBean
     private CustomerRepository customerRepository;
-
 
     @Test
     public void requestRecipeSuccessful() throws EntityNotFoundException,ForbiddenException{
@@ -184,7 +179,6 @@ public class RecipeServiceTest {
         assertThrows(EntityNotFoundException.class, ()->recipeService.prepareRecipe(1, 1, 1));
     }
 
-
     @Test
     public void requestRecipeFailure(){
         //init recipe
@@ -221,7 +215,7 @@ public class RecipeServiceTest {
         
         assertThrows(ForbiddenException.class, ()->recipeService.prepareRecipe(1, 1, 1));
     }
-    
+
     @Test
     public void givenListRecipe_whenFindByLevelManager_thenReturnListRecipeDto() {
 		Manager manager = new Manager();
@@ -232,7 +226,7 @@ public class RecipeServiceTest {
 		
 		List<Recipe> listRecipe = new ArrayList<Recipe>();
 		for (int i = 0; i < 5; i++) {
-			Recipe recipe = new Recipe("test", 10, i+1, new Time(1l), new Time(1l), new Date(1l), 10, subCategory, new ArrayList<RecipeIngredient>());
+			Recipe recipe = new Recipe("test", 10, i+1, 1f, 1f, new Date(1l), 10, subCategory, new ArrayList<RecipeIngredient>());
 			listRecipe.add(recipe);
 		}
 		
