@@ -53,7 +53,7 @@ public class PlaceServiceTest {
             listPlaceDto.add(placeDto);
         }
 
-        List<PlaceDto> listPlaceDto2 = placeService.findPlaceByManagerId(0);
+        List<PlaceDto> listPlaceDto2 = placeService.loadPlaceByManagerId(0);
 
         assertEquals(listPlaceDto, listPlaceDto2);
     }

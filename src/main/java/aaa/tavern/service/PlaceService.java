@@ -30,7 +30,7 @@ public class PlaceService {
      * @param managerId
      * @return List<PlaceDto>
      */
-    public List<PlaceDto> findPlaceByManagerId(int managerId) {
+    public List<PlaceDto> loadPlaceByManagerId(int managerId) {
         Manager manager = ServiceUtil.getEntity(managerRepository, managerId);
 
         List<Place> listPlaces = placeRepository.findByManager(manager);

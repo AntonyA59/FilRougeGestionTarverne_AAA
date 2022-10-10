@@ -58,8 +58,7 @@ public class RecipeCustomerServiceTest {
             listRecipesDto.add(recipeDto);
         }
 
-
-        List<RecipeDto> listRecipesDto2 = recipeCustomerService.findRecipeByCustomer(1);
+        List<RecipeDto> listRecipesDto2 = recipeCustomerService.loadRecipeByCustomer(1);
 
         assertEquals(listRecipesDto, listRecipesDto2);
     }

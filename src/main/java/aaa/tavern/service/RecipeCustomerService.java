@@ -30,7 +30,7 @@ public class RecipeCustomerService {
      * @param customerId
      * @return List<RecipeDto>
      */
-    public List<RecipeDto> findRecipeByCustomer(int customerId) {
+    public List<RecipeDto> loadRecipeByCustomer(int customerId) {
         Customer customer = ServiceUtil.getEntity(customerRepository, customerId);
 
         List<RecipeCustomer> listRecipeCustomer = recipeCustomerRepository.findByCustomer(customer);

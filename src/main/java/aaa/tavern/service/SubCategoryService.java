@@ -17,21 +17,21 @@ public class SubCategoryService {
 
 	@Autowired
 	private SubCategoryRepository subCategoryRepository;
-	
+
 	public List<SubCategoryDto> loadAllSubCategory() {
-		
+
 		Iterable<SubCategory> iterableSubCategory = subCategoryRepository.findAll();
-		
-		if(!iterableSubCategory.iterator().hasNext()) {
+
+		if (!iterableSubCategory.iterator().hasNext()) {
 			throw new EntityNotFoundException();
 		}
-		
+
 		List<SubCategoryDto> listSubCategoryDto = new ArrayList<SubCategoryDto>();
 		for (SubCategory subCategory : iterableSubCategory) {
 			SubCategoryDto subCategoryDto = new SubCategoryDto(subCategory);
 			listSubCategoryDto.add(subCategoryDto);
 		}
-		
+
 		return listSubCategoryDto;
 	}
 }
