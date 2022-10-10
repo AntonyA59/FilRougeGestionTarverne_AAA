@@ -25,7 +25,7 @@ public class RecipeCustomerService {
     CustomerRepository customerRepository;
 
     /**
-     * Finds customer's recipes and convert to recipeDto and list them
+     * Return customer's recipesDto
      * 
      * @param customerId
      * @return List<RecipeDto>

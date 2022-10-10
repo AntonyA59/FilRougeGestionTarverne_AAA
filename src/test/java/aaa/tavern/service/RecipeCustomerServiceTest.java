@@ -35,7 +35,7 @@ public class RecipeCustomerServiceTest {
     CustomerRepository customerRepository;
 
     @Test
-    public void findRecipeByCustomer() {
+    public void givenCustomerAnd5Recipe_findRecipeByCustomer_thenReturnListRecipeDto() {
         Customer customer = new Customer();
         Mockito.when(customerRepository.findById(1)).thenReturn(Optional.of(customer));
         SubCategory subCategory = new SubCategory();
