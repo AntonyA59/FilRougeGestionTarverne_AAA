@@ -19,7 +19,7 @@ import aaa.tavern.service.ShopService;
 
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
-public class ShopControllerService {
+public class ShopControllerTest {
 
     @Autowired
 	private MockMvc mockMvc;

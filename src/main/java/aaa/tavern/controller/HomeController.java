@@ -13,7 +13,7 @@ public class HomeController {
     public ModelAndView getHome(Principal principal){
         ModelAndView mv = new ModelAndView("index");
 
-        mv.addObject("user", principal.getName()) ;
+        mv.addObject("playerMail", principal.getName()) ;
 
         return mv ;
     }

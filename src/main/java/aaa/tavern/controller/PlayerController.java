@@ -42,8 +42,7 @@ public class PlayerController {
 
     @GetMapping("/register")
     public String getForm(Model model){
-        model.addAttribute("user", model) ;
+        model.addAttribute("player", new PlayerDto("", "", "", "")) ;
         return "/register" ;
     }
-
 }

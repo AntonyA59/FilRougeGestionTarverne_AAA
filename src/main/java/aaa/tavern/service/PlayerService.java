@@ -25,19 +25,18 @@ public class PlayerService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // retourne l'id du player créer
     public void createPlayer(PlayerDto playerDto) {
-            Role playerRole = roleRepository.findByName("USER").get() ;
-            List<Role> roles = new ArrayList<Role>();
-            roles.add(playerRole);
-            Player newPlayer = new Player(
-                playerDto.getEmail(), 
-                playerDto.getNickname(), 
-                passwordEncoder.encode(playerDto.getPassword()),
-                true,
-                roles
-                ) ;
-            playerRepository.save(newPlayer);
+        Role playerRole = roleRepository.findByName("USER").get() ;
+        List<Role> roles = new ArrayList<Role>();
+        roles.add(playerRole);
+        Player newPlayer = new Player(
+            playerDto.getEmail(), 
+            playerDto.getNickname(), 
+            passwordEncoder.encode(playerDto.getPassword()),
+            true,
+            roles
+            ) ;
+        playerRepository.save(newPlayer);
     }
     // TODO méthodes de modification du Player sensible aux hacks
     public boolean changeNickname(int idPlayer, String nickname){
