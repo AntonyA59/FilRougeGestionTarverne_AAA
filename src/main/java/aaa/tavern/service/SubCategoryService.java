@@ -18,6 +18,11 @@ public class SubCategoryService {
 	@Autowired
 	private SubCategoryRepository subCategoryRepository;
 
+	/**
+	 * Load All SubCategory
+	 * 
+	 * @return List<SubCategoryDto>
+	 */
 	public List<SubCategoryDto> loadAllSubCategory() {
 
 		Iterable<SubCategory> iterableSubCategory = subCategoryRepository.findAll();

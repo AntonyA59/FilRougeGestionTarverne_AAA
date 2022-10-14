@@ -26,7 +26,7 @@ public class ManagerCustomerService {
 	private ManagerCustomerRepository managerCustomerRepository;
 
 	/**
-	 * Returns a list containing customers of a manager converted to Dto
+	 * Returns a list containing manager's customers converted to Dto
 	 * 
 	 * @param idManager
 	 * @return List<CustomerDto>
