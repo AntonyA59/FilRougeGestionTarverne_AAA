@@ -36,9 +36,7 @@ public class ManagerCustomerService {
 		Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
 
 		List<ManagerCustomer> listManagerCustomer = managerCustomerRepository.findByManager(manager);
-		if (listManagerCustomer.isEmpty()) {
-			throw new EntityNotFoundException();
-		}
+
 		List<Customer> listCustomers = new ArrayList<Customer>();
 		List<CustomerDto> listCustomersDto = new ArrayList<CustomerDto>();
 

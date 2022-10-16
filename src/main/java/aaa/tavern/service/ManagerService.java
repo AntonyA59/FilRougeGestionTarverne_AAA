@@ -122,10 +122,6 @@ public class ManagerService {
 
         List<InventoryIngredient> listInventoryIngredients = inventoryIngredientRepository.findByManager(manager);
 
-        if (listInventoryIngredients.isEmpty()) {
-            throw new EntityNotFoundException();
-        }
-
         List<InventoryManagerIngredientDto> listInventoryManagerIngredientDto = new ArrayList<InventoryManagerIngredientDto>();
 
         for (InventoryIngredient inventoryIngredient : listInventoryIngredients) {

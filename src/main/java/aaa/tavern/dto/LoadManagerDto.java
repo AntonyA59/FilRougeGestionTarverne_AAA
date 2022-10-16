@@ -28,11 +28,17 @@ public class LoadManagerDto {
 
     }
 
-    public LoadManagerDto(ManagerDto ManagerDto, List<CategoryDto> listCategoryDto,
-            List<CustomerDto> listCustomerDto, List<IngredientDto> listIngredientDto,
-            List<InventoryManagerIngredientDto> listInventoryManagerIngredientDto, List<PlaceDto> listPlaceDto,
-            List<RecipeDto> listRecipeDto, List<RecipeDto> listRecipeCustomerDto,
-            List<SubCategoryDto> listSubCategoryDto, List<TableRestDto> listTableRestDto) {
+    public LoadManagerDto(
+            ManagerDto ManagerDto,
+            List<CategoryDto> listCategoryDto,
+            List<CustomerDto> listCustomerDto,
+            List<IngredientDto> listIngredientDto,
+            List<InventoryManagerIngredientDto> listInventoryManagerIngredientDto,
+            List<PlaceDto> listPlaceDto,
+            List<RecipeDto> listRecipeDto,
+            List<RecipeDto> listRecipeCustomerDto,
+            List<SubCategoryDto> listSubCategoryDto,
+            List<TableRestDto> listTableRestDto) {
         this.ManagerDto = ManagerDto;
         this.listCategoryDto = listCategoryDto;
         this.listCustomerDto = listCustomerDto;
