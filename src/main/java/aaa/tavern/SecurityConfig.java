@@ -39,9 +39,6 @@ public class SecurityConfig {
                                 .formLogin()
                                 // .successForwardUrl("/game")
                                 .loginPage("/login");
-                // TODO : A RETIRER QUAND ON UTILISERA PLUS H2 DATABASE
-                http.csrf().disable();
-                http.headers().frameOptions().disable();
 
                 return http.build();
         }
