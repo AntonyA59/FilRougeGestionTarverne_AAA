@@ -45,7 +45,7 @@ public class RecipeCustomerServiceTest {
         List<RecipeCustomer> listRecipeCustomer = new ArrayList<RecipeCustomer>();
         
         for (int i = 0; i < 5; i++) {
-            Recipe recipe = new Recipe("test", 1, 1, 1f, 1f, new Date(1l), 10, subCategory, tabIngredientsForRecipe);
+            Recipe recipe = new Recipe("test", 1, 1, 1l, 1l, new Date(1l), 10, subCategory, tabIngredientsForRecipe);
             RecipeCustomer recipeCustomer = new RecipeCustomer(recipe, customer);
             listRecipeCustomer.add(recipeCustomer);
         }

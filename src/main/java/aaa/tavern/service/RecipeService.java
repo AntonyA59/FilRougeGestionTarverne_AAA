@@ -3,6 +3,7 @@ package aaa.tavern.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
@@ -50,10 +51,15 @@ public class RecipeService {
      */
     @Transactional(rollbackOn = {EntityNotFoundException.class,ForbiddenException.class}) 
     public void prepareRecipe(int idManager, int idRecipe ,int idCustomer) throws EntityNotFoundException,ForbiddenException{
-        
-        Recipe recipe=ServiceUtil.getEntity(recipeRepository,idRecipe);
+
         Customer customer= ServiceUtil.getEntity(customerRepository, idCustomer);
         Manager manager= ServiceUtil.getEntity(managerRepository, idManager);
+        Optional<Recipe> optRecipe = recipeRepository.findByIdAndLevelLessThanEqual(idRecipe, manager.getLevel());
+
+        if (optRecipe.isEmpty())
+            throw new ForbiddenException();
+        
+        Recipe recipe = optRecipe.get();
 
         requestRecipe(manager, recipe, customer);
     }

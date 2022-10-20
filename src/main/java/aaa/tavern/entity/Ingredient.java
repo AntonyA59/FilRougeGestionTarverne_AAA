@@ -17,7 +17,7 @@ public class Ingredient {
 	@Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idIngredient;
+	private Integer id;
 
 	@Column(name="name")
 	private String name;
@@ -34,13 +34,13 @@ public class Ingredient {
 
 	public Ingredient() {}
 
-	public Ingredient(Integer idIngredient, String name) {
-		this.idIngredient = idIngredient;
+	public Ingredient(Integer id, String name) {
+		this.id = id;
 		this.name = name;
 	}
 
-	public Ingredient(int idIngredient, String name, int level, int buyingPrice, SubCategory subCategory) {
-		this.idIngredient = idIngredient;
+	public Ingredient(int id, String name, int level, int buyingPrice, SubCategory subCategory) {
+		this.id = id;
 		this.name = name;
 		this.level = level ;
 		this.buyingPrice = buyingPrice ;
@@ -58,7 +58,7 @@ public class Ingredient {
             return false;
 
         Ingredient that = (Ingredient) o;
-        return Objects.equals(idIngredient, that.idIngredient);
+        return Objects.equals(id, that.id);
     }
 
 	/**
@@ -66,7 +66,7 @@ public class Ingredient {
 	 */
     @Override
     public int hashCode() {
-        return idIngredient.hashCode();
+        return id.hashCode();
     }
 
 	// #region Get/Set
@@ -103,12 +103,12 @@ public class Ingredient {
 		this.subCategory = subCategory;
 	}
 
-	public Integer getIdIngredient() {
-		return idIngredient;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setIdIngredient(Integer idIngredient) {
-		this.idIngredient = idIngredient;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	// #endregion
 

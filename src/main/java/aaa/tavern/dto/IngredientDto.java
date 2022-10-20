@@ -21,7 +21,7 @@ public class IngredientDto {
 	}
 
 	public IngredientDto(Ingredient ingredient) {
-		this.id = ingredient.getIdIngredient();
+		this.id = ingredient.getId();
 		this.name = ingredient.getName();
 		this.level = ingredient.getLevel();
 		this.buyingPrice = ingredient.getBuyingPrice();

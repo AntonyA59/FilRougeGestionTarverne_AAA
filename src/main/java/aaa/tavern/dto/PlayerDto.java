@@ -13,6 +13,7 @@ public class PlayerDto {
     private String email;
 
     @NotNull
+    @Size(min=8, max=30)
     @NotBlank(message = "Nom d'utilisateur obligatoire")
 	private String nickname;
 
@@ -21,7 +22,10 @@ public class PlayerDto {
     @NotBlank(message = "Mot de passe obligatoire")
 	private String password;
 
-    protected PlayerDto(String email, String nickname, String password){
+    protected PlayerDto(){
+    }
+
+    public PlayerDto(String email, String nickname, String password){
         this.email = email.toLowerCase() ;
         this.nickname = nickname ;
         this.password = password ;

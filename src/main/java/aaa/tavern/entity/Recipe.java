@@ -21,7 +21,7 @@ public class Recipe {
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idRecipe;
+	private Integer id;
 
 	@Column(name = "name")
 	private String name;
@@ -33,10 +33,10 @@ public class Recipe {
 	private Integer level;
 
 	@Column(name = "consommation_time")
-	private float consommationTime;
+	private Long consommationTime;
 
 	@Column(name = "preparation_time")
-	private float preparationTime;
+	private Long preparationTime;
 
 	@Column(name = "peremption_date")
 	private Date peremptionDate;
@@ -54,9 +54,15 @@ public class Recipe {
 	public Recipe() {
 	}
 
-	public Recipe(String name, Integer sellingPrice, Integer level, float consommationTime,
-			float preparationTime, Date peremptionDate, Integer expGiven, SubCategory subCategory,
-			ArrayList<RecipeIngredient> tabIngredientsForRecipe) {
+	public Recipe(String name,
+			Integer sellingPrice,
+			Integer level,
+			Long consommationTime,
+			Long preparationTime,
+			Date peremptionDate,
+			Integer expGiven,
+			SubCategory subCategory,
+			ArrayList<RecipeIngredient> tabIngredients) {
 		this.name = name;
 		this.sellingPrice = sellingPrice;
 		this.level = level;
@@ -65,7 +71,6 @@ public class Recipe {
 		this.peremptionDate = peremptionDate;
 		this.expGiven = expGiven;
 		this.subCategory = subCategory;
-		this.tabIngredientsForRecipe = tabIngredientsForRecipe;
 	}
 
 	/**
@@ -80,7 +85,7 @@ public class Recipe {
 			return false;
 
 		Recipe that = (Recipe) o;
-		return Objects.equals(idRecipe, that.idRecipe);
+		return Objects.equals(id, that.id);
 	}
 
 	/**
@@ -88,7 +93,7 @@ public class Recipe {
 	 */
 	@Override
 	public int hashCode() {
-		return idRecipe.hashCode();
+		return id.hashCode();
 	}
 
 	// #region get/set
@@ -97,8 +102,8 @@ public class Recipe {
 		return name;
 	}
 
-	public void setIdRecipe(Integer idRecipe) {
-		this.idRecipe = idRecipe;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public void setSellingPrice(Integer sellingPrice) {
@@ -133,19 +138,19 @@ public class Recipe {
 		this.sellingPrice = sellingPrice;
 	}
 
-	public float getConsommationTime() {
+	public Long getConsommationTime() {
 		return consommationTime;
 	}
 
-	public void setConsommationTime(float consommationTime) {
+	public void setConsommationTime(Long consommationTime) {
 		this.consommationTime = consommationTime;
 	}
 
-	public float getPreparationTime() {
+	public Long getPreparationTime() {
 		return preparationTime;
 	}
 
-	public void setPreparationTime(float preparationTime) {
+	public void setPreparationTime(Long preparationTime) {
 		this.preparationTime = preparationTime;
 	}
 
@@ -173,8 +178,8 @@ public class Recipe {
 		this.subCategory = subCategory;
 	}
 
-	public Integer getIdRecipe() {
-		return idRecipe;
+	public Integer getId() {
+		return id;
 	}
 
 	public List<RecipeIngredient> getTabIngredientsForRecipe() {

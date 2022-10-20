@@ -1,14 +1,13 @@
 package aaa.tavern.dto;
 
-import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 import aaa.tavern.entity.Customer;
 import aaa.tavern.entity.RecipeCustomer;
-import aaa.tavern.entity.TableRest;
 
 
 public class CustomerDto {
@@ -39,9 +38,9 @@ public class CustomerDto {
 
     private Integer expGiven;
 
-    private TableRest tableRest;
+    private Integer tableRest;
 
-    private Date consommationStart;
+    private Timestamp consommationStart;
 
     private Set<Integer> commandList=new HashSet<Integer>();
 
@@ -59,10 +58,10 @@ public class CustomerDto {
         this.alcoholTolerance = customer.getAlcoholTolerance();
         this.gender = customer.getGender();
         this.expGiven = 0;
-        this.tableRest = customer.getTableRest();
+        this.tableRest = customer.getTableRest().getIdTable();
         this.consommationStart=customer.getConsommationStart();
         for(RecipeCustomer recipeCustomer: customer.getCommandList()){
-            Integer recipeId= recipeCustomer.getRecipe().getIdRecipe();
+            Integer recipeId= recipeCustomer.getRecipe().getId();
             this.commandList.add(recipeId);
         }
         
@@ -137,7 +136,7 @@ public class CustomerDto {
         return expGiven;
     }
 
-    public TableRest getTableRest() {
+    public Integer getTableRest() {
         return tableRest;
     }
 
@@ -145,7 +144,7 @@ public class CustomerDto {
         return commandList;
     }
 
-    public Date getConsommationStart() {
+    public Timestamp getConsommationStart() {
         return consommationStart;
     }
 

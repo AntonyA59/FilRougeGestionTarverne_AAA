@@ -19,6 +19,7 @@ import aaa.tavern.dto.CustomerDto;
 import aaa.tavern.entity.Customer;
 import aaa.tavern.entity.Manager;
 import aaa.tavern.entity.ManagerCustomer;
+import aaa.tavern.entity.TableRest;
 
 @SpringBootTest
 public class CustomerManagerServiceTest {
@@ -42,10 +43,17 @@ public class CustomerManagerServiceTest {
 		Mockito.when(managerRepository.findById(0)).thenReturn(Optional.of(manager));
 
 		List<ManagerCustomer> listManagerCustomers = new ArrayList<ManagerCustomer>();
-
-		ManagerCustomer managerCustomer1 = new ManagerCustomer(manager, new Customer());
-		ManagerCustomer managerCustomer2 = new ManagerCustomer(manager, new Customer());
-		ManagerCustomer managerCustomer3 = new ManagerCustomer(manager, new Customer());
+		TableRest tableRest=new TableRest();
+		tableRest.setIdTable(1);
+		Customer customer1= new Customer();
+		customer1.setTableRest(tableRest);
+		Customer customer2= new Customer();
+		customer2.setTableRest(tableRest);
+		Customer customer3= new Customer();
+		customer3.setTableRest(tableRest);
+		ManagerCustomer managerCustomer1 = new ManagerCustomer(manager, customer1);
+		ManagerCustomer managerCustomer2 = new ManagerCustomer(manager, customer2);
+		ManagerCustomer managerCustomer3 = new ManagerCustomer(manager, customer3);
 		listManagerCustomers.add(managerCustomer1);
 		listManagerCustomers.add(managerCustomer2);
 		listManagerCustomers.add(managerCustomer3);

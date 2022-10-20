@@ -12,15 +12,15 @@ public class RecipeDto {
 	private String name;
 	private Integer sellingPrice;
 	private Integer level;
-	private float consommationTime;
-	private float preparationTime;
+	private Long consommationTime;
+	private Long preparationTime;
 	private Date peremptionDate;
 	private Integer expGiven;
 	private Integer subCategory;
 	private HashMap<Integer, Integer> tabIngredientsForRecipe = new HashMap<Integer, Integer>();
 
 	public RecipeDto(Recipe recipe) {
-		this.id = recipe.getIdRecipe();
+		this.id = recipe.getId();
 		this.name = recipe.getName();
 		this.sellingPrice = recipe.getSellingPrice();
 		this.level = recipe.getLevel();
@@ -30,7 +30,7 @@ public class RecipeDto {
 		this.expGiven = recipe.getExpGiven();
 		this.subCategory = recipe.getSubCategory().getIdSubCategory();
 		for (RecipeIngredient recipeIngredient : recipe.getTabIngredientsForRecipe()) {
-			Integer ingredientId = recipeIngredient.getIngredient().getIdIngredient();
+			Integer ingredientId = recipeIngredient.getIngredient().getId();
 			Integer quantity = recipeIngredient.getQuantity();
 			this.tabIngredientsForRecipe.put(ingredientId, quantity);
 		}
@@ -76,11 +76,11 @@ public class RecipeDto {
 		return level;
 	}
 
-	public float getConsommationTime() {
+	public Long getConsommationTime() {
 		return consommationTime;
 	}
 
-	public float getPreparationTime() {
+	public Long getPreparationTime() {
 		return preparationTime;
 	}
 
