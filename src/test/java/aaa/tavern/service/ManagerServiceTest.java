@@ -1,7 +1,5 @@
 package aaa.tavern.service;
 
-
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
@@ -17,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import aaa.tavern.dao.InventoryIngredientRepository;
 import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dao.PlayerRepository;
+import aaa.tavern.dto.CreateManagerDTO;
 import aaa.tavern.dto.InventoryManagerIngredientDto;
 import aaa.tavern.dto.ManagerDto;
 import aaa.tavern.entity.Ingredient;
@@ -43,12 +42,13 @@ public class ManagerServiceTest {
 	@Test
 	public void whenCreateManager_thenSaveOnDatabase() {
 		Manager manager = new Manager();
+		manager.setName("Test");
 
 		Player player = Mockito.mock(Player.class);
 
 		Mockito.when(playerRepository.findById(0)).thenReturn(Optional.of(player));
 		manager.setPlayer(player);
-		ManagerDto managerDto = new ManagerDto(manager);
+		CreateManagerDTO managerDto = new CreateManagerDTO(manager);
 		managerService.createManager(managerDto, 0);
 
 		Mockito.verify(managerRepository).save(manager);
@@ -90,7 +90,6 @@ public class ManagerServiceTest {
 		assertEquals(listManagerDtos, listManagerDtos2);
 	}
 
-	
 	@Test
 	public void givenInventoryIngredient_whenFindByManager_thenReturnListInventoryManagerIngredientDto() {
 		Manager manager = new Manager();

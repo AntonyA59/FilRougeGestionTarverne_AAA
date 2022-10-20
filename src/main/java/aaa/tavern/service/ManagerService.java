@@ -14,6 +14,7 @@ import aaa.tavern.dao.IngredientRepository;
 import aaa.tavern.dao.InventoryIngredientRepository;
 import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dao.PlayerRepository;
+import aaa.tavern.dto.CreateManagerDTO;
 import aaa.tavern.dto.InventoryManagerIngredientDto;
 import aaa.tavern.dto.ManagerDto;
 import aaa.tavern.entity.Customer;
@@ -42,9 +43,9 @@ public class ManagerService {
     @Autowired
     private PlayerRepository playerRepository;
 
-    public Manager createManager(ManagerDto managerDto, int playerId) {
+    public Manager createManager(CreateManagerDTO createManagerDto, int playerId) {
         Player player = ServiceUtil.getEntity(playerRepository, playerId);
-        Manager manager = new Manager(managerDto.getName(), 0, 100, 1, 0, player);
+        Manager manager = new Manager(createManagerDto.getName(), 0, 100, 1, 0, player);
         managerRepository.save(manager);
         return manager;
     }
@@ -87,10 +88,11 @@ public class ManagerService {
     }
 
     @Transactional(rollbackOn = { EntityNotFoundException.class, ForbiddenException.class })
-    public Manager selectManager(int idManager) {
+    public ManagerDto selectManager(int idManager) {
         Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
 
-        return manager;
+        ManagerDto managerDto = new ManagerDto(manager);
+        return managerDto;
     }
 
     public void giveExperienceManagerWithRecipe(int idManager, int idIngredient) {
@@ -121,10 +123,6 @@ public class ManagerService {
         Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
 
         List<InventoryIngredient> listInventoryIngredients = inventoryIngredientRepository.findByManager(manager);
-
-        if (listInventoryIngredients.isEmpty()) {
-            throw new EntityNotFoundException();
-        }
 
         List<InventoryManagerIngredientDto> listInventoryManagerIngredientDto = new ArrayList<InventoryManagerIngredientDto>();
 

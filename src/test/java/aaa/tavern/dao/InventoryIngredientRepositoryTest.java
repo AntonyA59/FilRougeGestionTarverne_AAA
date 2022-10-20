@@ -43,6 +43,5 @@ public class InventoryIngredientRepositoryTest {
 		List<InventoryIngredient> inventoryIngredients = inventoryIngredientRepository.findByManager(manager);
 
 		assertTrue(inventoryIngredients.isEmpty());
-		;
 	}
 }

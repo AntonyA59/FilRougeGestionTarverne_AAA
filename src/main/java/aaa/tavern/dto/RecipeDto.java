@@ -19,23 +19,22 @@ public class RecipeDto {
 	private Integer subCategory;
 	private HashMap<Integer, Integer> tabIngredientsForRecipe = new HashMap<Integer, Integer>();
 
-    
-    public RecipeDto(Recipe recipe){
-        this.id=recipe.getId();
-        this.name = recipe.getName() ;
-		this.sellingPrice = recipe.getSellingPrice() ;
-		this.level = recipe.getLevel() ;
-		this.consommationTime = recipe.getConsommationTime() ;
-		this.preparationTime = recipe.getPreparationTime() ;
-		this.peremptionDate = recipe.getPeremptionDate() ;
-		this.expGiven = recipe.getExpGiven() ;
-		this.subCategory = recipe.getSubCategory().getIdSubCategory() ;
-		for(RecipeIngredient recipeIngredient: recipe.getTabIngredientsForRecipe()){
-            Integer ingredientId= recipeIngredient.getIngredient().getId();
-            Integer quantity= recipeIngredient.getQuantity();
-            this.tabIngredientsForRecipe.put(ingredientId,quantity);
-        }
-    }
+	public RecipeDto(Recipe recipe) {
+		this.id = recipe.getId();
+		this.name = recipe.getName();
+		this.sellingPrice = recipe.getSellingPrice();
+		this.level = recipe.getLevel();
+		this.consommationTime = recipe.getConsommationTime();
+		this.preparationTime = recipe.getPreparationTime();
+		this.peremptionDate = recipe.getPeremptionDate();
+		this.expGiven = recipe.getExpGiven();
+		this.subCategory = recipe.getSubCategory().getIdSubCategory();
+		for (RecipeIngredient recipeIngredient : recipe.getTabIngredientsForRecipe()) {
+			Integer ingredientId = recipeIngredient.getIngredient().getId();
+			Integer quantity = recipeIngredient.getQuantity();
+			this.tabIngredientsForRecipe.put(ingredientId, quantity);
+		}
+	}
 
 	/**
 	 * Deux RecipeDto sont les mêmes si ils ont le même identifiant.
@@ -60,7 +59,7 @@ public class RecipeDto {
 		return id.hashCode();
 	}
 
-//#region
+	// #region
 	public Integer getId() {
 		return id;
 	}
@@ -77,33 +76,29 @@ public class RecipeDto {
 		return level;
 	}
 
-    public Long getConsommationTime() {
-        return consommationTime;
-    }
+	public Long getConsommationTime() {
+		return consommationTime;
+	}
 
+	public Long getPreparationTime() {
+		return preparationTime;
+	}
 
-    public Long getPreparationTime() {
-        return preparationTime;
-    }
+	public Date getPeremptionDate() {
+		return peremptionDate;
+	}
 
+	public Integer getExpGiven() {
+		return expGiven;
+	}
 
-    public Date getPeremptionDate() {
-        return peremptionDate;
-    }
+	public Integer getSubCategory() {
+		return subCategory;
+	}
 
-
-    public Integer getExpGiven() {
-        return expGiven;
-    }
-
-
-    public Integer getSubCategory() {
-        return subCategory;
-    }
-
-    public HashMap<Integer, Integer> getTabIngredientsForRecipe() {
-        return tabIngredientsForRecipe;
-    }
-//#endregion 
+	public HashMap<Integer, Integer> getTabIngredientsForRecipe() {
+		return tabIngredientsForRecipe;
+	}
+	// #endregion
 
 }

@@ -30,10 +30,9 @@ import aaa.tavern.entity.RecipeIngredient;
 import aaa.tavern.entity.SubCategory;
 import aaa.tavern.exception.ForbiddenException;
 
-
 @SpringBootTest
 public class RecipeServiceTest {
-    
+
     @Autowired
     private RecipeService recipeService;
 
@@ -45,7 +44,6 @@ public class RecipeServiceTest {
 
     @MockBean
     private CustomerRepository customerRepository;
-
 
     @Test
     public void requestRecipeSuccessful() throws EntityNotFoundException,ForbiddenException{
@@ -183,7 +181,6 @@ public class RecipeServiceTest {
         assertThrows(EntityNotFoundException.class, ()->recipeService.prepareRecipe(1, 1, 1));
     }
 
-
     @Test
     public void requestRecipeFailure(){
         //init recipe
@@ -220,7 +217,7 @@ public class RecipeServiceTest {
         
         assertThrows(ForbiddenException.class, ()->recipeService.prepareRecipe(1, 1, 1));
     }
-    
+
     @Test
     public void givenListRecipe_whenFindByLevelManager_thenReturnListRecipeDto() {
 		Manager manager = new Manager();

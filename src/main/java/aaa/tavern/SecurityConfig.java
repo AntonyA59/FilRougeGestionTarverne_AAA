@@ -12,44 +12,43 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
-    
-    @Autowired
-    private UserDetailsService userDetailsService ;
 
-    @Bean
-    public PasswordEncoder getEncoder(){
-        return new BCryptPasswordEncoder(11) ;
-    }
+        @Autowired
+        private UserDetailsService userDetailsService;
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http
-            .authorizeHttpRequests((authz)->
-                authz
-                    .antMatchers("/api/**")
-                    .authenticated()
-            )
-            .authorizeHttpRequests((authz) ->
-                authz
-                    .antMatchers("/register")
-                    .permitAll())
-            .authorizeHttpRequests((authz) ->
-                authz
-                    .antMatchers("/login")
-                    .permitAll())
-            .formLogin()
-            // .successForwardUrl("/game")
-            .loginPage("/login") ;
+        @Bean
+        public PasswordEncoder getEncoder() {
+                return new BCryptPasswordEncoder(11);
+        }
 
-        return http.build() ;
-    }
+        @Bean
+        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+                http
+                                .authorizeHttpRequests((authz) -> authz
+                                                .antMatchers("/api/**")
+                                                .permitAll())
+                                .authorizeHttpRequests((authz) -> authz
+                                                .antMatchers("/h2-ui/**")
+                                                .permitAll())
+                                .authorizeHttpRequests((authz) -> authz
+                                                .antMatchers("/register")
+                                                .permitAll())
+                                .authorizeHttpRequests((authz) -> authz
+                                                .antMatchers("/login")
+                                                .permitAll())
+                                .formLogin()
+                                // .successForwardUrl("/game")
+                                .loginPage("/login");
 
-    @Bean
-    public DaoAuthenticationProvider authProvider() {
-        final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+                return http.build();
+        }
 
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(getEncoder());
-        return authProvider;
-    }
+        @Bean
+        public DaoAuthenticationProvider authProvider() {
+                final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+
+                authProvider.setUserDetailsService(userDetailsService);
+                authProvider.setPasswordEncoder(getEncoder());
+                return authProvider;
+        }
 }

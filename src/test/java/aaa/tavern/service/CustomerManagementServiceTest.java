@@ -41,15 +41,16 @@ public class CustomerManagementServiceTest {
 	@Autowired
 	private CustomerManagementService customerManagementService;
 
-    @MockBean
-    private RecipeRepository recipeRepository;
+	@MockBean
+	private RecipeRepository recipeRepository;
 
-    @MockBean
-    private ManagerRepository managerRepository;
+	@MockBean
+	private ManagerRepository managerRepository;
 
-    @MockBean
-    private Customer customerMock;
-    @Test
+	@MockBean
+	private Customer customerMock;
+
+	@Test
     public void modifedTableRestWithAssignNewTable(){
         Customer customer= new Customer();
         Optional<Customer> optCustomer= Optional.of(customer);
@@ -96,7 +97,7 @@ public class CustomerManagementServiceTest {
 		assertThrows(EntityNotFoundException.class, ()-> customerManagementService.assignNewTable(1, 1));
 	}
 
-    @Test
+	@Test
     public void verifyReturnNewRecipeRandom(){
     
         Manager manager= new Manager();
@@ -138,8 +139,7 @@ public class CustomerManagementServiceTest {
         assertTrue(listTestDto.contains(recipeDto));
     }
 
-    
-    @Test
+	@Test
     public void givenCustomerServed_WhenCustomerEat(){
 
         Optional<Customer> optCutomer= Optional.of(customerMock);
@@ -150,6 +150,5 @@ public class CustomerManagementServiceTest {
         
         Mockito.verify(customerRepository).save(customerMock);
     }
-    
 
 }
