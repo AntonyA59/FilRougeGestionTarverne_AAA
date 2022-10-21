@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -39,13 +40,13 @@ import aaa.tavern.service.CustomerManagementService;
 
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
+@TestPropertySource(locations = "classpath:test.properties")
 public class CustomerManagementControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
     private CustomerManagementService customerManagementService;
-
 
     // Test NewRecipe
     @Test 
@@ -148,7 +149,7 @@ public class CustomerManagementControllerTest {
     }
 
     // newCustomer
-    
+
     @Test 
     public void givenCorrectParam_WhenPostNewCustomer_thenReturnCustomerDto() throws Exception{
         ObjectMapper objectMapper= new ObjectMapper();
@@ -200,8 +201,8 @@ public class CustomerManagementControllerTest {
                 
                 assertEquals(expectedJson, returnedJson);
             }
-            
-            @Test
+
+    @Test
             public void givenCorrectParam_whenPostNewCustomer_thenReturn200() throws Exception{
                 
                 TableRest tableRest= new TableRest();
@@ -251,23 +252,21 @@ public class CustomerManagementControllerTest {
     }
 
     @Test
-    public void givenIncorrectParam_whenPostNewCustomer_thenReturn404() throws Exception{
-		
-     	
-		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-        .post("/api/customerManagement/newCustomer");
-		
-		int status = mockMvc
-        .perform(query)
-        .andReturn()
-        .getResponse()
-        .getStatus();
-		
-		assertEquals(400, status);
+    public void givenIncorrectParam_whenPostNewCustomer_thenReturn404() throws Exception {
+
+        MockHttpServletRequestBuilder query = MockMvcRequestBuilders
+                .post("/api/customerManagement/newCustomer");
+
+        int status = mockMvc
+                .perform(query)
+                .andReturn()
+                .getResponse()
+                .getStatus();
+
+        assertEquals(400, status);
     }
-   
-   
-    //Test controller customerAssignTable
+
+    // Test controller customerAssignTable
     @Test 
     public void givenCorrectParam_WhenPostCustomerAssignTable_thenReturn200() throws Exception{
 
@@ -311,23 +310,21 @@ public class CustomerManagementControllerTest {
     }
 
     @Test
-    public void givenIncorrectParam_whenPostCustomerAssignTable_thenReturn404() throws Exception{
-		
-    	
-		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/api/customerManagement/customerAssignTable");
-		
-		int status = mockMvc
-				.perform(query)
-				.andReturn()
-				.getResponse()
-				.getStatus();
-		
-		assertEquals(400, status);
+    public void givenIncorrectParam_whenPostCustomerAssignTable_thenReturn404() throws Exception {
+
+        MockHttpServletRequestBuilder query = MockMvcRequestBuilders
+                .post("/api/customerManagement/customerAssignTable");
+
+        int status = mockMvc
+                .perform(query)
+                .andReturn()
+                .getResponse()
+                .getStatus();
+
+        assertEquals(400, status);
     }
 
-
-    //Test customerServed
+    // Test customerServed
     @Test 
     public void givenCorrectParam_WhenPostCustomerServed_thenReturn200() throws Exception{
 
@@ -367,22 +364,21 @@ public class CustomerManagementControllerTest {
     }
 
     @Test
-    public void givenIncorrectParam_whenPostCustomerServed_thenReturn404() throws Exception{
-		
-    	
-		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/api/customerManagement/customerServed");
-		
-		int status = mockMvc
-				.perform(query)
-				.andReturn()
-				.getResponse()
-				.getStatus();
-		
-		assertEquals(400, status);
+    public void givenIncorrectParam_whenPostCustomerServed_thenReturn404() throws Exception {
+
+        MockHttpServletRequestBuilder query = MockMvcRequestBuilders
+                .post("/api/customerManagement/customerServed");
+
+        int status = mockMvc
+                .perform(query)
+                .andReturn()
+                .getResponse()
+                .getStatus();
+
+        assertEquals(400, status);
     }
 
-    //test customerFinish
+    // test customerFinish
 
     @Test 
     public void givenCorrectParam_WhenPostCustomerFinish_thenReturn200() throws Exception{
@@ -445,18 +441,17 @@ public class CustomerManagementControllerTest {
     }
 
     @Test
-    public void givenIncorrectParam_whenPostCustomerFinish_thenReturn404() throws Exception{
-		
-    	
-		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/api/customerManagement/customerFinish");
-		
-		int status = mockMvc
-				.perform(query)
-				.andReturn()
-				.getResponse()
-				.getStatus();
-		
-		assertEquals(400, status);
+    public void givenIncorrectParam_whenPostCustomerFinish_thenReturn404() throws Exception {
+
+        MockHttpServletRequestBuilder query = MockMvcRequestBuilders
+                .post("/api/customerManagement/customerFinish");
+
+        int status = mockMvc
+                .perform(query)
+                .andReturn()
+                .getResponse()
+                .getStatus();
+
+        assertEquals(400, status);
     }
 }
