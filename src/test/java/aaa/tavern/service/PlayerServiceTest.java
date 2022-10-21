@@ -11,24 +11,24 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.TestPropertySource;
 
 import aaa.tavern.dao.PlayerRepository;
 import aaa.tavern.dao.RoleRepository;
 import aaa.tavern.dto.PlayerDto;
 import aaa.tavern.entity.Role;
 
-
-
 @SpringBootTest
+@TestPropertySource(locations = "classpath:test.properties")
 public class PlayerServiceTest {
-    @MockBean
+	@MockBean
 	PlayerRepository userRepository;
-	
-	@Autowired 
-	PlayerService userService ;
+
+	@Autowired
+	PlayerService userService;
 
 	@MockBean
-	RoleRepository roleRepository ;
+	RoleRepository roleRepository;
 
 	@Test
 	void givenNewPlayerDto_WhenValidPlayer_ThenAddSuccess(){
@@ -56,10 +56,10 @@ public class PlayerServiceTest {
 	}
 
 	@Test
-	void givenNewPlayerrDto_WhenWithoutRole_ThenNoSuchElementException(){
+	void givenNewPlayerrDto_WhenWithoutRole_ThenNoSuchElementException() {
 
-		PlayerDto playerDto = new PlayerDto("heyman.adrien@gmail.com", "nickname", "12345678") ;
-		
-		assertThrows(NoSuchElementException.class, ()->userService.createPlayer(playerDto));
+		PlayerDto playerDto = new PlayerDto("heyman.adrien@gmail.com", "nickname", "12345678");
+
+		assertThrows(NoSuchElementException.class, () -> userService.createPlayer(playerDto));
 	}
 }

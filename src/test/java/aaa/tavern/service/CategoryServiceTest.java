@@ -11,20 +11,22 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.TestPropertySource;
 
 import aaa.tavern.dao.CategoryRepository;
 import aaa.tavern.dto.CategoryDto;
 import aaa.tavern.entity.Category;
 
 @SpringBootTest
+@TestPropertySource(locations = "classpath:test.properties")
 public class CategoryServiceTest {
 
 	@MockBean
 	private CategoryRepository categoryRepository;
-	
+
 	@Autowired
 	private CategoryService categoryService;
-	
+
 	@Test
 	public void givenCategories_whenFindAllCategories_thenReturnListCategoriesDto() {
 		List<Category> listCategory = new ArrayList<Category>();

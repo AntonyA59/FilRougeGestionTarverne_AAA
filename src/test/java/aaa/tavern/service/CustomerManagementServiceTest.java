@@ -16,6 +16,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.TestPropertySource;
 
 import aaa.tavern.dao.CustomerRepository;
 import aaa.tavern.dao.ManagerRepository;
@@ -31,26 +32,27 @@ import aaa.tavern.entity.TableRest;
 
 //whenassertThrow 
 @SpringBootTest
+@TestPropertySource(locations = "classpath:test.properties")
 public class CustomerManagementServiceTest {
-	@MockBean
-	private CustomerRepository customerRepository;
+    @MockBean
+    private CustomerRepository customerRepository;
 
-	@MockBean
-	private TableRestRepository tableRestRepository;
+    @MockBean
+    private TableRestRepository tableRestRepository;
 
-	@Autowired
-	private CustomerManagementService customerManagementService;
+    @Autowired
+    private CustomerManagementService customerManagementService;
 
-	@MockBean
-	private RecipeRepository recipeRepository;
+    @MockBean
+    private RecipeRepository recipeRepository;
 
-	@MockBean
-	private ManagerRepository managerRepository;
+    @MockBean
+    private ManagerRepository managerRepository;
 
-	@MockBean
-	private Customer customerMock;
+    @MockBean
+    private Customer customerMock;
 
-	@Test
+    @Test
     public void modifedTableRestWithAssignNewTable(){
         Customer customer= new Customer();
         Optional<Customer> optCustomer= Optional.of(customer);
@@ -67,7 +69,7 @@ public class CustomerManagementServiceTest {
 				.save(ArgumentMatchers.argThat(tableRest2 -> tableRest2.getNumberPlace() == 4));
 	}
 
-	@Test
+    @Test
 	public void modifedCustomerTableIdWithAssignNewTable() {
 		Customer customer = new Customer();
 		Optional<Customer> optCustomer = Optional.of(customer);
@@ -85,7 +87,7 @@ public class CustomerManagementServiceTest {
 				.save(ArgumentMatchers.argThat(customer2 -> customer2.getTableRest().getIdTable() == 1));
 	}
 
-	@Test
+    @Test
 	public void returnEntityNotFoundExceptionInCustomerWithAssignNewTable() {
 		Optional<Customer> optCustomer = Optional.empty();
 		Mockito.when(customerRepository.findById(1)).thenReturn(optCustomer);
@@ -97,7 +99,7 @@ public class CustomerManagementServiceTest {
 		assertThrows(EntityNotFoundException.class, ()-> customerManagementService.assignNewTable(1, 1));
 	}
 
-	@Test
+    @Test
     public void verifyReturnNewRecipeRandom(){
     
         Manager manager= new Manager();
@@ -139,7 +141,7 @@ public class CustomerManagementServiceTest {
         assertTrue(listTestDto.contains(recipeDto));
     }
 
-	@Test
+    @Test
     public void givenCustomerServed_WhenCustomerEat(){
 
         Optional<Customer> optCutomer= Optional.of(customerMock);
