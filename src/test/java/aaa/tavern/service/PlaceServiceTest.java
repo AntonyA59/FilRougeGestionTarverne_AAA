@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.TestPropertySource;
 
 import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dao.PlaceRepository;
@@ -19,6 +20,7 @@ import aaa.tavern.entity.Manager;
 import aaa.tavern.entity.Place;
 
 @SpringBootTest
+@TestPropertySource(locations = "classpath:test.properties")
 public class PlaceServiceTest {
 
     @MockBean

@@ -10,12 +10,14 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
 import aaa.tavern.entity.Manager;
 import aaa.tavern.entity.Player;
 
 @DataJpaTest
+@TestPropertySource(locations = "classpath:test.properties")
 public class ManagerRepositoryTest {
 	@Autowired
 	private ManagerRepository managerRepository;

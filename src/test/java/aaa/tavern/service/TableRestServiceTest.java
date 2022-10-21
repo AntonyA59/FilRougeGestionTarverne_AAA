@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.TestPropertySource;
 
 import aaa.tavern.dao.PlaceRepository;
 import aaa.tavern.dao.TableRestRepository;
@@ -19,6 +20,7 @@ import aaa.tavern.entity.Place;
 import aaa.tavern.entity.TableRest;
 
 @SpringBootTest
+@TestPropertySource(locations = "classpath:test.properties")
 public class TableRestServiceTest {
 
     @Autowired
