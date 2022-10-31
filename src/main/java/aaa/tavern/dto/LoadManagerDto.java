@@ -4,92 +4,92 @@ import java.util.List;
 
 public class LoadManagerDto {
 
-    private ManagerDto ManagerDto;
+    private ManagerDto manager;
 
-    private List<CategoryDto> listCategoryDto;
+    private List<CategoryDto> categories;
 
-    private List<CustomerDto> listCustomerDto;
+    private List<CustomerDto> customers;
 
-    private List<IngredientDto> listIngredientDto;
+    private List<IngredientDto> ingredients;
 
-    private List<InventoryManagerIngredientDto> listInventoryManagerIngredientDto;
+    private List<InventoryManagerIngredientDto> inventoryManagerIngredient;
 
-    private List<PlaceDto> listPlaceDto;
+    private List<PlaceDto> places;
 
-    private List<RecipeDto> listRecipeDto;
+    private List<RecipeDto> recipes;
 
-    private List<RecipeDto> listRecipeCustomerDto;
+    private List<RecipeDto> recipeCustomers;
 
-    private List<SubCategoryDto> listSubCategoryDto;
+    private List<SubCategoryDto> SubCategories;
 
-    private List<TableRestDto> listTableRestDto;
+    private List<TableRestDto> TableRests;
 
     protected LoadManagerDto() {
 
     }
 
     public LoadManagerDto(
-            ManagerDto ManagerDto,
-            List<CategoryDto> listCategoryDto,
-            List<CustomerDto> listCustomerDto,
-            List<IngredientDto> listIngredientDto,
-            List<InventoryManagerIngredientDto> listInventoryManagerIngredientDto,
-            List<PlaceDto> listPlaceDto,
-            List<RecipeDto> listRecipeDto,
-            List<RecipeDto> listRecipeCustomerDto,
-            List<SubCategoryDto> listSubCategoryDto,
-            List<TableRestDto> listTableRestDto) {
-        this.ManagerDto = ManagerDto;
-        this.listCategoryDto = listCategoryDto;
-        this.listCustomerDto = listCustomerDto;
-        this.listIngredientDto = listIngredientDto;
-        this.listInventoryManagerIngredientDto = listInventoryManagerIngredientDto;
-        this.listPlaceDto = listPlaceDto;
-        this.listRecipeDto = listRecipeDto;
-        this.listRecipeCustomerDto = listRecipeCustomerDto;
-        this.listSubCategoryDto = listSubCategoryDto;
-        this.listTableRestDto = listTableRestDto;
+            ManagerDto manager,
+            List<CategoryDto> categories,
+            List<CustomerDto> customers,
+            List<IngredientDto> ingredients,
+            List<InventoryManagerIngredientDto> inventoryManagerIngredient,
+            List<PlaceDto> places,
+            List<RecipeDto> recipes,
+            List<RecipeDto> recipeCustomers,
+            List<SubCategoryDto> SubCategories,
+            List<TableRestDto> TableRests) {
+        this.manager = manager;
+        this.categories = categories;
+        this.customers = customers;
+        this.ingredients = ingredients;
+        this.inventoryManagerIngredient = inventoryManagerIngredient;
+        this.places = places;
+        this.recipes = recipes;
+        this.recipeCustomers = recipeCustomers;
+        this.SubCategories = SubCategories;
+        this.TableRests = TableRests;
     }
 
     // #region get
-    public ManagerDto getManagerDto() {
-        return ManagerDto;
+    public ManagerDto getManager() {
+        return manager;
     }
 
-    public List<CategoryDto> getListCategoryDto() {
-        return listCategoryDto;
+    public List<CategoryDto> getCategories() {
+        return categories;
     }
 
-    public List<CustomerDto> getListCustomerDto() {
-        return listCustomerDto;
+    public List<CustomerDto> getCustomers() {
+        return customers;
     }
 
-    public List<IngredientDto> getListIngredientDto() {
-        return listIngredientDto;
+    public List<IngredientDto> getIngredients() {
+        return ingredients;
     }
 
-    public List<InventoryManagerIngredientDto> getListInventoryManagerIngredientDto() {
-        return listInventoryManagerIngredientDto;
+    public List<InventoryManagerIngredientDto> getInventoryManagerIngredient() {
+        return inventoryManagerIngredient;
     }
 
-    public List<PlaceDto> getListPlaceDto() {
-        return listPlaceDto;
+    public List<PlaceDto> getPlaces() {
+        return places;
     }
 
-    public List<RecipeDto> getListRecipeDto() {
-        return listRecipeDto;
+    public List<RecipeDto> getRecipes() {
+        return recipes;
     }
 
-    public List<RecipeDto> getListRecipeCustomerDto() {
-        return listRecipeCustomerDto;
+    public List<RecipeDto> getRecipeCustomers() {
+        return recipeCustomers;
     }
 
-    public List<SubCategoryDto> getListSubCategoryDto() {
-        return listSubCategoryDto;
+    public List<SubCategoryDto> getSubCategories() {
+        return SubCategories;
     }
 
-    public List<TableRestDto> getListTableRestDto() {
-        return listTableRestDto;
+    public List<TableRestDto> getTableRests() {
+        return TableRests;
     }
 
     // #endregion

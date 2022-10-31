@@ -10,7 +10,7 @@ public class SubCategoryDto {
 
     private String name;
 
-    private Integer categoryDto;
+    private Integer idCategory;
 
     protected SubCategoryDto() {
 
@@ -19,7 +19,7 @@ public class SubCategoryDto {
     public SubCategoryDto(SubCategory subCategory) {
         this.id = subCategory.getIdSubCategory();
         this.name = subCategory.getName();
-        this.categoryDto = subCategory.getCategory().getIdCategory();
+        this.idCategory = subCategory.getCategory().getIdCategory();
     }
 
     @Override
@@ -48,8 +48,8 @@ public class SubCategoryDto {
         return name;
     }
 
-    public Integer getCategoryDto() {
-        return categoryDto;
+    public Integer getIdCategory() {
+        return idCategory;
     }
     // #endregion
 
