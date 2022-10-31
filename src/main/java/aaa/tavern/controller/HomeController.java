@@ -12,9 +12,11 @@ public class HomeController {
     @GetMapping("/")
     public ModelAndView getHome(Principal principal){
         ModelAndView mv = new ModelAndView("index");
-
-        mv.addObject("user", principal.getName()) ;
-
+        if(principal != null){
+            mv.addObject("playerMail", principal.getName()) ;
+        }else{
+            mv.addObject("playerMail", "<unknown>") ;
+        }
         return mv ;
     }
 }

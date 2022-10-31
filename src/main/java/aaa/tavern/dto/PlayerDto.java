@@ -6,7 +6,12 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import aaa.tavern.dto.annotation.PasswordMatches;
+import aaa.tavern.dto.annotation.ValidEmail;
+
+@PasswordMatches
 public class PlayerDto {
+    @ValidEmail
     @NotNull
     @NotEmpty(message = "E-mail obligatoire")
     @Email
@@ -21,20 +26,17 @@ public class PlayerDto {
     @Size(min=8, max=30)
     @NotBlank(message = "Mot de passe obligatoire")
 	private String password;
+	private String matchingPassword;
 
     protected PlayerDto(){
     }
 
-    public PlayerDto(String email, String nickname, String password){
+    public PlayerDto(String email, String nickname, String password, String matchingPassword){
         this.email = email.toLowerCase() ;
         this.nickname = nickname ;
         this.password = password ;
+        this.matchingPassword = matchingPassword ;
     }
-    /*
-    protected PlayerDto(String email, String password){
-        this.email = email.toLowerCase() ;
-        this.password = password ;
-    }*/
 
     public String getEmail() {
         return email;
@@ -53,5 +55,13 @@ public class PlayerDto {
     }
     public void setPassword(String password) {
         this.password = password;
-    }   
+    }
+
+    public String getMatchingPassword() {
+        return matchingPassword;
+    }
+
+    public void setMatchingPassword(String matchingPassword) {
+        this.matchingPassword = matchingPassword;
+    }
 }

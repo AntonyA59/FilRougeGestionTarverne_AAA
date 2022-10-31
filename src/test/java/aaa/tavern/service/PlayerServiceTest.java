@@ -35,7 +35,7 @@ public class PlayerServiceTest {
 		Role Role = new Role("USER") ;
 		Optional<Role> optRole = Optional.of(Role) ;
 
-		PlayerDto playerDto = new PlayerDto("heyman.adrien@gmail.com", "nickname", "12345678") ;
+		PlayerDto playerDto = new PlayerDto("heyman.adrien@gmail.com", "nickname", "12345678", "12345678") ;
 		
 		Mockito.when(roleRepository.findByName("USER")).thenReturn(optRole);
 		userService.createPlayer(playerDto) ;
@@ -58,8 +58,8 @@ public class PlayerServiceTest {
 	@Test
 	void givenNewPlayerrDto_WhenWithoutRole_ThenNoSuchElementException() {
 
-		PlayerDto playerDto = new PlayerDto("heyman.adrien@gmail.com", "nickname", "12345678");
-
-		assertThrows(NoSuchElementException.class, () -> userService.createPlayer(playerDto));
+		PlayerDto playerDto = new PlayerDto("heyman.adrien@gmail.com", "nickname", "12345678", "12345678") ;
+		
+		assertThrows(NoSuchElementException.class, ()->userService.createPlayer(playerDto));
 	}
 }
