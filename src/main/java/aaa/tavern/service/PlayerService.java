@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+//import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,7 @@ import aaa.tavern.dao.RoleRepository;
 import aaa.tavern.dto.PlayerDto;
 import aaa.tavern.entity.Player;
 import aaa.tavern.entity.Role;
+//import aaa.tavern.service.utils.OnRegistrationCompleteEvent;
 
 @Service
 public class PlayerService {
@@ -25,17 +29,21 @@ public class PlayerService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // retourne l'id du player créer
-    public void createPlayer(PlayerDto playerDto) {
-        Role playerRole = roleRepository.findByName("USER").get();
+    @Autowired
+    ApplicationEventPublisher eventPublisher ;
+
+    public void createPlayer(PlayerDto playerDto/*, HttpServletRequest request*/) {
+        Role playerRole = roleRepository.findByName("USER").get() ;
         List<Role> roles = new ArrayList<Role>();
         roles.add(playerRole);
         Player newPlayer = new Player(
-                playerDto.getEmail(),
-                playerDto.getNickname(),
-                passwordEncoder.encode(playerDto.getPassword()),
-                true,
-                roles);
+            playerDto.getEmail(), 
+            playerDto.getNickname(), 
+            passwordEncoder.encode(playerDto.getPassword()),
+            true,
+            roles
+            ) ;
+        //eventPublisher.publishEvent(new OnRegistrationCompleteEvent(newPlayer, request));
         playerRepository.save(newPlayer);
     }
 

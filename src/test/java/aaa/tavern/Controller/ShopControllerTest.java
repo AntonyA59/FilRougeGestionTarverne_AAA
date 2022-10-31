@@ -20,8 +20,7 @@ import aaa.tavern.service.ShopService;
 
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
-@TestPropertySource(locations = "classpath:test.properties")
-public class ShopControllerService {
+public class ShopControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
