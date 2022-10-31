@@ -25,9 +25,9 @@ public class PlayerControllerTest {
 	private PlayerService playerService;
     
     //TODO Revoir le Test, problème pour tester le dto
-    public void GivenIngredientAndManager_whenPostBuing_ThenPrepareIngredientAndShopServiceCalled() throws Exception {
+    public void GivenRegister_whenPlayer_ThenSuccessCreated() throws Exception {
         MultiValueMap<String,String> player = new LinkedMultiValueMap<String, String>();
-        player.add("email", "grimir59@gmail.com");
+        player.add("email", "heyman591@hotmail.com");
         player.add("nickname", "monpseudotype");
         player.add("password", "iiiiiiii");
         player.add("matchingPassword", "iiiiiiii");
@@ -38,8 +38,22 @@ public class PlayerControllerTest {
 		
 		mockMvc.perform(query);
 
-        PlayerDto playerDto = new PlayerDto("grimir59@gmail.com", "monpseudotype", "iiiiiiii", "iiiiiiii") ;
+        PlayerDto playerDto = new PlayerDto("heyman591@hotmail.com", "monpseudotype", "iiiiiiii", "iiiiiiii") ;
 
-    	Mockito.verify(playerService).createPlayer(playerDto);;
+    	Mockito.verify(playerService).createPlayer(playerDto);
+    }
+
+    @Test
+    public void GivenLogin_whenPlayer_ThenSuccess() throws Exception {
+        PlayerDto playerDto = new PlayerDto("grimir59@gmail.com", "monpseudotype", "iiiiiiii", "iiiiiiii") ;
+        playerService.createPlayer(playerDto);
+
+		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
+            .post("/login")
+            .param("email","grimir59@gmail.com")
+            .param("password","iiiiiiii") ;
+		
+		mockMvc.perform(query);
+
     }
 }

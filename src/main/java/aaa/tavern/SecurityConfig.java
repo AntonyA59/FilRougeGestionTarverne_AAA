@@ -38,7 +38,7 @@ public class SecurityConfig {
                     .antMatchers("/login")
                     .permitAll())
             .formLogin()
-            // .successForwardUrl("/game")
+            //.successForwardUrl("/game")
             .loginPage("/login") ;
 
         return http.build() ;
