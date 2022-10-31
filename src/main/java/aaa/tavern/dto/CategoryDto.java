@@ -5,22 +5,20 @@ import java.util.Objects;
 import aaa.tavern.entity.Category;
 
 public class CategoryDto {
-    
-    private Integer id;
-    private String name;
 
-    protected CategoryDto(){
+	private Integer id;
+	private String name;
 
-    }
+	protected CategoryDto() {
 
-    public CategoryDto(Category category){
-        this.name = category.getName();
-        this.id= category.getIdCategory();
-    }
+	}
 
-    
-    
-@Override
+	public CategoryDto(Category category) {
+		this.id = category.getIdCategory();
+		this.name = category.getName();
+	}
+
+	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
@@ -37,13 +35,13 @@ public class CategoryDto {
 		return Objects.equals(id, other.id);
 	}
 
-	//#region
-    public String getName() {
-        return name;
-    }
+	// #region
+	public String getName() {
+		return name;
+	}
 
-    public Integer getId() {
-        return id;
-    }
-//#endregion
+	public Integer getId() {
+		return id;
+	}
+	// #endregion
 }

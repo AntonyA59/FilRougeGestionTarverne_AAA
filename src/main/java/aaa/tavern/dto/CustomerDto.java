@@ -9,11 +9,10 @@ import java.util.Set;
 import aaa.tavern.entity.Customer;
 import aaa.tavern.entity.RecipeCustomer;
 
-
 public class CustomerDto {
 
-	private Integer id;
-	
+    private Integer id;
+
     private Integer purseOfGold;
 
     private Float happiness;
@@ -25,7 +24,7 @@ public class CustomerDto {
     private Float nauseaLevel;
 
     private Float alcoholLevel;
-    
+
     private Float toilet;
 
     private Time timeInTavern;
@@ -33,19 +32,19 @@ public class CustomerDto {
     private Float nauseaTolerance;
 
     private Float alcoholTolerance;
-    
+
     private Boolean gender;
 
     private Integer expGiven;
 
-    private Integer tableRest;
+    private Integer idTableRest;
 
     private Timestamp consommationStart;
 
-    private Set<Integer> commandList=new HashSet<Integer>();
+    private Set<Integer> commandList = new HashSet<Integer>();
 
     public CustomerDto(Customer customer) {
-    	this.id = customer.getIdCustomer();
+        this.id = customer.getIdCustomer();
         this.purseOfGold = customer.getPurseOfGold();
         this.happiness = customer.getHappiness();
         this.hunger = customer.getHunger();
@@ -53,41 +52,38 @@ public class CustomerDto {
         this.nauseaLevel = customer.getNauseaLevel();
         this.alcoholLevel = customer.getAlcoholLevel();
         this.toilet = customer.getToilet();
-        this.timeInTavern= customer.getTimeInTavern();
+        this.timeInTavern = customer.getTimeInTavern();
         this.nauseaTolerance = customer.getNauseaTolerance();
         this.alcoholTolerance = customer.getAlcoholTolerance();
         this.gender = customer.getGender();
         this.expGiven = 0;
-        this.tableRest = customer.getTableRest().getIdTable();
-        this.consommationStart=customer.getConsommationStart();
-        for(RecipeCustomer recipeCustomer: customer.getCommandList()){
-            Integer recipeId= recipeCustomer.getRecipe().getId();
+        this.idTableRest = customer.getTableRest().getIdTable();
+        this.consommationStart = customer.getConsommationStart();
+        for (RecipeCustomer recipeCustomer : customer.getCommandList()) {
+            Integer recipeId = recipeCustomer.getRecipe().getId();
             this.commandList.add(recipeId);
         }
-        
+
     }
-    
-    
+
     @Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        CustomerDto other = (CustomerDto) obj;
+        return Objects.equals(id, other.id);
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		CustomerDto other = (CustomerDto) obj;
-		return Objects.equals(id, other.id);
-	}
-
-
-	//#region
+    // #region
     public Integer getPurseOfGold() {
         return purseOfGold;
     }
@@ -136,8 +132,8 @@ public class CustomerDto {
         return expGiven;
     }
 
-    public Integer getTableRest() {
-        return tableRest;
+    public Integer getIdTableRest() {
+        return idTableRest;
     }
 
     public Set<Integer> getCommandList() {
@@ -148,9 +144,9 @@ public class CustomerDto {
         return consommationStart;
     }
 
-	public Integer getId() {
-		return id;
-	} 
-    
-    //#endregion 
+    public Integer getId() {
+        return id;
+    }
+
+    // #endregion
 }

@@ -14,7 +14,7 @@ public class TableRestDto {
 
     private Float posY;
 
-    private Integer place;
+    private Integer idPlace;
 
     public TableRestDto(TableRest tableRest) {
 
@@ -23,7 +23,7 @@ public class TableRestDto {
         this.hygiene = tableRest.getHygiene();
         this.posX = tableRest.getPosX();
         this.posY = tableRest.getPosY();
-        this.place = tableRest.getPlace().getPlaceId();
+        this.idPlace = tableRest.getPlace().getPlaceId();
     }
 
     // #region Get
@@ -73,8 +73,8 @@ public class TableRestDto {
         return id;
     }
 
-    public Integer getPlace() {
-        return place;
+    public Integer getIdPlace() {
+        return idPlace;
     }
     // #endregion
 
