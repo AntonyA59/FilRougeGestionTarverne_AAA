@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.TestPropertySource;
 
 import aaa.tavern.dao.IngredientRepository;
 import aaa.tavern.dto.IngredientDto;
@@ -18,15 +19,15 @@ import aaa.tavern.entity.Ingredient;
 import aaa.tavern.entity.SubCategory;
 
 @SpringBootTest
+@TestPropertySource(locations = "classpath:test.properties")
 public class IngredientServiceTest {
-	
+
 	@Autowired
 	private IngredientService ingredientService;
-	
+
 	@MockBean
 	private IngredientRepository ingredientRepository;
-	
-	
+
 	@Test
 	public void givenListIngredients_WhenfindByLevelLessThanEqual_ThenReturnListIngredientDto() {
 		Category category = new Category();

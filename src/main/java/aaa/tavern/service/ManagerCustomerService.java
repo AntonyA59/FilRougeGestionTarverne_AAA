@@ -26,7 +26,7 @@ public class ManagerCustomerService {
 	private ManagerCustomerRepository managerCustomerRepository;
 
 	/**
-	 * Returns a list containing customers of a manager converted to Dto
+	 * Returns a list containing manager's customers converted to Dto
 	 * 
 	 * @param idManager
 	 * @return List<CustomerDto>
@@ -36,9 +36,7 @@ public class ManagerCustomerService {
 		Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
 
 		List<ManagerCustomer> listManagerCustomer = managerCustomerRepository.findByManager(manager);
-		if (listManagerCustomer.isEmpty()) {
-			throw new EntityNotFoundException();
-		}
+
 		List<Customer> listCustomers = new ArrayList<Customer>();
 		List<CustomerDto> listCustomersDto = new ArrayList<CustomerDto>();
 

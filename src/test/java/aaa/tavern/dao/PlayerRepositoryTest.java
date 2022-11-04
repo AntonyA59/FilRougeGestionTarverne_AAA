@@ -6,14 +6,15 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import aaa.tavern.entity.Player;
 
-
 @DataJpaTest
+@TestPropertySource(locations = "classpath:test.properties")
 public class PlayerRepositoryTest {
 	@Autowired
 	private PlayerRepository playerRepository;
@@ -32,11 +33,11 @@ public class PlayerRepositoryTest {
 		assertTrue(playerOpt.isEmpty());
 	}
 
-    @Test
-    @Sql("givenPlayer_findByNickname_thenReturnPlayer.sql")
+	@Test
+	@Sql("givenPlayer_findByNickname_thenReturnPlayer.sql")
 	public void givenPlayer_findByNickname_thenReturnPlayer() {
 		List<Player> playerOpt = playerRepository.findByNickname("Test3");
-		Player player = playerOpt.get(0) ;
+		Player player = playerOpt.get(0);
 		assertEquals(player.getNickname(), "Test3");
 	}
 

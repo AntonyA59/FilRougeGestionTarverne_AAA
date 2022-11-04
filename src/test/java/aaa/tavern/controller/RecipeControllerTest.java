@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -20,14 +21,15 @@ import aaa.tavern.service.RecipeService;
 
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
+@TestPropertySource(locations = "classpath:test.properties")
 public class RecipeControllerTest {
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired
+  private MockMvc mockMvc;
 
-    @MockBean
-    private RecipeService recipeService;
+  @MockBean
+  private RecipeService recipeService;
 
-    @Test
+  @Test
     public void givenCorrectParam_WhenPostRequestRecipe_thenReturn200() throws Exception{
 
         
@@ -50,7 +52,7 @@ public class RecipeControllerTest {
         assertEquals(200, status);
     }
 
-    @Test
+  @Test
     public void givenCorrectParamButNotPresentBDD_whenPostRequestRecipe_thenReturn404() throws Exception{
 		
         Mockito.doThrow(EntityNotFoundException.class).when(recipeService).prepareRecipe(1, 1, 1);
@@ -71,7 +73,7 @@ public class RecipeControllerTest {
 		assertEquals(404, status);
     }
 
-    @Test
+  @Test
     public void givenCorrectParam_whenPostRequestRecipe_thenReturn400withForbidden() throws Exception{
 		
         Mockito.doThrow(ForbiddenException.class).when(recipeService).prepareRecipe(1, 1, 1);
@@ -92,22 +94,19 @@ public class RecipeControllerTest {
 		assertEquals(400, status);
     }
 
-    @Test
-    public void givenIncorrectParam_whenPostRequestRecipe_thenReturn404() throws Exception{
-		
-    	
-		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/api/recipe/requestRecipe");
-		
-		int status = mockMvc
-				.perform(query)
-				.andReturn()
-				.getResponse()
-				.getStatus();
-		
-		assertEquals(400, status);
-    }
+  @Test
+  public void givenIncorrectParam_whenPostRequestRecipe_thenReturn404() throws Exception {
 
+    MockHttpServletRequestBuilder query = MockMvcRequestBuilders
+        .post("/api/recipe/requestRecipe");
 
+    int status = mockMvc
+        .perform(query)
+        .andReturn()
+        .getResponse()
+        .getStatus();
+
+    assertEquals(400, status);
+  }
 
 }

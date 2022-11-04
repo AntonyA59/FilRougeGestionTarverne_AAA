@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.TestPropertySource;
 
 import aaa.tavern.dao.SubCategoryRepository;
 import aaa.tavern.dto.SubCategoryDto;
@@ -18,6 +19,7 @@ import aaa.tavern.entity.Category;
 import aaa.tavern.entity.SubCategory;
 
 @SpringBootTest
+@TestPropertySource(locations = "classpath:test.properties")
 public class SubCategoryServiceTest {
 
 	@MockBean
@@ -64,5 +66,4 @@ public class SubCategoryServiceTest {
 		assertEquals(listSubCategoryDto, listSubCategoryDto2);
 	}
 
-	
 }

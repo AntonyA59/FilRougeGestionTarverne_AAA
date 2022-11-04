@@ -46,92 +46,101 @@ public class PlayerService {
         //eventPublisher.publishEvent(new OnRegistrationCompleteEvent(newPlayer, request));
         playerRepository.save(newPlayer);
     }
+
     // TODO méthodes de modification du Player sensible aux hacks
-    public boolean changeNickname(int idPlayer, String nickname){
-        Optional<Player> optPlayer =  playerRepository.findById(idPlayer) ;
-        if(optPlayer.isEmpty()){
-            return false ;
-        }else{
+    public boolean changeNickname(int idPlayer, String nickname) {
+        Optional<Player> optPlayer = playerRepository.findById(idPlayer);
+        if (optPlayer.isEmpty()) {
+            return false;
+        } else {
             optPlayer.get().setNickname(nickname);
-            playerRepository.save(optPlayer.get()) ;
-            return true ;
+            playerRepository.save(optPlayer.get());
+            return true;
         }
     }
 
-    public boolean changeEmail(int idPlayer, String email){
-        Optional<Player> optPlayer =  playerRepository.findById(idPlayer) ;
-        if(optPlayer.isEmpty()){
-            return false ;
-        }else{
+    public boolean changeEmail(int idPlayer, String email) {
+        Optional<Player> optPlayer = playerRepository.findById(idPlayer);
+        if (optPlayer.isEmpty()) {
+            return false;
+        } else {
             optPlayer.get().setNickname(email);
-            playerRepository.save(optPlayer.get()) ;
-            return true ;
+            playerRepository.save(optPlayer.get());
+            return true;
         }
     }
 
+<<<<<<< HEAD
     public boolean changePassword(int idPlayer, String password){
         Optional<Player> optPlayer =  playerRepository.findById(idPlayer) ;
 
         if(optPlayer.isEmpty()){
             return false ;
         }else{
+=======
+    public boolean changePassword(int idPlayer, String password) {
+        Optional<Player> optPlayer = playerRepository.findById(idPlayer);
+        if (optPlayer.isEmpty()) {
+            return false;
+        } else {
+>>>>>>> 554b4f1def1ede42cc63d2c7e32fbd66d652b39e
             optPlayer.get().setPassword(passwordEncoder.encode(password));
-            playerRepository.save(optPlayer.get()) ;
-            return true ;
+            playerRepository.save(optPlayer.get());
+            return true;
         }
     }
 
     public boolean deletePlayer(int idPlayer) {
-        Optional<Player> optPlayer =  playerRepository.findById(idPlayer) ;
-        if(optPlayer.isEmpty()){
-            return false ;
-        }else{
+        Optional<Player> optPlayer = playerRepository.findById(idPlayer);
+        if (optPlayer.isEmpty()) {
+            return false;
+        } else {
             playerRepository.deleteById(idPlayer);
             return true;
         }
     }
 
-    public boolean enabledPlayer(int idPlayer){
-        Optional<Player> optPlayer =  playerRepository.findById(idPlayer) ;
-        if(optPlayer.isEmpty()){
-            return false ;
-        }else{
+    public boolean enabledPlayer(int idPlayer) {
+        Optional<Player> optPlayer = playerRepository.findById(idPlayer);
+        if (optPlayer.isEmpty()) {
+            return false;
+        } else {
             optPlayer.get().setEnabled(true);
-            playerRepository.save(optPlayer.get()) ;
-            return true ;
+            playerRepository.save(optPlayer.get());
+            return true;
         }
     }
 
-    public boolean disabledPlayer(int idPlayer){
-        Optional<Player> optPlayer =  playerRepository.findById(idPlayer) ;
-        if(optPlayer.isEmpty()){
-            return false ;
-        }else{
+    public boolean disabledPlayer(int idPlayer) {
+        Optional<Player> optPlayer = playerRepository.findById(idPlayer);
+        if (optPlayer.isEmpty()) {
+            return false;
+        } else {
             optPlayer.get().setEnabled(false);
-            playerRepository.save(optPlayer.get()) ;
-            return true ;
+            playerRepository.save(optPlayer.get());
+            return true;
         }
     }
     /*
-    ////// Inutile avec Baeldung ///////
-
-    public int Connexion(PlayerDto userDto) throws EntityNotFoundException {
-        try {
-            Optional<Player> user = playerRepository.findByEmail(userDto.getEmail());
-
-            if (!user.isEmpty())
-                throw new EntityNotFoundException();
-
-            if (user.get().getPassword().equals(userDto.getPassword())) {
-
-            } else {
-                // password invalid
-            }
-
-            return 0;
-        } catch (DataAccessException e) {
-            throw e;
-        }
-    }
-    */
+     * ////// Inutile avec Baeldung ///////
+     * 
+     * public int Connexion(PlayerDto userDto) throws EntityNotFoundException {
+     * try {
+     * Optional<Player> user = playerRepository.findByEmail(userDto.getEmail());
+     * 
+     * if (!user.isEmpty())
+     * throw new EntityNotFoundException();
+     * 
+     * if (user.get().getPassword().equals(userDto.getPassword())) {
+     * 
+     * } else {
+     * // password invalid
+     * }
+     * 
+     * return 0;
+     * } catch (DataAccessException e) {
+     * throw e;
+     * }
+     * }
+     */
 }

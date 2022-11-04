@@ -9,12 +9,14 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 
 import aaa.tavern.entity.InventoryIngredient;
 import aaa.tavern.entity.Manager;
 
 @DataJpaTest
+@TestPropertySource(locations = "classpath:test.properties")
 public class InventoryIngredientRepositoryTest {
 
 	@Autowired
@@ -43,6 +45,5 @@ public class InventoryIngredientRepositoryTest {
 		List<InventoryIngredient> inventoryIngredients = inventoryIngredientRepository.findByManager(manager);
 
 		assertTrue(inventoryIngredients.isEmpty());
-		;
 	}
 }

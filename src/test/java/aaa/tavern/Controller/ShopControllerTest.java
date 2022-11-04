@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -21,41 +22,41 @@ import aaa.tavern.service.ShopService;
 @AutoConfigureMockMvc(addFilters = false)
 public class ShopControllerTest {
 
-    @Autowired
+	@Autowired
 	private MockMvc mockMvc;
 
-    @MockBean
+	@MockBean
 	private ShopService shopService;
 
 	//////// TEST BYING /////////
-    @Test
-    public void GivenIngredientAndManager_whenPostBuing_ThenPrepareIngredientAndShopServiceCalled() throws Exception {
+	@Test
+	public void GivenIngredientAndManager_whenPostBuing_ThenPrepareIngredientAndShopServiceCalled() throws Exception {
 
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-            .post("/testShopBying")
-            .param("idManager", "1")
-			.param("idIngredient", "1") ;
-		
+				.post("/testShopBying")
+				.param("idManager", "1")
+				.param("idIngredient", "1");
+
 		mockMvc.perform(query);
 
-    	Mockito.verify(shopService).prepareIngredientAndBuy(1, 1);
-    }
+		Mockito.verify(shopService).prepareIngredientAndBuy(1, 1);
+	}
 
 	@Test
-    public void GivenNotParam_whenPostBuing_ThenPrepareIngredientAndBuyServiceNotCalled() throws Exception {
+	public void GivenNotParam_whenPostBuing_ThenPrepareIngredientAndBuyServiceNotCalled() throws Exception {
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-            .post("/testShopBying") ;
-	
+				.post("/testShopBying");
+
 		mockMvc.perform(query);
-		
+
 		int status = mockMvc
-			.perform(query)
-			.andReturn()
-			.getResponse()
-			.getStatus();
-		
+				.perform(query)
+				.andReturn()
+				.getResponse()
+				.getStatus();
+
 		assertEquals(status, 400);
-    }
+	}
 
 	@Test
     public void GivenIngredientAndManager_whenMockToReturnEntityNotFoundExceptionForBying_ThenReturnError406() throws Exception {
@@ -98,35 +99,33 @@ public class ShopControllerTest {
 	////////// SELLING ////////////
 
 	@Test
-    public void GivenIngredientAndManager_whenPostSelling_ThenPrepareIngredientAndShopServiceCalled() throws Exception {
+	public void GivenIngredientAndManager_whenPostSelling_ThenPrepareIngredientAndShopServiceCalled() throws Exception {
 
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-            .post("/testShopSelling")
-            .param("idManager", "1")
-			.param("idIngredient", "1") ;
-		
+				.post("/testShopSelling")
+				.param("idManager", "1")
+				.param("idIngredient", "1");
+
 		mockMvc.perform(query);
 
-    	Mockito.verify(shopService).prepareIngredientAndSell(1, 1);
-    }
-
-	
+		Mockito.verify(shopService).prepareIngredientAndSell(1, 1);
+	}
 
 	@Test
-    public void GivenNotParamForSelling_whenPostSelling_ThenPrepareIngredientAndBuyServiceNotCalled() throws Exception {
+	public void GivenNotParamForSelling_whenPostSelling_ThenPrepareIngredientAndBuyServiceNotCalled() throws Exception {
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-            .post("/testShopSelling") ;
-	
+				.post("/testShopSelling");
+
 		mockMvc.perform(query);
-		
+
 		int status = mockMvc
-			.perform(query)
-			.andReturn()
-			.getResponse()
-			.getStatus();
-		
+				.perform(query)
+				.andReturn()
+				.getResponse()
+				.getStatus();
+
 		assertEquals(status, 400);
-    }
+	}
 
 	@Test
     public void GivenIngredientAndManager_whenMockToReturnEntityNotFoundExceptionForPostSelling_ThenReturnError406() throws Exception {
