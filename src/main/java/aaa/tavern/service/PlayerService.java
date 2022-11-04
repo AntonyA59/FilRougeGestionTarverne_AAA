@@ -71,6 +71,7 @@ public class PlayerService {
 
     public boolean changePassword(int idPlayer, String password){
         Optional<Player> optPlayer =  playerRepository.findById(idPlayer) ;
+
         if(optPlayer.isEmpty()){
             return false ;
         }else{

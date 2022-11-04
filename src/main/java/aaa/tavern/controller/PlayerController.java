@@ -1,5 +1,7 @@
 package aaa.tavern.controller;
 
+import java.security.Principal;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -49,10 +51,11 @@ public class PlayerController {
     }
 
     @GetMapping("/register")
-    public String getForm(Model model){
+    public String getForm(Model model,Principal principal){
         model.addAttribute("player", new PlayerDto("", "", "", "")) ;
         return "/register" ;
     }
+
 
     /*
     @GetMapping("/regitrationConfirm")
