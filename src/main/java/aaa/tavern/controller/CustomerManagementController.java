@@ -67,7 +67,7 @@ public class CustomerManagementController {
 	public ResponseEntity<String> assignNewTableForCustomer(@RequestParam int customerId, @RequestParam int tableId ){
 		try {
 			customerManagementService.assignNewTable(customerId,tableId);
-			
+			//TODO: modifier le retour
 			return ResponseEntity.ok().build();
 		
 		} catch (EntityNotFoundException e) {
@@ -88,7 +88,7 @@ public class CustomerManagementController {
 	public ResponseEntity<String> customerServed(@RequestParam int customerId){
 		try {
 			customerManagementService.customerServed(customerId);
-
+//TODO: modifier le retour
 			return ResponseEntity.ok().build();
 
 		} catch (EntityNotFoundException e) {
@@ -111,7 +111,7 @@ public class CustomerManagementController {
 	public ResponseEntity<String> customerFinish(@RequestParam int customerId, @RequestParam int managerId){
 		try {
 			customerManagementService.customerFinishRecipe(customerId,managerId);
-			
+			//TODO: modifier le retour
 			return ResponseEntity.ok().build();
 		
 		} catch (EntityNotFoundException e) {

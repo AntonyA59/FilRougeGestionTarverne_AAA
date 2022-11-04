@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import aaa.tavern.service.RecipeService;
+import aaa.tavern.dto.RecipeCustomerInventoryIngredientDto;
 import aaa.tavern.exception.ForbiddenException;
 
 
@@ -30,12 +31,10 @@ public class RecipeController {
      * @throws ForbiddenException exception if the inventory does not allow the creation of this revenue
      */
     @PostMapping("/api/recipe/requestRecipe")
-    public ResponseEntity<String> requestRecipe(@RequestParam int managerId,@RequestParam  int recipeId ,@RequestParam int customerId){
+    public RecipeCustomerInventoryIngredientDto requestRecipe(@RequestParam int managerId,@RequestParam  int recipeId ,@RequestParam int customerId){
         try {
-            recipeService.prepareRecipe(managerId,recipeId,customerId);
-
-            return ResponseEntity.ok().build();
-            
+            return recipeService.prepareRecipe(managerId,recipeId,customerId);
+            //TODO: modifier le retour    
         }catch (EntityNotFoundException e1){
 
 			throw new ResponseStatusException(
