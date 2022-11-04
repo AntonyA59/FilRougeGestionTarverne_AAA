@@ -1,4 +1,4 @@
-package aaa.tavern.controller;
+package aaa.tavern.Controller;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

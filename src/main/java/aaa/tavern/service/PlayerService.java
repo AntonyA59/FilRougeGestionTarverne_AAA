@@ -70,20 +70,12 @@ public class PlayerService {
         }
     }
 
-<<<<<<< HEAD
     public boolean changePassword(int idPlayer, String password){
         Optional<Player> optPlayer =  playerRepository.findById(idPlayer) ;
 
         if(optPlayer.isEmpty()){
             return false ;
         }else{
-=======
-    public boolean changePassword(int idPlayer, String password) {
-        Optional<Player> optPlayer = playerRepository.findById(idPlayer);
-        if (optPlayer.isEmpty()) {
-            return false;
-        } else {
->>>>>>> 554b4f1def1ede42cc63d2c7e32fbd66d652b39e
             optPlayer.get().setPassword(passwordEncoder.encode(password));
             playerRepository.save(optPlayer.get());
             return true;
