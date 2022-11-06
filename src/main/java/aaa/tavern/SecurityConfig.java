@@ -3,15 +3,22 @@ package aaa.tavern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class SecurityConfig {
+@EnableWebSecurity
+public class SecurityConfig implements WebMvcConfigurer {
 
         @Autowired
         private UserDetailsService userDetailsService;
@@ -21,24 +28,26 @@ public class SecurityConfig {
                 return new BCryptPasswordEncoder(11);
         }
 
+        @Override
+        public void addCorsMappings(CorsRegistry registry) {
+                registry
+                                .addMapping("/api/**")
+                                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+                                .allowedOrigins("http://localhost:4200")
+                                .allowCredentials(true);
+        }
+
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-                http
-                                .authorizeHttpRequests((authz) -> authz
-                                                .antMatchers("/api/**")
-                                                .permitAll())
-                                .authorizeHttpRequests((authz) -> authz
-                                                .antMatchers("/h2-ui/**")
-                                                .permitAll())
-                                .authorizeHttpRequests((authz) -> authz
-                                                .antMatchers("/register")
-                                                .permitAll())
-                                .authorizeHttpRequests((authz) -> authz
-                                                .antMatchers("/login")
-                                                .permitAll())
-                                .formLogin()
-                                // .successForwardUrl("/game")
-                                .loginPage("/login");
+                http.csrf().disable();
+
+                /*
+                 * Les données de la session sont enregistrées dans un jeton d’authentification
+                 * délivré au client. (JWT)
+                 */
+                http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                http.authenticationProvider(authProvider());
+                http.authorizeRequests().anyRequest().permitAll();
 
                 return http.build();
         }
@@ -51,4 +60,11 @@ public class SecurityConfig {
                 authProvider.setPasswordEncoder(getEncoder());
                 return authProvider;
         }
+
+        @Bean
+        public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfiguration)
+                        throws Exception {
+                return authConfiguration.getAuthenticationManager();
+        }
+
 }

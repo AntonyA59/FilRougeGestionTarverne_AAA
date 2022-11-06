@@ -1,7 +1,7 @@
 package aaa.tavern.entity;
 
 import java.util.Objects;
-
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Column;
@@ -14,6 +14,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "player")
@@ -30,53 +32,51 @@ public class Player {
 	private String nickname;
 
 	@Column(name = "password")
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private String password;
-	
+
 	@Column(name = "enabled")
 	private boolean enabled;
 
-
-
-
 	@ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "users_roles", 
-	joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
-	inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private Collection<Role> roles;
+	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+	private Collection<Role> roles = new ArrayList<Role>();
 
-	public Player(){}
-	
-	public Player(String email, String nickname, String password, boolean enabled,Collection<Role> roles){
+	public Player() {
+	}
+
+	public Player(String email, String nickname, String password, boolean enabled, Collection<Role> roles) {
 		this.email = email;
 		this.nickname = nickname;
 		this.password = password;
-		this.enabled = enabled ;
-		this.roles = roles ;
+		this.enabled = enabled;
+		this.roles = roles;
 	}
-	
+
 	/**
 	 * Deux Players sont les mêmes si ils ont le même identifiant.
 	 */
 	@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
 
-        if (o == null || getClass() != o.getClass())
-            return false;
+		if (o == null || getClass() != o.getClass())
+			return false;
 
-        Player that = (Player) o;
-        return Objects.equals(idPlayer, that.idPlayer);
-    }
+		Player that = (Player) o;
+		return Objects.equals(idPlayer, that.idPlayer);
+	}
 
 	/**
 	 * L'identifiant définit le hash.
 	 */
-    @Override
-    public int hashCode() {
-        return idPlayer.hashCode();
-    }
+	@Override
+	public int hashCode() {
+		return idPlayer.hashCode();
+	}
 
-	//#region get / set
+	// #region get / set
 	public Integer getIdPlayer() {
 		return idPlayer;
 	}
@@ -125,6 +125,4 @@ public class Player {
 		this.roles = roles;
 	}
 
-	
-	
-} 	//#endregion
+} // #endregion
