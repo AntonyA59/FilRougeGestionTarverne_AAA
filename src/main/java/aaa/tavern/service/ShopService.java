@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import aaa.tavern.dao.IngredientRepository;
 import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dto.IngredientDto;
-
+import aaa.tavern.dto.ManagerDto;
 import aaa.tavern.entity.Ingredient;
 import aaa.tavern.entity.Manager;
 import aaa.tavern.exception.ForbiddenException;
@@ -50,12 +50,12 @@ public class ShopService {
      * 
      * @param idManager
      * @param idIngredient
-     * @return void
+     * @return ManagerDto with manager update
      * @throws EntityNotFoundException the ingredient and/or the manager are not found
      * @throws ForbiddenException the manager tries to buy a too high level ingredient OR the manager does not have enough money to buy the ingredient
      */
     // charge le manager et l'ingredient pour acheter et ajouter ce dernier dans l'inventaire
-    public void prepareIngredientAndBuy(int idManager, int idIngredient) throws EntityNotFoundException,ForbiddenException{
+    public ManagerDto prepareIngredientAndBuy(int idManager, int idIngredient) throws EntityNotFoundException,ForbiddenException{
         Ingredient ingredient = ServiceUtil.getEntity(ingredientRepository, idIngredient);
         Manager manager= ServiceUtil.getEntity(managerRepository, idManager);
 
@@ -68,18 +68,19 @@ public class ShopService {
         Add(ingredient,manager) ;
         
         managerRepository.save(manager) ;
+        return new ManagerDto(manager);
     }    
 
     /** Load the manager and the ingredient sell and remove the latter from the inventory
      * 
      * @param idManager
      * @param idIngredient
-     * @return void
+     * @return ManagerDto with manager update
      * @throws EntityNotFoundException the ingredient and/or the manager are not found
      * @throws ForbiddenException the manager tries to sell a too high level ingredient OR the manager does not have the ingredient in its inventory
      */
     //Charge le manager et l'ingredient vendre et retirer ce dernier de l'inventaire
-    public void prepareIngredientAndSell(int idManager, int idIngredient) throws EntityNotFoundException,ForbiddenException{
+    public ManagerDto prepareIngredientAndSell(int idManager, int idIngredient) throws EntityNotFoundException,ForbiddenException{
         Ingredient ingredient = ServiceUtil.getEntity(ingredientRepository, idIngredient);
         Manager manager= ServiceUtil.getEntity(managerRepository, idManager);
 
@@ -92,6 +93,7 @@ public class ShopService {
             throw new ForbiddenException();
         
         managerRepository.save(manager) ;
+        return new ManagerDto(manager);
     }  
 
     /** Adds the ingredient to the manager’s inventory

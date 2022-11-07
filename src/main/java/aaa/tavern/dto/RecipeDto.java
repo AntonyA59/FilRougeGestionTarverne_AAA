@@ -19,6 +19,9 @@ public class RecipeDto {
 	private Integer idSubCategory;
 	private HashMap<Integer, Integer> tabIngredientsForRecipe = new HashMap<Integer, Integer>();
 
+	protected RecipeDto(){
+		
+	}
 	public RecipeDto(Recipe recipe) {
 		this.id = recipe.getId();
 		this.name = recipe.getName();

@@ -4,37 +4,37 @@ import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import aaa.tavern.service.RecipeService;
 import aaa.tavern.dto.RecipeCustomerInventoryIngredientDto;
+import aaa.tavern.dto.received.RequestRecipeDto;
 import aaa.tavern.exception.ForbiddenException;
 
 
 
 @RestController
+@RequestMapping("/api")
 public class RecipeController {
 
     @Autowired
     private RecipeService recipeService ;
     /**
      * controller who creates the preparation of the recipe
-     * @param managerId id manager who wants to launch the preparation of the recipe
-     * @param recipeId id recipe that the manager wants to prepare
-     * @param customerId id customer who wants this recipe
-	 * @return return promise without body with header ok
+     * @ResquestBody RequestRecipeDto with id manager, customer and recipe
+	 * @return RecipeCustomerInventoryIngredientDto with recipeCutomer information and manager inventory Update
      * @throws EntityNotFoundException exception if the id manager or recipe or customer is not in the database
      * @throws ForbiddenException exception if the inventory does not allow the creation of this revenue
      */
-    @PostMapping("/api/recipe/requestRecipe")
-    public RecipeCustomerInventoryIngredientDto requestRecipe(@RequestParam int managerId,@RequestParam  int recipeId ,@RequestParam int customerId){
+    @PostMapping("/recipe/requestRecipe")
+    public RecipeCustomerInventoryIngredientDto requestRecipe(@RequestBody RequestRecipeDto requestRecipeDto ){
         try {
-            return recipeService.prepareRecipe(managerId,recipeId,customerId);
-            //TODO: modifier le retour    
+
+            return recipeService.prepareRecipe(requestRecipeDto.getManagerId(),requestRecipeDto.getRecipeId(),requestRecipeDto.getCustomerId()); 
         }catch (EntityNotFoundException e1){
 
 			throw new ResponseStatusException(

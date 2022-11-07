@@ -40,6 +40,9 @@ public class NewCustomerRandomDto {
 
     private Set<RecipeCustomer> commandList=new HashSet<RecipeCustomer>();
 
+    protected NewCustomerRandomDto(){
+        
+    }
     public NewCustomerRandomDto(Customer customer) {
         this.purseOfGold = customer.getPurseOfGold();
         this.happiness = customer.getHappiness();

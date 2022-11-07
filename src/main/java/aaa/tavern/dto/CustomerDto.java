@@ -43,6 +43,9 @@ public class CustomerDto {
 
     private Set<Integer> commandList = new HashSet<Integer>();
 
+    protected CustomerDto(){
+        
+    }
     public CustomerDto(Customer customer) {
         this.id = customer.getIdCustomer();
         this.purseOfGold = customer.getPurseOfGold();

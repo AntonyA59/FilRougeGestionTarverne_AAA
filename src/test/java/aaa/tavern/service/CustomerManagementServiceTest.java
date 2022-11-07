@@ -25,10 +25,12 @@ import aaa.tavern.dao.TableRestRepository;
 import aaa.tavern.dto.RecipeDto;
 import aaa.tavern.entity.Customer;
 import aaa.tavern.entity.Manager;
+import aaa.tavern.entity.Place;
 import aaa.tavern.entity.Recipe;
 import aaa.tavern.entity.RecipeIngredient;
 import aaa.tavern.entity.SubCategory;
 import aaa.tavern.entity.TableRest;
+import aaa.tavern.exception.ForbiddenException;
 
 //whenassertThrow 
 @SpringBootTest
@@ -53,13 +55,15 @@ public class CustomerManagementServiceTest {
     private Customer customerMock;
 
     @Test
-    public void modifedTableRestWithAssignNewTable(){
+    public void modifedTableRestWithAssignNewTable() throws ForbiddenException{
         Customer customer= new Customer();
         Optional<Customer> optCustomer= Optional.of(customer);
         Mockito.when(customerRepository.findById(1)).thenReturn(optCustomer);
-        
+        Place place= new Place();
+        place.setPlaceId(1);
         TableRest tableRest= new TableRest();
         tableRest.setNumberPlace(5);
+        tableRest.setPlace(place);
         Optional<TableRest> optTableRest= Optional.of(tableRest);
         Mockito.when(tableRestRepository.findById(1)).thenReturn(optTableRest);
 
@@ -70,14 +74,16 @@ public class CustomerManagementServiceTest {
 	}
 
     @Test
-	public void modifedCustomerTableIdWithAssignNewTable() {
+	public void modifedCustomerTableIdWithAssignNewTable() throws ForbiddenException{
 		Customer customer = new Customer();
 		Optional<Customer> optCustomer = Optional.of(customer);
 		Mockito.when(customerRepository.findById(1)).thenReturn(optCustomer);
-
+        Place place= new Place();
+        place.setPlaceId(1);
 		TableRest tableRest = new TableRest();
 		tableRest.setNumberPlace(5);
-		tableRest.setIdTable(1);
+        tableRest.setIdTable(1);
+		tableRest.setPlace(place);
 		Optional<TableRest> optTableRest = Optional.of(tableRest);
 		Mockito.when(tableRestRepository.findById(1)).thenReturn(optTableRest);
 
@@ -143,14 +149,17 @@ public class CustomerManagementServiceTest {
 
     @Test
     public void givenCustomerServed_WhenCustomerEat(){
-
-        Optional<Customer> optCutomer= Optional.of(customerMock);
+        TableRest tableRest= new TableRest();
+        tableRest.setIdTable(1);
+        Customer customer= new Customer();
+        customer.setTableRest(tableRest);
+        Optional<Customer> optCutomer= Optional.of(customer);
         Mockito.when(customerRepository.findById(1)).thenReturn(optCutomer);
         customerManagementService.customerServed(1);
         
-        Mockito.verify(customerMock).setConsommationStart(Mockito.any());
+        Mockito.verify(customer).setConsommationStart(Mockito.any());
         
-        Mockito.verify(customerRepository).save(customerMock);
+        Mockito.verify(customerRepository).save(customer);
     }
 
 }

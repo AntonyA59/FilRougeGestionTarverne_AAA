@@ -15,7 +15,10 @@ public class TableRestDto {
     private Float posY;
 
     private Integer idPlace;
+    
+    protected TableRestDto(){
 
+    }
     public TableRestDto(TableRest tableRest) {
 
         this.id = tableRest.getIdTable();
