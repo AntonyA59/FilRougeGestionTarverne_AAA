@@ -13,8 +13,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import aaa.tavern.filters.JwtAuthenticationFilter;
+import aaa.tavern.filters.JwtAuthorizationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -32,7 +36,7 @@ public class SecurityConfig implements WebMvcConfigurer {
         public void addCorsMappings(CorsRegistry registry) {
                 registry
                                 .addMapping("/api/**")
-                                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+                                .allowedMethods("GET", "POST", "PUT", "DELETE")
                                 .allowedOrigins("http://localhost:4200")
                                 .allowCredentials(true);
         }
@@ -47,7 +51,21 @@ public class SecurityConfig implements WebMvcConfigurer {
                  */
                 http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 http.authenticationProvider(authProvider());
-                http.authorizeRequests().anyRequest().permitAll();
+                /**
+                 * Tout Utilisateur peut accéder a ces routes (le /login est permitAll par
+                 * défaut donc pas besoin de le mentionner)
+                 */
+                http.authorizeHttpRequests().antMatchers("/api/register", "/refreshToken/**").permitAll();
+                /**
+                 * Tout Utilisateur ayant le rôle USER peuvent accéder à ces routes
+                 */
+                http.authorizeHttpRequests().antMatchers("/api/game/**").hasAuthority("USER");
+                /**
+                 * Permet d'activer la génération des JWT a l'authentication et aussi les
+                 * Authorizations
+                 */
+                http.addFilter(new JwtAuthenticationFilter(authenticationManager(null)));
+                http.addFilterBefore(new JwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
                 return http.build();
         }

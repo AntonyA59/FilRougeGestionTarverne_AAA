@@ -112,8 +112,8 @@ public class PlayerService {
 
     }
 
-    public Player loadPlayer(String username) {
-        return playerRepository.findByNickname(username).get();
+    public Player loadPlayerByEmail(String email) {
+        return playerRepository.findByEmail(email).get();
     }
     /*
      * ////// Inutile avec Baeldung ///////

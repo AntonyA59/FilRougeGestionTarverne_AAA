@@ -22,7 +22,7 @@ import aaa.tavern.dto.ManagerDto;
 import aaa.tavern.service.ManagerService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/game")
 public class ManagerController {
 
     @Autowired
