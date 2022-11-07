@@ -54,6 +54,7 @@ public class CustomerManagementServiceTest {
     @MockBean
     private Customer customerMock;
 
+
     @Test
     public void modifedTableRestWithAssignNewTable() throws ForbiddenException{
         Customer customer= new Customer();
@@ -151,15 +152,14 @@ public class CustomerManagementServiceTest {
     public void givenCustomerServed_WhenCustomerEat(){
         TableRest tableRest= new TableRest();
         tableRest.setIdTable(1);
-        Customer customer= new Customer();
-        customer.setTableRest(tableRest);
-        Optional<Customer> optCutomer= Optional.of(customer);
+        Optional<Customer> optCutomer= Optional.of(customerMock);
         Mockito.when(customerRepository.findById(1)).thenReturn(optCutomer);
+        Mockito.when(customerMock.getTableRest()).thenReturn(tableRest);
         customerManagementService.customerServed(1);
         
-        Mockito.verify(customer).setConsommationStart(Mockito.any());
+        Mockito.verify(customerMock).setConsommationStart(Mockito.any());
         
-        Mockito.verify(customerRepository).save(customer);
+        Mockito.verify(customerRepository).save(customerMock);
     }
 
 }
