@@ -30,20 +30,18 @@ public class PlayerService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    ApplicationEventPublisher eventPublisher ;
+    ApplicationEventPublisher eventPublisher;
 
-    public void createPlayer(PlayerDto playerDto/*, HttpServletRequest request*/) {
-        Role playerRole = roleRepository.findByName("USER").get() ;
+    public void createPlayer(PlayerDto playerDto/* , HttpServletRequest request */) {
+        Role playerRole = roleRepository.findByName("USER").get();
         List<Role> roles = new ArrayList<Role>();
         roles.add(playerRole);
         Player newPlayer = new Player(
-            playerDto.getEmail(), 
-            playerDto.getNickname(), 
-            passwordEncoder.encode(playerDto.getPassword()),
-            true,
-            roles
-            ) ;
-        //eventPublisher.publishEvent(new OnRegistrationCompleteEvent(newPlayer, request));
+                playerDto.getEmail(),
+                playerDto.getNickname(),
+                passwordEncoder.encode(playerDto.getPassword()),
+                true,
+                roles);
         playerRepository.save(newPlayer);
     }
 
@@ -112,6 +110,11 @@ public class PlayerService {
             playerRepository.save(optPlayer.get());
             return true;
         }
+
+    }
+
+    public Player loadPlayerByEmail(String email) {
+        return playerRepository.findByEmail(email).get();
     }
     /*
      * ////// Inutile avec Baeldung ///////

@@ -1,6 +1,8 @@
 package aaa.tavern.dao;
 
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -8,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import aaa.tavern.entity.Player;
 
@@ -36,14 +36,14 @@ public class PlayerRepositoryTest {
 	@Test
 	@Sql("givenPlayer_findByNickname_thenReturnPlayer.sql")
 	public void givenPlayer_findByNickname_thenReturnPlayer() {
-		List<Player> playerOpt = playerRepository.findByNickname("Test3");
-		Player player = playerOpt.get(0);
+		Optional<Player> playerOpt = playerRepository.findByNickname("Test3");
+		Player player = playerOpt.get();
 		assertEquals(player.getNickname(), "Test3");
 	}
 
 	@Test
 	public void givenPlayer_findByNickname_thenReturnNothing() {
-		List<Player> playerOpt = playerRepository.findByNickname("Test3");
+		Optional<Player> playerOpt = playerRepository.findByNickname("Test3");
 		assertTrue(playerOpt.isEmpty());
 	}
 }

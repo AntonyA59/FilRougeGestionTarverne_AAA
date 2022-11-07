@@ -21,112 +21,117 @@ import aaa.tavern.dto.received.ManagerIdDto;
 import aaa.tavern.exception.ForbiddenException;
 import aaa.tavern.service.CustomerManagementService;
 
-
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/game")
 public class CustomerManagementController {
 	@Autowired
 	private CustomerManagementService customerManagementService;
-    
+
 	/**
 	 * Controller that requests a new recipe
+	 * 
 	 * @return object with the recipe randomly found
 	 */
-    @PostMapping("/customerManagement/newRecipe")
-    public RecipeDto getNeWRecipeForCustomer(@RequestBody ManagerIdDto managerIdDto){
-		try{
+	@PostMapping("/customerManagement/newRecipe")
+	public RecipeDto getNeWRecipeForCustomer(@RequestBody ManagerIdDto managerIdDto) {
+		try {
 			return customerManagementService.getNewRecipe(managerIdDto.getManagerId());
-		}catch (EntityNotFoundException e) {
-		
+		} catch (EntityNotFoundException e) {
+
 			throw new ResponseStatusException(
-				HttpStatus.NOT_FOUND, "Ce manager n'existe pas "
-			);
+					HttpStatus.NOT_FOUND, "Ce manager n'existe pas ");
 		}
-    }
+	}
 
 	/**
 	 * Controller that allows to create a new customer
-	 * @param managerId  id of the manager to whom we create a new customer
+	 * 
+	 * @param managerId id of the manager to whom we create a new customer
 	 * @return CustomerDto Object that contains the information of the new customer
-	 * @throws EntityNotFoundException exception if the id manager is not in the database
+	 * @throws EntityNotFoundException exception if the id manager is not in the
+	 *                                 database
 	 */
 	@PostMapping("/customerManagement/newCustomer")
-	public CustomerDto getNewCustomer(@RequestBody ManagerIdDto managerIdDto){
+	public CustomerDto getNewCustomer(@RequestBody ManagerIdDto managerIdDto) {
 		try {
 
 			return customerManagementService.getNewCustomer(managerIdDto.getManagerId());
-		
+
 		} catch (EntityNotFoundException e) {
-		
+
 			throw new ResponseStatusException(
-				HttpStatus.NOT_FOUND, "Ce manager n'existe pas "
-			);
+					HttpStatus.NOT_FOUND, "Ce manager n'existe pas ");
 		}
 	}
+
 	/**
 	 * Controller that assigns a table to a customer
-     * @ResquestBody AssignNewTableForCustomerDto with id customer and tableRest
-	 * @return CustomerTableRestDto with Customer and TableRest update 
-	 * @throws EntityNotFoundException exception if the id customer or table are not in the database
+	 * 
+	 * @ResquestBody AssignNewTableForCustomerDto with id customer and tableRest
+	 * @return CustomerTableRestDto with Customer and TableRest update
+	 * @throws EntityNotFoundException exception if the id customer or table are not
+	 *                                 in the database
 	 */
 	@PostMapping("/customerManagement/customerAssignTable")
-	public CustomerTableRestDto assignNewTableForCustomer(@RequestBody AssignNewTableForCustomerDto assignNewTableForCustomerDto ){
+	public CustomerTableRestDto assignNewTableForCustomer(
+			@RequestBody AssignNewTableForCustomerDto assignNewTableForCustomerDto) {
 		try {
-			return customerManagementService.assignNewTable(assignNewTableForCustomerDto.getCustomerId(),assignNewTableForCustomerDto.getTableId());
-		
+			return customerManagementService.assignNewTable(assignNewTableForCustomerDto.getCustomerId(),
+					assignNewTableForCustomerDto.getTableId());
+
 		} catch (EntityNotFoundException e) {
-		
+
 			throw new ResponseStatusException(
-				HttpStatus.NOT_FOUND, "Customer ou table non trouvé dans la BDD"
-			);
-		} catch(ForbiddenException e1){
+					HttpStatus.NOT_FOUND, "Customer ou table non trouvé dans la BDD");
+		} catch (ForbiddenException e1) {
 			throw new ResponseStatusException(
-				HttpStatus.BAD_REQUEST, "Il ne reste plus de place !"
-			);
+					HttpStatus.BAD_REQUEST, "Il ne reste plus de place !");
 		}
 	}
 
 	/**
 	 * Controller which indicates that the customer is served
-	 * @param customerId id customer who starts to eat 
+	 * 
+	 * @param customerId id customer who starts to eat
 	 * @return CustomerDto whith customer update
-	 * @throws EntityNotFoundException exception if the id customer are not in the database
+	 * @throws EntityNotFoundException exception if the id customer are not in the
+	 *                                 database
 	 */
 	@PostMapping("/customerManagement/customerServed")
-	public CustomerDto customerServed(@RequestBody CustomerServedDto customerServedDto){
+	public CustomerDto customerServed(@RequestBody CustomerServedDto customerServedDto) {
 		try {
 			return customerManagementService.customerServed(customerServedDto.getCustomerId());
 
 		} catch (EntityNotFoundException e) {
 			throw new ResponseStatusException(
-				HttpStatus.NOT_FOUND, "Customer non trouvé dans la BDD"
-			);
+					HttpStatus.NOT_FOUND, "Customer non trouvé dans la BDD");
 		}
 	}
-
 
 	/**
-	 * Controller that allows to get the money from the recipe consume from the customer
+	 * Controller that allows to get the money from the recipe consume from the
+	 * customer
+	 * 
 	 * @param customerId id customer who finished the recipe
-	 * @param managerId id manager who should be given the money
+	 * @param managerId  id manager who should be given the money
 	 * @return ManagerDto with manager update
-	 * @throws EntityNotFoundException exception if the id customer or manager are not in the database.
-	 * @throws ForbiddenException exception if the consumption time is not good
+	 * @throws EntityNotFoundException exception if the id customer or manager are
+	 *                                 not in the database.
+	 * @throws ForbiddenException      exception if the consumption time is not good
 	 */
 	@PostMapping("/customerManagement/customerFinish")
-	public ManagerDto customerFinish(@RequestBody CustomerFinishDto customerFinishDto){
+	public ManagerDto customerFinish(@RequestBody CustomerFinishDto customerFinishDto) {
 		try {
-			return customerManagementService.customerFinishRecipe(customerFinishDto.getCustomerId(),customerFinishDto.getManagerId());		
+			return customerManagementService.customerFinishRecipe(customerFinishDto.getCustomerId(),
+					customerFinishDto.getManagerId());
 		} catch (EntityNotFoundException e) {
-		
+
 			throw new ResponseStatusException(
-				HttpStatus.NOT_FOUND, "Customer ou manager non trouvé dans la BDD"
-			);
-		} catch(ForbiddenException e1){
+					HttpStatus.NOT_FOUND, "Customer ou manager non trouvé dans la BDD");
+		} catch (ForbiddenException e1) {
 			throw new ResponseStatusException(
-				HttpStatus.BAD_REQUEST, "Le temps n'est pas terminé !"
-			);
+					HttpStatus.BAD_REQUEST, "Le temps n'est pas terminé !");
 		}
 	}
-	
+
 }

@@ -9,13 +9,15 @@ public class RecipeCustomerInventoryIngredientDto {
     private Integer idRecipe;
     private Integer idCustomer;
     private List<InventoryIngredient> inventaire;
-    
-    protected RecipeCustomerInventoryIngredientDto(){
-        
+
+    protected RecipeCustomerInventoryIngredientDto() {
+
     }
-    public RecipeCustomerInventoryIngredientDto(RecipeCustomer recipeCustomer,List<InventoryIngredient> inventoryIngredient){
+
+    public RecipeCustomerInventoryIngredientDto(RecipeCustomer recipeCustomer,
+            List<InventoryIngredient> inventoryIngredient) {
         this.idRecipe = recipeCustomer.getRecipe().getId();
         this.idCustomer = recipeCustomer.getCustomer().getIdCustomer();
         this.inventaire = inventoryIngredient;
-    }   
+    }
 }
