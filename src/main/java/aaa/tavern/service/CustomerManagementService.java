@@ -20,6 +20,8 @@ import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dao.RecipeRepository;
 import aaa.tavern.dao.TableRestRepository;
 import aaa.tavern.dto.CustomerDto;
+import aaa.tavern.dto.CustomerTableRestDto;
+import aaa.tavern.dto.ManagerDto;
 import aaa.tavern.dto.RecipeDto;
 import aaa.tavern.entity.Customer;
 import aaa.tavern.entity.Manager;
@@ -82,18 +84,23 @@ public class CustomerManagementService {
      * allows you to assign a customer to a place
      * @param customerId Id of the customer to whom we must assign a table
      * @param tableId table id to which a customer has been assigned
+     * @return CustomerTableRestDto with customer and tableRest Update
      * @throws EntityNotFoundException exception if the id table or id customer are not in the database
      */
-    @Transactional(rollbackOn = EntityNotFoundException.class) 
-    public void assignNewTable(int customerId,int tableId) throws EntityNotFoundException{
+    @Transactional(rollbackOn = {EntityNotFoundException.class,ForbiddenException.class}) 
+    public CustomerTableRestDto assignNewTable(int customerId,int tableId) throws EntityNotFoundException,ForbiddenException{
         Customer customer= ServiceUtil.getEntity(customerRepository, customerId);
         TableRest tableRest= ServiceUtil.getEntity(tableRestRepository, tableId);
-        
-        tableRest.setNumberPlace(tableRest.getNumberPlace()-1);
-        customer.setTableRest(tableRest);
+        if( tableRest.getNumberPlace()-1>=0){
+            tableRest.setNumberPlace(tableRest.getNumberPlace()-1);
+            customer.setTableRest(tableRest);
+    
+            tableRestRepository.save(tableRest);
+            customerRepository.save(customer);
+            return new CustomerTableRestDto(customer, tableRest);
 
-        tableRestRepository.save(tableRest);
-        customerRepository.save(customer);
+        }else
+            throw new ForbiddenException();
     }
 
 
@@ -138,25 +145,30 @@ public class CustomerManagementService {
     /**
      * Method high level to serve the recipe to the customer
      * @param customerId id customer to whom the recipe is served
+     * @retrun CustomerDto whith customer update
      * @throws EntityNotFoundException exception if the id customer is not in the database
      */
     @Transactional(rollbackOn = EntityNotFoundException.class)
-    public void customerServed(int customerId)throws EntityNotFoundException{
+    public CustomerDto customerServed(int customerId)throws EntityNotFoundException{
+        
         Customer customer = ServiceUtil.getEntity(customerRepository, customerId);
         Timestamp timeNow = new Timestamp(System.currentTimeMillis());
         customer.setConsommationStart(timeNow);
         customerRepository.save(customer);
+        return new CustomerDto(customer);
+
     }
     
     /**
      * Method high level which indicates that the customer has finished eating
      * @param customerId id customer who has finished eating
      * @param managerId id manager who should be given the money 
+     * @return ManagerDto with manager update
      * @throws EntityNotFoundException exception if the id customer or manager is not in the database
      * @throws ForbiddenException exception if the consumption time is not good
      */
     @Transactional(rollbackOn = {EntityNotFoundException.class,ForbiddenException.class}) 
-    public void customerFinishRecipe(int customerId, int managerId)throws EntityNotFoundException,ForbiddenException{
+    public ManagerDto customerFinishRecipe(int customerId, int managerId)throws EntityNotFoundException,ForbiddenException{
         
         Customer customer= ServiceUtil.getEntity(customerRepository, customerId);
         Manager manager= ServiceUtil.getEntity(managerRepository, managerId);
@@ -166,6 +178,8 @@ public class CustomerManagementService {
         }
         customerRepository.delete(customer);
         managerRepository.save(manager);
+
+        return new ManagerDto(manager);
     }
 
 
@@ -182,7 +196,6 @@ public class CustomerManagementService {
             Integer goldManager= manager.getChest();
             manager.setChest(goldManager+goldWin);
             manager.setExperience(manager.getExperience()+recipe.getExpGiven());
-            managerRepository.findById(1);
             
         }else
             throw new ForbiddenException();

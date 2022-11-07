@@ -1,4 +1,4 @@
-package aaa.tavern.controller;
+package aaa.tavern.Controller;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -7,7 +7,6 @@ import java.util.Set;
 import javax.persistence.EntityNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doNothing;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -35,6 +34,10 @@ import aaa.tavern.entity.SubCategory;
 import aaa.tavern.entity.TableRest;
 import aaa.tavern.dto.CustomerDto;
 import aaa.tavern.dto.RecipeDto;
+import aaa.tavern.dto.received.AssignNewTableForCustomerDto;
+import aaa.tavern.dto.received.CustomerFinishDto;
+import aaa.tavern.dto.received.CustomerServedDto;
+import aaa.tavern.dto.received.ManagerIdDto;
 import aaa.tavern.exception.ForbiddenException;
 import aaa.tavern.service.CustomerManagementService;
 
@@ -50,7 +53,7 @@ public class CustomerManagementControllerTest {
 
     // Test NewRecipe
     @Test 
-    public void givenCorrectParam_WhenPostNewRecipe_thenReturnRecipeDto() throws Exception{
+    public void givenCorrectBody_WhenPostNewRecipe_thenReturnRecipeDto() throws Exception{
         ObjectMapper objectMapper= new ObjectMapper();
         
         SubCategory subCategory= new SubCategory();
@@ -60,10 +63,18 @@ public class CustomerManagementControllerTest {
         RecipeDto recipeDto = new RecipeDto(recipe);
 
         Mockito.when(customerManagementService.getNewRecipe(1)).thenReturn(recipeDto);
-    
+		
+        
+        ManagerIdDto jsonDto = new ManagerIdDto(1);
+
+        String body = objectMapper
+            .valueToTree(jsonDto)
+            .toPrettyString();
+
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                                                    .post("/api/customerManagement/newRecipe")
-                                                    .param("managerId", "1");
+            .post("/api/customerManagement/newRecipe")
+            .contentType("application/json")
+            .content(body);
 
         MvcResult result = mockMvc.perform(query).andReturn();
         String returnedJsonStr= result.getResponse().getContentAsString();
@@ -80,8 +91,8 @@ public class CustomerManagementControllerTest {
                     "preparationTime": 1,
                     "peremptionDate": 1664488800,
                     "expGiven": 1,
-                    "subCategory": 1,
-                    "tabIngredientsForRecipe": {}
+                    "idSubCategory": 1,
+                    "tabIngredientsForRecipe":{}
                 }
                 """;
         JsonNode expectedJson= objectMapper.readTree(jsonStr);
@@ -90,7 +101,7 @@ public class CustomerManagementControllerTest {
     }
 
     @Test
-    public void givenCorrectParam_whenPostNewRecipe_thenReturn200() throws Exception{
+    public void givenCorrectBody_whenPostNewRecipe_thenReturn200() throws Exception{
 		    
         SubCategory subCategory= new SubCategory();
         subCategory.setIdSubCategory(1);
@@ -100,9 +111,18 @@ public class CustomerManagementControllerTest {
 
         Mockito.when(customerManagementService.getNewRecipe(1)).thenReturn(recipeDto);
     	
+        ManagerIdDto jsonDto = new ManagerIdDto(1);
+
+        ObjectMapper objectMapper= new ObjectMapper();
+
+        String body = objectMapper
+            .valueToTree(jsonDto)
+            .toPrettyString();
+
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
 				.post("/api/customerManagement/newRecipe")
-                .param("managerId", "1");
+                .contentType("application/json")
+                .content(body);
 		
 		int status = mockMvc
 				.perform(query)
@@ -114,13 +134,22 @@ public class CustomerManagementControllerTest {
     }
 
     @Test
-    public void givenCorrectParamButNotPresentBDD_whenPostNewRecipe_thenReturn404() throws Exception{
+    public void givenCorrectBodyButNotPresentBDD_whenPostNewRecipe_thenReturn404() throws Exception{
 		
         Mockito.when(customerManagementService.getNewRecipe(1)).thenThrow(EntityNotFoundException.class);
 		
+        ManagerIdDto jsonDto = new ManagerIdDto(1);
+
+        ObjectMapper objectMapper= new ObjectMapper();
+
+        String body = objectMapper
+            .valueToTree(jsonDto)
+            .toPrettyString();
+
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
 				.post("/api/customerManagement/newRecipe")
-                .param("managerId", "1");
+                .contentType("application/json")
+                .content(body);
 		
 		int status = mockMvc
 				.perform(query)
@@ -132,7 +161,7 @@ public class CustomerManagementControllerTest {
     }
 
     @Test
-    public void givenIncorrectParam_whenPostNewRecipe_thenReturn404() throws Exception{
+    public void givenIncorrectBody_whenPostNewRecipe_thenReturn400() throws Exception{
 		
        Mockito.when(customerManagementService.getNewRecipe(1)).thenThrow(EntityNotFoundException.class);
     	
@@ -151,7 +180,7 @@ public class CustomerManagementControllerTest {
     // newCustomer
 
     @Test 
-    public void givenCorrectParam_WhenPostNewCustomer_thenReturnCustomerDto() throws Exception{
+    public void givenCorrectBody_WhenPostNewCustomer_thenReturnCustomerDto() throws Exception{
         ObjectMapper objectMapper= new ObjectMapper();
         TableRest tableRest= new TableRest();
         tableRest.setIdTable(1);
@@ -166,11 +195,20 @@ public class CustomerManagementControllerTest {
                                         customer.setIdCustomer(1);
                                         CustomerDto customerDto = new CustomerDto(customer);
                                         
-                                        Mockito.when(customerManagementService.getNewCustomer(1)).thenReturn(customerDto);
-                                        
-                                        MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                                        .post("/api/customerManagement/newCustomer")
-                                        .param("managerId", "1");
+        Mockito.when(customerManagementService.getNewCustomer(1)).thenReturn(customerDto);
+        
+        ManagerIdDto jsonDto = new ManagerIdDto(1);
+
+        String body = objectMapper
+            .valueToTree(jsonDto)
+            .toPrettyString();
+
+
+        MockHttpServletRequestBuilder query = MockMvcRequestBuilders
+            .post("/api/customerManagement/newCustomer")
+            .contentType("application/json")
+            .content(body);
+        
                                         
         MvcResult result = mockMvc.perform(query).andReturn();
         String returnedJsonStr= result.getResponse().getContentAsString();
@@ -180,21 +218,21 @@ public class CustomerManagementControllerTest {
         String jsonStr="""
             {
                 "id": 1 ,
-                    "purseOfGold":1,
-                    "happiness": 1.0,
-                    "hunger":1.0,
-                    "thirst":1.0,
-                    "nauseaLevel":1.0,
-                    "alcoholLevel":1.0,
-                    "toilet":1.0,
-                    "timeInTavern": "01:00:00",
-                    "nauseaTolerance": 1.0,
-                    "alcoholTolerance": 1.0,
-                    "gender": true,
-                    "expGiven": 0,
-                    "tableRest": 1,
-                    "consommationStart": null ,
-                    "commandList": []
+                "purseOfGold":1,
+                "happiness": 1.0,
+                "hunger":1.0,
+                "thirst":1.0,
+                "nauseaLevel":1.0,
+                "alcoholLevel":1.0,
+                "toilet":1.0,
+                "timeInTavern": "01:00:00",
+                "nauseaTolerance": 1.0,
+                "alcoholTolerance": 1.0,
+                "gender": true,
+                "expGiven": 0,
+                "idTableRest": 1,
+                "consommationStart": null ,
+                "commandList": []
                 }
                 """;
                 JsonNode expectedJson= objectMapper.readTree(jsonStr);
@@ -203,56 +241,72 @@ public class CustomerManagementControllerTest {
             }
 
     @Test
-            public void givenCorrectParam_whenPostNewCustomer_thenReturn200() throws Exception{
-                
-                TableRest tableRest= new TableRest();
-                tableRest.setIdTable(1);
-                Set<RecipeCustomer> tabCustomer= new HashSet<RecipeCustomer>();
-                Customer customer = new Customer(Integer.valueOf(1), Float.valueOf(1f),
+    public void givenCorrectBody_whenPostNewCustomer_thenReturn200() throws Exception{
+        ObjectMapper objectMapper= new ObjectMapper();
+
+        TableRest tableRest= new TableRest();
+        tableRest.setIdTable(1);
+        Set<RecipeCustomer> tabCustomer= new HashSet<RecipeCustomer>();
+        Customer customer = new Customer(Integer.valueOf(1), Float.valueOf(1f),
                 Float.valueOf(1f) ,Float.valueOf(1f)  ,
                 Float.valueOf(1f) ,Float.valueOf(1f) , 
                 Float.valueOf(1f) , new Time(1l),
                 Float.valueOf(1f) ,Float.valueOf(1f) , 
                 true, Integer.valueOf(1),
                 tableRest,tabCustomer,null);
-                customer.setIdCustomer(1);
-                CustomerDto customerDto = new CustomerDto(customer);
-                
-                Mockito.when(customerManagementService.getNewCustomer(1)).thenReturn(customerDto);
+        customer.setIdCustomer(1);
+        CustomerDto customerDto = new CustomerDto(customer);
+        
+        Mockito.when(customerManagementService.getNewCustomer(1)).thenReturn(customerDto);
 
-                MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/api/customerManagement/newCustomer")
-                .param("managerId", "1");
-                
-                int status = mockMvc
-				.perform(query)
-				.andReturn()
-				.getResponse()
-				.getStatus();
-		
-                assertEquals(200, status);
-            }
+        ManagerIdDto jsonDto = new ManagerIdDto(1);
+
+        String body = objectMapper
+            .valueToTree(jsonDto)
+            .toPrettyString();
+
+        MockHttpServletRequestBuilder query = MockMvcRequestBuilders
+            .post("/api/customerManagement/newCustomer")
+            .contentType("application/json")
+            .content(body);
+        
+        int status = mockMvc
+            .perform(query)
+            .andReturn()
+            .getResponse()
+            .getStatus();
+
+        assertEquals(200, status);
+    }
 
     @Test
-    public void givenCorrectParamButNotPresentBDD_whenPostNewCustomer_thenReturn404() throws Exception{
-		
+    public void givenCorrectBodyButNotPresentBDD_whenPostNewCustomer_thenReturn404() throws Exception{
+        ObjectMapper objectMapper= new ObjectMapper();
+
         Mockito.when(customerManagementService.getNewCustomer(1)).thenThrow(EntityNotFoundException.class);
 		
+        
+        ManagerIdDto jsonDto = new ManagerIdDto(1);
+
+        String body = objectMapper
+            .valueToTree(jsonDto)
+            .toPrettyString();
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-        .post("/api/customerManagement/newCustomer")
-        .param("managerId", "1");
+            .post("/api/customerManagement/newCustomer")
+            .contentType("application/json")
+            .content(body);
 		
 		int status = mockMvc
-        .perform(query)
-        .andReturn()
-        .getResponse()
-        .getStatus();
+            .perform(query)
+            .andReturn()
+            .getResponse()
+            .getStatus();
 		
 		assertEquals(404, status);
     }
 
     @Test
-    public void givenIncorrectParam_whenPostNewCustomer_thenReturn404() throws Exception {
+    public void givenIncorrectBody_whenPostNewCustomer_thenReturn404() throws Exception {
 
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
                 .post("/api/customerManagement/newCustomer");
@@ -268,16 +322,19 @@ public class CustomerManagementControllerTest {
 
     // Test controller customerAssignTable
     @Test 
-    public void givenCorrectParam_WhenPostCustomerAssignTable_thenReturn200() throws Exception{
+    public void givenCorrectBody_WhenPostCustomerAssignTable_thenReturn200() throws Exception{
 
-        
-        
-        doNothing().when(customerManagementService).assignNewTable(1,1);
-        
+        ObjectMapper objectMapper = new ObjectMapper();
+		AssignNewTableForCustomerDto jsonDto = new AssignNewTableForCustomerDto(1, 1);
+		
+        String body = objectMapper
+            .valueToTree(jsonDto)
+            .toPrettyString();
+
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                                                    .post("/api/customerManagement/customerAssignTable")
-                                                    .param("customerId", "1")
-                                                    .param("tableId","1" );
+            .post("/api/customerManagement/customerAssignTable")
+            .contentType("application/json")
+            .content(body);
 
         int status = mockMvc
                         .perform(query)
@@ -290,14 +347,20 @@ public class CustomerManagementControllerTest {
     }
 
     @Test
-    public void givenCorrectParamButNotPresentBDD_whenPostCustomerAssignTable_thenReturn404() throws Exception{
+    public void givenCorrectBodyButNotPresentBDD_whenPostCustomerAssignTable_thenReturn404() throws Exception{
+        ObjectMapper objectMapper = new ObjectMapper();
+		AssignNewTableForCustomerDto jsonDto = new AssignNewTableForCustomerDto(1, 10);
 		
+        String body = objectMapper
+            .valueToTree(jsonDto)
+            .toPrettyString();
+
         Mockito.doThrow(EntityNotFoundException.class).when(customerManagementService).assignNewTable(1, 10);
 		
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/api/customerManagement/customerAssignTable")
-                .param("customerId", "1")
-                .param("tableId", "10");
+            .post("/api/customerManagement/customerAssignTable")
+            .contentType("application/json")
+            .content(body);
                 
 		
 		int status = mockMvc
@@ -310,7 +373,7 @@ public class CustomerManagementControllerTest {
     }
 
     @Test
-    public void givenIncorrectParam_whenPostCustomerAssignTable_thenReturn404() throws Exception {
+    public void givenIncorrectBody_whenPostCustomerAssignTable_thenReturn400() throws Exception {
 
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
                 .post("/api/customerManagement/customerAssignTable");
@@ -326,32 +389,43 @@ public class CustomerManagementControllerTest {
 
     // Test customerServed
     @Test 
-    public void givenCorrectParam_WhenPostCustomerServed_thenReturn200() throws Exception{
-
-        doNothing().when(customerManagementService).customerServed(1);
-        
+    public void givenCorrectBody_WhenPostCustomerServed_thenReturn200() throws Exception{
+        ObjectMapper objectMapper = new ObjectMapper();
+		CustomerServedDto jsonDto = new CustomerServedDto(1);
+		
+        String body = objectMapper
+            .valueToTree(jsonDto)
+            .toPrettyString();
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                                                    .post("/api/customerManagement/customerServed")
-                                                    .param("customerId", "1");
+            .post("/api/customerManagement/customerServed")
+            .contentType("application/json")
+            .content(body);
 
         int status = mockMvc
-                        .perform(query)
-                        .andReturn()
-                        .getResponse()
-                        .getStatus();
+            .perform(query)
+            .andReturn()
+            .getResponse()
+            .getStatus();
         
 
         assertEquals(200, status);
     }
 
     @Test
-    public void givenCorrectParamButNotPresentBDD_whenPostCustomerServed_thenReturn404() throws Exception{
+    public void givenCorrectBodyButNotPresentBDD_whenPostCustomerServed_thenReturn404() throws Exception{
 		
         Mockito.doThrow(EntityNotFoundException.class).when(customerManagementService).customerServed(1);
+        
+        ObjectMapper objectMapper = new ObjectMapper();
+		CustomerServedDto jsonDto = new CustomerServedDto(1);
 		
+        String body = objectMapper
+            .valueToTree(jsonDto)
+            .toPrettyString();
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
 				.post("/api/customerManagement/customerServed")
-                .param("customerId", "1");
+                .contentType("application/json")
+                .content(body);
                 
 		
 		int status = mockMvc
@@ -364,7 +438,7 @@ public class CustomerManagementControllerTest {
     }
 
     @Test
-    public void givenIncorrectParam_whenPostCustomerServed_thenReturn404() throws Exception {
+    public void givenIncorrectBody_whenPostCustomerServed_thenReturn404() throws Exception {
 
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
                 .post("/api/customerManagement/customerServed");
@@ -381,34 +455,44 @@ public class CustomerManagementControllerTest {
     // test customerFinish
 
     @Test 
-    public void givenCorrectParam_WhenPostCustomerFinish_thenReturn200() throws Exception{
-
-        doNothing().when(customerManagementService).customerFinishRecipe(1,1);
+    public void givenCorrectBody_WhenPostCustomerFinish_thenReturn200() throws Exception{
+        ObjectMapper objectMapper = new ObjectMapper();
+		CustomerFinishDto jsonDto = new CustomerFinishDto(1,1);
+		
+        String body = objectMapper
+            .valueToTree(jsonDto)
+            .toPrettyString();
         
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                                                    .post("/api/customerManagement/customerFinish")
-                                                    .param("customerId", "1")
-                                                    .param("managerId", "1");
+            .post("/api/customerManagement/customerFinish")
+            .contentType("application/json")
+            .content(body);
 
         int status = mockMvc
-                        .perform(query)
-                        .andReturn()
-                        .getResponse()
-                        .getStatus();
+            .perform(query)
+            .andReturn()
+            .getResponse()
+            .getStatus();
         
 
         assertEquals(200, status);
     }
 
     @Test
-    public void givenCorrectParamButNotPresentBDD_whenPostCustomerFinish_thenReturn404() throws Exception{
+    public void givenCorrectBodyButNotPresentBDD_whenPostCustomerFinish_thenReturn404() throws Exception{
+        ObjectMapper objectMapper = new ObjectMapper();
+		CustomerFinishDto jsonDto = new CustomerFinishDto(1,1);
 		
+        String body = objectMapper
+            .valueToTree(jsonDto)
+            .toPrettyString();
+
         Mockito.doThrow(EntityNotFoundException.class).when(customerManagementService).customerFinishRecipe(1, 1);
 		
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/api/customerManagement/customerFinish")
-                .param("customerId", "1")
-                .param("managerId", "1");
+			.post("/api/customerManagement/customerFinish")
+            .contentType("application/json")
+            .content(body);
                 
 		
 		int status = mockMvc
@@ -422,20 +506,26 @@ public class CustomerManagementControllerTest {
 
     @Test
     public void givenCorrectParam_whenPostCustomerFinish_thenReturn400withForbidden() throws Exception{
+        ObjectMapper objectMapper = new ObjectMapper();
+		CustomerFinishDto jsonDto = new CustomerFinishDto(1,1);
 		
+        String body = objectMapper
+            .valueToTree(jsonDto)
+            .toPrettyString();
+
         Mockito.doThrow(ForbiddenException.class).when(customerManagementService).customerFinishRecipe(1, 1);
 		
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/api/customerManagement/customerFinish")
-                .param("customerId", "1")
-                .param("managerId", "1");
+			.post("/api/customerManagement/customerFinish")
+            .contentType("application/json")
+            .content(body);
                 
 		
 		int status = mockMvc
-				.perform(query)
-				.andReturn()
-				.getResponse()
-				.getStatus();
+            .perform(query)
+            .andReturn()
+            .getResponse()
+            .getStatus();
 		
 		assertEquals(400, status);
     }

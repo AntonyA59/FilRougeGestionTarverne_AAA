@@ -10,10 +10,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import javax.persistence.EntityNotFoundException;
 
+import aaa.tavern.dto.received.ShopIngredientDto;
 import aaa.tavern.exception.ForbiddenException;
 import aaa.tavern.service.ShopService;
 
@@ -30,11 +33,18 @@ public class ShopControllerTest {
 	//////// TEST BYING /////////
 	@Test
 	public void GivenIngredientAndManager_whenPostBuing_ThenPrepareIngredientAndShopServiceCalled() throws Exception {
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		ShopIngredientDto jsonDto = new ShopIngredientDto(1, 1);
+
+		String body = objectMapper
+				.valueToTree(jsonDto)
+				.toPrettyString();
 
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/testShopBying")
-				.param("idManager", "1")
-				.param("idIngredient", "1");
+				.post("/api/shop/ShopBying")
+				.contentType("application/json")
+				.content(body);
 
 		mockMvc.perform(query);
 
@@ -44,7 +54,7 @@ public class ShopControllerTest {
 	@Test
 	public void GivenNotParam_whenPostBuing_ThenPrepareIngredientAndBuyServiceNotCalled() throws Exception {
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/testShopBying");
+				.post("/api/shop/ShopBying");
 
 		mockMvc.perform(query);
 
@@ -58,12 +68,21 @@ public class ShopControllerTest {
 	}
 
 	@Test
+
 	public void GivenIngredientAndManager_whenMockToReturnEntityNotFoundExceptionForBying_ThenReturnError406()
 			throws Exception {
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		ShopIngredientDto jsonDto = new ShopIngredientDto(1, 1);
+
+		String body = objectMapper
+				.valueToTree(jsonDto)
+				.toPrettyString();
+
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/testShopBying")
-				.param("idManager", "1")
-				.param("idIngredient", "1");
+				.post("/api/shop/ShopBying")
+				.contentType("application/json")
+				.content(body);
 
 		Mockito.doThrow(EntityNotFoundException.class).when(shopService).prepareIngredientAndBuy(1, 1);
 		mockMvc.perform(query);
@@ -78,11 +97,20 @@ public class ShopControllerTest {
 	}
 
 	@Test
+
 	public void GivenIngredientAndManager_whenMockToReturnForbiddenException_ThenReturnError406() throws Exception {
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		ShopIngredientDto jsonDto = new ShopIngredientDto(1, 1);
+
+		String body = objectMapper
+				.valueToTree(jsonDto)
+				.toPrettyString();
+
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/testShopBying")
-				.param("idManager", "1")
-				.param("idIngredient", "1");
+				.post("/api/shop/ShopBying")
+				.contentType("application/json")
+				.content(body);
 
 		Mockito.doThrow(ForbiddenException.class).when(shopService).prepareIngredientAndBuy(1, 1);
 		mockMvc.perform(query);
@@ -100,11 +128,18 @@ public class ShopControllerTest {
 
 	@Test
 	public void GivenIngredientAndManager_whenPostSelling_ThenPrepareIngredientAndShopServiceCalled() throws Exception {
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		ShopIngredientDto jsonDto = new ShopIngredientDto(1, 1);
+
+		String body = objectMapper
+				.valueToTree(jsonDto)
+				.toPrettyString();
 
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/testShopSelling")
-				.param("idManager", "1")
-				.param("idIngredient", "1");
+				.post("/api/shop/ShopSelling")
+				.contentType("application/json")
+				.content(body);
 
 		mockMvc.perform(query);
 
@@ -114,7 +149,7 @@ public class ShopControllerTest {
 	@Test
 	public void GivenNotParamForSelling_whenPostSelling_ThenPrepareIngredientAndBuyServiceNotCalled() throws Exception {
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/testShopSelling");
+				.post("/api/shop/ShopSelling");
 
 		mockMvc.perform(query);
 
@@ -128,12 +163,21 @@ public class ShopControllerTest {
 	}
 
 	@Test
+
 	public void GivenIngredientAndManager_whenMockToReturnEntityNotFoundExceptionForPostSelling_ThenReturnError406()
 			throws Exception {
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		ShopIngredientDto jsonDto = new ShopIngredientDto(1, 1);
+
+		String body = objectMapper
+				.valueToTree(jsonDto)
+				.toPrettyString();
+
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/testShopSelling")
-				.param("idManager", "1")
-				.param("idIngredient", "1");
+				.post("/api/shop/ShopSelling")
+				.contentType("application/json")
+				.content(body);
 
 		Mockito.doThrow(EntityNotFoundException.class).when(shopService).prepareIngredientAndSell(1, 1);
 		mockMvc.perform(query);
@@ -148,12 +192,21 @@ public class ShopControllerTest {
 	}
 
 	@Test
+
 	public void GivenIngredientAndManager_whenMockToReturnForbiddenExceptionForPostSelling_ThenReturnError406()
 			throws Exception {
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		ShopIngredientDto jsonDto = new ShopIngredientDto(1, 1);
+
+		String body = objectMapper
+				.valueToTree(jsonDto)
+				.toPrettyString();
+
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/testShopSelling")
-				.param("idManager", "1")
-				.param("idIngredient", "1");
+				.post("/api/shop/ShopSelling")
+				.contentType("application/json")
+				.content(body);
 
 		Mockito.doThrow(ForbiddenException.class).when(shopService).prepareIngredientAndSell(1, 1);
 		mockMvc.perform(query);

@@ -12,12 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import aaa.tavern.dao.CustomerRepository;
+import aaa.tavern.dao.InventoryIngredientRepository;
 import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dao.RecipeCustomerRepository;
 import aaa.tavern.dao.RecipeRepository;
+import aaa.tavern.dto.RecipeCustomerInventoryIngredientDto;
 import aaa.tavern.dto.RecipeDto;
 import aaa.tavern.entity.Customer;
 import aaa.tavern.entity.Ingredient;
+import aaa.tavern.entity.InventoryIngredient;
 import aaa.tavern.entity.Manager;
 import aaa.tavern.entity.Recipe;
 import aaa.tavern.entity.RecipeCustomer;
@@ -40,6 +43,8 @@ public class RecipeService {
     
     @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
+    private InventoryIngredientRepository inventoryIngredientRepository;
 
     /**
      * High-level methods to create the recipe you want to launch
@@ -50,7 +55,7 @@ public class RecipeService {
      * @throws ForbiddenException the manager does not have enough ingredients to make the recipe
      */
     @Transactional(rollbackOn = {EntityNotFoundException.class,ForbiddenException.class}) 
-    public void prepareRecipe(int idManager, int idRecipe ,int idCustomer) throws EntityNotFoundException,ForbiddenException{
+    public RecipeCustomerInventoryIngredientDto prepareRecipe(int idManager, int idRecipe ,int idCustomer) throws EntityNotFoundException,ForbiddenException{
 
         Customer customer= ServiceUtil.getEntity(customerRepository, idCustomer);
         Manager manager= ServiceUtil.getEntity(managerRepository, idManager);
@@ -61,7 +66,7 @@ public class RecipeService {
         
         Recipe recipe = optRecipe.get();
 
-        requestRecipe(manager, recipe, customer);
+        return requestRecipe(manager, recipe, customer);
     }
 
     /**
@@ -88,7 +93,7 @@ public class RecipeService {
      * @param customer customer for whom we want to make the recipe
      * @throws ForbiddenException the manager does not have enough ingredients to make the recipe
      */
-    private void requestRecipe(Manager manager, Recipe recipe,Customer customer) throws ForbiddenException{
+    private RecipeCustomerInventoryIngredientDto requestRecipe(Manager manager, Recipe recipe,Customer customer) throws ForbiddenException{
         if(haveQuantityIngredientInInventaire(manager,recipe)){
             for (RecipeIngredient recipeIngredient : recipe.getTabIngredientsForRecipe()) {
                 Ingredient ingredient= recipeIngredient.getIngredient();
@@ -98,6 +103,10 @@ public class RecipeService {
             RecipeCustomer recipeCustomer= new RecipeCustomer(recipe,customer);
             recipeCustomerRepository.save(recipeCustomer);
             managerRepository.save(manager);
+            for(InventoryIngredient inventoryIngredient: manager.getInventoryIngredient())
+                inventoryIngredientRepository.save(inventoryIngredient);
+            return new RecipeCustomerInventoryIngredientDto(recipeCustomer, manager.getInventoryIngredient());
+            
         } else{
             throw new ForbiddenException();
         }  

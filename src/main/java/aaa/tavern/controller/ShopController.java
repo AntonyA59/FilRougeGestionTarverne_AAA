@@ -4,13 +4,14 @@ import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import aaa.tavern.dto.ManagerDto;
+import aaa.tavern.dto.received.ShopIngredientDto;
 import aaa.tavern.exception.ForbiddenException;
 import aaa.tavern.service.ShopService;
 
@@ -20,10 +21,21 @@ public class ShopController {
     @Autowired
     ShopService shopService;
 
-    @PostMapping("/testShopBying")
-    public ResponseEntity<String> byingIngredient(@RequestParam int idManager, @RequestParam int idIngredient) {
+    /**
+     * controller that allows the manager to buy ingredrients
+     * 
+     * @RequestBody ShopIngredientDto with id manager and ingredients
+     * @return ManagerDto with manager update
+     * @throws EntityNotFoundException exception if the id manager or ingredient is
+     *                                 not in the database
+     * @throws ForbiddenException      exception if the inventory does not allow the
+     *                                 creation of this revenue
+     */
+    @PostMapping("/shop/ShopBying")
+    public ManagerDto byingIngredient(@RequestBody ShopIngredientDto shopIngredientDto) {
         try {
-            shopService.prepareIngredientAndBuy(idManager, idIngredient);
+            return shopService.prepareIngredientAndBuy(shopIngredientDto.getIdManager(),
+                    shopIngredientDto.getIdIngredient());
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_ACCEPTABLE, "Manager ou Ingredient inexistant");
@@ -31,13 +43,24 @@ public class ShopController {
             throw new ResponseStatusException(
                     HttpStatus.NOT_ACCEPTABLE, "Opération non autorisée");
         }
-        return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/testShopSelling")
-    public ResponseEntity<String> sellingIngredient(@RequestParam int idManager, @RequestParam int idIngredient) {
+    /**
+     * controller that allows the manager to sell ingredrients
+     * 
+     * @RequestBody ShopIngredientDto with id manager and ingredients
+     * @return ManagerDto with manager update
+     * @throws EntityNotFoundException exception if the id manager or ingredient is
+     *                                 not in the database
+     * @throws ForbiddenException      exception if the inventory does not allow the
+     *                                 creation of this revenue
+     */
+    @PostMapping("/shop/ShopSelling")
+    public ManagerDto sellingIngredient(@RequestBody ShopIngredientDto shopIngredientDto) {
         try {
-            shopService.prepareIngredientAndSell(idManager, idIngredient);
+            return shopService.prepareIngredientAndSell(shopIngredientDto.getIdManager(),
+                    shopIngredientDto.getIdIngredient());
+
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_ACCEPTABLE, "Manager ou Ingredient inexistant");
@@ -45,6 +68,5 @@ public class ShopController {
             throw new ResponseStatusException(
                     HttpStatus.NOT_ACCEPTABLE, "Opération non autorisée");
         }
-        return ResponseEntity.ok().build();
     }
 }

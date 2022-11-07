@@ -4,15 +4,20 @@ import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import aaa.tavern.dto.CustomerDto;
+import aaa.tavern.dto.CustomerTableRestDto;
+import aaa.tavern.dto.ManagerDto;
 import aaa.tavern.dto.RecipeDto;
+import aaa.tavern.dto.received.AssignNewTableForCustomerDto;
+import aaa.tavern.dto.received.CustomerFinishDto;
+import aaa.tavern.dto.received.CustomerServedDto;
+import aaa.tavern.dto.received.ManagerIdDto;
 import aaa.tavern.exception.ForbiddenException;
 import aaa.tavern.service.CustomerManagementService;
 
@@ -28,9 +33,9 @@ public class CustomerManagementController {
 	 * @return object with the recipe randomly found
 	 */
 	@PostMapping("/customerManagement/newRecipe")
-	public RecipeDto getNeWRecipeForCustomer(@RequestParam int managerId) {
+	public RecipeDto getNeWRecipeForCustomer(@RequestBody ManagerIdDto managerIdDto) {
 		try {
-			return customerManagementService.getNewRecipe(managerId);
+			return customerManagementService.getNewRecipe(managerIdDto.getManagerId());
 		} catch (EntityNotFoundException e) {
 
 			throw new ResponseStatusException(
@@ -46,11 +51,11 @@ public class CustomerManagementController {
 	 * @throws EntityNotFoundException exception if the id manager is not in the
 	 *                                 database
 	 */
-	@PostMapping("/api/customerManagement/newCustomer")
-	public CustomerDto getNewCustomer(@RequestParam int managerId) {
+	@PostMapping("/customerManagement/newCustomer")
+	public CustomerDto getNewCustomer(@RequestBody ManagerIdDto managerIdDto) {
 		try {
 
-			return customerManagementService.getNewCustomer(managerId);
+			return customerManagementService.getNewCustomer(managerIdDto.getManagerId());
 
 		} catch (EntityNotFoundException e) {
 
@@ -62,23 +67,25 @@ public class CustomerManagementController {
 	/**
 	 * Controller that assigns a table to a customer
 	 * 
-	 * @param customerId id customer which receives the id of the table
-	 * @param tableId    id table that receives the customer
-	 * @return return promise without body with header ok
+	 * @ResquestBody AssignNewTableForCustomerDto with id customer and tableRest
+	 * @return CustomerTableRestDto with Customer and TableRest update
 	 * @throws EntityNotFoundException exception if the id customer or table are not
 	 *                                 in the database
 	 */
-	@PostMapping("/api/customerManagement/customerAssignTable")
-	public ResponseEntity<String> assignNewTableForCustomer(@RequestParam int customerId, @RequestParam int tableId) {
+	@PostMapping("/customerManagement/customerAssignTable")
+	public CustomerTableRestDto assignNewTableForCustomer(
+			@RequestBody AssignNewTableForCustomerDto assignNewTableForCustomerDto) {
 		try {
-			customerManagementService.assignNewTable(customerId, tableId);
-
-			return ResponseEntity.ok().build();
+			return customerManagementService.assignNewTable(assignNewTableForCustomerDto.getCustomerId(),
+					assignNewTableForCustomerDto.getTableId());
 
 		} catch (EntityNotFoundException e) {
 
 			throw new ResponseStatusException(
 					HttpStatus.NOT_FOUND, "Customer ou table non trouvé dans la BDD");
+		} catch (ForbiddenException e1) {
+			throw new ResponseStatusException(
+					HttpStatus.BAD_REQUEST, "Il ne reste plus de place !");
 		}
 	}
 
@@ -86,16 +93,14 @@ public class CustomerManagementController {
 	 * Controller which indicates that the customer is served
 	 * 
 	 * @param customerId id customer who starts to eat
-	 * @return return promise without body with header ok
+	 * @return CustomerDto whith customer update
 	 * @throws EntityNotFoundException exception if the id customer are not in the
 	 *                                 database
 	 */
-	@PostMapping("/api/customerManagement/customerServed")
-	public ResponseEntity<String> customerServed(@RequestParam int customerId) {
+	@PostMapping("/customerManagement/customerServed")
+	public CustomerDto customerServed(@RequestBody CustomerServedDto customerServedDto) {
 		try {
-			customerManagementService.customerServed(customerId);
-
-			return ResponseEntity.ok().build();
+			return customerManagementService.customerServed(customerServedDto.getCustomerId());
 
 		} catch (EntityNotFoundException e) {
 			throw new ResponseStatusException(
@@ -109,18 +114,16 @@ public class CustomerManagementController {
 	 * 
 	 * @param customerId id customer who finished the recipe
 	 * @param managerId  id manager who should be given the money
-	 * @return return promise without body with header ok
+	 * @return ManagerDto with manager update
 	 * @throws EntityNotFoundException exception if the id customer or manager are
 	 *                                 not in the database.
 	 * @throws ForbiddenException      exception if the consumption time is not good
 	 */
-	@PostMapping("/api/customerManagement/customerFinish")
-	public ResponseEntity<String> customerFinish(@RequestParam int customerId, @RequestParam int managerId) {
+	@PostMapping("/customerManagement/customerFinish")
+	public ManagerDto customerFinish(@RequestBody CustomerFinishDto customerFinishDto) {
 		try {
-			customerManagementService.customerFinishRecipe(customerId, managerId);
-
-			return ResponseEntity.ok().build();
-
+			return customerManagementService.customerFinishRecipe(customerFinishDto.getCustomerId(),
+					customerFinishDto.getManagerId());
 		} catch (EntityNotFoundException e) {
 
 			throw new ResponseStatusException(
