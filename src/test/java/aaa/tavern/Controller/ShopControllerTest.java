@@ -1,4 +1,4 @@
-package aaa.tavern.Controller;
+package aaa.tavern.controller;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -33,13 +33,13 @@ public class ShopControllerTest {
 	//////// TEST BYING /////////
 	@Test
 	public void GivenIngredientAndManager_whenPostBuing_ThenPrepareIngredientAndShopServiceCalled() throws Exception {
-		ObjectMapper objectMapper= new ObjectMapper();
+		ObjectMapper objectMapper = new ObjectMapper();
 
-		ShopIngredientDto jsonDto = new ShopIngredientDto(1,1);
+		ShopIngredientDto jsonDto = new ShopIngredientDto(1, 1);
 
-        String body = objectMapper
-            .valueToTree(jsonDto)
-            .toPrettyString();
+		String body = objectMapper
+				.valueToTree(jsonDto)
+				.toPrettyString();
 
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
 				.post("/api/shop/ShopBying")
@@ -68,75 +68,78 @@ public class ShopControllerTest {
 	}
 
 	@Test
-    public void GivenIngredientAndManager_whenMockToReturnEntityNotFoundExceptionForBying_ThenReturnError406() throws Exception {
-		ObjectMapper objectMapper= new ObjectMapper();
 
-		ShopIngredientDto jsonDto = new ShopIngredientDto(1,1);
+	public void GivenIngredientAndManager_whenMockToReturnEntityNotFoundExceptionForBying_ThenReturnError406()
+			throws Exception {
+		ObjectMapper objectMapper = new ObjectMapper();
 
-        String body = objectMapper
-            .valueToTree(jsonDto)
-            .toPrettyString();
+		ShopIngredientDto jsonDto = new ShopIngredientDto(1, 1);
+
+		String body = objectMapper
+				.valueToTree(jsonDto)
+				.toPrettyString();
 
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-            .post("/api/shop/ShopBying")
-			.contentType("application/json")
-			.content(body);
+				.post("/api/shop/ShopBying")
+				.contentType("application/json")
+				.content(body);
 
-		Mockito.doThrow(EntityNotFoundException.class).when(shopService).prepareIngredientAndBuy(1,1);
+		Mockito.doThrow(EntityNotFoundException.class).when(shopService).prepareIngredientAndBuy(1, 1);
 		mockMvc.perform(query);
-		
+
 		int status = mockMvc
-			.perform(query)
-			.andReturn()
-			.getResponse()
-			.getStatus();
-		
+				.perform(query)
+				.andReturn()
+				.getResponse()
+				.getStatus();
+
 		assertEquals(status, 406);
-    }
+	}
 
 	@Test
-    public void GivenIngredientAndManager_whenMockToReturnForbiddenException_ThenReturnError406() throws Exception {
-		ObjectMapper objectMapper= new ObjectMapper();
 
-		ShopIngredientDto jsonDto = new ShopIngredientDto(1,1);
+	public void GivenIngredientAndManager_whenMockToReturnForbiddenException_ThenReturnError406() throws Exception {
+		ObjectMapper objectMapper = new ObjectMapper();
 
-        String body = objectMapper
-            .valueToTree(jsonDto)
-            .toPrettyString();
+		ShopIngredientDto jsonDto = new ShopIngredientDto(1, 1);
+
+		String body = objectMapper
+				.valueToTree(jsonDto)
+				.toPrettyString();
 
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-            .post("/api/shop/ShopBying")
-			.contentType("application/json")
-			.content(body);
+				.post("/api/shop/ShopBying")
+				.contentType("application/json")
+				.content(body);
 
-		Mockito.doThrow(ForbiddenException.class).when(shopService).prepareIngredientAndBuy(1,1);
+		Mockito.doThrow(ForbiddenException.class).when(shopService).prepareIngredientAndBuy(1, 1);
 		mockMvc.perform(query);
-		
+
 		int status = mockMvc
-			.perform(query)
-			.andReturn()
-			.getResponse()
-			.getStatus();
-		
+				.perform(query)
+				.andReturn()
+				.getResponse()
+				.getStatus();
+
 		assertEquals(status, 406);
-    }
+	}
 
 	////////// SELLING ////////////
 
 	@Test
 	public void GivenIngredientAndManager_whenPostSelling_ThenPrepareIngredientAndShopServiceCalled() throws Exception {
-		ObjectMapper objectMapper= new ObjectMapper();
+		ObjectMapper objectMapper = new ObjectMapper();
 
-		ShopIngredientDto jsonDto = new ShopIngredientDto(1,1);
+		ShopIngredientDto jsonDto = new ShopIngredientDto(1, 1);
 
-        String body = objectMapper
-            .valueToTree(jsonDto)
-            .toPrettyString();
+		String body = objectMapper
+				.valueToTree(jsonDto)
+				.toPrettyString();
 
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-			.post("/api/shop/ShopSelling")
-			.contentType("application/json")
-			.content(body);
+				.post("/api/shop/ShopSelling")
+				.contentType("application/json")
+				.content(body);
 
 		mockMvc.perform(query);
 
@@ -160,56 +163,60 @@ public class ShopControllerTest {
 	}
 
 	@Test
-    public void GivenIngredientAndManager_whenMockToReturnEntityNotFoundExceptionForPostSelling_ThenReturnError406() throws Exception {
-		ObjectMapper objectMapper= new ObjectMapper();
 
-		ShopIngredientDto jsonDto = new ShopIngredientDto(1,1);
+	public void GivenIngredientAndManager_whenMockToReturnEntityNotFoundExceptionForPostSelling_ThenReturnError406()
+			throws Exception {
+		ObjectMapper objectMapper = new ObjectMapper();
 
-        String body = objectMapper
-            .valueToTree(jsonDto)
-            .toPrettyString();
+		ShopIngredientDto jsonDto = new ShopIngredientDto(1, 1);
+
+		String body = objectMapper
+				.valueToTree(jsonDto)
+				.toPrettyString();
 
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-            .post("/api/shop/ShopSelling")
-			.contentType("application/json")
-			.content(body);
+				.post("/api/shop/ShopSelling")
+				.contentType("application/json")
+				.content(body);
 
-		Mockito.doThrow(EntityNotFoundException.class).when(shopService).prepareIngredientAndSell(1,1);
+		Mockito.doThrow(EntityNotFoundException.class).when(shopService).prepareIngredientAndSell(1, 1);
 		mockMvc.perform(query);
-		
+
 		int status = mockMvc
-			.perform(query)
-			.andReturn()
-			.getResponse()
-			.getStatus();
-		
+				.perform(query)
+				.andReturn()
+				.getResponse()
+				.getStatus();
+
 		assertEquals(status, 406);
-    }
+	}
 
 	@Test
-    public void GivenIngredientAndManager_whenMockToReturnForbiddenExceptionForPostSelling_ThenReturnError406() throws Exception {
-		ObjectMapper objectMapper= new ObjectMapper();
 
-		ShopIngredientDto jsonDto = new ShopIngredientDto(1,1);
+	public void GivenIngredientAndManager_whenMockToReturnForbiddenExceptionForPostSelling_ThenReturnError406()
+			throws Exception {
+		ObjectMapper objectMapper = new ObjectMapper();
 
-        String body = objectMapper
-            .valueToTree(jsonDto)
-            .toPrettyString();
+		ShopIngredientDto jsonDto = new ShopIngredientDto(1, 1);
+
+		String body = objectMapper
+				.valueToTree(jsonDto)
+				.toPrettyString();
 
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-            .post("/api/shop/ShopSelling")
-			.contentType("application/json")
-			.content(body);
+				.post("/api/shop/ShopSelling")
+				.contentType("application/json")
+				.content(body);
 
-		Mockito.doThrow(ForbiddenException.class).when(shopService).prepareIngredientAndSell(1,1);
+		Mockito.doThrow(ForbiddenException.class).when(shopService).prepareIngredientAndSell(1, 1);
 		mockMvc.perform(query);
-		
+
 		int status = mockMvc
-			.perform(query)
-			.andReturn()
-			.getResponse()
-			.getStatus();
-		
+				.perform(query)
+				.andReturn()
+				.getResponse()
+				.getStatus();
+
 		assertEquals(status, 406);
-    }
+	}
 }
