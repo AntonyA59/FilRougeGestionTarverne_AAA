@@ -186,7 +186,7 @@ public class CustomerManagementControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         TableRest tableRest = new TableRest();
         tableRest.setIdTable(1);
-        Set<RecipeCustomer> tabCustomer = new HashSet<RecipeCustomer>();
+        HashSet<RecipeCustomer> tabCustomer = new HashSet<RecipeCustomer>();
         Customer customer = new Customer(Integer.valueOf(1), Float.valueOf(1f),
                 Float.valueOf(1f), Float.valueOf(1f),
                 Float.valueOf(1f), Float.valueOf(1f),
@@ -246,7 +246,7 @@ public class CustomerManagementControllerTest {
 
         TableRest tableRest = new TableRest();
         tableRest.setIdTable(1);
-        Set<RecipeCustomer> tabCustomer = new HashSet<RecipeCustomer>();
+        HashSet<RecipeCustomer> tabCustomer = new HashSet<RecipeCustomer>();
         Customer customer = new Customer(Integer.valueOf(1), Float.valueOf(1f),
                 Float.valueOf(1f), Float.valueOf(1f),
                 Float.valueOf(1f), Float.valueOf(1f),

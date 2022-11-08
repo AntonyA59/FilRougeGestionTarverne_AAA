@@ -5,7 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -23,12 +26,15 @@ import aaa.tavern.dao.CustomerRepository;
 import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dao.RecipeRepository;
 import aaa.tavern.dto.RecipeDto;
+import aaa.tavern.entity.Category;
 import aaa.tavern.entity.Customer;
 import aaa.tavern.entity.Ingredient;
 import aaa.tavern.entity.Manager;
 import aaa.tavern.entity.Recipe;
+import aaa.tavern.entity.RecipeCustomer;
 import aaa.tavern.entity.RecipeIngredient;
 import aaa.tavern.entity.SubCategory;
+import aaa.tavern.entity.TableRest;
 import aaa.tavern.exception.ForbiddenException;
 
 @SpringBootTest
@@ -51,10 +57,12 @@ public class RecipeServiceTest {
     public void requestRecipeSuccessful() throws EntityNotFoundException,ForbiddenException{
         //init recipe
         List<RecipeIngredient> tabIngredients= new ArrayList<RecipeIngredient>();
-        Recipe recipe= new Recipe();
-        Ingredient ingredient1=new Ingredient(1,"test1");
-        Ingredient ingredient2=new Ingredient(2,"test2");
-        Ingredient ingredient3=new Ingredient(3,"test3");
+        Category category= new Category(1, "category");
+        SubCategory subCategory=new SubCategory(1, "subCategory", category);
+        Recipe recipe= new Recipe("test", 1, 1, 1L, 1l, new Date(1l), 1, subCategory, new ArrayList<RecipeIngredient>());
+        Ingredient ingredient1=new Ingredient(1, "test1", 1, 1, subCategory);
+        Ingredient ingredient2=new Ingredient(2, "test2", 1, 1, subCategory);
+        Ingredient ingredient3=new Ingredient(3, "test3", 1, 1, subCategory);
         RecipeIngredient recipeIngredient1= new RecipeIngredient(recipe,ingredient1,2);
         RecipeIngredient recipeIngredient2= new RecipeIngredient(recipe,ingredient2,3);
         RecipeIngredient recipeIngredient3= new RecipeIngredient(recipe,ingredient3,4);
@@ -78,7 +86,8 @@ public class RecipeServiceTest {
         Mockito.when(managerRepository.findById(1)).thenReturn(optManager);
 
         //init customer
-        Customer customer= new Customer(null, null, null, null, null, null, null, null, null, null, null);
+        TableRest tableRest=new TableRest();
+        Customer customer= new Customer(1, 1F, 1F, 1F, 1F, 1F, 1F, new Time(1l), 1F, 1F, true, 1, tableRest, new HashSet<RecipeCustomer>(), new Timestamp(1L));
         Optional<Customer> optCustomer= Optional.of(customer);        
         Mockito.when(customerRepository.findById(1)).thenReturn(optCustomer);
 
