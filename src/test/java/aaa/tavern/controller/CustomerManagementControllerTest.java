@@ -63,7 +63,6 @@ public class CustomerManagementControllerTest {
         recipe.setId(1);
         
         RecipeDto recipeDto = new RecipeDto(recipe);
-        assertEquals(1664488800l, recipeDto.getPeremptionDate());
 
         Mockito.when(customerManagementService.getNewRecipe(1)).thenReturn(recipeDto);
 
@@ -99,7 +98,7 @@ public class CustomerManagementControllerTest {
                 """;
         JsonNode expectedJson = objectMapper.readTree(jsonStr);
 
-        //assertEquals(expectedJson, returnedJson);
+        assertEquals(expectedJson, returnedJson);
     }
 
     @Test
