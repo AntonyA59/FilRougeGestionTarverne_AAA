@@ -97,9 +97,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                 .withSubject(user.getUsername())
                                 .withExpiresAt(new Date(System.currentTimeMillis() + JwtUtil.EXPIRE_REFRESH_TOKEN))
                                 .withIssuer(request.getRequestURL().toString())
-                                .withClaim("role",
-                                                user.getAuthorities().stream().map((ga -> ga.getAuthority()))
-                                                                .collect(Collectors.toList()))
+
                                 .sign(algorithm);
                 /**
                  * On met les 2 JWT dans un hashMap

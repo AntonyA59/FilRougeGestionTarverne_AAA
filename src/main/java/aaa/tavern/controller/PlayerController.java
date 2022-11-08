@@ -19,7 +19,7 @@ import aaa.tavern.entity.Player;
 import aaa.tavern.service.PlayerService;
 
 @RestController
-@RequestMapping("/api/game")
+@RequestMapping("/api")
 public class PlayerController {
 
     @Autowired
@@ -39,7 +39,7 @@ public class PlayerController {
     /*
      * Permet de retourner l'utilisateur connecté
      */
-    @GetMapping("/profile")
+    @GetMapping("/game/profile")
     public Player profile(Principal principal) {
         return playerService.loadPlayerByEmail(principal.getName());
     }
