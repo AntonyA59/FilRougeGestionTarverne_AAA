@@ -36,7 +36,6 @@ public class RecipeController {
     @PostMapping("/recipe/requestRecipe")
     public RecipeCustomerInventoryIngredientDto requestRecipe(@RequestBody RequestRecipeDto requestRecipeDto) {
         try {
-
             return recipeService.prepareRecipe(requestRecipeDto.getManagerId(), requestRecipeDto.getRecipeId(),
                     requestRecipeDto.getCustomerId());
         } catch (EntityNotFoundException e1) {
