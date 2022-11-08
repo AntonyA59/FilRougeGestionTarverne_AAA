@@ -6,19 +6,20 @@ import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import aaa.tavern.dto.CreateManagerDTO;
 import aaa.tavern.dto.ManagerDto;
+import aaa.tavern.dto.PlayerIdDto;
+import aaa.tavern.dto.StatusDto;
+import aaa.tavern.dto.received.ManagerIdDto;
 import aaa.tavern.service.ManagerService;
 
 @RestController
@@ -29,24 +30,24 @@ public class ManagerController {
     private ManagerService managerService;
 
     @GetMapping("/manager/listExistingManager")
-    public List<ManagerDto> listExistingManager(@RequestParam int playerId) {
+    public List<ManagerDto> listExistingManager(@RequestBody PlayerIdDto playerIdDto) {
 
-        return managerService.listExistingManagerDto(playerId);
+        return managerService.listExistingManagerDto(playerIdDto.getPlayerId());
     }
 
     @GetMapping("/manager")
-    public ManagerDto getManager(@RequestParam int managerId) {
+    public ManagerDto getManager(@RequestBody ManagerIdDto managerIdDto) {
 
-        return managerService.selectManager(managerId);
+        return managerService.selectManager(managerIdDto.getManagerId());
     }
 
     @PostMapping("/manager")
-    public ResponseEntity<String> deleteManager(@RequestParam int managerId) {
+    public StatusDto deleteManager(@RequestBody ManagerIdDto managerIdDto) {
 
         try {
-            managerService.deleteManager(managerId);
+            managerService.deleteManager(managerIdDto.getManagerId());
 
-            return ResponseEntity.ok().build();
+            return new StatusDto(1,"Le manager est bien supprimé");
 
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(
@@ -55,7 +56,7 @@ public class ManagerController {
     }
 
     @PostMapping("/api/manager/create")
-    public ResponseEntity<String> createManager(@RequestBody CreateManagerDTO createManagerDTO,
+    public StatusDto createManager(@RequestBody CreateManagerDTO createManagerDTO,
             BindingResult bindingResult,
             int playerId) {
         if (!bindingResult.hasErrors()) {
@@ -63,6 +64,6 @@ public class ManagerController {
                     HttpStatus.FORBIDDEN);
         }
         managerService.createManager(createManagerDTO, playerId);
-        return ResponseEntity.ok().build();
+        return new StatusDto(1, "Le manager est bien créé");
     }
 }

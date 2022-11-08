@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import aaa.tavern.dto.PlayerDto;
+import aaa.tavern.dto.StatusDto;
 import aaa.tavern.entity.Player;
 import aaa.tavern.service.PlayerService;
 
@@ -26,9 +27,10 @@ public class PlayerController {
     PlayerService playerService;
 
     @PostMapping("/register")
-    public void createPlayer(@Valid @RequestBody PlayerDto playerDto) {
+    public StatusDto createPlayer(@Valid @RequestBody PlayerDto playerDto) {
         try {
             playerService.createPlayer(playerDto);
+            return new StatusDto(1, "Le player est bien créé");
 
         } catch (DataAccessException e) {
             throw new ResponseStatusException(

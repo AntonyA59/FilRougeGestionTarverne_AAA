@@ -42,7 +42,7 @@ public class ShopControllerTest {
 				.toPrettyString();
 
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/api/shop/ShopBying")
+				.post("/api/game/shop/ShopBying")
 				.contentType("application/json")
 				.content(body);
 
@@ -54,7 +54,7 @@ public class ShopControllerTest {
 	@Test
 	public void GivenNotParam_whenPostBuing_ThenPrepareIngredientAndBuyServiceNotCalled() throws Exception {
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/api/shop/ShopBying");
+				.post("/api/game/shop/ShopBying");
 
 		mockMvc.perform(query);
 
@@ -80,7 +80,7 @@ public class ShopControllerTest {
 				.toPrettyString();
 
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/api/shop/ShopBying")
+				.post("/api/game/shop/ShopBying")
 				.contentType("application/json")
 				.content(body);
 
@@ -108,7 +108,7 @@ public class ShopControllerTest {
 				.toPrettyString();
 
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/api/shop/ShopBying")
+				.post("/api/game/shop/ShopBying")
 				.contentType("application/json")
 				.content(body);
 
@@ -137,7 +137,7 @@ public class ShopControllerTest {
 				.toPrettyString();
 
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/api/shop/ShopSelling")
+				.post("/api/game/shop/ShopSelling")
 				.contentType("application/json")
 				.content(body);
 
@@ -149,7 +149,7 @@ public class ShopControllerTest {
 	@Test
 	public void GivenNotParamForSelling_whenPostSelling_ThenPrepareIngredientAndBuyServiceNotCalled() throws Exception {
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/api/shop/ShopSelling");
+				.post("/api/game/shop/ShopSelling");
 
 		mockMvc.perform(query);
 
@@ -175,7 +175,7 @@ public class ShopControllerTest {
 				.toPrettyString();
 
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/api/shop/ShopSelling")
+				.post("/api/game/shop/ShopSelling")
 				.contentType("application/json")
 				.content(body);
 
@@ -204,7 +204,7 @@ public class ShopControllerTest {
 				.toPrettyString();
 
 		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/api/shop/ShopSelling")
+				.post("/api/game/shop/ShopSelling")
 				.contentType("application/json")
 				.content(body);
 
