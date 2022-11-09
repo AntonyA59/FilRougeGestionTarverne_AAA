@@ -45,6 +45,7 @@ public class ShopServiceTest {
 
 	@Test
 	public void givenIngredientToBuy_WhenAllCondition_ThenSuccess() throws EntityNotFoundException, ForbiddenException {
+		int[] tableId = {1} ;
 		Ingredient ingredient1 = new Ingredient();
 		ingredient1.setId(1);
 		Ingredient ingredient4 = new Ingredient();
@@ -74,7 +75,7 @@ public class ShopServiceTest {
 		Mockito.when(managerRepository.findById(1)).thenReturn(optManager);
 		Mockito.when(ingredientRepository.findById(1)).thenReturn(optIngredient);
 
-		shopService.prepareIngredientAndBuy(1, 1);
+		shopService.prepareIngredientAndBuy(1, tableId);
 
 		assertEquals(manager.getIngredientQuantity().get(ingredient4), 1);
 	}
@@ -83,6 +84,7 @@ public class ShopServiceTest {
 	@Test
 	public void givenIngredientToBuy_WhenTooHightLevel_ThenForbiddenException()
 			throws EntityNotFoundException, ForbiddenException {
+		int[] tableId = {1} ;
 		Ingredient ingredient1 = new Ingredient();
 		ingredient1.setId(1);
 		Ingredient ingredient4 = new Ingredient();
@@ -108,13 +110,14 @@ public class ShopServiceTest {
 		Mockito.when(managerRepository.findById(1)).thenReturn(optManager);
 		Mockito.when(ingredientRepository.findById(1)).thenReturn(optIngredient);
 
-		assertThrows(ForbiddenException.class, () -> shopService.prepareIngredientAndBuy(1, 1));
+		assertThrows(ForbiddenException.class, () -> shopService.prepareIngredientAndBuy(1, tableId));
 	}
 
 	// Le Manager n'a pas assez d'argent
 	@Test
 	public void givenIngredientToBuy_WhenChestEmpty_ThenForbiddenException()
 			throws EntityNotFoundException, ForbiddenException {
+		int[] tableId = {1} ;
 		Ingredient ingredient1 = new Ingredient();
 		ingredient1.setId(1);
 		Ingredient ingredient4 = new Ingredient();
@@ -140,13 +143,14 @@ public class ShopServiceTest {
 		Mockito.when(managerRepository.findById(1)).thenReturn(optManager);
 		Mockito.when(ingredientRepository.findById(1)).thenReturn(optIngredient);
 
-		assertThrows(ForbiddenException.class, () -> shopService.prepareIngredientAndBuy(1, 1));
+		assertThrows(ForbiddenException.class, () -> shopService.prepareIngredientAndBuy(1, tableId));
 	}
 
 	// Le Manager selectioné n'existe pas
 	@Test
 	public void givenIngredientToBuy_WhenManagerEmpty_ThenEntityNotFoundException()
 			throws EntityNotFoundException, ForbiddenException {
+		int[] tableId = {1} ;
 		Ingredient ingredient1 = new Ingredient();
 		ingredient1.setId(1);
 		Ingredient ingredient4 = new Ingredient();
@@ -172,13 +176,14 @@ public class ShopServiceTest {
 		Mockito.when(managerRepository.findById(1)).thenReturn(optManager);
 		Mockito.when(ingredientRepository.findById(1)).thenReturn(optIngredient);
 
-		assertThrows(EntityNotFoundException.class, () -> shopService.prepareIngredientAndBuy(2, 1));
+		assertThrows(EntityNotFoundException.class, () -> shopService.prepareIngredientAndBuy(2, tableId));
 	}
 
 	// L'ingrédient selectioné n'existe pas
 	@Test
 	public void givenIngredientToBuy_WhenIngredientEmpty_ThenEntityNotFoundException()
 			throws EntityNotFoundException, ForbiddenException {
+		int[] tableId = {1} ;
 		Ingredient ingredient1 = new Ingredient();
 		ingredient1.setId(1);
 		Ingredient ingredient4 = new Ingredient();
@@ -204,7 +209,7 @@ public class ShopServiceTest {
 		Mockito.when(managerRepository.findById(1)).thenReturn(optManager);
 		Mockito.when(ingredientRepository.findById(1)).thenReturn(optIngredient);
 
-		assertThrows(EntityNotFoundException.class, () -> shopService.prepareIngredientAndBuy(1, 2));
+		assertThrows(EntityNotFoundException.class, () -> shopService.prepareIngredientAndBuy(1, tableId));
 	}
 
 	/////// FONCTION DE VENTE ///////
@@ -212,6 +217,7 @@ public class ShopServiceTest {
 	@Test
 	public void givenIngredientToSell_WhenAllCondition_ThenSuccess()
 			throws EntityNotFoundException, ForbiddenException {
+		int[] tableId = {1} ;
 		Ingredient ingredient1 = new Ingredient();
 		ingredient1.setId(1);
 
@@ -238,7 +244,7 @@ public class ShopServiceTest {
 		Mockito.when(managerRepository.findById(1)).thenReturn(optManager);
 		Mockito.when(ingredientRepository.findById(1)).thenReturn(optIngredient);
 
-		shopService.prepareIngredientAndSell(1, 1);
+		shopService.prepareIngredientAndSell(1, tableId);
 
 		assertEquals(manager.getIngredientQuantity().get(ingredient1), 2);
 	}
@@ -247,6 +253,7 @@ public class ShopServiceTest {
 	@Test
 	public void givenIngredientToSell_WhenTooHightLevel_ThenForbiddenException()
 			throws EntityNotFoundException, ForbiddenException {
+		int[] tableId = {1} ;
 		Ingredient ingredient1 = new Ingredient();
 		ingredient1.setId(1);
 
@@ -268,13 +275,14 @@ public class ShopServiceTest {
 		Mockito.when(managerRepository.findById(1)).thenReturn(optManager);
 		Mockito.when(ingredientRepository.findById(1)).thenReturn(optIngredient);
 
-		assertThrows(ForbiddenException.class, () -> shopService.prepareIngredientAndSell(1, 1));
+		assertThrows(ForbiddenException.class, () -> shopService.prepareIngredientAndSell(1, tableId));
 	}
 
 	// L'ingrédient selectioné n'existe pas
 	@Test
 	public void givenIngredientToSell_WhenIngredientEmpty_ThenEntityNotFoundException()
 			throws EntityNotFoundException, ForbiddenException {
+		int[] tableId = {2} ;
 		Ingredient ingredient1 = new Ingredient();
 		ingredient1.setId(1);
 
@@ -296,13 +304,14 @@ public class ShopServiceTest {
 		Mockito.when(managerRepository.findById(1)).thenReturn(optManager);
 		Mockito.when(ingredientRepository.findById(1)).thenReturn(optIngredient);
 
-		assertThrows(EntityNotFoundException.class, () -> shopService.prepareIngredientAndSell(1, 2));
+		assertThrows(EntityNotFoundException.class, () -> shopService.prepareIngredientAndSell(1, tableId));
 	}
 
 	// Le Manager selectioné n'existe pas
 	@Test
 	public void givenIngredientToSell_WhenManagerEmpty_ThenEntityNotFoundException()
 			throws EntityNotFoundException, ForbiddenException {
+		int[] tableId = {1} ;
 		Ingredient ingredient1 = new Ingredient();
 		ingredient1.setId(1);
 
@@ -324,13 +333,14 @@ public class ShopServiceTest {
 		Mockito.when(managerRepository.findById(1)).thenReturn(optManager);
 		Mockito.when(ingredientRepository.findById(1)).thenReturn(optIngredient);
 
-		assertThrows(EntityNotFoundException.class, () -> shopService.prepareIngredientAndSell(2, 1));
+		assertThrows(EntityNotFoundException.class, () -> shopService.prepareIngredientAndSell(2, tableId));
 	}
 
 	// Le Manager ne possède pas l'Ingredient
 	@Test
 	public void givenIngredientToSell_WhenManagerNotGetIngredient_ThenForbiddenException()
 			throws EntityNotFoundException, ForbiddenException {
+		int[] tableId = {1} ;
 		Ingredient ingredient1 = new Ingredient();
 		ingredient1.setId(1);
 
@@ -351,13 +361,14 @@ public class ShopServiceTest {
 		Mockito.when(managerRepository.findById(1)).thenReturn(optManager);
 		Mockito.when(ingredientRepository.findById(1)).thenReturn(optIngredient);
 
-		assertThrows(ForbiddenException.class, () -> shopService.prepareIngredientAndSell(1, 1));
+		assertThrows(ForbiddenException.class, () -> shopService.prepareIngredientAndSell(1, tableId));
 	}
 
 	// Le Manager retire le dernier type d'un ingrédient de son inventaire
 	@Test
 	public void givenIngredientToSell_WhenManagerGetOneIngredient_ThenInventoryEmpty()
 			throws EntityNotFoundException, ForbiddenException {
+		int[] tableId = {1} ;
 		Ingredient ingredient1 = new Ingredient();
 		ingredient1.setId(1);
 
@@ -384,7 +395,7 @@ public class ShopServiceTest {
 		Mockito.when(managerRepository.findById(1)).thenReturn(optManager);
 		Mockito.when(ingredientRepository.findById(1)).thenReturn(optIngredient);
 
-		shopService.prepareIngredientAndSell(1, 1);
+		shopService.prepareIngredientAndSell(1, tableId);
 
 		assertEquals(ingredientQuantity.size(), 0);
 	}

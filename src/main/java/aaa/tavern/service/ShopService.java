@@ -55,18 +55,19 @@ public class ShopService {
      * @throws ForbiddenException the manager tries to buy a too high level ingredient OR the manager does not have enough money to buy the ingredient
      */
     // charge le manager et l'ingredient pour acheter et ajouter ce dernier dans l'inventaire
-    public ManagerDto prepareIngredientAndBuy(int idManager, int idIngredient) throws EntityNotFoundException,ForbiddenException{
-        Ingredient ingredient = ServiceUtil.getEntity(ingredientRepository, idIngredient);
+    public ManagerDto prepareIngredientAndBuy(int idManager, int[] tabIngredient) throws EntityNotFoundException,ForbiddenException{
         Manager manager= ServiceUtil.getEntity(managerRepository, idManager);
 
-        if(ingredient.getLevel() > manager.getLevel())
-            throw new ForbiddenException();  
-        
-        if(!Buy(ingredient,manager))
-            throw new ForbiddenException(); 
+        for (int i : tabIngredient) {
+            Ingredient ingredient = ServiceUtil.getEntity(ingredientRepository, tabIngredient[i]);
+            if(ingredient.getLevel() > manager.getLevel())
+                throw new ForbiddenException();  
+            
+            if(!Buy(ingredient,manager))
+                throw new ForbiddenException(); 
 
-        Add(ingredient,manager) ;
-        
+            Add(ingredient,manager) ;           
+        }
         managerRepository.save(manager) ;
         return new ManagerDto(manager);
     }    
@@ -80,17 +81,19 @@ public class ShopService {
      * @throws ForbiddenException the manager tries to sell a too high level ingredient OR the manager does not have the ingredient in its inventory
      */
     //Charge le manager et l'ingredient vendre et retirer ce dernier de l'inventaire
-    public ManagerDto prepareIngredientAndSell(int idManager, int idIngredient) throws EntityNotFoundException,ForbiddenException{
-        Ingredient ingredient = ServiceUtil.getEntity(ingredientRepository, idIngredient);
+    public ManagerDto prepareIngredientAndSell(int idManager, int[] tabIngredient) throws EntityNotFoundException,ForbiddenException{
         Manager manager= ServiceUtil.getEntity(managerRepository, idManager);
+        for (int i : tabIngredient) {
+            Ingredient ingredient = ServiceUtil.getEntity(ingredientRepository, tabIngredient[i]);
 
-        if(ingredient.getLevel() > manager.getLevel())
-            throw new ForbiddenException(); 
+            if(ingredient.getLevel() > manager.getLevel())
+                throw new ForbiddenException(); 
 
-        Sell(ingredient,manager);
+            Sell(ingredient,manager);
 
-        if(!Remove(ingredient,manager))
-            throw new ForbiddenException();
+            if(!Remove(ingredient,manager))
+                throw new ForbiddenException();
+        }
         
         managerRepository.save(manager) ;
         return new ManagerDto(manager);

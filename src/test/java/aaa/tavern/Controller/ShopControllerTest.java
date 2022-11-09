@@ -33,9 +33,10 @@ public class ShopControllerTest {
 	//////// TEST BYING /////////
 	@Test
 	public void GivenIngredientAndManager_whenPostBuing_ThenPrepareIngredientAndShopServiceCalled() throws Exception {
+		int[] tableId = {1} ;
 		ObjectMapper objectMapper = new ObjectMapper();
 
-		ShopIngredientDto jsonDto = new ShopIngredientDto(1, 1);
+		ShopIngredientDto jsonDto = new ShopIngredientDto(1, tableId);
 
 		String body = objectMapper
 				.valueToTree(jsonDto)
@@ -48,7 +49,7 @@ public class ShopControllerTest {
 
 		mockMvc.perform(query);
 
-		Mockito.verify(shopService).prepareIngredientAndBuy(1, 1);
+		Mockito.verify(shopService).prepareIngredientAndBuy(1, tableId);
 	}
 
 	@Test
@@ -71,9 +72,10 @@ public class ShopControllerTest {
 
 	public void GivenIngredientAndManager_whenMockToReturnEntityNotFoundExceptionForBying_ThenReturnError406()
 			throws Exception {
+		int[] tableId = {1} ;
 		ObjectMapper objectMapper = new ObjectMapper();
 
-		ShopIngredientDto jsonDto = new ShopIngredientDto(1, 1);
+		ShopIngredientDto jsonDto = new ShopIngredientDto(1,tableId);
 
 		String body = objectMapper
 				.valueToTree(jsonDto)
@@ -84,7 +86,7 @@ public class ShopControllerTest {
 				.contentType("application/json")
 				.content(body);
 
-		Mockito.doThrow(EntityNotFoundException.class).when(shopService).prepareIngredientAndBuy(1, 1);
+		Mockito.doThrow(EntityNotFoundException.class).when(shopService).prepareIngredientAndBuy(1, tableId);
 		mockMvc.perform(query);
 
 		int status = mockMvc
@@ -100,8 +102,9 @@ public class ShopControllerTest {
 
 	public void GivenIngredientAndManager_whenMockToReturnForbiddenException_ThenReturnError406() throws Exception {
 		ObjectMapper objectMapper = new ObjectMapper();
+		int[] tableId = {1} ;
 
-		ShopIngredientDto jsonDto = new ShopIngredientDto(1, 1);
+		ShopIngredientDto jsonDto = new ShopIngredientDto(1, tableId);
 
 		String body = objectMapper
 				.valueToTree(jsonDto)
@@ -112,7 +115,7 @@ public class ShopControllerTest {
 				.contentType("application/json")
 				.content(body);
 
-		Mockito.doThrow(ForbiddenException.class).when(shopService).prepareIngredientAndBuy(1, 1);
+		Mockito.doThrow(ForbiddenException.class).when(shopService).prepareIngredientAndBuy(1, tableId);
 		mockMvc.perform(query);
 
 		int status = mockMvc
@@ -129,8 +132,9 @@ public class ShopControllerTest {
 	@Test
 	public void GivenIngredientAndManager_whenPostSelling_ThenPrepareIngredientAndShopServiceCalled() throws Exception {
 		ObjectMapper objectMapper = new ObjectMapper();
+		int[] tableId = {1} ;
 
-		ShopIngredientDto jsonDto = new ShopIngredientDto(1, 1);
+		ShopIngredientDto jsonDto = new ShopIngredientDto(1, tableId);
 
 		String body = objectMapper
 				.valueToTree(jsonDto)
@@ -143,7 +147,7 @@ public class ShopControllerTest {
 
 		mockMvc.perform(query);
 
-		Mockito.verify(shopService).prepareIngredientAndSell(1, 1);
+		Mockito.verify(shopService).prepareIngredientAndSell(1, tableId);
 	}
 
 	@Test
@@ -166,9 +170,10 @@ public class ShopControllerTest {
 
 	public void GivenIngredientAndManager_whenMockToReturnEntityNotFoundExceptionForPostSelling_ThenReturnError406()
 			throws Exception {
+		int[] tableId = {1} ;
 		ObjectMapper objectMapper = new ObjectMapper();
 
-		ShopIngredientDto jsonDto = new ShopIngredientDto(1, 1);
+		ShopIngredientDto jsonDto = new ShopIngredientDto(1,tableId);
 
 		String body = objectMapper
 				.valueToTree(jsonDto)
@@ -179,7 +184,7 @@ public class ShopControllerTest {
 				.contentType("application/json")
 				.content(body);
 
-		Mockito.doThrow(EntityNotFoundException.class).when(shopService).prepareIngredientAndSell(1, 1);
+		Mockito.doThrow(EntityNotFoundException.class).when(shopService).prepareIngredientAndSell(1, tableId);
 		mockMvc.perform(query);
 
 		int status = mockMvc
@@ -195,9 +200,10 @@ public class ShopControllerTest {
 
 	public void GivenIngredientAndManager_whenMockToReturnForbiddenExceptionForPostSelling_ThenReturnError406()
 			throws Exception {
+		int[] tableId = {1} ;
 		ObjectMapper objectMapper = new ObjectMapper();
 
-		ShopIngredientDto jsonDto = new ShopIngredientDto(1, 1);
+		ShopIngredientDto jsonDto = new ShopIngredientDto(1, tableId);
 
 		String body = objectMapper
 				.valueToTree(jsonDto)
@@ -208,7 +214,7 @@ public class ShopControllerTest {
 				.contentType("application/json")
 				.content(body);
 
-		Mockito.doThrow(ForbiddenException.class).when(shopService).prepareIngredientAndSell(1, 1);
+		Mockito.doThrow(ForbiddenException.class).when(shopService).prepareIngredientAndSell(1, tableId);
 		mockMvc.perform(query);
 
 		int status = mockMvc
