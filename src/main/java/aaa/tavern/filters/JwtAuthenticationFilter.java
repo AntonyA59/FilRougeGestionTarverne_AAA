@@ -97,16 +97,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                 .withSubject(user.getUsername())
                                 .withExpiresAt(new Date(System.currentTimeMillis() + JwtUtil.EXPIRE_REFRESH_TOKEN))
                                 .withIssuer(request.getRequestURL().toString())
-                                .withClaim("role",
-                                                user.getAuthorities().stream().map((ga -> ga.getAuthority()))
-                                                                .collect(Collectors.toList()))
+
                                 .sign(algorithm);
                 /**
                  * On met les 2 JWT dans un hashMap
                  */
                 Map<String, String> idToken = new HashMap<>();
-                idToken.put("access-token", jwtAccessToken);
-                idToken.put("refresh-token", jwtRefreshToken);
+                idToken.put("accessToken", jwtAccessToken);
+                idToken.put("refreshToken", jwtRefreshToken);
                 response.setContentType("application/json");
                 /**
                  * On le renvoie en format Json

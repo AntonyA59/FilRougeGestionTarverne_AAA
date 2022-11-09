@@ -35,16 +35,16 @@ public class SecurityConfig implements WebMvcConfigurer {
         @Override
         public void addCorsMappings(CorsRegistry registry) {
                 registry
-                                .addMapping("/api/**")
-                                .allowedMethods("GET", "POST", "PUT", "DELETE")
-                                .allowedOrigins("http://localhost:4200")
+                                .addMapping("/**")
+                                .allowedMethods("HEAD", "OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE")
+                                .allowedOrigins("http://localhost:4200/")
                                 .allowCredentials(true);
         }
 
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
                 http.csrf().disable();
-
+                http.cors();
                 /*
                  * Les données de la session sont enregistrées dans un jeton d’authentification
                  * délivré au client. (JWT)
@@ -55,7 +55,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                  * Tout Utilisateur peut accéder a ces routes (le /login est permitAll par
                  * défaut donc pas besoin de le mentionner)
                  */
-                http.authorizeHttpRequests().antMatchers("/api/register", "/refreshToken/**").permitAll();
+                http.authorizeHttpRequests().antMatchers("/api/register/", "/refreshToken/**", "/login/**").permitAll();
                 /**
                  * Tout Utilisateur ayant le rôle USER peuvent accéder à ces routes
                  */
