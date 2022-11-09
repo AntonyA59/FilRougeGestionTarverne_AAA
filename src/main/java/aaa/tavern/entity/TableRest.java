@@ -35,7 +35,7 @@ public class TableRest {
         this.place = place;
     }
 
-    protected TableRest() {
+    public TableRest() {
     }
 
     /**

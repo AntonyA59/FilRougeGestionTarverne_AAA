@@ -23,7 +23,7 @@ public class Place {
     @JoinColumn(name = "manager_id")
     private Manager manager;
 
-    protected Place() {
+    public Place() {
 
     }
 
