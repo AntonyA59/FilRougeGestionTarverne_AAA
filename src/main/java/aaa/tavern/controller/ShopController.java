@@ -34,8 +34,7 @@ public class ShopController {
     @PostMapping("/shop/ShopBying")
     public ManagerDto byingIngredient(@RequestBody ShopIngredientDto shopIngredientDto) {
         try {
-            return shopService.prepareIngredientAndBuy(shopIngredientDto.getIdManager(),
-                    shopIngredientDto.getIdIngredient());
+            return shopService.prepareIngredientAndBuy(shopIngredientDto);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_ACCEPTABLE, "Manager ou Ingredient inexistant");
@@ -58,8 +57,7 @@ public class ShopController {
     @PostMapping("/shop/ShopSelling")
     public ManagerDto sellingIngredient(@RequestBody ShopIngredientDto shopIngredientDto) {
         try {
-            return shopService.prepareIngredientAndSell(shopIngredientDto.getIdManager(),
-                    shopIngredientDto.getIdIngredient());
+            return shopService.prepareIngredientAndSell(shopIngredientDto);
 
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(
