@@ -128,7 +128,7 @@ public class CustomerManagementService {
         boolean gender = randomService.getRandomBoolean();
         int expGiven = 0;
         TableRest tableRest = new TableRest();
-        Set<RecipeCustomer> commandList= new HashSet<RecipeCustomer>();
+        HashSet<RecipeCustomer> commandList= new HashSet<RecipeCustomer>();
         Timestamp consommationStart= null;
         Customer newCustomer= new Customer(purseOfGold,happiness,hunger,thirst,nauseaLevel,alcoholLevel,
                                             toilet,timeInTavern,nauseaTolerance,alcoholTolerance,gender,

@@ -42,7 +42,7 @@ public class RecipeControllerTest {
         .toPrettyString();
 
     MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-        .post("/api/recipe/requestRecipe")
+        .post("/api/game/recipe/requestRecipe")
         .contentType("application/json")
         .content(body);
 
@@ -68,7 +68,7 @@ public class RecipeControllerTest {
     Mockito.doThrow(EntityNotFoundException.class).when(recipeService).prepareRecipe(1, 1, 1);
 
     MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-        .post("/api/recipe/requestRecipe")
+        .post("/api/game/recipe/requestRecipe")
         .contentType("application/json")
         .content(body);
 
@@ -94,7 +94,7 @@ public class RecipeControllerTest {
     Mockito.doThrow(ForbiddenException.class).when(recipeService).prepareRecipe(1, 1, 1);
 
     MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-        .post("/api/recipe/requestRecipe")
+        .post("/api/game/recipe/requestRecipe")
         .contentType("application/json")
         .content(body);
 
@@ -111,7 +111,7 @@ public class RecipeControllerTest {
   public void givenIncorrectParam_whenPostRequestRecipe_thenReturn404() throws Exception {
 
     MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-        .post("/api/recipe/requestRecipe");
+        .post("/api/game/recipe/requestRecipe");
 
     int status = mockMvc
         .perform(query)

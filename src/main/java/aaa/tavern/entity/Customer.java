@@ -30,7 +30,7 @@ public class Customer{
                     Boolean gender, 
                     Integer expGiven, 
                     TableRest tableRest, 
-                    Set<RecipeCustomer> commandList,
+                    HashSet<RecipeCustomer> commandList,
                     Timestamp consommationStart
                     ) {
         this.purseOfGold = purseOfGold;

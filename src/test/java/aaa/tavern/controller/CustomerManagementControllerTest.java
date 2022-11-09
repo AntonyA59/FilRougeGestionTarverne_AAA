@@ -61,6 +61,7 @@ public class CustomerManagementControllerTest {
         Recipe recipe = new Recipe("test", Integer.valueOf(1), Integer.valueOf(1), Long.valueOf(1l), Long.valueOf(1l),
                 new Date(1664488800l), Integer.valueOf(1), subCategory, new ArrayList<RecipeIngredient>());
         recipe.setId(1);
+        
         RecipeDto recipeDto = new RecipeDto(recipe);
 
         Mockito.when(customerManagementService.getNewRecipe(1)).thenReturn(recipeDto);
@@ -72,7 +73,7 @@ public class CustomerManagementControllerTest {
                 .toPrettyString();
 
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                .post("/api/customerManagement/newRecipe")
+                .post("/api/game/customerManagement/newRecipe")
                 .contentType("application/json")
                 .content(body);
 
@@ -121,7 +122,7 @@ public class CustomerManagementControllerTest {
                 .toPrettyString();
 
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                .post("/api/customerManagement/newRecipe")
+                .post("/api/game/customerManagement/newRecipe")
                 .contentType("application/json")
                 .content(body);
 
@@ -148,7 +149,7 @@ public class CustomerManagementControllerTest {
                 .toPrettyString();
 
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                .post("/api/customerManagement/newRecipe")
+                .post("/api/game/customerManagement/newRecipe")
                 .contentType("application/json")
                 .content(body);
 
@@ -167,7 +168,7 @@ public class CustomerManagementControllerTest {
         Mockito.when(customerManagementService.getNewRecipe(1)).thenThrow(EntityNotFoundException.class);
 
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                .post("/api/customerManagement/newRecipe");
+                .post("/api/game/customerManagement/newRecipe");
 
         int status = mockMvc
                 .perform(query)
@@ -185,7 +186,7 @@ public class CustomerManagementControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         TableRest tableRest = new TableRest();
         tableRest.setIdTable(1);
-        Set<RecipeCustomer> tabCustomer = new HashSet<RecipeCustomer>();
+        HashSet<RecipeCustomer> tabCustomer = new HashSet<RecipeCustomer>();
         Customer customer = new Customer(Integer.valueOf(1), Float.valueOf(1f),
                 Float.valueOf(1f), Float.valueOf(1f),
                 Float.valueOf(1f), Float.valueOf(1f),
@@ -205,7 +206,7 @@ public class CustomerManagementControllerTest {
                 .toPrettyString();
 
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                .post("/api/customerManagement/newCustomer")
+                .post("/api/game/customerManagement/newCustomer")
                 .contentType("application/json")
                 .content(body);
 
@@ -245,7 +246,7 @@ public class CustomerManagementControllerTest {
 
         TableRest tableRest = new TableRest();
         tableRest.setIdTable(1);
-        Set<RecipeCustomer> tabCustomer = new HashSet<RecipeCustomer>();
+        HashSet<RecipeCustomer> tabCustomer = new HashSet<RecipeCustomer>();
         Customer customer = new Customer(Integer.valueOf(1), Float.valueOf(1f),
                 Float.valueOf(1f), Float.valueOf(1f),
                 Float.valueOf(1f), Float.valueOf(1f),
@@ -265,7 +266,7 @@ public class CustomerManagementControllerTest {
                 .toPrettyString();
 
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                .post("/api/customerManagement/newCustomer")
+                .post("/api/game/customerManagement/newCustomer")
                 .contentType("application/json")
                 .content(body);
 
@@ -290,7 +291,7 @@ public class CustomerManagementControllerTest {
                 .valueToTree(jsonDto)
                 .toPrettyString();
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                .post("/api/customerManagement/newCustomer")
+                .post("/api/game/customerManagement/newCustomer")
                 .contentType("application/json")
                 .content(body);
 
@@ -307,7 +308,7 @@ public class CustomerManagementControllerTest {
     public void givenIncorrectBody_whenPostNewCustomer_thenReturn404() throws Exception {
 
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                .post("/api/customerManagement/newCustomer");
+                .post("/api/game/customerManagement/newCustomer");
 
         int status = mockMvc
                 .perform(query)
@@ -330,7 +331,7 @@ public class CustomerManagementControllerTest {
                 .toPrettyString();
 
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                .post("/api/customerManagement/customerAssignTable")
+                .post("/api/game/customerManagement/customerAssignTable")
                 .contentType("application/json")
                 .content(body);
 
@@ -355,7 +356,7 @@ public class CustomerManagementControllerTest {
         Mockito.doThrow(EntityNotFoundException.class).when(customerManagementService).assignNewTable(1, 10);
 
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                .post("/api/customerManagement/customerAssignTable")
+                .post("/api/game/customerManagement/customerAssignTable")
                 .contentType("application/json")
                 .content(body);
 
@@ -372,7 +373,7 @@ public class CustomerManagementControllerTest {
     public void givenIncorrectBody_whenPostCustomerAssignTable_thenReturn400() throws Exception {
 
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                .post("/api/customerManagement/customerAssignTable");
+                .post("/api/game/customerManagement/customerAssignTable");
 
         int status = mockMvc
                 .perform(query)
@@ -393,7 +394,7 @@ public class CustomerManagementControllerTest {
                 .valueToTree(jsonDto)
                 .toPrettyString();
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                .post("/api/customerManagement/customerServed")
+                .post("/api/game/customerManagement/customerServed")
                 .contentType("application/json")
                 .content(body);
 
@@ -418,7 +419,7 @@ public class CustomerManagementControllerTest {
                 .valueToTree(jsonDto)
                 .toPrettyString();
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                .post("/api/customerManagement/customerServed")
+                .post("/api/game/customerManagement/customerServed")
                 .contentType("application/json")
                 .content(body);
 
@@ -435,7 +436,7 @@ public class CustomerManagementControllerTest {
     public void givenIncorrectBody_whenPostCustomerServed_thenReturn404() throws Exception {
 
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                .post("/api/customerManagement/customerServed");
+                .post("/api/game/customerManagement/customerServed");
 
         int status = mockMvc
                 .perform(query)
@@ -458,7 +459,7 @@ public class CustomerManagementControllerTest {
                 .toPrettyString();
 
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                .post("/api/customerManagement/customerFinish")
+                .post("/api/game/customerManagement/customerFinish")
                 .contentType("application/json")
                 .content(body);
 
@@ -483,7 +484,7 @@ public class CustomerManagementControllerTest {
         Mockito.doThrow(EntityNotFoundException.class).when(customerManagementService).customerFinishRecipe(1, 1);
 
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                .post("/api/customerManagement/customerFinish")
+                .post("/api/game/customerManagement/customerFinish")
                 .contentType("application/json")
                 .content(body);
 
@@ -508,7 +509,7 @@ public class CustomerManagementControllerTest {
         Mockito.doThrow(ForbiddenException.class).when(customerManagementService).customerFinishRecipe(1, 1);
 
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                .post("/api/customerManagement/customerFinish")
+                .post("/api/game/customerManagement/customerFinish")
                 .contentType("application/json")
                 .content(body);
 
@@ -525,7 +526,7 @@ public class CustomerManagementControllerTest {
     public void givenIncorrectParam_whenPostCustomerFinish_thenReturn404() throws Exception {
 
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                .post("/api/customerManagement/customerFinish");
+                .post("/api/game/customerManagement/customerFinish");
 
         int status = mockMvc
                 .perform(query)

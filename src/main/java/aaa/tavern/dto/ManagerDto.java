@@ -1,9 +1,10 @@
 package aaa.tavern.dto;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+import aaa.tavern.entity.Ingredient;
 import aaa.tavern.entity.InventoryIngredient;
 import aaa.tavern.entity.Manager;
 
@@ -23,9 +24,9 @@ public class ManagerDto {
         this.idPlayer = manager.getPlayer().getIdPlayer();
         this.maxExp = manager.getMaxExp();
         for (InventoryIngredient inventoryIngredient : manager.getInventoryIngredient()) {
-            Integer ingredientId = inventoryIngredient.getIngredient().getId();
+            Ingredient ingredient = inventoryIngredient.getIngredient();
             Integer quantity = inventoryIngredient.getQuantity();
-            this.ingredientQuantity.put(ingredientId, quantity);
+            this.ingredientQuantity.add(new InventoryManagerIngredientDto(ingredient,quantity));
         }
     }
 
@@ -45,7 +46,7 @@ public class ManagerDto {
 
     private Integer maxExp;
 
-    private Map<Integer, Integer> ingredientQuantity = new HashMap<Integer, Integer>();
+    private List<InventoryManagerIngredientDto> ingredientQuantity = new ArrayList<InventoryManagerIngredientDto>();
 
     @Override
     public int hashCode() {
@@ -93,12 +94,14 @@ public class ManagerDto {
         return experience;
     }
 
-    public Map<Integer, Integer> getIngredientQuantity() {
+    public List<InventoryManagerIngredientDto> getIngredientQuantity() {
         return ingredientQuantity;
     }
+  
 
     public Integer getMaxExp() {
         return maxExp;
     }
     // #endregion
+
 }
