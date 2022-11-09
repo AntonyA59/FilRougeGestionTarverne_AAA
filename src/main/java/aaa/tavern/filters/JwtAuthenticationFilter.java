@@ -103,8 +103,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                  * On met les 2 JWT dans un hashMap
                  */
                 Map<String, String> idToken = new HashMap<>();
-                idToken.put("access-token", jwtAccessToken);
-                idToken.put("refresh-token", jwtRefreshToken);
+                idToken.put("accessToken", jwtAccessToken);
+                idToken.put("refreshToken", jwtRefreshToken);
                 response.setContentType("application/json");
                 /**
                  * On le renvoie en format Json
