@@ -11,7 +11,10 @@ public class PlaceDto {
     private Integer type;
 
     private Integer level;
+    
+    protected PlaceDto(){
 
+    }
     public PlaceDto(Place place) {
         this.id = place.getPlaceId();
         this.name = place.getName();

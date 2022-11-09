@@ -17,56 +17,50 @@ import aaa.tavern.entity.Role;
 import aaa.tavern.dao.PlayerRepository;
 import aaa.tavern.entity.Player;
 
-
 @Service("userDetailsService")
 public class AppUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private PlayerRepository playerRepository ;
+    private PlayerRepository playerRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<Player> optUser = playerRepository.findByEmail(email) ;
-        if(optUser.isEmpty())
-            throw new UsernameNotFoundException("Email not found") ;
+        Optional<Player> optUser = playerRepository.findByEmail(email);
+        if (optUser.isEmpty())
+            throw new UsernameNotFoundException("Email not found");
 
-        Player user = optUser.get() ;
+        Player user = optUser.get();
 
         List<GrantedAuthority> autorities = user
-            .getRoles()
-            .stream()
-            .flatMap(this::transformRoleAsStrings)
-            .toList() ;
+                .getRoles()
+                .stream()
+                .flatMap(this::transformRoleAsStrings)
+                .toList();
 
         return new org.springframework.security.core.userdetails.User(
-            user.getEmail(), 
-            user.getPassword(), 
-            user.isEnabled(), //Enable
-            true, //account not expired
-            true, // credentials not expired
-            true, // account not locked
-            autorities);
+                user.getEmail(),
+                user.getPassword(),
+                user.isEnabled(), // Enable
+                true, // account not expired
+                true, // credentials not expired
+                true, // account not locked
+                autorities);
     }
 
     /**
      * Transforme les rôles en un ensemble de chaînes de caractères.
      * 
      * Une entrée par rôle et une entrée par privilège
+     * 
      * @param role
      * @return
      */
-    private Stream<GrantedAuthority> transformRoleAsStrings(Role role){
-        int size = role.getPrivileges().size() +1 ;
+    private Stream<GrantedAuthority> transformRoleAsStrings(Role role) {
+        int size = role.getPrivileges().size() + 1;
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>(size);
 
-        authorities.add(new SimpleGrantedAuthority(role.getName())) ;
+        authorities.add(new SimpleGrantedAuthority(role.getName()));
 
-        List<? extends GrantedAuthority> privileges = role.getPrivileges().stream()
-            .map(p -> new SimpleGrantedAuthority(p.getName()))
-            .toList();
-
-        authorities.addAll(privileges) ;
-
-        return authorities.stream() ;
+        return authorities.stream();
     }
 }

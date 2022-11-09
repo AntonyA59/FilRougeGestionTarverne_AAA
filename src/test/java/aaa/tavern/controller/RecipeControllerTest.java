@@ -1,7 +1,6 @@
-package aaa.tavern.Controller;
+package aaa.tavern.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doNothing;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -16,6 +15,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import aaa.tavern.dto.received.RequestRecipeDto;
 import aaa.tavern.exception.ForbiddenException;
 import aaa.tavern.service.RecipeService;
 
@@ -30,75 +32,86 @@ public class RecipeControllerTest {
   private RecipeService recipeService;
 
   @Test
-    public void givenCorrectParam_WhenPostRequestRecipe_thenReturn200() throws Exception{
+  public void givenCorrectBody_WhenPostRequestRecipe_thenReturn200() throws Exception {
+    ObjectMapper objectMapper = new ObjectMapper();
 
-        
-        
-        doNothing().when(recipeService).prepareRecipe(1,1,1);
-        
-        MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                                                    .post("/api/recipe/requestRecipe")
-                                                    .param("managerId", "1")
-                                                    .param("recipeId", "1")
-                                                    .param("customerId","1" );
+    RequestRecipeDto jsonDto = new RequestRecipeDto(1, 1, 1);
 
-        int status = mockMvc
-                        .perform(query)
-                        .andReturn()
-                        .getResponse()
-                        .getStatus();
-        
+    String body = objectMapper
+        .valueToTree(jsonDto)
+        .toPrettyString();
 
-        assertEquals(200, status);
-    }
+    MockHttpServletRequestBuilder query = MockMvcRequestBuilders
+        .post("/api/game/recipe/requestRecipe")
+        .contentType("application/json")
+        .content(body);
 
-  @Test
-    public void givenCorrectParamButNotPresentBDD_whenPostRequestRecipe_thenReturn404() throws Exception{
-		
-        Mockito.doThrow(EntityNotFoundException.class).when(recipeService).prepareRecipe(1, 1, 1);
-		
-        MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/api/recipe/requestRecipe")
-                .param("managerId", "1")
-                .param("recipeId", "1")
-                .param("customerId", "1");
-                
-		
-		int status = mockMvc
-				.perform(query)
-				.andReturn()
-				.getResponse()
-				.getStatus();
-		
-		assertEquals(404, status);
-    }
+    int status = mockMvc
+        .perform(query)
+        .andReturn()
+        .getResponse()
+        .getStatus();
+
+    assertEquals(200, status);
+  }
 
   @Test
-    public void givenCorrectParam_whenPostRequestRecipe_thenReturn400withForbidden() throws Exception{
-		
-        Mockito.doThrow(ForbiddenException.class).when(recipeService).prepareRecipe(1, 1, 1);
-		
-        MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-				.post("/api/recipe/requestRecipe")
-                .param("managerId", "1")
-                .param("recipeId", "1")
-                .param("customerId", "1");
-                
-		
-		int status = mockMvc
-				.perform(query)
-				.andReturn()
-				.getResponse()
-				.getStatus();
-		
-		assertEquals(400, status);
-    }
+  public void givenCorrectParamButNotPresentBDD_whenPostRequestRecipe_thenReturn404() throws Exception {
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    RequestRecipeDto jsonDto = new RequestRecipeDto(1, 1, 1);
+
+    String body = objectMapper
+        .valueToTree(jsonDto)
+        .toPrettyString();
+
+    Mockito.doThrow(EntityNotFoundException.class).when(recipeService).prepareRecipe(1, 1, 1);
+
+    MockHttpServletRequestBuilder query = MockMvcRequestBuilders
+        .post("/api/game/recipe/requestRecipe")
+        .contentType("application/json")
+        .content(body);
+
+    int status = mockMvc
+        .perform(query)
+        .andReturn()
+        .getResponse()
+        .getStatus();
+
+    assertEquals(404, status);
+  }
+
+  @Test
+  public void givenCorrectParam_whenPostRequestRecipe_thenReturn400withForbidden() throws Exception {
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    RequestRecipeDto jsonDto = new RequestRecipeDto(1, 1, 1);
+
+    String body = objectMapper
+        .valueToTree(jsonDto)
+        .toPrettyString();
+
+    Mockito.doThrow(ForbiddenException.class).when(recipeService).prepareRecipe(1, 1, 1);
+
+    MockHttpServletRequestBuilder query = MockMvcRequestBuilders
+        .post("/api/game/recipe/requestRecipe")
+        .contentType("application/json")
+        .content(body);
+
+    int status = mockMvc
+        .perform(query)
+        .andReturn()
+        .getResponse()
+        .getStatus();
+
+    assertEquals(400, status);
+  }
 
   @Test
   public void givenIncorrectParam_whenPostRequestRecipe_thenReturn404() throws Exception {
 
     MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-        .post("/api/recipe/requestRecipe");
+        .post("/api/game/recipe/requestRecipe");
 
     int status = mockMvc
         .perform(query)

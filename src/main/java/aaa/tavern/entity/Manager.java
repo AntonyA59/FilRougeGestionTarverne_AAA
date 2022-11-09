@@ -28,52 +28,50 @@ public class Manager {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idManager;
-    
+
     @NotBlank
     @Column(name = "name")
     private String name;
-    
+
     @Column(name = "reputation")
     private Integer reputation;
 
     @Column(name = "chest")
     private Integer chest;
-    
+
     @Column(name = "level")
     private Integer level;
-    
+
     @Column(name = "experience")
     private Integer experience;
-    
+
     @ManyToOne()
     @JoinColumn(name = "player_id")
     private Player player;
-    
+
     @Transient
     private Integer maxExp;
 
-    //inventaire BDD
+    // inventaire BDD
     @OneToMany(mappedBy = "manager")
     private List<InventoryIngredient> inventoryIngredient = new ArrayList<InventoryIngredient>();
 
-    //inventaire jeu
+    // inventaire jeu
     @Transient
-    private Map<Ingredient,Integer> ingredientQuantity;
+    private Map<Ingredient, Integer> ingredientQuantity = new HashMap<Ingredient, Integer>();
 
-    public Manager(){
-  
+    public Manager() {
+
     }
-    
-    
+
     public Manager(
-    String name, 
-    Integer reputation, 
-    Integer chest, 
-    Integer level, 
-    Integer experience, 
-    Player player)
-    {
-        this.name =name;
+            String name,
+            Integer reputation,
+            Integer chest,
+            Integer level,
+            Integer experience,
+            Player player) {
+        this.name = name;
         this.reputation = reputation;
         this.chest = chest;
         this.level = level;
@@ -82,39 +80,40 @@ public class Manager {
     }
 
     @PostLoad
-    private void transformForIngredientQuantity(){
+    private void transformForIngredientQuantity() {
         getCalcMaxExp();
 
-        Map<Ingredient,Integer> tab= new HashMap<Ingredient,Integer>();
-        for(InventoryIngredient inventoryIngredient:this.inventoryIngredient){
-            Ingredient ingredient= inventoryIngredient.getIngredient();
-            Integer quantity= inventoryIngredient.getQuantity();
+        Map<Ingredient, Integer> tab = new HashMap<Ingredient, Integer>();
+        for (InventoryIngredient inventoryIngredient : this.inventoryIngredient) {
+            Ingredient ingredient = inventoryIngredient.getIngredient();
+            Integer quantity = inventoryIngredient.getQuantity();
             tab.put(ingredient, quantity);
         }
-        this.ingredientQuantity=tab;
+        this.ingredientQuantity = tab;
     }
-    
+
     @PrePersist
     @PreUpdate
-    private void transformForIngredientIngredient(){
+    private void transformForIngredientIngredient() {
         this.inventoryIngredient.clear();
-        for(Ingredient ingredient: this.ingredientQuantity.keySet()){
-            Integer quantity= this.ingredientQuantity.get(ingredient);
-            InventoryIngredient inventoryIngredient= new InventoryIngredient(this,ingredient,quantity);
+        for (Ingredient ingredient : this.ingredientQuantity.keySet()) {
+            Integer quantity = this.ingredientQuantity.get(ingredient);
+            InventoryIngredient inventoryIngredient = new InventoryIngredient(this, ingredient, quantity);
             this.inventoryIngredient.add(inventoryIngredient);
         }
     }
 
-    private void getCalcMaxExp(){
-        this.maxExp= this.level*5;
+    private void getCalcMaxExp() {
+        this.maxExp = this.level * 5;
     }
 
     /**
-	 * Deux Managers sont les mêmes si ils ont le même identifiant.
-	 */
-	@Override
+     * Deux Managers sont les mêmes si ils ont le même identifiant.
+     */
+    @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        if (this == o)
+            return true;
 
         if (o == null || getClass() != o.getClass())
             return false;
@@ -123,86 +122,71 @@ public class Manager {
         return Objects.equals(idManager, that.idManager);
     }
 
-	/**
-	 * L'identifiant définit le hash.
-	 */
+    /**
+     * L'identifiant définit le hash.
+     */
     @Override
     public int hashCode() {
         return idManager.hashCode();
     }
 
-
-    //#region get/set 
+    // #region get/set
     public Integer getIdManager() {
         return idManager;
     }
-
 
     public void setIdManager(Integer idManager) {
         this.idManager = idManager;
     }
 
-
     public String getName() {
         return name;
     }
-
 
     public void setName(String name) {
         this.name = name;
     }
 
-
     public Integer getReputation() {
         return reputation;
     }
-
 
     public void setReputation(Integer reputation) {
         this.reputation = reputation;
     }
 
-
     public Integer getChest() {
         return chest;
     }
-
 
     public void setChest(Integer chest) {
         this.chest = chest;
     }
 
-
     public Integer getLevel() {
         return level;
     }
-
 
     public void setLevel(Integer level) {
         this.level = level;
         getCalcMaxExp();
     }
 
-
     public Integer getExperience() {
         return experience;
     }
-
 
     public void setExperience(Integer experience) {
         this.experience = experience;
     }
 
-
     public Player getPlayer() {
         return player;
     }
 
-
     public void setPlayer(Player player) {
         this.player = player;
     }
-
 
     public Integer getMaxExp() {
         return maxExp;
@@ -212,13 +196,13 @@ public class Manager {
         this.maxExp = maxExp;
     }
 
-    public void addIngredientQuantity(Ingredient ingredient){
-        Integer quantity = ingredientQuantity.get(ingredient) ;
-        if(quantity != null){
-            quantity++ ;
-            ingredientQuantity.replace(ingredient, quantity) ;
-        }else{
-            ingredientQuantity.put(ingredient, 1) ;
+    public void addIngredientQuantity(Ingredient ingredient) {
+        Integer quantity = ingredientQuantity.get(ingredient);
+        if (quantity != null) {
+            quantity++;
+            ingredientQuantity.replace(ingredient, quantity);
+        } else {
+            ingredientQuantity.put(ingredient, 1);
         }
     }
 

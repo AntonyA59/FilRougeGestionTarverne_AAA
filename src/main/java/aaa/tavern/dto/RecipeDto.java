@@ -1,9 +1,11 @@
 package aaa.tavern.dto;
 
 import java.sql.Date;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+import aaa.tavern.entity.Ingredient;
 import aaa.tavern.entity.Recipe;
 import aaa.tavern.entity.RecipeIngredient;
 
@@ -17,8 +19,11 @@ public class RecipeDto {
 	private Date peremptionDate;
 	private Integer expGiven;
 	private Integer idSubCategory;
-	private HashMap<Integer, Integer> tabIngredientsForRecipe = new HashMap<Integer, Integer>();
+	private List<InventoryManagerIngredientDto> tabIngredientsForRecipe = new ArrayList<InventoryManagerIngredientDto>();
 
+	protected RecipeDto(){
+		
+	}
 	public RecipeDto(Recipe recipe) {
 		this.id = recipe.getId();
 		this.name = recipe.getName();
@@ -30,9 +35,9 @@ public class RecipeDto {
 		this.expGiven = recipe.getExpGiven();
 		this.idSubCategory = recipe.getSubCategory().getIdSubCategory();
 		for (RecipeIngredient recipeIngredient : recipe.getTabIngredientsForRecipe()) {
-			Integer ingredientId = recipeIngredient.getIngredient().getId();
+			Ingredient ingredient = recipeIngredient.getIngredient();
 			Integer quantity = recipeIngredient.getQuantity();
-			this.tabIngredientsForRecipe.put(ingredientId, quantity);
+			this.tabIngredientsForRecipe.add(new InventoryManagerIngredientDto(ingredient, quantity));
 		}
 	}
 
@@ -95,10 +100,11 @@ public class RecipeDto {
 	public Integer getIdSubCategory() {
 		return idSubCategory;
 	}
-
-	public HashMap<Integer, Integer> getTabIngredientsForRecipe() {
+	public List<InventoryManagerIngredientDto> getTabIngredientsForRecipe() {
 		return tabIngredientsForRecipe;
 	}
+
+
 	// #endregion
 
 }

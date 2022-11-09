@@ -28,6 +28,12 @@ public class SubCategory {
 
     public SubCategory() {}
 
+    public SubCategory(Integer idSubCategory, String name, Category category) {
+        this.idSubCategory = idSubCategory;
+        this.name = name;
+        this.category = category;
+    }
+
     /**
 	 * Deux SubCategory sont les mêmes si ils ont le même identifiant.
 	 */

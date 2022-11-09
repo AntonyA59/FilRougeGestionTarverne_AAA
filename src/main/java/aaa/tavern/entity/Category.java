@@ -24,6 +24,13 @@ public class Category {
 
 	public Category() {}
 
+    
+    public Category(Integer idCategory, String name) {
+        this.idCategory = idCategory;
+        this.name = name;
+    }
+
+
     /**
 	 * Deux Category sont les mêmes si ils ont le même identifiant.
 	 */

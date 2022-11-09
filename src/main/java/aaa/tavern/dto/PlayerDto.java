@@ -18,41 +18,45 @@ public class PlayerDto {
     private String email;
 
     @NotNull
-    @Size(min=8, max=30)
+    @Size(min = 8, max = 30)
     @NotBlank(message = "Nom d'utilisateur obligatoire")
-	private String nickname;
+    private String nickname;
 
     @NotNull
-    @Size(min=8, max=30)
     @NotBlank(message = "Mot de passe obligatoire")
-	private String password;
-	private String matchingPassword;
+    private String password;
+    private String matchingPassword;
 
-    protected PlayerDto(){
+    protected PlayerDto() {
     }
 
-    public PlayerDto(String email, String nickname, String password, String matchingPassword){
-        this.email = email.toLowerCase() ;
-        this.nickname = nickname ;
-        this.password = password ;
-        this.matchingPassword = matchingPassword ;
+    public PlayerDto(String email, String nickname, String password, String matchingPassword) {
+        this.email = email.toLowerCase();
+        this.nickname = nickname;
+        this.password = password;
+        this.matchingPassword = matchingPassword;
     }
 
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
+
     public String getNickname() {
         return nickname;
     }
+
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }

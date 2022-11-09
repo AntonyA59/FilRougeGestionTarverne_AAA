@@ -1,4 +1,4 @@
-package aaa.tavern.Controller;
+package aaa.tavern.controller;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -19,41 +19,41 @@ import aaa.tavern.service.PlayerService;
 @AutoConfigureMockMvc(addFilters = false)
 public class PlayerControllerTest {
     @Autowired
-	private MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @MockBean
-	private PlayerService playerService;
-    
-    //TODO Revoir le Test, problème pour tester le dto
+    private PlayerService playerService;
+
+    // TODO Revoir le Test, problème pour tester le dto
     public void GivenRegister_whenPlayer_ThenSuccessCreated() throws Exception {
-        MultiValueMap<String,String> player = new LinkedMultiValueMap<String, String>();
+        MultiValueMap<String, String> player = new LinkedMultiValueMap<String, String>();
         player.add("email", "heyman591@hotmail.com");
         player.add("nickname", "monpseudotype");
         player.add("password", "iiiiiiii");
         player.add("matchingPassword", "iiiiiiii");
 
-		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-            .post("/register")
-            .params(player) ;
-		
-		mockMvc.perform(query);
+        MockHttpServletRequestBuilder query = MockMvcRequestBuilders
+                .post("/register")
+                .params(player);
 
-        PlayerDto playerDto = new PlayerDto("heyman591@hotmail.com", "monpseudotype", "iiiiiiii", "iiiiiiii") ;
+        mockMvc.perform(query);
 
-    	Mockito.verify(playerService).createPlayer(playerDto);
+        PlayerDto playerDto = new PlayerDto("heyman591@hotmail.com", "monpseudotype", "iiiiiiii", "iiiiiiii");
+
+        Mockito.verify(playerService).createPlayer(playerDto);
     }
 
     @Test
     public void GivenLogin_whenPlayer_ThenSuccess() throws Exception {
-        PlayerDto playerDto = new PlayerDto("grimir59@gmail.com", "monpseudotype", "iiiiiiii", "iiiiiiii") ;
+        PlayerDto playerDto = new PlayerDto("grimir59@gmail.com", "monpseudotype", "iiiiiiii", "iiiiiiii");
         playerService.createPlayer(playerDto);
 
-		MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-            .post("/login")
-            .param("email","grimir59@gmail.com")
-            .param("password","iiiiiiii") ;
-		
-		mockMvc.perform(query);
+        MockHttpServletRequestBuilder query = MockMvcRequestBuilders
+                .post("/login")
+                .param("email", "grimir59@gmail.com")
+                .param("password", "iiiiiiii");
+
+        mockMvc.perform(query);
 
     }
 }
