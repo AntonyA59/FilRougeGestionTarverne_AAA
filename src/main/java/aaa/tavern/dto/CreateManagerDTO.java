@@ -4,6 +4,7 @@ import aaa.tavern.entity.Manager;
 
 public class CreateManagerDTO {
     private String name;
+    private String email;
 
     protected CreateManagerDTO() {
 
@@ -15,6 +16,10 @@ public class CreateManagerDTO {
 
     public String getName() {
         return name;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
 }

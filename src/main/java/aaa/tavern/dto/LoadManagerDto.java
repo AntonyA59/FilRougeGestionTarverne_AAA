@@ -18,11 +18,9 @@ public class LoadManagerDto {
 
     private List<RecipeDto> recipes;
 
-    private List<RecipeDto> recipeCustomers;
+    private List<SubCategoryDto> subCategories;
 
-    private List<SubCategoryDto> SubCategories;
-
-    private List<TableRestDto> TableRests;
+    private List<TableRestDto> tableRests;
 
     protected LoadManagerDto() {
 
@@ -36,8 +34,8 @@ public class LoadManagerDto {
             List<InventoryManagerIngredientDto> inventoryManagerIngredient,
             List<PlaceDto> places,
             List<RecipeDto> recipes,
-            List<RecipeDto> recipeCustomers,
-            List<SubCategoryDto> SubCategories,
+
+            List<SubCategoryDto> subCategories,
             List<TableRestDto> TableRests) {
         this.manager = manager;
         this.categories = categories;
@@ -46,9 +44,8 @@ public class LoadManagerDto {
         this.inventoryManagerIngredient = inventoryManagerIngredient;
         this.places = places;
         this.recipes = recipes;
-        this.recipeCustomers = recipeCustomers;
-        this.SubCategories = SubCategories;
-        this.TableRests = TableRests;
+        this.subCategories = subCategories;
+        this.tableRests = TableRests;
     }
 
     // #region get
@@ -80,16 +77,12 @@ public class LoadManagerDto {
         return recipes;
     }
 
-    public List<RecipeDto> getRecipeCustomers() {
-        return recipeCustomers;
-    }
-
     public List<SubCategoryDto> getSubCategories() {
-        return SubCategories;
+        return subCategories;
     }
 
     public List<TableRestDto> getTableRests() {
-        return TableRests;
+        return tableRests;
     }
 
     // #endregion

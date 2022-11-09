@@ -27,15 +27,9 @@ public class PlayerController {
     PlayerService playerService;
 
     @PostMapping("/register")
-    public StatusDto createPlayer(@Valid @RequestBody PlayerDto playerDto) {
-        try {
-            playerService.createPlayer(playerDto);
-            return new StatusDto(1, "Le player est bien créé");
+    public void createPlayer(@Valid @RequestBody PlayerDto playerDto) {
+        playerService.createPlayer(playerDto);
 
-        } catch (DataAccessException e) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_ACCEPTABLE, "Utilisateur déjà existant");
-        }
     }
 
     /*

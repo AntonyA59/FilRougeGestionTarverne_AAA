@@ -72,10 +72,6 @@ public class LoadManagerService {
         List<SubCategoryDto> listSubCategoryDto = subCategoryService.loadAllSubCategory();
         List<IngredientDto> listIngredientDto = ingredientService.loadIngredientsByManagerLevel(manager.getLevel());
         List<CustomerDto> listCustomerDto = managerCustomerService.loadCustomerByManager(managerId);
-        List<RecipeDto> listRecipeCustomerDto = new ArrayList<RecipeDto>();
-        for (CustomerDto customerDto : listCustomerDto) {
-            listRecipeCustomerDto = recipeCustomerService.loadRecipeByCustomer(customerDto.getId());
-        }
         List<PlaceDto> listPlaceDto = placeService.loadPlaceByManagerId(managerId);
         List<TableRestDto> listTableRestDto = new ArrayList<TableRestDto>();
         for (PlaceDto placeDto : listPlaceDto) {
@@ -85,7 +81,7 @@ public class LoadManagerService {
 
         LoadManagerDto loadManagerDto = new LoadManagerDto(managerDto, listCategoryDto, listCustomerDto,
                 listIngredientDto, listInventoryManagerIngredientDto, listPlaceDto, listRecipeDto,
-                listRecipeCustomerDto, listSubCategoryDto,
+                listSubCategoryDto,
                 listTableRestDto);
         return loadManagerDto;
     }

@@ -23,7 +23,7 @@ public class Player {
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer idPlayer;
+	private int idPlayer;
 
 	@Column(name = "email", unique = true, nullable = false)
 	private String email;
@@ -66,14 +66,6 @@ public class Player {
 
 		Player that = (Player) o;
 		return Objects.equals(idPlayer, that.idPlayer);
-	}
-
-	/**
-	 * L'identifiant définit le hash.
-	 */
-	@Override
-	public int hashCode() {
-		return idPlayer.hashCode();
 	}
 
 	// #region get / set

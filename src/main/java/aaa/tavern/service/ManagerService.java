@@ -13,7 +13,9 @@ import aaa.tavern.dao.CustomerRepository;
 import aaa.tavern.dao.IngredientRepository;
 import aaa.tavern.dao.InventoryIngredientRepository;
 import aaa.tavern.dao.ManagerRepository;
+import aaa.tavern.dao.PlaceRepository;
 import aaa.tavern.dao.PlayerRepository;
+import aaa.tavern.dao.TableRestRepository;
 import aaa.tavern.dto.CreateManagerDTO;
 import aaa.tavern.dto.InventoryManagerIngredientDto;
 import aaa.tavern.dto.ManagerDto;
@@ -21,7 +23,9 @@ import aaa.tavern.entity.Customer;
 import aaa.tavern.entity.Ingredient;
 import aaa.tavern.entity.InventoryIngredient;
 import aaa.tavern.entity.Manager;
+import aaa.tavern.entity.Place;
 import aaa.tavern.entity.Player;
+import aaa.tavern.entity.TableRest;
 import aaa.tavern.exception.ForbiddenException;
 import aaa.tavern.utils.ServiceUtil;
 
@@ -30,6 +34,12 @@ public class ManagerService {
 
     @Autowired
     private InventoryIngredientRepository inventoryIngredientRepository;
+
+    @Autowired
+    private PlaceRepository placeRepository;
+
+    @Autowired
+    private TableRestRepository tableRestRepository;
 
     @Autowired
     private ManagerRepository managerRepository;
@@ -43,10 +53,16 @@ public class ManagerService {
     @Autowired
     private PlayerRepository playerRepository;
 
-    public Manager createManager(CreateManagerDTO createManagerDto, int playerId) {
-        Player player = ServiceUtil.getEntity(playerRepository, playerId);
+    public Manager createManager(CreateManagerDTO createManagerDto) {
+        Player player = playerRepository.findByEmail(createManagerDto.getEmail()).get();
         Manager manager = new Manager(createManagerDto.getName(), 0, 100, 1, 0, player);
+        Place place = new Place("Restaurant", 1, 1, manager);
         managerRepository.save(manager);
+        placeRepository.save(place);
+        TableRest table1 = new TableRest(4, 0f, 0f, 0f, place);
+        TableRest table2 = new TableRest(4, 0f, 0f, 0f, place);
+        tableRestRepository.save(table1);
+        tableRestRepository.save(table2);
         return manager;
     }
 
@@ -72,8 +88,8 @@ public class ManagerService {
      * @param player
      * @return List<ManagerDto>
      */
-    public List<ManagerDto> listExistingManagerDto(int idPlayer) {
-        Player player = ServiceUtil.getEntity(playerRepository, idPlayer);
+    public List<ManagerDto> listExistingManagerDto(String email) {
+        Player player = playerRepository.findByEmail(email).get();
         List<Manager> managers = managerRepository.findByPlayer(player);
         if (managers.isEmpty()) {
             throw new EntityNotFoundException();
