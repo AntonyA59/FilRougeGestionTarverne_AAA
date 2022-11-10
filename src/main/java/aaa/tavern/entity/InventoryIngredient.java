@@ -17,12 +17,12 @@ public class InventoryIngredient implements Serializable{
     
     @ManyToOne
     @MapsId("managerId")
-    @JoinColumn(name = "manager_id")
+    @JoinColumn(name = "manager_id", insertable = false, updatable = false)
     private Manager manager;
     
     @ManyToOne
     @MapsId("ingredientId")
-    @JoinColumn(name = "ingredient_id")
+    @JoinColumn(name = "ingredient_id", insertable = false, updatable = false)
     private Ingredient ingredient;
     
     

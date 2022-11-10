@@ -77,6 +77,7 @@ public class ShopService {
             Add(ingredient,manager,shopIngredientQuantity[i].getQuantity()) ; 
         }
         managerRepository.save(manager) ;
+        
         for(InventoryIngredient inventoryIngredient: manager.getInventoryIngredient())
                 inventoryIngredientRepository.save(inventoryIngredient);
         return new ManagerDto(manager);
@@ -108,10 +109,6 @@ public class ShopService {
         }
         
         managerRepository.save(manager) ;
-        
-        for(InventoryIngredient inventoryIngredient: manager.getInventoryIngredient())
-                inventoryIngredientRepository.save(inventoryIngredient);
-        
         return new ManagerDto(manager);
     }  
 

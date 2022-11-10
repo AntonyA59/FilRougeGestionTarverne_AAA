@@ -53,7 +53,8 @@ public class Manager {
     private Integer maxExp;
 
     // inventaire BDD
-    @OneToMany(mappedBy = "manager")
+    @OneToMany()
+    @JoinColumn(name = "manager_id")
     private List<InventoryIngredient> inventoryIngredient = new ArrayList<InventoryIngredient>();
 
     // inventaire jeu
@@ -95,12 +96,17 @@ public class Manager {
     @PrePersist
     @PreUpdate
     private void transformForIngredientIngredient() {
+        for(InventoryIngredient ivig : this.inventoryIngredient){
+            ivig.setQuantity(this.ingredientQuantity.get(ivig.getIngredient()));
+        }
+        /*
         this.inventoryIngredient.clear();
         for (Ingredient ingredient : this.ingredientQuantity.keySet()) {
             Integer quantity = this.ingredientQuantity.get(ingredient);
+            
             InventoryIngredient inventoryIngredient = new InventoryIngredient(this, ingredient, quantity);
             this.inventoryIngredient.add(inventoryIngredient);
-        }
+        }*/
     }
 
     private void getCalcMaxExp() {
