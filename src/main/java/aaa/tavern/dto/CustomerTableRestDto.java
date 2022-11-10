@@ -13,5 +13,12 @@ public class CustomerTableRestDto {
         this.customer=new CustomerDto(customer);
         this.tableRest= new TableRestDto(tableRest);
     }
+    public CustomerDto getCustomer() {
+        return customer;
+    }
+    public TableRestDto getTableRest() {
+        return tableRest;
+    }
+    
 
 }

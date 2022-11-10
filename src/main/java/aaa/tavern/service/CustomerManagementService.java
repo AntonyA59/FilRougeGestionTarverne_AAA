@@ -52,6 +52,7 @@ public class CustomerManagementService {
     @Autowired
     private RecipeRepository recipeRepository;
 
+
     /**
      * allows to send a random recipe which is in listRecipe in the utils folder
      * 
@@ -116,7 +117,7 @@ public class CustomerManagementService {
     @Transactional(rollbackOn = EntityNotFoundException.class)
     public CustomerDto getNewCustomer(int managerId) throws EntityNotFoundException {
         Manager manager = ServiceUtil.getEntity(managerRepository, managerId);
-
+        TableRest tableRest= ServiceUtil.getEntity(tableRestRepository, 1);
         // init newCustomer
         int purseOfGold = randomService.getRandomInt(100);
         float happiness = randomService.getRandomFloat(100f);
@@ -130,8 +131,6 @@ public class CustomerManagementService {
         float alcoholTolerance = randomService.getRandomFloat(100f);
         boolean gender = randomService.getRandomBoolean();
         int expGiven = 0;
-        // TODO: A verifier si ça fonctionne coté front
-        TableRest tableRest = null;
         HashSet<RecipeCustomer> commandList = new HashSet<RecipeCustomer>();
         Timestamp consommationStart = null;
         Customer newCustomer = new Customer(purseOfGold, happiness, hunger, thirst, nauseaLevel, alcoholLevel,
