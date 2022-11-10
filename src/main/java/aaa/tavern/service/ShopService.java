@@ -10,12 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import aaa.tavern.dao.IngredientRepository;
+import aaa.tavern.dao.InventoryIngredientRepository;
 import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dto.IngredientDto;
 import aaa.tavern.dto.ManagerDto;
 import aaa.tavern.dto.received.ShopIngredientDto;
 import aaa.tavern.dto.received.ShopIngredientQuantity;
 import aaa.tavern.entity.Ingredient;
+import aaa.tavern.entity.InventoryIngredient;
 import aaa.tavern.entity.Manager;
 import aaa.tavern.exception.ForbiddenException;
 import aaa.tavern.utils.ServiceUtil;
@@ -28,6 +30,9 @@ public class ShopService {
 
     @Autowired
     IngredientRepository ingredientRepository ;
+
+    @Autowired
+    InventoryIngredientRepository inventoryIngredientRepository ;
 
     /** returns the list ingredients of game according to the Manager level
      * /!\ Use the same method of ManagerService instead /!\
@@ -72,6 +77,8 @@ public class ShopService {
             Add(ingredient,manager,shopIngredientQuantity[i].getQuantity()) ; 
         }
         managerRepository.save(manager) ;
+        for(InventoryIngredient inventoryIngredient: manager.getInventoryIngredient())
+                inventoryIngredientRepository.save(inventoryIngredient);
         return new ManagerDto(manager);
     }    
 
@@ -101,6 +108,10 @@ public class ShopService {
         }
         
         managerRepository.save(manager) ;
+        
+        for(InventoryIngredient inventoryIngredient: manager.getInventoryIngredient())
+                inventoryIngredientRepository.save(inventoryIngredient);
+        
         return new ManagerDto(manager);
     }  
 
@@ -116,12 +127,12 @@ public class ShopService {
         Integer quantityInventory = inventory.get(ingredient) ;
 
         if(quantityInventory == null){
+            quantityInventory = quantity ;
             inventory.put(ingredient, quantity) ;
         }else{
             quantityInventory = quantityInventory + quantity ;
             inventory.put(ingredient, quantityInventory) ;
         }
-
         manager.setIngredientQuantity(inventory);
     }
 
@@ -134,7 +145,9 @@ public class ShopService {
     //Supprime l'ingredient dans l'inventaire du manager
     private boolean Remove(Ingredient ingredient, Manager manager,int quantity){
         Map<Ingredient,Integer> inventory = manager.getIngredientQuantity() ;
+
         Integer quantityInventory = inventory.get(ingredient) ;
+        //InventoryIngredient inventoryIngredient ;
 
         if(quantityInventory != null && quantityInventory >= quantity){
             if(quantityInventory == quantity){
