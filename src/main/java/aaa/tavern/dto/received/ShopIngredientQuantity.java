@@ -3,6 +3,9 @@ package aaa.tavern.dto.received;
 public class ShopIngredientQuantity {
     int idIngredient ;
     int quantity ;
+    protected ShopIngredientQuantity(){
+        
+    }
     public ShopIngredientQuantity(int idIngredient, int quantity) {
         this.idIngredient = idIngredient;
         this.quantity = quantity;
