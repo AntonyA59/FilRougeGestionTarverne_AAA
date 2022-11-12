@@ -97,7 +97,9 @@ public class Manager {
     @PreUpdate
     private void transformForIngredientIngredient() {
         for(InventoryIngredient ivig : this.inventoryIngredient){
-            ivig.setQuantity(this.ingredientQuantity.get(ivig.getIngredient()));
+            if(this.ingredientQuantity.get(ivig.getIngredient()) != null){
+                ivig.setQuantity(this.ingredientQuantity.get(ivig.getIngredient()));
+            }
         }
         /*
         this.inventoryIngredient.clear();
