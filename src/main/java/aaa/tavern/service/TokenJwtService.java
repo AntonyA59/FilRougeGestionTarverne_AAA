@@ -54,8 +54,8 @@ public class TokenJwtService {
                         .sign(algorithm);
                 // On renvoie un nouveaux access-token à l'utilisateur
                 Map<String, String> idToken = new HashMap<>();
-                idToken.put("access-token", jwtAccessToken);
-                idToken.put("refresh-token", jwt);
+                idToken.put("accessToken", jwtAccessToken);
+                idToken.put("refreshToken", jwt);
                 response.setContentType("application/json");
                 new ObjectMapper().writeValue(response.getOutputStream(), idToken);
             } catch (Exception e) {
