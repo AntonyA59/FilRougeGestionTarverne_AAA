@@ -16,7 +16,7 @@ import aaa.tavern.dto.IngredientDto;
 import aaa.tavern.dto.InventoryManagerIngredientDto;
 import aaa.tavern.dto.ManagerDto;
 import aaa.tavern.dto.received.ShopIngredientDto;
-import aaa.tavern.dto.received.ShopIngredientQuantity;
+import aaa.tavern.dto.received.ShopIngredientQuantityDto;
 import aaa.tavern.entity.Ingredient;
 import aaa.tavern.entity.InventoryIngredient;
 import aaa.tavern.entity.Manager;
@@ -65,7 +65,7 @@ public class ShopService {
     // charge le manager et l'ingredient pour acheter et ajouter ce dernier dans l'inventaire
     public List<InventoryManagerIngredientDto> prepareIngredientAndBuy(ShopIngredientDto shopIngredientDto) throws EntityNotFoundException,ForbiddenException{
         Manager manager= ServiceUtil.getEntity(managerRepository, shopIngredientDto.getIdManager());
-        ShopIngredientQuantity[] shopIngredientQuantity = shopIngredientDto.getShopIngredientQuantity() ;
+        ShopIngredientQuantityDto[] shopIngredientQuantity = shopIngredientDto.getShopIngredientQuantity() ;
         
         for (int i = 0; i < shopIngredientDto.getShopIngredientQuantity().length; i++) {
             Ingredient ingredient = ServiceUtil.getEntity(ingredientRepository, shopIngredientQuantity[i].getIdIngredient());
@@ -93,7 +93,7 @@ public class ShopService {
     //Charge le manager et l'ingredient vendre et retirer ce dernier de l'inventaire
     public List<InventoryManagerIngredientDto> prepareIngredientAndSell(ShopIngredientDto shopIngredientDto) throws EntityNotFoundException,ForbiddenException{
         Manager manager= ServiceUtil.getEntity(managerRepository, shopIngredientDto.getIdManager());
-        ShopIngredientQuantity[] shopIngredientQuantity = shopIngredientDto.getShopIngredientQuantity() ;
+        ShopIngredientQuantityDto[] shopIngredientQuantity = shopIngredientDto.getShopIngredientQuantity() ;
 
         for (int i = 0; i < shopIngredientDto.getShopIngredientQuantity().length; i++) {
             Ingredient ingredient = ServiceUtil.getEntity(ingredientRepository, shopIngredientQuantity[i].getIdIngredient());
@@ -128,6 +128,7 @@ public class ShopService {
             quantityInventory = quantity ;
             inventoryIngredient = new InventoryIngredient(manager, ingredient, quantityInventory);
             inventoryIngredientRepository.save(inventoryIngredient) ;
+            manager.getInventoryIngredient().add(inventoryIngredient);
             inventory.put(ingredient, quantityInventory) ;
         }else{
             quantityInventory = quantityInventory + quantity ;
@@ -152,6 +153,7 @@ public class ShopService {
             if(quantityInventory == quantity){
                 for (InventoryIngredient element : manager.getInventoryIngredient()) {
                     if(element.getManager() == manager && element.getIngredient() == ingredient){
+                        //manager.getInventoryIngredient().remove(element) ;
                         inventoryIngredientRepository.delete(element);
                         break ;
                     }
@@ -160,8 +162,8 @@ public class ShopService {
             }else{
                 quantityInventory = quantityInventory-quantity ;
                 inventory.put(ingredient, quantityInventory) ;
-                manager.setIngredientQuantity(inventory);
             }
+            manager.setIngredientQuantity(inventory);
             return true ;
         }else{
             return false ;

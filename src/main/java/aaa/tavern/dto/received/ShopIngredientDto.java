@@ -2,12 +2,12 @@ package aaa.tavern.dto.received;
 
 public class ShopIngredientDto {
     int idManager;
-    ShopIngredientQuantity[] shopIngredientQuantity ;
+    ShopIngredientQuantityDto[] shopIngredientQuantity ;
 
     protected ShopIngredientDto(){
 
     }
-    public ShopIngredientDto(int idManager, ShopIngredientQuantity[] shopIngredientQuantity) {
+    public ShopIngredientDto(int idManager, ShopIngredientQuantityDto[] shopIngredientQuantity) {
         this.idManager = idManager;
         this.shopIngredientQuantity = shopIngredientQuantity;
     }
@@ -17,10 +17,10 @@ public class ShopIngredientDto {
     public void setIdManager(int idManager) {
         this.idManager = idManager;
     }
-    public ShopIngredientQuantity[] getShopIngredientQuantity() {
+    public ShopIngredientQuantityDto[] getShopIngredientQuantity() {
         return shopIngredientQuantity;
     }
-    public void setShopIngredientQuantity(ShopIngredientQuantity[] shopIngredientQuantity) {
+    public void setShopIngredientQuantity(ShopIngredientQuantityDto[] shopIngredientQuantity) {
         this.shopIngredientQuantity = shopIngredientQuantity;
     }
 }

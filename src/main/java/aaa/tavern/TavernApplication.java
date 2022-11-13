@@ -7,7 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import aaa.tavern.dto.received.ShopIngredientDto;
-import aaa.tavern.dto.received.ShopIngredientQuantity;
+import aaa.tavern.dto.received.ShopIngredientQuantityDto;
 import aaa.tavern.exception.ForbiddenException;
 import aaa.tavern.service.ShopService;
 
@@ -21,8 +21,8 @@ public class TavernApplication {
 		
 
 		SpringApplication.run(TavernApplication.class, args);
-		ShopIngredientQuantity shopIngredientQuantity = new ShopIngredientQuantity(16, 1);
-		ShopIngredientQuantity[] tabShopIngredientQuantity = new ShopIngredientQuantity[1] ;
+		ShopIngredientQuantityDto shopIngredientQuantity = new ShopIngredientQuantityDto(16, 1);
+		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1] ;
 		tabShopIngredientQuantity[0] = shopIngredientQuantity ;
 		ShopIngredientDto shopIngredientDto = new ShopIngredientDto(836, tabShopIngredientQuantity);
 

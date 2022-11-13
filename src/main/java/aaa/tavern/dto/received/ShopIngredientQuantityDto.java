@@ -1,12 +1,12 @@
 package aaa.tavern.dto.received;
 
-public class ShopIngredientQuantity {
+public class ShopIngredientQuantityDto {
     int idIngredient ;
     int quantity ;
-    protected ShopIngredientQuantity(){
+    protected ShopIngredientQuantityDto(){
         
     }
-    public ShopIngredientQuantity(int idIngredient, int quantity) {
+    public ShopIngredientQuantityDto(int idIngredient, int quantity) {
         this.idIngredient = idIngredient;
         this.quantity = quantity;
     }

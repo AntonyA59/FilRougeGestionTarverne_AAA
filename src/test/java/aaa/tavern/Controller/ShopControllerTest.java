@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import javax.persistence.EntityNotFoundException;
 
 import aaa.tavern.dto.received.ShopIngredientDto;
-import aaa.tavern.dto.received.ShopIngredientQuantity;
+import aaa.tavern.dto.received.ShopIngredientQuantityDto;
 import aaa.tavern.exception.ForbiddenException;
 import aaa.tavern.service.ShopService;
 
@@ -34,8 +34,8 @@ public class ShopControllerTest {
 	//////// TEST BYING /////////
 	@Test
 	public void GivenIngredientAndManager_whenPostBuing_ThenPrepareIngredientAndShopServiceCalled() throws Exception {
-		ShopIngredientQuantity shopIngredientQuantity = new ShopIngredientQuantity(1, 1);
-		ShopIngredientQuantity[] tabShopIngredientQuantity = new ShopIngredientQuantity[1] ;
+		ShopIngredientQuantityDto shopIngredientQuantity = new ShopIngredientQuantityDto(1, 1);
+		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1] ;
 		tabShopIngredientQuantity[0] = shopIngredientQuantity ;
 		
 		ShopIngredientDto shopIngredientDto = new ShopIngredientDto(1, tabShopIngredientQuantity);
@@ -78,8 +78,8 @@ public class ShopControllerTest {
 
 	public void GivenIngredientAndManager_whenMockToReturnEntityNotFoundExceptionForBying_ThenReturnError406()
 			throws Exception {
-		ShopIngredientQuantity shopIngredientQuantity = new ShopIngredientQuantity(1, 1);
-		ShopIngredientQuantity[] tabShopIngredientQuantity = new ShopIngredientQuantity[1] ;
+		ShopIngredientQuantityDto shopIngredientQuantity = new ShopIngredientQuantityDto(1, 1);
+		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1] ;
 		tabShopIngredientQuantity[0] = shopIngredientQuantity ;
 		
 		ShopIngredientDto shopIngredientDto = new ShopIngredientDto(1, tabShopIngredientQuantity);
@@ -112,8 +112,8 @@ public class ShopControllerTest {
 
 	public void GivenIngredientAndManager_whenMockToReturnForbiddenException_ThenReturnError406() throws Exception {
 		ObjectMapper objectMapper = new ObjectMapper();
-		ShopIngredientQuantity shopIngredientQuantity = new ShopIngredientQuantity(1, 1);
-		ShopIngredientQuantity[] tabShopIngredientQuantity = new ShopIngredientQuantity[1] ;
+		ShopIngredientQuantityDto shopIngredientQuantity = new ShopIngredientQuantityDto(1, 1);
+		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1] ;
 		tabShopIngredientQuantity[0] = shopIngredientQuantity ;
 		
 		ShopIngredientDto shopIngredientDto = new ShopIngredientDto(1, tabShopIngredientQuantity);
@@ -146,8 +146,8 @@ public class ShopControllerTest {
 	@Test
 	public void GivenIngredientAndManager_whenPostSelling_ThenPrepareIngredientAndShopServiceCalled() throws Exception {
 		ObjectMapper objectMapper = new ObjectMapper();
-		ShopIngredientQuantity shopIngredientQuantity = new ShopIngredientQuantity(1, 1);
-		ShopIngredientQuantity[] tabShopIngredientQuantity = new ShopIngredientQuantity[1] ;
+		ShopIngredientQuantityDto shopIngredientQuantity = new ShopIngredientQuantityDto(1, 1);
+		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1] ;
 		tabShopIngredientQuantity[0] = shopIngredientQuantity ;
 
 		ShopIngredientDto shopIngredientDto = new ShopIngredientDto(1, tabShopIngredientQuantity);
@@ -188,8 +188,8 @@ public class ShopControllerTest {
 
 	public void GivenIngredientAndManager_whenMockToReturnEntityNotFoundExceptionForPostSelling_ThenReturnError406()
 			throws Exception {
-		ShopIngredientQuantity shopIngredientQuantity = new ShopIngredientQuantity(1, 1);
-		ShopIngredientQuantity[] tabShopIngredientQuantity = new ShopIngredientQuantity[1] ;
+		ShopIngredientQuantityDto shopIngredientQuantity = new ShopIngredientQuantityDto(1, 1);
+		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1] ;
 		tabShopIngredientQuantity[0] = shopIngredientQuantity ;
 		ObjectMapper objectMapper = new ObjectMapper();
 		
@@ -222,8 +222,8 @@ public class ShopControllerTest {
 
 	public void GivenIngredientAndManager_whenMockToReturnForbiddenExceptionForPostSelling_ThenReturnError406()
 			throws Exception {
-		ShopIngredientQuantity shopIngredientQuantity = new ShopIngredientQuantity(1, 1);
-		ShopIngredientQuantity[] tabShopIngredientQuantity = new ShopIngredientQuantity[1] ;
+		ShopIngredientQuantityDto shopIngredientQuantity = new ShopIngredientQuantityDto(1, 1);
+		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1] ;
 		tabShopIngredientQuantity[0] = shopIngredientQuantity ;
 		
 		ShopIngredientDto shopIngredientDto = new ShopIngredientDto(1, tabShopIngredientQuantity);
