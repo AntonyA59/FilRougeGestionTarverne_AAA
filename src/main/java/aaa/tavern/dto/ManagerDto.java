@@ -23,10 +23,13 @@ public class ManagerDto {
         this.experience = manager.getExperience();
         this.idPlayer = manager.getPlayer().getIdPlayer();
         this.maxExp = manager.getMaxExp();
+     
         for (InventoryIngredient inventoryIngredient : manager.getInventoryIngredient()) {
-            Ingredient ingredient = inventoryIngredient.getIngredient();
-            Integer quantity = inventoryIngredient.getQuantity();
-            this.ingredientQuantity.add(new InventoryManagerIngredientDto(ingredient,quantity));
+            if(inventoryIngredient.getQuantity() > 0){
+                Ingredient ingredient = inventoryIngredient.getIngredient();
+                Integer quantity = inventoryIngredient.getQuantity();
+                this.ingredientQuantity.add(new InventoryManagerIngredientDto(ingredient,quantity));
+            }
         }
     }
 
