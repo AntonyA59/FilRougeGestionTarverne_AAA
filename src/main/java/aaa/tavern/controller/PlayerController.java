@@ -2,8 +2,6 @@ package aaa.tavern.controller;
 
 import java.security.Principal;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +21,7 @@ public class PlayerController {
     PlayerService playerService;
 
     @PostMapping("/register")
-    public void createPlayer(@Valid @RequestBody PlayerDto playerDto) {
+    public void createPlayer(@RequestBody PlayerDto playerDto) {
         playerService.createPlayer(playerDto);
 
     }

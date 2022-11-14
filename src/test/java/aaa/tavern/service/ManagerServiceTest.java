@@ -51,7 +51,7 @@ public class ManagerServiceTest {
 		Mockito.when(playerRepository.findById(0)).thenReturn(Optional.of(player));
 		manager.setPlayer(player);
 		CreateManagerDTO managerDto = new CreateManagerDTO(manager);
-		managerService.createManager(managerDto, 0);
+		managerService.createManager(managerDto);
 
 		Mockito.verify(managerRepository).save(manager);
 
@@ -69,7 +69,8 @@ public class ManagerServiceTest {
 	@Test
 	public void listExistingManagerDto() {
 		Player player = Mockito.mock(Player.class);
-		Mockito.when(playerRepository.findById(1)).thenReturn(Optional.of(player));
+		player.setEmail("test@test.com");
+		Mockito.when(playerRepository.findByEmail(player.getEmail())).thenReturn(Optional.of(player));
 		Manager manager1 = new Manager("Test1", 10, 20, 20, 20, player);
 		Manager manager2 = new Manager("Test2", 10, 20, 20, 20, player);
 		Manager manager3 = new Manager("Test3", 10, 20, 20, 20, player);
@@ -87,7 +88,7 @@ public class ManagerServiceTest {
 		listManagerDtos.add(managerDto2);
 		listManagerDtos.add(managerDto3);
 
-		List<ManagerDto> listManagerDtos2 = managerService.listExistingManagerDto(1);
+		List<ManagerDto> listManagerDtos2 = managerService.listExistingManagerDto(player.getEmail());
 
 		assertEquals(listManagerDtos, listManagerDtos2);
 	}
