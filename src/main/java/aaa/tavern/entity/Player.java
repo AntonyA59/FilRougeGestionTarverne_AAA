@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Player {
 	@Id
 	@Column(name = "id")
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idPlayer;
 

@@ -138,7 +138,8 @@ public class ManagerService {
     public List<InventoryManagerIngredientDto> loadInventoryIngredientsByManager(int idManager) {
         Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
 
-        List<InventoryIngredient> listInventoryIngredients = inventoryIngredientRepository.findByManager(manager);
+        List<InventoryIngredient> listInventoryIngredients = inventoryIngredientRepository
+                .findByManagerAndQuantityGreaterThan(manager, 0);
 
         List<InventoryManagerIngredientDto> listInventoryManagerIngredientDto = new ArrayList<InventoryManagerIngredientDto>();
 
