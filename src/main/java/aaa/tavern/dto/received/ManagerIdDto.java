@@ -3,10 +3,10 @@ package aaa.tavern.dto.received;
 public class ManagerIdDto {
     int managerId;
 
-    protected ManagerIdDto(){
+    protected ManagerIdDto() {
 
     }
-    
+
     public ManagerIdDto(int managerId) {
         this.managerId = managerId;
     }
@@ -18,5 +18,5 @@ public class ManagerIdDto {
     public void setManagerId(int managerId) {
         this.managerId = managerId;
     }
-    
+
 }

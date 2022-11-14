@@ -10,10 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import aaa.tavern.dao.IngredientRepository;
+import aaa.tavern.dao.InventoryIngredientRepository;
 import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dto.IngredientDto;
+import aaa.tavern.dto.InventoryManagerIngredientDto;
 import aaa.tavern.dto.ManagerDto;
+import aaa.tavern.dto.received.ShopIngredientDto;
+import aaa.tavern.dto.received.ShopIngredientQuantityDto;
 import aaa.tavern.entity.Ingredient;
+import aaa.tavern.entity.InventoryIngredient;
 import aaa.tavern.entity.Manager;
 import aaa.tavern.exception.ForbiddenException;
 import aaa.tavern.utils.ServiceUtil;
@@ -26,6 +31,9 @@ public class ShopService {
 
     @Autowired
     IngredientRepository ingredientRepository ;
+
+    @Autowired
+    InventoryIngredientRepository inventoryIngredientRepository ;
 
     /** returns the list ingredients of game according to the Manager level
      * /!\ Use the same method of ManagerService instead /!\
@@ -55,20 +63,23 @@ public class ShopService {
      * @throws ForbiddenException the manager tries to buy a too high level ingredient OR the manager does not have enough money to buy the ingredient
      */
     // charge le manager et l'ingredient pour acheter et ajouter ce dernier dans l'inventaire
-    public ManagerDto prepareIngredientAndBuy(int idManager, int idIngredient) throws EntityNotFoundException,ForbiddenException{
-        Ingredient ingredient = ServiceUtil.getEntity(ingredientRepository, idIngredient);
-        Manager manager= ServiceUtil.getEntity(managerRepository, idManager);
-
-        if(ingredient.getLevel() > manager.getLevel())
-            throw new ForbiddenException();  
+    public List<InventoryManagerIngredientDto> prepareIngredientAndBuy(ShopIngredientDto shopIngredientDto) throws EntityNotFoundException,ForbiddenException{
+        Manager manager= ServiceUtil.getEntity(managerRepository, shopIngredientDto.getIdManager());
+        ShopIngredientQuantityDto[] shopIngredientQuantity = shopIngredientDto.getShopIngredientQuantity() ;
         
-        if(!Buy(ingredient,manager))
-            throw new ForbiddenException(); 
+        for (int i = 0; i < shopIngredientDto.getShopIngredientQuantity().length; i++) {
+            Ingredient ingredient = ServiceUtil.getEntity(ingredientRepository, shopIngredientQuantity[i].getIdIngredient());
+            if(ingredient.getLevel() > manager.getLevel())
+                throw new ForbiddenException();  
+            
+            if(!Buy(ingredient,manager,shopIngredientQuantity[i].getQuantity()))
+                throw new ForbiddenException(); 
 
-        Add(ingredient,manager) ;
-        
+            Add(ingredient,manager,shopIngredientQuantity[i].getQuantity()) ; 
+        }
         managerRepository.save(manager) ;
-        return new ManagerDto(manager);
+        ManagerDto managerDto = new ManagerDto(manager) ;
+        return managerDto.getIngredientQuantity();
     }    
 
     /** Load the manager and the ingredient sell and remove the latter from the inventory
@@ -80,20 +91,25 @@ public class ShopService {
      * @throws ForbiddenException the manager tries to sell a too high level ingredient OR the manager does not have the ingredient in its inventory
      */
     //Charge le manager et l'ingredient vendre et retirer ce dernier de l'inventaire
-    public ManagerDto prepareIngredientAndSell(int idManager, int idIngredient) throws EntityNotFoundException,ForbiddenException{
-        Ingredient ingredient = ServiceUtil.getEntity(ingredientRepository, idIngredient);
-        Manager manager= ServiceUtil.getEntity(managerRepository, idManager);
+    public List<InventoryManagerIngredientDto> prepareIngredientAndSell(ShopIngredientDto shopIngredientDto) throws EntityNotFoundException,ForbiddenException{
+        Manager manager= ServiceUtil.getEntity(managerRepository, shopIngredientDto.getIdManager());
+        ShopIngredientQuantityDto[] shopIngredientQuantity = shopIngredientDto.getShopIngredientQuantity() ;
 
-        if(ingredient.getLevel() > manager.getLevel())
-            throw new ForbiddenException(); 
+        for (int i = 0; i < shopIngredientDto.getShopIngredientQuantity().length; i++) {
+            Ingredient ingredient = ServiceUtil.getEntity(ingredientRepository, shopIngredientQuantity[i].getIdIngredient());
 
-        Sell(ingredient,manager);
+            if(ingredient.getLevel() > manager.getLevel())
+                throw new ForbiddenException(); 
 
-        if(!Remove(ingredient,manager))
-            throw new ForbiddenException();
+            Sell(ingredient,manager,shopIngredientQuantity[i].getQuantity());
+
+            if(!Remove(ingredient,manager,shopIngredientQuantity[i].getQuantity()))
+                throw new ForbiddenException();
+        }
         
         managerRepository.save(manager) ;
-        return new ManagerDto(manager);
+        ManagerDto managerDto = new ManagerDto(manager) ;
+        return managerDto.getIngredientQuantity();
     }  
 
     /** Adds the ingredient to the manager’s inventory
@@ -103,17 +119,21 @@ public class ShopService {
      * @return void
      */
     //Ajoute l'ingredient dans l'inventaire du manager
-    private void Add(Ingredient ingredient, Manager manager){
+    private void Add(Ingredient ingredient, Manager manager,int quantity){
         Map<Ingredient,Integer> inventory = manager.getIngredientQuantity() ;
-        Integer quantity = inventory.get(ingredient) ;
+        Integer quantityInventory = inventory.get(ingredient) ;
+        InventoryIngredient inventoryIngredient ;
 
-        if(quantity == null){
-            inventory.put(ingredient, 1) ;
+        if(quantityInventory == null){
+            quantityInventory = quantity ;
+            inventoryIngredient = new InventoryIngredient(manager, ingredient, quantityInventory);
+            inventoryIngredientRepository.save(inventoryIngredient) ;
+            manager.getInventoryIngredient().add(inventoryIngredient);
+            inventory.put(ingredient, quantityInventory) ;
         }else{
-            quantity++ ;
-            inventory.put(ingredient, quantity) ;
+            quantityInventory = quantityInventory + quantity ;
+            inventory.put(ingredient, quantityInventory) ;
         }
-
         manager.setIngredientQuantity(inventory);
     }
 
@@ -124,16 +144,24 @@ public class ShopService {
      * @return returns false if the manager does not have the ingredient in its inventory
      */
     //Supprime l'ingredient dans l'inventaire du manager
-    private boolean Remove(Ingredient ingredient, Manager manager){
+    private boolean Remove(Ingredient ingredient, Manager manager,int quantity){
         Map<Ingredient,Integer> inventory = manager.getIngredientQuantity() ;
-        Integer quantity = inventory.get(ingredient) ;
 
-        if(quantity != null){
-            if(quantity <= 1){
+        Integer quantityInventory = inventory.get(ingredient) ;
+
+        if(quantityInventory != null && quantityInventory >= quantity){
+            if(quantityInventory == quantity){
+                for (InventoryIngredient element : manager.getInventoryIngredient()) {
+                    if(element.getManager() == manager && element.getIngredient() == ingredient){
+                        //manager.getInventoryIngredient().remove(element) ;
+                        inventoryIngredientRepository.delete(element);
+                        break ;
+                    }
+                }
                 inventory.remove(ingredient) ;
             }else{
-                quantity-- ;
-                inventory.put(ingredient, quantity) ;
+                quantityInventory = quantityInventory-quantity ;
+                inventory.put(ingredient, quantityInventory) ;
             }
             manager.setIngredientQuantity(inventory);
             return true ;
@@ -149,9 +177,9 @@ public class ShopService {
      * @return returns false if the manager does not have enough money to buy the ingredient
      */
     //Retire l'argent au Manager
-    private boolean Buy(Ingredient ingredient,Manager manager){
-        if (manager.getChest() >= ingredient.getBuyingPrice()){
-            manager.setChest(manager.getChest() - ingredient.getBuyingPrice());
+    private boolean Buy(Ingredient ingredient,Manager manager,int quantity){
+        if (manager.getChest() >= ingredient.getBuyingPrice()*quantity){
+            manager.setChest(manager.getChest() - ingredient.getBuyingPrice()*quantity);
             return true ;
         }else{
             return false ;
@@ -165,7 +193,7 @@ public class ShopService {
      * @return void
      */
     //Ajoute l'argent au manager arrondi à l'entier supérieur
-    private void Sell(Ingredient ingredient, Manager manager){
-        manager.setChest(manager.getChest() + ((int)Math.ceil(ingredient.getBuyingPrice()/2)));
+    private void Sell(Ingredient ingredient, Manager manager,int quantity){
+        manager.setChest(manager.getChest() + ((int)Math.ceil(ingredient.getBuyingPrice()/2))*quantity);
     }
 }

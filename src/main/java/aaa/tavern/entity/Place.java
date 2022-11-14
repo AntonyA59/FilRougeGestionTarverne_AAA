@@ -24,6 +24,14 @@ public class Place {
     private Manager manager;
 
     public Place() {
+
+    }
+
+    public Place(String name, Integer type, Integer level, Manager manager) {
+        this.name = name;
+        this.type = type;
+        this.level = level;
+        this.manager = manager;
     }
 
     /**

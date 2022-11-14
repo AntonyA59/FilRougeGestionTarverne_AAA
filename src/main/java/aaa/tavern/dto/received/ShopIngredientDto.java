@@ -2,29 +2,25 @@ package aaa.tavern.dto.received;
 
 public class ShopIngredientDto {
     int idManager;
-    int idIngredient;
+    ShopIngredientQuantityDto[] shopIngredientQuantity ;
 
     protected ShopIngredientDto(){
 
     }
-    
-    public ShopIngredientDto(int idManager, int idIngredient) {
+    public ShopIngredientDto(int idManager, ShopIngredientQuantityDto[] shopIngredientQuantity) {
         this.idManager = idManager;
-        this.idIngredient = idIngredient;
+        this.shopIngredientQuantity = shopIngredientQuantity;
     }
-
     public int getIdManager() {
         return idManager;
     }
     public void setIdManager(int idManager) {
         this.idManager = idManager;
     }
-    public int getIdIngredient() {
-        return idIngredient;
+    public ShopIngredientQuantityDto[] getShopIngredientQuantity() {
+        return shopIngredientQuantity;
     }
-    public void setIdIngredient(int idIngredient) {
-        this.idIngredient = idIngredient;
+    public void setShopIngredientQuantity(ShopIngredientQuantityDto[] shopIngredientQuantity) {
+        this.shopIngredientQuantity = shopIngredientQuantity;
     }
-
-    
 }

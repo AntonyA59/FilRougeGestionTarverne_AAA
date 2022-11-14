@@ -103,8 +103,10 @@ public class RecipeService {
             RecipeCustomer recipeCustomer= new RecipeCustomer(recipe,customer);
             recipeCustomerRepository.save(recipeCustomer);
             managerRepository.save(manager);
+            /*
             for(InventoryIngredient inventoryIngredient: manager.getInventoryIngredient())
                 inventoryIngredientRepository.save(inventoryIngredient);
+            */
             return new RecipeCustomerInventoryIngredientDto(recipeCustomer, manager.getInventoryIngredient());
             
         } else{
