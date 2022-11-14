@@ -150,19 +150,21 @@ public class ShopService {
         Integer quantityInventory = inventory.get(ingredient) ;
 
         if(quantityInventory != null && quantityInventory >= quantity){
-            if(quantityInventory == quantity){
+            /*
+            if(quantityInventory == quantity)
+            
                 for (InventoryIngredient element : manager.getInventoryIngredient()) {
-                    if(element.getManager() == manager && element.getIngredient() == ingredient){
-                        //manager.getInventoryIngredient().remove(element) ;
-                        inventoryIngredientRepository.delete(element);
+                    if(element.getManager() == manager && element.getIngredient().getId() == ingredient.getId()){
+                        inventory.put(ingredient, quantityInventory)
+                        //inventoryIngredientRepository.delete(element);
+                        element.setQuantity(0);
                         break ;
                     }
                 }
-                inventory.remove(ingredient) ;
-            }else{
-                quantityInventory = quantityInventory-quantity ;
-                inventory.put(ingredient, quantityInventory) ;
-            }
+            */
+            quantityInventory = quantityInventory-quantity ;
+            inventory.put(ingredient, quantityInventory) ;
+           
             manager.setIngredientQuantity(inventory);
             return true ;
         }else{

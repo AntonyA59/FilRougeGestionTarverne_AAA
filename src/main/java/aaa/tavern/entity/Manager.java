@@ -21,6 +21,9 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 @Entity
 @Table(name = "manager")
 public class Manager {
@@ -53,8 +56,10 @@ public class Manager {
     private Integer maxExp;
 
     // inventaire BDD
-    @OneToMany()
-    @JoinColumn(name = "manager_id")
+    @OneToMany
+    @JoinColumn(name = "manager_id", nullable = true)
+    @NotFound(
+    action = NotFoundAction.IGNORE)
     private List<InventoryIngredient> inventoryIngredient = new ArrayList<InventoryIngredient>();
 
     // inventaire jeu
@@ -96,8 +101,8 @@ public class Manager {
     @PrePersist
     @PreUpdate
     private void transformForIngredientIngredient() {
-        for(InventoryIngredient ivig : this.inventoryIngredient){
-            if(this.ingredientQuantity.get(ivig.getIngredient()) != null){
+        if(this.inventoryIngredient != null){
+            for(InventoryIngredient ivig : this.inventoryIngredient){
                 ivig.setQuantity(this.ingredientQuantity.get(ivig.getIngredient()));
             }
         }
