@@ -39,7 +39,7 @@ public class CustomerDto {
 
     private Integer idTableRest;
 
-    private Timestamp consommationStart;
+    private Long consommationStart;
 
     private Set<Integer> commandList = new HashSet<Integer>();
 
@@ -61,7 +61,10 @@ public class CustomerDto {
         this.gender = customer.getGender();
         this.expGiven = 0;
         this.idTableRest = customer.getTableRest().getIdTable();
-        this.consommationStart = customer.getConsommationStart();
+        if(customer.getConsommationStart()!=null)
+            this.consommationStart = customer.getConsommationStart().getTime();
+        else
+            this.consommationStart=null;    
         for (RecipeCustomer recipeCustomer : customer.getCommandList()) {
             Integer recipeId = recipeCustomer.getRecipe().getId();
             this.commandList.add(recipeId);
@@ -143,7 +146,7 @@ public class CustomerDto {
         return commandList;
     }
 
-    public Timestamp getConsommationStart() {
+    public Long getConsommationStart() {
         return consommationStart;
     }
 
