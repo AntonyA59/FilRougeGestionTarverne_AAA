@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import aaa.tavern.dao.CustomerRepository;
+import aaa.tavern.dao.InventoryIngredientRepository;
 import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dao.RecipeCustomerRepository;
 import aaa.tavern.dao.RecipeRepository;
@@ -42,6 +43,9 @@ public class RecipeService {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private InventoryIngredientRepository inventoryIngredientRepository;
 
     /**
      * High-level methods to create the recipe you want to launch
@@ -107,15 +111,16 @@ public class RecipeService {
             for (RecipeIngredient recipeIngredient : recipe.getTabIngredientsForRecipe()) {
                 Ingredient ingredient = recipeIngredient.getIngredient();
                 Integer quantity = recipeIngredient.getQuantity();
-                manager.getIngredientQuantity().put(ingredient,manager.getIngredientQuantity().get(ingredient) - quantity);
+                manager.getIngredientQuantity().put(ingredient,
+                        manager.getIngredientQuantity().get(ingredient) - quantity);
             }
             RecipeCustomer recipeCustomer = new RecipeCustomer(recipe, customer, null);
             recipeCustomerRepository.save(recipeCustomer);
             managerRepository.save(manager);
-            
-            for(InventoryIngredient inventoryIngredient:manager.getInventoryIngredient())
+
+            for (InventoryIngredient inventoryIngredient : manager.getInventoryIngredient())
                 inventoryIngredientRepository.save(inventoryIngredient);
-              
+
             return new RecipeCustomerInventoryIngredientDto(recipeCustomer, manager.getInventoryIngredient());
 
         } else {
