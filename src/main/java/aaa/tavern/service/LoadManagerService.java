@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import aaa.tavern.dao.ManagerRepository;
@@ -24,34 +26,34 @@ import aaa.tavern.utils.ServiceUtil;
 public class LoadManagerService {
 
     @Autowired
-    ManagerRepository managerRepository;
+    private ManagerRepository managerRepository;
 
     @Autowired
-    ManagerService managerService;
+    private ManagerService managerService;
 
     @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     @Autowired
-    IngredientService ingredientService;
+    private IngredientService ingredientService;
 
     @Autowired
-    ManagerCustomerService managerCustomerService;
+    private ManagerCustomerService managerCustomerService;
 
     @Autowired
-    PlaceService placeService;
+    private PlaceService placeService;
 
     @Autowired
-    RecipeCustomerService recipeCustomerService;
+    private RecipeCustomerService recipeCustomerService;
 
     @Autowired
-    RecipeService recipeService;
+    private RecipeService recipeService;
 
     @Autowired
-    SubCategoryService subCategoryService;
+    private SubCategoryService subCategoryService;
 
     @Autowired
-    TableRestService tableRestService;
+    private TableRestService tableRestService;
 
     /**
      * Load Manager's game selected by its ID
@@ -59,30 +61,36 @@ public class LoadManagerService {
      * @param managerId
      * @return LoadManagerDto
      */
-    public LoadManagerDto loadManager(int managerId) {
+    public LoadManagerDto loadManager(int managerId) throws Exception {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
         Manager manager = ServiceUtil.getEntity(managerRepository, managerId);
+        if (currentPrincipalName.equals(manager.getPlayer().getEmail())) {
 
-        ManagerDto managerDto = managerService.loadManagerDto(manager);
+            ManagerDto managerDto = managerService.loadManagerDto(manager);
 
-        List<InventoryManagerIngredientDto> listInventoryManagerIngredientDto = managerService
-                .loadInventoryIngredientsByManager(managerId);
+            List<InventoryManagerIngredientDto> listInventoryManagerIngredientDto = managerService
+                    .loadInventoryIngredientsByManager(managerId);
 
-        List<CategoryDto> listCategoryDto = categoryService.loadAllCategory();
-        List<SubCategoryDto> listSubCategoryDto = subCategoryService.loadAllSubCategory();
-        List<IngredientDto> listIngredientDto = ingredientService.loadIngredientsByManagerLevel(manager.getLevel());
-        List<CustomerDto> listCustomerDto = managerCustomerService.loadCustomerByManager(managerId);
-        List<PlaceDto> listPlaceDto = placeService.loadPlaceByManagerId(managerId);
-        List<TableRestDto> listTableRestDto = new ArrayList<TableRestDto>();
-        for (PlaceDto placeDto : listPlaceDto) {
-            listTableRestDto = tableRestService.loadTableRestByPlace(placeDto.getId());
+            List<CategoryDto> listCategoryDto = categoryService.loadAllCategory();
+            List<SubCategoryDto> listSubCategoryDto = subCategoryService.loadAllSubCategory();
+            List<IngredientDto> listIngredientDto = ingredientService.loadIngredientsByManagerLevel(manager.getLevel());
+            List<CustomerDto> listCustomerDto = managerCustomerService.loadCustomerByManager(managerId);
+            List<PlaceDto> listPlaceDto = placeService.loadPlaceByManagerId(managerId);
+            List<TableRestDto> listTableRestDto = new ArrayList<TableRestDto>();
+            for (PlaceDto placeDto : listPlaceDto) {
+                listTableRestDto = tableRestService.loadTableRestByPlace(placeDto.getId());
+            }
+            List<RecipeDto> listRecipeDto = recipeService.loadRecipeByLessOrEqualLevel(manager.getLevel());
+
+            LoadManagerDto loadManagerDto = new LoadManagerDto(managerDto, listCategoryDto, listCustomerDto,
+                    listIngredientDto, listInventoryManagerIngredientDto, listPlaceDto, listRecipeDto,
+                    listSubCategoryDto,
+                    listTableRestDto);
+            return loadManagerDto;
+        } else {
+            throw new Exception("Le manager ne correspond pas a votre compte");
         }
-        List<RecipeDto> listRecipeDto = recipeService.loadRecipeByLessOrEqualLevel(manager.getLevel());
-
-        LoadManagerDto loadManagerDto = new LoadManagerDto(managerDto, listCategoryDto, listCustomerDto,
-                listIngredientDto, listInventoryManagerIngredientDto, listPlaceDto, listRecipeDto,
-                listSubCategoryDto,
-                listTableRestDto);
-        return loadManagerDto;
     }
 }

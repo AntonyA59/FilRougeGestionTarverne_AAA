@@ -11,6 +11,8 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import aaa.tavern.dao.CustomerRepository;
@@ -52,32 +54,37 @@ public class CustomerManagementService {
     @Autowired
     private RecipeRepository recipeRepository;
 
-
     /**
      * allows to send a random recipe which is in listRecipe in the utils folder
      * 
      * @param managerId id of the manager to be provided with a random recipe
      * @return RecipeDto Object that contains the information of the chosen recipe
-     * @throws EntityNotFoundException exception if the id manager is not in the
-     *                                 database
+     * @throws Exception
      */
 
     @Transactional(rollbackOn = EntityNotFoundException.class)
-    public RecipeDto getNewRecipe(int managerId) throws EntityNotFoundException {
+    public RecipeDto getNewRecipe(int managerId) throws Exception {
 
         Manager manager = ServiceUtil.getEntity(managerRepository, managerId);
-        List<Recipe> listRecipe = recipeRepository.findByLevelLessThanEqual(manager.getLevel());
-        Map<Integer, Recipe> mapRecipe = new HashMap<Integer, Recipe>();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        if (currentPrincipalName.equals(manager.getPlayer().getEmail())) {
 
-        listRecipe.forEach(element -> mapRecipe.put(element.getId(), element));
+            List<Recipe> listRecipe = recipeRepository.findByLevelLessThanEqual(manager.getLevel());
+            Map<Integer, Recipe> mapRecipe = new HashMap<Integer, Recipe>();
 
-        Object[] values = mapRecipe.values().toArray();
-        int index = randomService.getRandomInt(values.length);
-        Object randomObject = values[index];
+            listRecipe.forEach(element -> mapRecipe.put(element.getId(), element));
 
-        Recipe recipe = (Recipe) randomObject;
+            Object[] values = mapRecipe.values().toArray();
+            int index = randomService.getRandomInt(values.length);
+            Object randomObject = values[index];
 
-        return new RecipeDto(recipe);
+            Recipe recipe = (Recipe) randomObject;
+
+            return new RecipeDto(recipe);
+        } else {
+            throw new Exception("Le manager ne correspond pas a votre compte");
+        }
     }
 
     /**
@@ -115,34 +122,41 @@ public class CustomerManagementService {
      *                                 database
      */
     @Transactional(rollbackOn = EntityNotFoundException.class)
-    public CustomerDto getNewCustomer(int managerId) throws EntityNotFoundException {
+    public CustomerDto getNewCustomer(int managerId) throws EntityNotFoundException, Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
         Manager manager = ServiceUtil.getEntity(managerRepository, managerId);
-        TableRest tableRest= ServiceUtil.getEntity(tableRestRepository, 1);
-        // init newCustomer
-        int purseOfGold = randomService.getRandomInt(100);
-        float happiness = randomService.getRandomFloat(100f);
-        float hunger = randomService.getRandomFloat(100f);
-        float thirst = randomService.getRandomFloat(100f);
-        float nauseaLevel = randomService.getRandomFloat(100f);
-        float alcoholLevel = randomService.getRandomFloat(100f);
-        float toilet = randomService.getRandomFloat(100f);
-        Time timeInTavern = new Time(randomService.getRandomIntMinMax(500, 5000));
-        float nauseaTolerance = randomService.getRandomFloat(100f);
-        float alcoholTolerance = randomService.getRandomFloat(100f);
-        boolean gender = randomService.getRandomBoolean();
-        int expGiven = 0;
-        HashSet<RecipeCustomer> commandList = new HashSet<RecipeCustomer>();
-        Timestamp consommationStart = null;
-        Customer newCustomer = new Customer(purseOfGold, happiness, hunger, thirst, nauseaLevel, alcoholLevel,
-                toilet, timeInTavern, nauseaTolerance, alcoholTolerance, gender,
-                expGiven, tableRest, commandList, consommationStart);
-        customerRepository.save(newCustomer);
+        if (currentPrincipalName.equals(manager.getPlayer().getEmail())) {
+            TableRest tableRest = ServiceUtil.getEntity(tableRestRepository, 1);
+            // init newCustomer
+            int purseOfGold = randomService.getRandomInt(100);
+            float happiness = randomService.getRandomFloat(100f);
+            float hunger = randomService.getRandomFloat(100f);
+            float thirst = randomService.getRandomFloat(100f);
+            float nauseaLevel = randomService.getRandomFloat(100f);
+            float alcoholLevel = randomService.getRandomFloat(100f);
+            float toilet = randomService.getRandomFloat(100f);
+            Time timeInTavern = new Time(randomService.getRandomIntMinMax(500, 5000));
+            float nauseaTolerance = randomService.getRandomFloat(100f);
+            float alcoholTolerance = randomService.getRandomFloat(100f);
+            boolean gender = randomService.getRandomBoolean();
+            int expGiven = 0;
+            HashSet<RecipeCustomer> commandList = new HashSet<RecipeCustomer>();
+            Timestamp consommationStart = null;
+            Customer newCustomer = new Customer(purseOfGold, happiness, hunger, thirst, nauseaLevel, alcoholLevel,
+                    toilet, timeInTavern, nauseaTolerance, alcoholTolerance, gender,
+                    expGiven, tableRest, commandList, consommationStart);
+            customerRepository.save(newCustomer);
 
-        ManagerCustomer managerCustomer = new ManagerCustomer(manager, newCustomer);
+            ManagerCustomer managerCustomer = new ManagerCustomer(manager, newCustomer);
 
-        managerCustomerRepository.save(managerCustomer);
+            managerCustomerRepository.save(managerCustomer);
 
-        return new CustomerDto(newCustomer);
+            return new CustomerDto(newCustomer);
+
+        } else {
+            throw new Exception("Le manager ne correspond pas a votre compte");
+        }
     }
 
     /**
@@ -170,27 +184,32 @@ public class CustomerManagementService {
      * @param customerId id customer who has finished eating
      * @param managerId  id manager who should be given the money
      * @return ManagerDto with manager update
-     * @throws EntityNotFoundException exception if the id customer or manager is
-     *                                 not in the database
-     * @throws ForbiddenException      exception if the consumption time is not good
+     * @throws Exception
      */
     @Transactional(rollbackOn = { EntityNotFoundException.class, ForbiddenException.class })
     public ManagerDto customerFinishRecipe(int customerId, int managerId)
-            throws EntityNotFoundException, ForbiddenException {
+            throws Exception {
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
         Customer customer = ServiceUtil.getEntity(customerRepository, customerId);
         Manager manager = ServiceUtil.getEntity(managerRepository, managerId);
-        TableRest tableRest= customer.getTableRest();
-        for (RecipeCustomer recipeCustomer : customer.getCommandList()) {
-            checkRecipe(recipeCustomer.getRecipe(), manager, customer);
-        }
-        tableRest.setNumberPlace(tableRest.getNumberPlace()+1);
-        
-        tableRestRepository.save(tableRest);
-        customerRepository.delete(customer);
-        managerRepository.save(manager);
+        if (currentPrincipalName.equals(manager.getPlayer().getEmail())) {
 
-        return new ManagerDto(manager);
+            TableRest tableRest = customer.getTableRest();
+            for (RecipeCustomer recipeCustomer : customer.getCommandList()) {
+                checkRecipe(recipeCustomer.getRecipe(), manager, customer);
+            }
+            tableRest.setNumberPlace(tableRest.getNumberPlace() + 1);
+
+            tableRestRepository.save(tableRest);
+            customerRepository.delete(customer);
+            managerRepository.save(manager);
+
+            return new ManagerDto(manager);
+        } else {
+            throw new Exception("Le manager ne correspond pas a votre compte");
+        }
     }
 
     /**
@@ -204,6 +223,7 @@ public class CustomerManagementService {
      *                            consuming
      */
     private void checkRecipe(Recipe recipe, Manager manager, Customer customer) throws ForbiddenException {
+
         if (checkTime(recipe, customer)) {
             Integer goldWin = recipe.getSellingPrice();
             Integer goldManager = manager.getChest();

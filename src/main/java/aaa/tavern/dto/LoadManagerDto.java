@@ -18,6 +18,8 @@ public class LoadManagerDto {
 
     private List<RecipeDto> recipes;
 
+    private List<RecipeCustomerDto> recipeCustomer;
+
     private List<SubCategoryDto> subCategories;
 
     private List<TableRestDto> tableRests;
