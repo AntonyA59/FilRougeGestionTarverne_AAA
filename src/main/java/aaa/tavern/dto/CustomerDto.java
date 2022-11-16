@@ -1,7 +1,6 @@
 package aaa.tavern.dto;
 
 import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -60,11 +59,17 @@ public class CustomerDto {
         this.alcoholTolerance = customer.getAlcoholTolerance();
         this.gender = customer.getGender();
         this.expGiven = 0;
-        this.idTableRest = customer.getTableRest().getIdTable();
+
+        if(customer.getTableRest()!=null)
+            this.idTableRest=customer.getTableRest().getIdTable();
+        else
+            this.idTableRest=null;
+
         if(customer.getConsommationStart()!=null)
             this.consommationStart = customer.getConsommationStart().getTime();
         else
-            this.consommationStart=null;    
+            this.consommationStart=null;  
+
         for (RecipeCustomer recipeCustomer : customer.getCommandList()) {
             Integer recipeId = recipeCustomer.getRecipe().getId();
             this.commandList.add(recipeId);

@@ -1,4 +1,4 @@
-package aaa.tavern.Controller;
+package aaa.tavern.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

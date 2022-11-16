@@ -127,7 +127,7 @@ public class CustomerManagementService {
         String currentPrincipalName = authentication.getName();
         Manager manager = ServiceUtil.getEntity(managerRepository, managerId);
         if (currentPrincipalName.equals(manager.getPlayer().getEmail())) {
-            TableRest tableRest = ServiceUtil.getEntity(tableRestRepository, 1);
+            TableRest tableRest = new TableRest();
             // init newCustomer
             int purseOfGold = randomService.getRandomInt(100);
             float happiness = randomService.getRandomFloat(100f);

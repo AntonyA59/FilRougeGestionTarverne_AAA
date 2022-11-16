@@ -1,4 +1,4 @@
-package aaa.tavern.Controller;
+package aaa.tavern.controller;
 
 import java.util.ArrayList;
 import java.util.HashSet;
