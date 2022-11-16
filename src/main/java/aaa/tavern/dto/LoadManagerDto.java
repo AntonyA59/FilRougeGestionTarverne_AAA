@@ -36,7 +36,7 @@ public class LoadManagerDto {
             List<InventoryManagerIngredientDto> inventoryManagerIngredient,
             List<PlaceDto> places,
             List<RecipeDto> recipes,
-
+            List<RecipeCustomerDto> recipeCustomerDtos,
             List<SubCategoryDto> subCategories,
             List<TableRestDto> TableRests) {
         this.manager = manager;
