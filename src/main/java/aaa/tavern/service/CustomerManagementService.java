@@ -180,10 +180,13 @@ public class CustomerManagementService {
 
         Customer customer = ServiceUtil.getEntity(customerRepository, customerId);
         Manager manager = ServiceUtil.getEntity(managerRepository, managerId);
-
+        TableRest tableRest= customer.getTableRest();
         for (RecipeCustomer recipeCustomer : customer.getCommandList()) {
             checkRecipe(recipeCustomer.getRecipe(), manager, customer);
         }
+        tableRest.setNumberPlace(tableRest.getNumberPlace()+1);
+        
+        tableRestRepository.save(tableRest);
         customerRepository.delete(customer);
         managerRepository.save(manager);
 
