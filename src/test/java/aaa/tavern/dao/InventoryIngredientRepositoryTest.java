@@ -31,7 +31,7 @@ public class InventoryIngredientRepositoryTest {
 		Manager manager = new Manager();
 		Optional<Manager> managerOpt = managerRepository.findById(1);
 		manager = managerOpt.get();
-		List<InventoryIngredient> inventoryIngredients = inventoryIngredientRepository.findByManager(manager);
+		List<InventoryIngredient> inventoryIngredients = inventoryIngredientRepository.findByManagerAndQuantityGreaterThan(manager, 0);;
 
 		assertEquals(inventoryIngredients.size(), 3);
 	}
@@ -42,7 +42,7 @@ public class InventoryIngredientRepositoryTest {
 		Manager manager = new Manager();
 		Optional<Manager> managerOpt = managerRepository.findById(3);
 		manager = managerOpt.get();
-		List<InventoryIngredient> inventoryIngredients = inventoryIngredientRepository.findByManager(manager);
+		List<InventoryIngredient> inventoryIngredients = inventoryIngredientRepository.findByManagerAndQuantityGreaterThan(manager, 0);
 
 		assertTrue(inventoryIngredients.isEmpty());
 	}

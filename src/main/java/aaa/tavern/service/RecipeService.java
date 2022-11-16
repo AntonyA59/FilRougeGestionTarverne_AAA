@@ -107,7 +107,7 @@ public class RecipeService {
                 Integer quantity = recipeIngredient.getQuantity();
                 manager.getIngredientQuantity().put(ingredient,manager.getIngredientQuantity().get(ingredient) - quantity);
             }
-            RecipeCustomer recipeCustomer = new RecipeCustomer(recipe, customer);
+            RecipeCustomer recipeCustomer = new RecipeCustomer(recipe, customer, null);
             recipeCustomerRepository.save(recipeCustomer);
             managerRepository.save(manager);
             

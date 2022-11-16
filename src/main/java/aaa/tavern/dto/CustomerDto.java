@@ -1,7 +1,6 @@
 package aaa.tavern.dto;
 
 import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;

@@ -10,6 +10,7 @@ import aaa.tavern.entity.RecipeCustomer;
 public class RecipeCustomerInventoryIngredientDto {
     private RecipeDto recipe;
     private CustomerDto customer;
+    private Long recipeStart;
     private List<InventoryManagerIngredientDto> inventaire=new ArrayList<InventoryManagerIngredientDto>();
 
     protected RecipeCustomerInventoryIngredientDto() {
@@ -20,6 +21,11 @@ public class RecipeCustomerInventoryIngredientDto {
             List<InventoryIngredient> listInventoryIngredient) {
         this.recipe = new RecipeDto(recipeCustomer.getRecipe());
         this.customer = new CustomerDto(recipeCustomer.getCustomer());
+        if(recipeCustomer.getRecipeStart()!=null)
+            this.recipeStart = recipeCustomer.getRecipeStart().getTime();
+        else
+            this.recipeStart=null; 
+
         for (InventoryIngredient inventoryIngredient : listInventoryIngredient) {
             Ingredient ingredient = inventoryIngredient.getIngredient();
             Integer quantity = inventoryIngredient.getQuantity();
@@ -39,5 +45,11 @@ public class RecipeCustomerInventoryIngredientDto {
         return inventaire;
     }
 
-    
+    public Long getRecipeStart() {
+        return recipeStart;
+    }
+
+    public void setRecipeStart(Long recipeStart) {
+        this.recipeStart = recipeStart;
+    }
 }

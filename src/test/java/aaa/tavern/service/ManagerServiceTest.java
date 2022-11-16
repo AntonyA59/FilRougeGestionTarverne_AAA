@@ -109,7 +109,7 @@ public class ManagerServiceTest {
 			listInventoryIngredient.add(inventoryIngredient);
 		}
 
-		Mockito.when(inventoryIngredientRepository.findByManager(manager)).thenReturn(listInventoryIngredient);
+		Mockito.when(inventoryIngredientRepository.findByManagerAndQuantityGreaterThan(manager,0)).thenReturn(listInventoryIngredient);
 
 		List<InventoryManagerIngredientDto> listInventoryManagerIngredientDto = new ArrayList<InventoryManagerIngredientDto>();
 

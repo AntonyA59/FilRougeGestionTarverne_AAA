@@ -1,6 +1,7 @@
 package aaa.tavern.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 import javax.persistence.*;
@@ -25,13 +26,15 @@ public class RecipeCustomer implements Serializable{
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
     
-
+    @Column(name="recipe_start")
+    private Timestamp recipeStart;
     
     public RecipeCustomer() {}
 
-    public RecipeCustomer(Recipe recipe , Customer customer){
+    public RecipeCustomer(Recipe recipe , Customer customer, Timestamp recipeStart){
         this.recipe= recipe;
         this.customer= customer;
+        this.recipeStart = recipeStart;
     }
 
     /**
@@ -81,6 +84,13 @@ public class RecipeCustomer implements Serializable{
         this.recipe = recipe;
     }
 
+    public Timestamp getRecipeStart() {
+        return recipeStart;
+    }
+
+    public void setRecipeStart(Timestamp recipeStart) {
+        this.recipeStart = recipeStart;
+    }
 
     //#endregion
 
