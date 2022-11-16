@@ -117,7 +117,7 @@ public class CustomerManagementService {
     @Transactional(rollbackOn = EntityNotFoundException.class)
     public CustomerDto getNewCustomer(int managerId) throws EntityNotFoundException {
         Manager manager = ServiceUtil.getEntity(managerRepository, managerId);
-        TableRest tableRest= ServiceUtil.getEntity(tableRestRepository, 1);
+        TableRest tableRest= new TableRest();
         // init newCustomer
         int purseOfGold = randomService.getRandomInt(100);
         float happiness = randomService.getRandomFloat(100f);

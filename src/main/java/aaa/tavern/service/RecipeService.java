@@ -20,6 +20,7 @@ import aaa.tavern.dto.RecipeCustomerInventoryIngredientDto;
 import aaa.tavern.dto.RecipeDto;
 import aaa.tavern.entity.Customer;
 import aaa.tavern.entity.Ingredient;
+import aaa.tavern.entity.InventoryIngredient;
 import aaa.tavern.entity.Manager;
 import aaa.tavern.entity.Recipe;
 import aaa.tavern.entity.RecipeCustomer;
@@ -104,17 +105,15 @@ public class RecipeService {
             for (RecipeIngredient recipeIngredient : recipe.getTabIngredientsForRecipe()) {
                 Ingredient ingredient = recipeIngredient.getIngredient();
                 Integer quantity = recipeIngredient.getQuantity();
-                manager.getIngredientQuantity().put(ingredient,
-                        manager.getIngredientQuantity().get(ingredient) - quantity);
+                manager.getIngredientQuantity().put(ingredient,manager.getIngredientQuantity().get(ingredient) - quantity);
             }
             RecipeCustomer recipeCustomer = new RecipeCustomer(recipe, customer);
             recipeCustomerRepository.save(recipeCustomer);
             managerRepository.save(manager);
-            /*
-             * for(InventoryIngredient inventoryIngredient:
-             * manager.getInventoryIngredient())
-             * inventoryIngredientRepository.save(inventoryIngredient);
-             */
+            
+            for(InventoryIngredient inventoryIngredient:manager.getInventoryIngredient())
+                inventoryIngredientRepository.save(inventoryIngredient);
+              
             return new RecipeCustomerInventoryIngredientDto(recipeCustomer, manager.getInventoryIngredient());
 
         } else {
