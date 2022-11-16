@@ -10,9 +10,10 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import aaa.tavern.dao.CustomerRepository;
-import aaa.tavern.dao.InventoryIngredientRepository;
 import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dao.RecipeCustomerRepository;
 import aaa.tavern.dao.RecipeRepository;
@@ -41,8 +42,6 @@ public class RecipeService {
 
     @Autowired
     private CustomerRepository customerRepository;
-    @Autowired
-    private InventoryIngredientRepository inventoryIngredientRepository;
 
     /**
      * High-level methods to create the recipe you want to launch
@@ -50,25 +49,28 @@ public class RecipeService {
      * @param idManager  id of the manager who wants to make the recipe
      * @param idRecipe   id of the recipe we want to make
      * @param idCustomer id of the customer for whom we want to make the recipe
-     * @throws EntityNotFoundException One of the entities was not found in the
-     *                                 database
-     * @throws ForbiddenException      the manager does not have enough ingredients
-     *                                 to make the recipe
+     * @throws Exception
      */
     @Transactional(rollbackOn = { EntityNotFoundException.class, ForbiddenException.class })
     public RecipeCustomerInventoryIngredientDto prepareRecipe(int idManager, int idRecipe, int idCustomer)
-            throws EntityNotFoundException, ForbiddenException {
-
+            throws Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
         Customer customer = ServiceUtil.getEntity(customerRepository, idCustomer);
         Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
-        Optional<Recipe> optRecipe = recipeRepository.findByIdAndLevelLessThanEqual(idRecipe, manager.getLevel());
+        if (currentPrincipalName.equals(manager.getPlayer().getEmail())) {
 
-        if (optRecipe.isEmpty())
-            throw new ForbiddenException();
+            Optional<Recipe> optRecipe = recipeRepository.findByIdAndLevelLessThanEqual(idRecipe, manager.getLevel());
 
-        Recipe recipe = optRecipe.get();
+            if (optRecipe.isEmpty())
+                throw new ForbiddenException();
 
-        return requestRecipe(manager, recipe, customer);
+            Recipe recipe = optRecipe.get();
+
+            return requestRecipe(manager, recipe, customer);
+        } else {
+            throw new Exception("Le manager ne correspond pas a votre compte");
+        }
     }
 
     /**

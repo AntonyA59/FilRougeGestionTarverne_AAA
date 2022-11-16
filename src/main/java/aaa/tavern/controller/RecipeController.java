@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import aaa.tavern.service.RecipeService;
 import aaa.tavern.dto.RecipeCustomerInventoryIngredientDto;
 import aaa.tavern.dto.received.RequestRecipeDto;
 import aaa.tavern.exception.ForbiddenException;
+import aaa.tavern.service.RecipeService;
 
 @RestController
 @RequestMapping("/api/game")
@@ -45,6 +45,9 @@ public class RecipeController {
 
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "l'inventaire du manager ne permet pas la création de la recette");
+        } catch (Exception e) {
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN, e.getMessage());
         }
     }
 }

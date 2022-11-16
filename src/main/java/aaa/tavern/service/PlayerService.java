@@ -32,7 +32,7 @@ public class PlayerService {
     @Autowired
     ApplicationEventPublisher eventPublisher;
 
-    public void createPlayer(PlayerDto playerDto/* , HttpServletRequest request */) {
+    public void createPlayer(PlayerDto playerDto) {
         Role playerRole = roleRepository.findByName("USER").get();
         List<Role> roles = new ArrayList<Role>();
         roles.add(playerRole);
@@ -68,12 +68,12 @@ public class PlayerService {
         }
     }
 
-    public boolean changePassword(int idPlayer, String password){
-        Optional<Player> optPlayer =  playerRepository.findById(idPlayer) ;
+    public boolean changePassword(int idPlayer, String password) {
+        Optional<Player> optPlayer = playerRepository.findById(idPlayer);
 
-        if(optPlayer.isEmpty()){
-            return false ;
-        }else{
+        if (optPlayer.isEmpty()) {
+            return false;
+        } else {
             optPlayer.get().setPassword(passwordEncoder.encode(password));
             playerRepository.save(optPlayer.get());
             return true;

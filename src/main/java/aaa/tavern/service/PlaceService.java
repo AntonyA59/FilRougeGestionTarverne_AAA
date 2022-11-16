@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import aaa.tavern.dao.ManagerRepository;
@@ -29,23 +31,29 @@ public class PlaceService {
      * 
      * @param managerId
      * @return List<PlaceDto>
+     * @throws Exception
      */
-    public List<PlaceDto> loadPlaceByManagerId(int managerId) {
+    public List<PlaceDto> loadPlaceByManagerId(int managerId) throws Exception {
         Manager manager = ServiceUtil.getEntity(managerRepository, managerId);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        if (currentPrincipalName.equals(manager.getPlayer().getEmail())) {
+            List<Place> listPlaces = placeRepository.findByManager(manager);
 
-        List<Place> listPlaces = placeRepository.findByManager(manager);
+            if (listPlaces.isEmpty()) {
+                throw new EntityNotFoundException();
+            }
 
-        if (listPlaces.isEmpty()) {
-            throw new EntityNotFoundException();
+            List<PlaceDto> listPlacesDto = new ArrayList<PlaceDto>();
+
+            for (Place place : listPlaces) {
+                PlaceDto placeDto = new PlaceDto(place);
+                listPlacesDto.add(placeDto);
+            }
+
+            return listPlacesDto;
+        } else {
+            throw new Exception("Le manager ne correspond pas a votre compte");
         }
-
-        List<PlaceDto> listPlacesDto = new ArrayList<PlaceDto>();
-
-        for (Place place : listPlaces) {
-            PlaceDto placeDto = new PlaceDto(place);
-            listPlacesDto.add(placeDto);
-        }
-
-        return listPlacesDto;
     }
 }

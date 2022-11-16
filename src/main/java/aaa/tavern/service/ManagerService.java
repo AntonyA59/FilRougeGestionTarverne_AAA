@@ -7,6 +7,8 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import aaa.tavern.dao.CustomerRepository;
@@ -68,7 +70,9 @@ public class ManagerService {
 
     public void deleteManager(int idManager) {
         Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
+
         managerRepository.delete(manager);
+
     }
 
     /**
@@ -87,28 +91,43 @@ public class ManagerService {
      * 
      * @param player
      * @return List<ManagerDto>
+     * @throws Exception
      */
-    public List<ManagerDto> listExistingManagerDto(String email) {
-        Player player = playerRepository.findByEmail(email).get();
-        List<Manager> managers = managerRepository.findByPlayer(player);
-        if (managers.isEmpty()) {
-            throw new EntityNotFoundException();
-        }
-        List<ManagerDto> managersDto = new ArrayList<ManagerDto>();
-        for (Manager manager : managers) {
-            ManagerDto managerDto = loadManagerDto(manager);
-            managersDto.add(managerDto);
-        }
+    public List<ManagerDto> listExistingManagerDto(String email) throws Exception {
 
-        return managersDto;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+
+        Player player = playerRepository.findByEmail(email).get();
+        if (currentPrincipalName.equals(player.getEmail())) {
+            List<Manager> managers = managerRepository.findByPlayer(player);
+            if (managers.isEmpty()) {
+                throw new EntityNotFoundException();
+            }
+            List<ManagerDto> managersDto = new ArrayList<ManagerDto>();
+            for (Manager manager : managers) {
+                ManagerDto managerDto = loadManagerDto(manager);
+                managersDto.add(managerDto);
+            }
+
+            return managersDto;
+        } else {
+            throw new Exception("L'email ne correspond pas a celui de votre compte");
+        }
     }
 
     @Transactional(rollbackOn = { EntityNotFoundException.class, ForbiddenException.class })
-    public ManagerDto selectManager(int idManager) {
+    public ManagerDto selectManager(int idManager) throws Exception {
         Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        if (currentPrincipalName.equals(manager.getPlayer().getEmail())) {
+            ManagerDto managerDto = new ManagerDto(manager);
+            return managerDto;
 
-        ManagerDto managerDto = new ManagerDto(manager);
-        return managerDto;
+        } else {
+            throw new Exception("Le manager ne correspond pas a votre compte");
+        }
     }
 
     public void giveExperienceManagerWithRecipe(int idManager, int idIngredient) {

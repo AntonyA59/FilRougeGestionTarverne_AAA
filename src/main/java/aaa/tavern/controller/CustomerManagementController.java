@@ -29,8 +29,10 @@ public class CustomerManagementController {
 
 	/**
 	 * Controller that requests a new recipe
-	 * @requestBody ManagerIdDto Object that contains id of the manager to whom we create a new recipe
- 	 * @return object with the recipe randomly found
+	 * 
+	 * @requestBody ManagerIdDto Object that contains id of the manager to whom we
+	 *              create a new recipe
+	 * @return object with the recipe randomly found
 	 * @throws EntityNotFoundException exception if the id manager is not in the
 	 *                                 database
 	 */
@@ -42,12 +44,17 @@ public class CustomerManagementController {
 
 			throw new ResponseStatusException(
 					HttpStatus.NOT_FOUND, "Ce manager n'existe pas ");
+		} catch (Exception e) {
+			throw new ResponseStatusException(
+					HttpStatus.FORBIDDEN, e.getMessage());
 		}
 	}
 
 	/**
 	 * Controller that allows to create a new customer
-	 * @requestBody ManagerIdDto Object that contains id of the manager to whom we create a new customer
+	 * 
+	 * @requestBody ManagerIdDto Object that contains id of the manager to whom we
+	 *              create a new customer
 	 * @return CustomerDto Object that contains the information of the new customer
 	 * @throws EntityNotFoundException exception if the id manager is not in the
 	 *                                 database
@@ -62,6 +69,9 @@ public class CustomerManagementController {
 
 			throw new ResponseStatusException(
 					HttpStatus.NOT_FOUND, "Ce manager n'existe pas ");
+		} catch (Exception e) {
+			throw new ResponseStatusException(
+					HttpStatus.FORBIDDEN, e.getMessage());
 		}
 	}
 
@@ -72,7 +82,8 @@ public class CustomerManagementController {
 	 * @return CustomerTableRestDto with Customer and TableRest update
 	 * @throws EntityNotFoundException exception if the id customer or table are not
 	 *                                 in the database
-	 * @throws ForbiddenException exception if there is no more room on the table
+	 * @throws ForbiddenException      exception if there is no more room on the
+	 *                                 table
 	 */
 	@PostMapping("/customerManagement/customerAssignTable")
 	public CustomerTableRestDto assignNewTableForCustomer(
@@ -133,6 +144,9 @@ public class CustomerManagementController {
 		} catch (ForbiddenException e1) {
 			throw new ResponseStatusException(
 					HttpStatus.BAD_REQUEST, "Le temps n'est pas terminé !");
+		} catch (Exception e) {
+			throw new ResponseStatusException(
+					HttpStatus.FORBIDDEN, e.getMessage());
 		}
 	}
 

@@ -2,12 +2,8 @@ package aaa.tavern.controller;
 
 import java.util.List;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +18,7 @@ import aaa.tavern.dto.received.ManagerIdDto;
 import aaa.tavern.service.ManagerService;
 
 @RestController
-@RequestMapping("/api/game")
+@RequestMapping("/api/game/")
 public class ManagerController {
 
     @Autowired
@@ -30,28 +26,33 @@ public class ManagerController {
 
     @PostMapping("/manager/listExistingManager")
     public List<ManagerDto> listExistingManager(@RequestBody PlayerEmailDto PlayerEmailDto) {
+        try {
+            return managerService.listExistingManagerDto(PlayerEmailDto.getEmail());
 
-        return managerService.listExistingManagerDto(PlayerEmailDto.getEmail());
+        } catch (Exception e) {
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN, e.getMessage());
+        }
     }
 
-    @GetMapping("/manager")
+    @PostMapping("select/manager")
     public ManagerDto getManager(@RequestBody ManagerIdDto managerIdDto) {
+        try {
+            return managerService.selectManager(managerIdDto.getManagerId());
 
-        return managerService.selectManager(managerIdDto.getManagerId());
+        } catch (Exception e) {
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN, e.getMessage());
+        }
     }
 
     @PostMapping("/manager")
     public StatusDto deleteManager(@RequestBody ManagerIdDto managerIdDto) {
 
-        try {
-            managerService.deleteManager(managerIdDto.getManagerId());
+        managerService.deleteManager(managerIdDto.getManagerId());
 
-            return new StatusDto(1, "Le manager est bien supprimé");
+        return new StatusDto(1, "Le manager est bien supprimé");
 
-        } catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Le manager n'existe pas");
-        }
     }
 
     @PostMapping("/manager/create")
