@@ -156,14 +156,9 @@ public class PlayerService {
     }
 
     public Player loadPlayerByEmail(String email) throws Exception {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        if (currentPrincipalName.equals(email)) {
 
-            return playerRepository.findByEmail(email).get();
-        } else {
-            throw new Exception("Ce joueur ne correspond pas a votre compte");
-        }
+        return playerRepository.findByEmail(email).get();
+
     }
 
 }
