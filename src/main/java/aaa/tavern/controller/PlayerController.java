@@ -3,11 +3,13 @@ package aaa.tavern.controller;
 import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import aaa.tavern.dto.PlayerDto;
 import aaa.tavern.entity.Player;
@@ -31,7 +33,13 @@ public class PlayerController {
      */
     @GetMapping("/game/profile")
     public Player profile(Principal principal) {
-        return playerService.loadPlayerByEmail(principal.getName());
+        try {
+
+            return playerService.loadPlayerByEmail(principal.getName());
+        } catch (Exception e) {
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN, e.getMessage());
+        }
     }
 
 }
