@@ -35,10 +35,6 @@ public class RecipeCustomerService {
 
         List<RecipeCustomer> listRecipeCustomer = recipeCustomerRepository.findByCustomer(customer);
 
-        if (listRecipeCustomer.isEmpty()) {
-            throw new EntityNotFoundException();
-        }
-
         List<RecipeCustomerDto> listRecipesDto = new ArrayList<RecipeCustomerDto>();
 
         for (RecipeCustomer recipeCustomer : listRecipeCustomer) {
