@@ -58,7 +58,7 @@ public class ManagerServiceTest {
 	}
 
 	@Test
-	public void deleteManager() {
+	public void deleteManager() throws Exception {
 		Manager manager = Mockito.mock(Manager.class);
 		Mockito.when(managerRepository.findById(0)).thenReturn(Optional.of(manager));
 		managerService.deleteManager(0);
@@ -109,7 +109,8 @@ public class ManagerServiceTest {
 			listInventoryIngredient.add(inventoryIngredient);
 		}
 
-		Mockito.when(inventoryIngredientRepository.findByManagerAndQuantityGreaterThan(manager,0)).thenReturn(listInventoryIngredient);
+		Mockito.when(inventoryIngredientRepository.findByManagerAndQuantityGreaterThan(manager, 0))
+				.thenReturn(listInventoryIngredient);
 
 		List<InventoryManagerIngredientDto> listInventoryManagerIngredientDto = new ArrayList<InventoryManagerIngredientDto>();
 

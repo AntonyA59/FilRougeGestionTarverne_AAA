@@ -35,8 +35,6 @@ public class RecipeCustomerService {
 
         List<RecipeCustomer> listRecipeCustomer = recipeCustomerRepository.findByCustomer(customer);
 
- 
-
         List<RecipeCustomerDto> listRecipesDto = new ArrayList<RecipeCustomerDto>();
 
         for (RecipeCustomer recipeCustomer : listRecipeCustomer) {
