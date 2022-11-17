@@ -16,6 +16,7 @@ import aaa.tavern.dto.InventoryManagerIngredientDto;
 import aaa.tavern.dto.LoadManagerDto;
 import aaa.tavern.dto.ManagerDto;
 import aaa.tavern.dto.PlaceDto;
+import aaa.tavern.dto.RecipeCustomerDto;
 import aaa.tavern.dto.RecipeDto;
 import aaa.tavern.dto.SubCategoryDto;
 import aaa.tavern.dto.TableRestDto;
@@ -72,11 +73,15 @@ public class LoadManagerService {
 
             List<InventoryManagerIngredientDto> listInventoryManagerIngredientDto = managerService
                     .loadInventoryIngredientsByManager(managerId);
-
+            List<RecipeCustomerDto> listRecipeCustomer = new ArrayList<RecipeCustomerDto>();
             List<CategoryDto> listCategoryDto = categoryService.loadAllCategory();
             List<SubCategoryDto> listSubCategoryDto = subCategoryService.loadAllSubCategory();
             List<IngredientDto> listIngredientDto = ingredientService.loadIngredientsByManagerLevel(manager.getLevel());
             List<CustomerDto> listCustomerDto = managerCustomerService.loadCustomerByManager(managerId);
+            for (CustomerDto customerDto : listCustomerDto) {
+
+                listRecipeCustomer.addAll(recipeCustomerService.loadRecipeByCustomer(customerDto.getId()));
+            }
             List<PlaceDto> listPlaceDto = placeService.loadPlaceByManagerId(managerId);
             List<TableRestDto> listTableRestDto = new ArrayList<TableRestDto>();
             for (PlaceDto placeDto : listPlaceDto) {
@@ -86,6 +91,7 @@ public class LoadManagerService {
 
             LoadManagerDto loadManagerDto = new LoadManagerDto(managerDto, listCategoryDto, listCustomerDto,
                     listIngredientDto, listInventoryManagerIngredientDto, listPlaceDto, listRecipeDto,
+                    listRecipeCustomer,
                     listSubCategoryDto,
                     listTableRestDto);
             return loadManagerDto;

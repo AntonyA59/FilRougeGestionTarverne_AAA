@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import aaa.tavern.dao.CustomerRepository;
 import aaa.tavern.dao.RecipeCustomerRepository;
-import aaa.tavern.dto.RecipeDto;
+import aaa.tavern.dto.RecipeCustomerDto;
 import aaa.tavern.entity.Customer;
 import aaa.tavern.entity.RecipeCustomer;
 import aaa.tavern.utils.ServiceUtil;
@@ -30,7 +30,7 @@ public class RecipeCustomerService {
      * @param customerId
      * @return List<RecipeDto>
      */
-    public List<RecipeDto> loadRecipeByCustomer(int customerId) {
+    public List<RecipeCustomerDto> loadRecipeByCustomer(int customerId) {
         Customer customer = ServiceUtil.getEntity(customerRepository, customerId);
 
         List<RecipeCustomer> listRecipeCustomer = recipeCustomerRepository.findByCustomer(customer);
@@ -39,10 +39,10 @@ public class RecipeCustomerService {
             throw new EntityNotFoundException();
         }
 
-        List<RecipeDto> listRecipesDto = new ArrayList<RecipeDto>();
+        List<RecipeCustomerDto> listRecipesDto = new ArrayList<RecipeCustomerDto>();
 
         for (RecipeCustomer recipeCustomer : listRecipeCustomer) {
-            RecipeDto recipeDto = new RecipeDto(recipeCustomer.getRecipe());
+            RecipeCustomerDto recipeDto = new RecipeCustomerDto(recipeCustomer);
             listRecipesDto.add(recipeDto);
         }
 

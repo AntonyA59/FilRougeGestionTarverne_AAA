@@ -36,13 +36,14 @@ public class LoadManagerDto {
             List<InventoryManagerIngredientDto> inventoryManagerIngredient,
             List<PlaceDto> places,
             List<RecipeDto> recipes,
-
+            List<RecipeCustomerDto> recipeCustomer,
             List<SubCategoryDto> subCategories,
             List<TableRestDto> TableRests) {
         this.manager = manager;
         this.categories = categories;
         this.customers = customers;
         this.ingredients = ingredients;
+        this.recipeCustomer = recipeCustomer;
         this.inventoryManagerIngredient = inventoryManagerIngredient;
         this.places = places;
         this.recipes = recipes;
@@ -85,6 +86,10 @@ public class LoadManagerDto {
 
     public List<TableRestDto> getTableRests() {
         return tableRests;
+    }
+
+    public List<RecipeCustomerDto> getRecipeCustomer() {
+        return recipeCustomer;
     }
 
     // #endregion
