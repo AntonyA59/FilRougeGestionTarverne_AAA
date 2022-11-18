@@ -117,7 +117,7 @@ public class Manager {
     }
 
     private void getCalcMaxExp() {
-        this.maxExp = this.level * 5;
+        this.maxExp = this.level * 10;
     }
 
     /**
@@ -190,7 +190,12 @@ public class Manager {
     }
 
     public void setExperience(Integer experience) {
-        this.experience = experience;
+        if(this.maxExp<=experience){
+            this.level+=1;
+            this.experience=experience-maxExp;
+        }else{
+            this.experience=experience;
+        }
     }
 
     public Player getPlayer() {
