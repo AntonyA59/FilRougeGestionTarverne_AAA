@@ -46,13 +46,17 @@ public class ManagerController {
         }
     }
 
-    @PostMapping("/manager")
+    @PostMapping("delete/manager")
     public StatusDto deleteManager(@RequestBody ManagerIdDto managerIdDto) {
+        try {
+            managerService.deleteManager(managerIdDto.getManagerId());
 
-        managerService.deleteManager(managerIdDto.getManagerId());
+            return new StatusDto(1, "Le manager est bien supprimé");
 
-        return new StatusDto(1, "Le manager est bien supprimé");
-
+        } catch (Exception e) {
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN, e.getMessage());
+        }
     }
 
     @PostMapping("/manager/create")

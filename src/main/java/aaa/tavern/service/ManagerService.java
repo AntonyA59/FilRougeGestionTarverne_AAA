@@ -68,10 +68,16 @@ public class ManagerService {
         return manager;
     }
 
-    public void deleteManager(int idManager) {
+    public void deleteManager(int idManager) throws Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
         Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
+        if (currentPrincipalName.equals(manager.getPlayer().getEmail())) {
 
-        managerRepository.delete(manager);
+            managerRepository.delete(manager);
+        } else {
+            throw new Exception("L'email ne correspond pas a celui de votre compte");
+        }
 
     }
 
@@ -130,21 +136,34 @@ public class ManagerService {
         }
     }
 
-    public void giveExperienceManagerWithRecipe(int idManager, int idIngredient) {
+    public void giveExperienceManagerWithRecipe(int idManager, int idIngredient) throws Exception {
         Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
-        Ingredient ingredient = ServiceUtil.getEntity(ingredientRepository, idIngredient);
 
-        if (ingredient == null || manager == null)
-            throw new EntityNotFoundException();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        if (currentPrincipalName.equals(manager.getPlayer().getEmail())) {
+            Ingredient ingredient = ServiceUtil.getEntity(ingredientRepository, idIngredient);
+            if (ingredient == null || manager == null)
+                throw new EntityNotFoundException();
+        } else {
+            throw new Exception("Le manager ne correspond pas a votre compte");
+        }
 
     }
 
-    public void giveExperienceManagerWithCustomer(int idManager, int idCustomer) {
+    public void giveExperienceManagerWithCustomer(int idManager, int idCustomer) throws Exception {
         Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
-        Customer customer = ServiceUtil.getEntity(customerRepository, idCustomer);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        if (currentPrincipalName.equals(manager.getPlayer().getEmail())) {
 
-        if (customer == null || manager == null)
-            throw new EntityNotFoundException();
+            Customer customer = ServiceUtil.getEntity(customerRepository, idCustomer);
+
+            if (customer == null || manager == null)
+                throw new EntityNotFoundException();
+        } else {
+            throw new Exception("Le manager ne correspond pas a votre compte");
+        }
 
     }
 
@@ -153,22 +172,30 @@ public class ManagerService {
      * 
      * @param idManager
      * @return List<InventoryManagerIngredientDto>
+     * @throws Exception
      */
-    public List<InventoryManagerIngredientDto> loadInventoryIngredientsByManager(int idManager) {
+    public List<InventoryManagerIngredientDto> loadInventoryIngredientsByManager(int idManager) throws Exception {
         Manager manager = ServiceUtil.getEntity(managerRepository, idManager);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        if (currentPrincipalName.equals(manager.getPlayer().getEmail())) {
 
-        List<InventoryIngredient> listInventoryIngredients = inventoryIngredientRepository
-                .findByManagerAndQuantityGreaterThan(manager, 0);
+            List<InventoryIngredient> listInventoryIngredients = inventoryIngredientRepository
+                    .findByManagerAndQuantityGreaterThan(manager, 0);
 
-        List<InventoryManagerIngredientDto> listInventoryManagerIngredientDto = new ArrayList<InventoryManagerIngredientDto>();
+            List<InventoryManagerIngredientDto> listInventoryManagerIngredientDto = new ArrayList<InventoryManagerIngredientDto>();
 
-        for (InventoryIngredient inventoryIngredient : listInventoryIngredients) {
-            Ingredient ingredient = inventoryIngredient.getIngredient();
-            InventoryManagerIngredientDto inventoryManagerIngredientDto = new InventoryManagerIngredientDto(ingredient,
-                    inventoryIngredient.getQuantity());
-            listInventoryManagerIngredientDto.add(inventoryManagerIngredientDto);
+            for (InventoryIngredient inventoryIngredient : listInventoryIngredients) {
+                Ingredient ingredient = inventoryIngredient.getIngredient();
+                InventoryManagerIngredientDto inventoryManagerIngredientDto = new InventoryManagerIngredientDto(
+                        ingredient,
+                        inventoryIngredient.getQuantity());
+                listInventoryManagerIngredientDto.add(inventoryManagerIngredientDto);
+            }
+
+            return listInventoryManagerIngredientDto;
+        } else {
+            throw new Exception("Le manager ne correspond pas a votre compte");
         }
-
-        return listInventoryManagerIngredientDto;
     }
 }

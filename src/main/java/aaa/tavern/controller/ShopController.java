@@ -43,6 +43,9 @@ public class ShopController {
         } catch (ForbiddenException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_ACCEPTABLE, "Opération non autorisée");
+        } catch (Exception e) {
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN, e.getMessage());
         }
     }
 
@@ -67,6 +70,9 @@ public class ShopController {
         } catch (ForbiddenException e) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_ACCEPTABLE, "Opération non autorisée");
+        } catch (Exception e) {
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN, e.getMessage());
         }
     }
 }

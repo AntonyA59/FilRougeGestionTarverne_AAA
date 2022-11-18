@@ -3,8 +3,6 @@ package aaa.tavern.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,10 +32,6 @@ public class RecipeCustomerService {
         Customer customer = ServiceUtil.getEntity(customerRepository, customerId);
 
         List<RecipeCustomer> listRecipeCustomer = recipeCustomerRepository.findByCustomer(customer);
-
-        if (listRecipeCustomer.isEmpty()) {
-            throw new EntityNotFoundException();
-        }
 
         List<RecipeCustomerDto> listRecipesDto = new ArrayList<RecipeCustomerDto>();
 

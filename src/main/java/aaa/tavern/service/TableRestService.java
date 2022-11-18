@@ -3,6 +3,8 @@ package aaa.tavern.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +27,9 @@ public class TableRestService {
         Place place = placeRepository.findById(placeId).get();
 
         List<TableRest> listTableRest = tableRestRepository.findByPlace(place);
-
+        if (listTableRest.isEmpty()) {
+            throw new EntityNotFoundException();
+        }
         List<TableRestDto> listTableRestDto = new ArrayList<TableRestDto>();
 
         for (TableRest tableRest : listTableRest) {
