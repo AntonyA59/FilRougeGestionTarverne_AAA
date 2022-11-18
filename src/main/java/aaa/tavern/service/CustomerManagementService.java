@@ -127,6 +127,7 @@ public class CustomerManagementService {
         String currentPrincipalName = authentication.getName();
         Manager manager = ServiceUtil.getEntity(managerRepository, managerId);
         if (currentPrincipalName.equals(manager.getPlayer().getEmail())) {
+            TableRest tableRest = new TableRest();
             // init newCustomer
             int purseOfGold = randomService.getRandomInt(100);
             float happiness = randomService.getRandomFloat(100f);
@@ -144,7 +145,7 @@ public class CustomerManagementService {
             Timestamp consommationStart = null;
             Customer newCustomer = new Customer(purseOfGold, happiness, hunger, thirst, nauseaLevel, alcoholLevel,
                     toilet, timeInTavern, nauseaTolerance, alcoholTolerance, gender,
-                    expGiven, null, commandList, consommationStart);
+                    expGiven, tableRest, commandList, consommationStart);
             customerRepository.save(newCustomer);
 
             ManagerCustomer managerCustomer = new ManagerCustomer(manager, newCustomer);
