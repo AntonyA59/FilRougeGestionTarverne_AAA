@@ -1,9 +1,9 @@
 package aaa.tavern.dto;
 
 import java.sql.Time;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import aaa.tavern.entity.Customer;
 import aaa.tavern.entity.RecipeCustomer;
@@ -40,7 +40,8 @@ public class CustomerDto {
 
     private Long consommationStart;
 
-    private Set<Integer> commandList = new HashSet<Integer>();
+    //private Set<Integer> commandList = new HashSet<Integer>();
+    private List<RecipeCustomerDto> commandList = new ArrayList<RecipeCustomerDto>();
 
     protected CustomerDto(){
         
@@ -71,8 +72,17 @@ public class CustomerDto {
             this.consommationStart=null;  
 
         for (RecipeCustomer recipeCustomer : customer.getCommandList()) {
-            Integer recipeId = recipeCustomer.getRecipe().getId();
-            this.commandList.add(recipeId);
+            Long dateTime = null ;
+            if(recipeCustomer.getRecipeStart() != null){
+                dateTime = recipeCustomer.getRecipeStart().getTime() ;
+            }
+
+            RecipeCustomerDto recipeCustomerDto = new RecipeCustomerDto(
+                recipeCustomer.getCustomer().getIdCustomer(), 
+                recipeCustomer.getRecipe().getId(), 
+                dateTime);
+                
+            this.commandList.add(recipeCustomerDto);
         }
 
     }
@@ -147,16 +157,15 @@ public class CustomerDto {
         return idTableRest;
     }
 
-    public Set<Integer> getCommandList() {
-        return commandList;
-    }
-
     public Long getConsommationStart() {
         return consommationStart;
     }
 
     public Integer getId() {
         return id;
+    }
+    public List<RecipeCustomerDto> getCommandList() {
+        return commandList;
     }
 
     // #endregion
