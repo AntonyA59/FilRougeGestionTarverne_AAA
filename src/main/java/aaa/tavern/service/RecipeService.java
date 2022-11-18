@@ -1,5 +1,6 @@
 package aaa.tavern.service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import aaa.tavern.dao.CustomerRepository;
-import aaa.tavern.dao.InventoryIngredientRepository;
 import aaa.tavern.dao.ManagerRepository;
 import aaa.tavern.dao.RecipeCustomerRepository;
 import aaa.tavern.dao.RecipeRepository;
@@ -22,7 +22,6 @@ import aaa.tavern.dto.RecipeCustomerInventoryIngredientDto;
 import aaa.tavern.dto.RecipeDto;
 import aaa.tavern.entity.Customer;
 import aaa.tavern.entity.Ingredient;
-import aaa.tavern.entity.InventoryIngredient;
 import aaa.tavern.entity.Manager;
 import aaa.tavern.entity.Recipe;
 import aaa.tavern.entity.RecipeCustomer;
@@ -43,9 +42,6 @@ public class RecipeService {
 
     @Autowired
     private CustomerRepository customerRepository;
-
-    @Autowired
-    private InventoryIngredientRepository inventoryIngredientRepository;
 
     /**
      * High-level methods to create the recipe you want to launch
@@ -107,19 +103,35 @@ public class RecipeService {
      */
     private RecipeCustomerInventoryIngredientDto requestRecipe(Manager manager, Recipe recipe, Customer customer)
             throws ForbiddenException {
+        RecipeCustomer recipeCustomer = null ;
+
         if (haveQuantityIngredientInInventaire(manager, recipe)) {
             for (RecipeIngredient recipeIngredient : recipe.getTabIngredientsForRecipe()) {
+
                 Ingredient ingredient = recipeIngredient.getIngredient();
-                Integer quantity = recipeIngredient.getQuantity();
-                manager.getIngredientQuantity().put(ingredient,
-                        manager.getIngredientQuantity().get(ingredient) - quantity);
+                int quantity = recipeIngredient.getQuantity()-manager.getIngredientQuantity().get(ingredient) ;
+
+                recipeIngredient.setQuantity(quantity);
+
+                manager.getIngredientQuantity().put(ingredient,quantity);
             }
-            RecipeCustomer recipeCustomer = new RecipeCustomer(recipe, customer, null);
+            //RecipeCustomer recipeCustomer = new RecipeCustomer(recipe, customer, null);
+            //recipeCustomerRepository.save(recipeCustomer);
+            List<RecipeCustomer> recipeCustomers = recipeCustomerRepository.findByCustomer(customer) ;
+            for (RecipeCustomer recipeCustomerElement : recipeCustomers) {
+                if(recipeCustomerElement.getRecipe() == recipe){
+                    recipeCustomerElement.setRecipeStart(new Timestamp(System.currentTimeMillis()));
+                    recipeCustomer = recipeCustomerElement ;
+                    break ;
+                }
+            }
             recipeCustomerRepository.save(recipeCustomer);
             managerRepository.save(manager);
 
+            /*
             for (InventoryIngredient inventoryIngredient : manager.getInventoryIngredient())
                 inventoryIngredientRepository.save(inventoryIngredient);
+            */
 
             return new RecipeCustomerInventoryIngredientDto(recipeCustomer, manager.getInventoryIngredient());
 
