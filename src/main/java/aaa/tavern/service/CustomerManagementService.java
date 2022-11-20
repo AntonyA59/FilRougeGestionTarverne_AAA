@@ -82,7 +82,7 @@ public class CustomerManagementService {
                 tableRest.setNumberPlace(tableRest.getNumberPlace() - 1);
                 customer.setTableRest(tableRest);
 
-                //init newRecipe For nexCustomer
+                //init newRecipe For newCustomer
                 Recipe recipe = getRecipe(manager);
                 Set<RecipeCustomer> set=new HashSet<RecipeCustomer>();
                 RecipeCustomer recipeCustomer= new RecipeCustomer(recipe, customer, null);
@@ -101,7 +101,7 @@ public class CustomerManagementService {
             throw new Exception("Le manager ne correspond pas a votre compte");
         }
     }
-    private Recipe getRecipe(Manager manager){
+    public Recipe getRecipe(Manager manager){
 
         List<Recipe> mapRecipe = recipeRepository.findByLevelLessThanEqual(manager.getLevel());
         int index = randomService.getRandomInt(mapRecipe.size());

@@ -50,136 +50,8 @@ public class CustomerManagementControllerTest {
     @MockBean
     private CustomerManagementService customerManagementService;
 
-    // Test NewRecipe
-    @Test
-    public void givenCorrectBody_WhenPostNewRecipe_thenReturnRecipeDto() throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        SubCategory subCategory = new SubCategory();
-        subCategory.setIdSubCategory(1);
-        Recipe recipe = new Recipe("test", Integer.valueOf(1), Integer.valueOf(1), Long.valueOf(1l), Long.valueOf(1l),
-                new Date(1664488800l), Integer.valueOf(1), subCategory, new ArrayList<RecipeIngredient>());
-        recipe.setId(1);
-        
-        RecipeDto recipeDto = new RecipeDto(recipe);
-
-        Mockito.when(customerManagementService.getNewRecipe(1)).thenReturn(recipeDto);
-
-        ManagerIdDto jsonDto = new ManagerIdDto(1);
-
-        String body = objectMapper
-                .valueToTree(jsonDto)
-                .toPrettyString();
-
-        MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                .post("/api/game/customerManagement/newRecipe")
-                .contentType("application/json")
-                .content(body);
-
-        MvcResult result = mockMvc.perform(query).andReturn();
-        String returnedJsonStr = result.getResponse().getContentAsString();
-
-        JsonNode returnedJson = objectMapper.readTree(returnedJsonStr);
-
-        String jsonStr = """
-                {
-                    "id": 1 ,
-                    "name":"test",
-                    "sellingPrice":1,
-                    "level":1,
-                    "consommationTime": 1,
-                    "preparationTime": 1,
-                    "peremptionDate": 1664488800,
-                    "expGiven": 1,
-                    "idSubCategory": 1,
-                    "tabIngredientsForRecipe":{}
-                }
-                """;
-        JsonNode expectedJson = objectMapper.readTree(jsonStr);
-
-        assertEquals(expectedJson, returnedJson);
-    }
-
-    @Test
-    public void givenCorrectBody_whenPostNewRecipe_thenReturn200() throws Exception {
-
-        SubCategory subCategory = new SubCategory();
-        subCategory.setIdSubCategory(1);
-        Recipe recipe = new Recipe("test", Integer.valueOf(1), Integer.valueOf(1), Long.valueOf(1l), Long.valueOf(1l),
-                new Date(1664488800l), Integer.valueOf(1), subCategory, new ArrayList<RecipeIngredient>());
-        recipe.setId(1);
-        RecipeDto recipeDto = new RecipeDto(recipe);
-
-        Mockito.when(customerManagementService.getNewRecipe(1)).thenReturn(recipeDto);
-
-        ManagerIdDto jsonDto = new ManagerIdDto(1);
-
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        String body = objectMapper
-                .valueToTree(jsonDto)
-                .toPrettyString();
-
-        MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                .post("/api/game/customerManagement/newRecipe")
-                .contentType("application/json")
-                .content(body);
-
-        int status = mockMvc
-                .perform(query)
-                .andReturn()
-                .getResponse()
-                .getStatus();
-
-        assertEquals(200, status);
-    }
-
-    @Test
-    public void givenCorrectBodyButNotPresentBDD_whenPostNewRecipe_thenReturn404() throws Exception {
-
-        Mockito.when(customerManagementService.getNewRecipe(1)).thenThrow(EntityNotFoundException.class);
-
-        ManagerIdDto jsonDto = new ManagerIdDto(1);
-
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        String body = objectMapper
-                .valueToTree(jsonDto)
-                .toPrettyString();
-
-        MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                .post("/api/game/customerManagement/newRecipe")
-                .contentType("application/json")
-                .content(body);
-
-        int status = mockMvc
-                .perform(query)
-                .andReturn()
-                .getResponse()
-                .getStatus();
-
-        assertEquals(404, status);
-    }
-
-    @Test
-    public void givenIncorrectBody_whenPostNewRecipe_thenReturn400() throws Exception {
-
-        Mockito.when(customerManagementService.getNewRecipe(1)).thenThrow(EntityNotFoundException.class);
-
-        MockHttpServletRequestBuilder query = MockMvcRequestBuilders
-                .post("/api/game/customerManagement/newRecipe");
-
-        int status = mockMvc
-                .perform(query)
-                .andReturn()
-                .getResponse()
-                .getStatus();
-
-        assertEquals(400, status);
-    }
 
     // newCustomer
-
     @Test
     public void givenCorrectBody_WhenPostNewCustomer_thenReturnCustomerDto() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -323,7 +195,7 @@ public class CustomerManagementControllerTest {
     public void givenCorrectBody_WhenPostCustomerAssignTable_thenReturn200() throws Exception {
 
         ObjectMapper objectMapper = new ObjectMapper();
-        AssignNewTableForCustomerDto jsonDto = new AssignNewTableForCustomerDto(1, 1);
+        AssignNewTableForCustomerDto jsonDto = new AssignNewTableForCustomerDto(1, 1,1);
 
         String body = objectMapper
                 .valueToTree(jsonDto)
@@ -346,13 +218,13 @@ public class CustomerManagementControllerTest {
     @Test
     public void givenCorrectBodyButNotPresentBDD_whenPostCustomerAssignTable_thenReturn404() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        AssignNewTableForCustomerDto jsonDto = new AssignNewTableForCustomerDto(1, 10);
+        AssignNewTableForCustomerDto jsonDto = new AssignNewTableForCustomerDto(1, 10,1);
 
         String body = objectMapper
                 .valueToTree(jsonDto)
                 .toPrettyString();
 
-        Mockito.doThrow(EntityNotFoundException.class).when(customerManagementService).assignNewTable(1, 10);
+        Mockito.doThrow(EntityNotFoundException.class).when(customerManagementService).assignNewTable(1, 10,1);
 
         MockHttpServletRequestBuilder query = MockMvcRequestBuilders
                 .post("/api/game/customerManagement/customerAssignTable")
