@@ -13,7 +13,6 @@ import org.springframework.web.server.ResponseStatusException;
 import aaa.tavern.dto.CustomerDto;
 import aaa.tavern.dto.CustomerTableRestDto;
 import aaa.tavern.dto.ManagerDto;
-import aaa.tavern.dto.RecipeDto;
 import aaa.tavern.dto.received.AssignNewTableForCustomerDto;
 import aaa.tavern.dto.received.CustomerFinishDto;
 import aaa.tavern.dto.received.CustomerServedDto;
@@ -27,28 +26,6 @@ public class CustomerManagementController {
 	@Autowired
 	private CustomerManagementService customerManagementService;
 
-	/**
-	 * Controller that requests a new recipe
-	 * 
-	 * @requestBody ManagerIdDto Object that contains id of the manager to whom we
-	 *              create a new recipe
-	 * @return object with the recipe randomly found
-	 * @throws EntityNotFoundException exception if the id manager is not in the
-	 *                                 database
-	 */
-	@PostMapping("/customerManagement/newRecipe")
-	public RecipeDto getNeWRecipeForCustomer(@RequestBody ManagerIdDto managerIdDto) {
-		try {
-			return customerManagementService.getNewRecipe(managerIdDto.getManagerId());
-		} catch (EntityNotFoundException e) {
-
-			throw new ResponseStatusException(
-					HttpStatus.NOT_FOUND, "Ce manager n'existe pas ");
-		} catch (Exception e) {
-			throw new ResponseStatusException(
-					HttpStatus.FORBIDDEN, e.getMessage());
-		}
-	}
 
 	/**
 	 * Controller that allows to create a new customer
@@ -90,7 +67,7 @@ public class CustomerManagementController {
 			@RequestBody AssignNewTableForCustomerDto assignNewTableForCustomerDto) {
 		try {
 			return customerManagementService.assignNewTable(assignNewTableForCustomerDto.getCustomerId(),
-					assignNewTableForCustomerDto.getTableId());
+					assignNewTableForCustomerDto.getTableId(),assignNewTableForCustomerDto.getManagerId());
 
 		} catch (EntityNotFoundException e) {
 
@@ -99,6 +76,9 @@ public class CustomerManagementController {
 		} catch (ForbiddenException e1) {
 			throw new ResponseStatusException(
 					HttpStatus.BAD_REQUEST, "Il ne reste plus de place !");
+		} catch (Exception e) {
+			throw new ResponseStatusException(
+					HttpStatus.FORBIDDEN, e.getMessage());
 		}
 	}
 
