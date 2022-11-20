@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import aaa.tavern.dto.ModifEmailDto;
+import aaa.tavern.dto.ModifNicknameDto;
+import aaa.tavern.dto.ModifPasswordDto;
 import aaa.tavern.dto.PlayerDto;
 import aaa.tavern.entity.Player;
 import aaa.tavern.service.PlayerService;
@@ -42,4 +45,33 @@ public class PlayerController {
         }
     }
 
+    @PostMapping("/game/modifEmail")
+    public boolean modifEmail(@RequestBody ModifEmailDto modifEmailDto) {
+        try {
+            return this.playerService.changeEmail(modifEmailDto);
+        } catch (Exception e) {
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN, e.getMessage());
+        }
+    }
+
+    @PostMapping("/game/modifNickname")
+    public boolean modifNickname(@RequestBody ModifNicknameDto modifNicknameDto) {
+        try {
+            return this.playerService.changeNickname(modifNicknameDto);
+        } catch (Exception e) {
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN, e.getMessage());
+        }
+    }
+
+    @PostMapping("/game/modifPassword")
+    public boolean modifNickname(@RequestBody ModifPasswordDto modifPasswordDto) {
+        try {
+            return this.playerService.changePassword(modifPasswordDto);
+        } catch (Exception e) {
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN, e.getMessage());
+        }
+    }
 }
