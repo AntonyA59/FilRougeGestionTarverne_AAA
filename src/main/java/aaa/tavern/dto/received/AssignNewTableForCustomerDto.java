@@ -8,9 +8,10 @@ public class AssignNewTableForCustomerDto {
     protected AssignNewTableForCustomerDto(){
         
     }
-    public AssignNewTableForCustomerDto(int customerId, int tableId) {
+    public AssignNewTableForCustomerDto(int customerId, int tableId,int managerId) {
         this.customerId = customerId;
         this.tableId = tableId;
+        this.managerId = managerId;
     }
     public int getCustomerId() {
         return customerId;

@@ -20,6 +20,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
 
 import aaa.tavern.dao.CustomerRepository;
@@ -30,6 +31,7 @@ import aaa.tavern.entity.Category;
 import aaa.tavern.entity.Customer;
 import aaa.tavern.entity.Ingredient;
 import aaa.tavern.entity.Manager;
+import aaa.tavern.entity.Player;
 import aaa.tavern.entity.Recipe;
 import aaa.tavern.entity.RecipeCustomer;
 import aaa.tavern.entity.RecipeIngredient;
@@ -39,6 +41,7 @@ import aaa.tavern.exception.ForbiddenException;
 
 @SpringBootTest
 @TestPropertySource(locations = "classpath:test.properties")
+@WithMockUser(username = "userName", authorities =  "USER" )
 public class RecipeServiceTest {
 
     @Autowired
@@ -54,7 +57,14 @@ public class RecipeServiceTest {
     private CustomerRepository customerRepository;
 
     @Test
-    public void requestRecipeSuccessful() throws EntityNotFoundException,ForbiddenException{
+    public void requestRecipeSuccessful() throws EntityNotFoundException,ForbiddenException,Exception{
+        Player player=new Player();
+        player.setEmail("userName");
+        Manager manager = new Manager();
+        manager.setPlayer(player);
+        manager.setLevel(1);
+
+
         //init recipe
         List<RecipeIngredient> tabIngredients= new ArrayList<RecipeIngredient>();
         Category category= new Category(1, "category");
@@ -75,14 +85,12 @@ public class RecipeServiceTest {
         Mockito.when(recipeRepository.findByIdAndLevelLessThanEqual(1,1)).thenReturn(optRecipe);
         
         //init manager
-        Manager manager2 =new Manager();
-        manager2.setLevel(1);
         Map<Ingredient,Integer> ingredientQuantity=new HashMap<Ingredient,Integer>();
         ingredientQuantity.put(ingredient1, 3);
         ingredientQuantity.put(ingredient2, 3);
         ingredientQuantity.put(ingredient3, 5);
-        manager2.setIngredientQuantity(ingredientQuantity);
-        Optional<Manager> optManager= Optional.of(manager2);
+        manager.setIngredientQuantity(ingredientQuantity);
+        Optional<Manager> optManager= Optional.of(manager);
         Mockito.when(managerRepository.findById(1)).thenReturn(optManager);
 
         //init customer
@@ -93,7 +101,7 @@ public class RecipeServiceTest {
 
         recipeService.prepareRecipe(1,1,1);
         
-        assertEquals(manager2.getIngredientQuantity().get(ingredient3), 1);
+        assertEquals(manager.getIngredientQuantity().get(ingredient3), 1);
     }
 
     @Test
@@ -103,9 +111,12 @@ public class RecipeServiceTest {
         Optional<Recipe> optRecipe= Optional.empty();
         Mockito.when(recipeRepository.findByIdAndLevelLessThanEqual(1,1)).thenReturn(optRecipe);
         
-        //init manager
-        Manager manager2 =new Manager();
-        manager2.setLevel(1);
+        //init manager        
+        Player player=new Player();
+        player.setEmail("userName");
+        Manager manager = new Manager();
+        manager.setPlayer(player);
+        manager.setLevel(1);
         Ingredient ingredient1=new Ingredient(1,"test1");
         Ingredient ingredient2=new Ingredient(2,"test2");
         Ingredient ingredient3=new Ingredient(3,"test3");
@@ -113,8 +124,8 @@ public class RecipeServiceTest {
         ingredientQuantity.put(ingredient1, 3);
         ingredientQuantity.put(ingredient2, 3);
         ingredientQuantity.put(ingredient3, 2);
-        manager2.setIngredientQuantity(ingredientQuantity);
-        Optional<Manager> optManager= Optional.of(manager2);
+        manager.setIngredientQuantity(ingredientQuantity);
+        Optional<Manager> optManager= Optional.of(manager);
         Mockito.when(managerRepository.findById(1)).thenReturn(optManager);
 
         //init customer
@@ -145,13 +156,17 @@ public class RecipeServiceTest {
         Mockito.when(recipeRepository.findById(1)).thenReturn(optRecipe);
         
         //init manager
-        Manager manager2 =new Manager();
+        Player player=new Player();
+        player.setEmail("userName");
+        Manager manager = new Manager();
+        manager.setPlayer(player);
+        manager.setLevel(1);
         Map<Ingredient,Integer> ingredientQuantity=new HashMap<Ingredient,Integer>();
         ingredientQuantity.put(ingredient1, 3);
         ingredientQuantity.put(ingredient2, 3);
         ingredientQuantity.put(ingredient3, 2);
-        manager2.setIngredientQuantity(ingredientQuantity);
-        Optional<Manager> optManager= Optional.of(manager2);
+        manager.setIngredientQuantity(ingredientQuantity);
+        Optional<Manager> optManager= Optional.of(manager);
         Mockito.when(managerRepository.findById(1)).thenReturn(optManager);
 
         //init customer
@@ -189,7 +204,7 @@ public class RecipeServiceTest {
         Optional<Customer> optCustomer= Optional.of(customer);        
         Mockito.when(customerRepository.findById(1)).thenReturn(optCustomer);
         
-        assertThrows(EntityNotFoundException.class, ()->recipeService.prepareRecipe(1, 1, 1));
+        assertThrows(Exception.class, ()->recipeService.prepareRecipe(1, 1, 1));
     }
 
     @Test
@@ -212,13 +227,17 @@ public class RecipeServiceTest {
         Mockito.when(recipeRepository.findById(1)).thenReturn(optRecipe);
         
         //init manager
-        Manager manager2 =new Manager();
+        Player player=new Player();
+        player.setEmail("userName");
+        Manager manager = new Manager();
+        manager.setPlayer(player);
+        manager.setLevel(1);        
         Map<Ingredient,Integer> ingredientQuantity=new HashMap<Ingredient,Integer>();
         ingredientQuantity.put(ingredient1, 3);
         ingredientQuantity.put(ingredient2, 3);
         ingredientQuantity.put(ingredient3, 2);
-        manager2.setIngredientQuantity(ingredientQuantity);
-        Optional<Manager> optManager= Optional.of(manager2);
+        manager.setIngredientQuantity(ingredientQuantity);
+        Optional<Manager> optManager= Optional.of(manager);
         Mockito.when(managerRepository.findById(1)).thenReturn(optManager);
 
         //init customer
