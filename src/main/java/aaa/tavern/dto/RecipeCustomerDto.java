@@ -5,6 +5,7 @@ import aaa.tavern.entity.RecipeCustomer;
 public class RecipeCustomerDto {
 
     private int customerId;
+    private String recipeName;
     private int recipeId;
     private Long recipeStart;
 
@@ -12,9 +13,10 @@ public class RecipeCustomerDto {
 
     }
 
-    public RecipeCustomerDto(int customerId, int recipeId, Long recipeStart) {
+    public RecipeCustomerDto(int customerId, String recipeName,int recipeId, Long recipeStart) {
         this.customerId = customerId;
-        this.recipeId = recipeId;
+        this.recipeName = recipeName;
+        this.recipeId=recipeId;
         if(recipeStart != null){
             this.recipeStart = recipeStart ;
         }else{
@@ -24,7 +26,8 @@ public class RecipeCustomerDto {
 
     public RecipeCustomerDto(RecipeCustomer recipeCustomer) {
         this.customerId = recipeCustomer.getCustomer().getIdCustomer();
-        this.recipeId = recipeCustomer.getRecipe().getId();
+        this.recipeName = recipeCustomer.getRecipe().getName();
+        this.recipeId=recipeCustomer.getRecipe().getId();
         if (recipeCustomer.getRecipeStart() != null) {
             this.recipeStart = recipeCustomer.getRecipeStart().getTime();
         } else {
@@ -36,12 +39,17 @@ public class RecipeCustomerDto {
         return customerId;
     }
 
-    public int getRecipeId() {
-        return recipeId;
+    public String getRecipeName() {
+        return recipeName;
     }
 
     public Long getRecipeStart() {
         return recipeStart;
     }
+
+    public int getRecipeId() {
+        return recipeId;
+    }
+    
 
 }

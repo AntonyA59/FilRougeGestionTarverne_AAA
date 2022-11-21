@@ -40,7 +40,6 @@ public class CustomerDto {
 
     private Long consommationStart;
 
-    //private Set<Integer> commandList = new HashSet<Integer>();
     private List<RecipeCustomerDto> commandList = new ArrayList<RecipeCustomerDto>();
 
     protected CustomerDto(){
@@ -79,7 +78,8 @@ public class CustomerDto {
 
             RecipeCustomerDto recipeCustomerDto = new RecipeCustomerDto(
                 recipeCustomer.getCustomer().getIdCustomer(), 
-                recipeCustomer.getRecipe().getId(), 
+                recipeCustomer.getRecipe().getName(), 
+                recipeCustomer.getRecipe().getId(),
                 dateTime);
                 
             this.commandList.add(recipeCustomerDto);
