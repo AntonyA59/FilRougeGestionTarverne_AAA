@@ -37,7 +37,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                 registry
                                 .addMapping("/**")
                                 .allowedMethods("HEAD", "OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE")
-                                .allowedOrigins("http://localhost:4200/")
+                                .allowedOrigins("https://alex.snx.ovh/")
                                 .allowCredentials(true);
         }
 
