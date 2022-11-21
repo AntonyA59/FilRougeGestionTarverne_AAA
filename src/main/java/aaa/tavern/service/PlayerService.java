@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 
 import aaa.tavern.dao.PlayerRepository;
 import aaa.tavern.dao.RoleRepository;
+import aaa.tavern.dto.ModifEmailDto;
+import aaa.tavern.dto.ModifNicknameDto;
+import aaa.tavern.dto.ModifPasswordDto;
 import aaa.tavern.dto.PlayerDto;
 import aaa.tavern.entity.Player;
 import aaa.tavern.entity.Role;
@@ -47,8 +50,8 @@ public class PlayerService {
         playerRepository.save(newPlayer);
     }
 
-    public boolean changeNickname(int idPlayer, String nickname) throws Exception {
-        Optional<Player> optPlayer = playerRepository.findById(idPlayer);
+    public boolean changeNickname(ModifNicknameDto modifNicknameDto) throws Exception {
+        Optional<Player> optPlayer = playerRepository.findByEmail(modifNicknameDto.getEmail());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         if (currentPrincipalName.equals(optPlayer.get().getEmail())) {
@@ -56,7 +59,7 @@ public class PlayerService {
             if (optPlayer.isEmpty()) {
                 return false;
             } else {
-                optPlayer.get().setNickname(nickname);
+                optPlayer.get().setNickname(modifNicknameDto.getNickName());
                 playerRepository.save(optPlayer.get());
                 return true;
             }
@@ -65,8 +68,8 @@ public class PlayerService {
         }
     }
 
-    public boolean changeEmail(int idPlayer, String email) throws Exception {
-        Optional<Player> optPlayer = playerRepository.findById(idPlayer);
+    public boolean changeEmail(ModifEmailDto modifEmailDto) throws Exception {
+        Optional<Player> optPlayer = playerRepository.findByEmail(modifEmailDto.getEmailPlayer());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         if (currentPrincipalName.equals(optPlayer.get().getEmail())) {
@@ -74,7 +77,7 @@ public class PlayerService {
             if (optPlayer.isEmpty()) {
                 return false;
             } else {
-                optPlayer.get().setNickname(email);
+                optPlayer.get().setEmail(modifEmailDto.getEmailModified());
                 playerRepository.save(optPlayer.get());
                 return true;
             }
@@ -83,8 +86,8 @@ public class PlayerService {
         }
     }
 
-    public boolean changePassword(int idPlayer, String password) throws Exception {
-        Optional<Player> optPlayer = playerRepository.findById(idPlayer);
+    public boolean changePassword(ModifPasswordDto modifPasswordDto) throws Exception {
+        Optional<Player> optPlayer = playerRepository.findByEmail(modifPasswordDto.getEmail());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         if (currentPrincipalName.equals(optPlayer.get().getEmail())) {
@@ -92,7 +95,7 @@ public class PlayerService {
             if (optPlayer.isEmpty()) {
                 return false;
             } else {
-                optPlayer.get().setPassword(passwordEncoder.encode(password));
+                optPlayer.get().setPassword(passwordEncoder.encode(modifPasswordDto.getPassword()));
                 playerRepository.save(optPlayer.get());
                 return true;
             }

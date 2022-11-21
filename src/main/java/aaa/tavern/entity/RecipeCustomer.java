@@ -26,7 +26,7 @@ public class RecipeCustomer implements Serializable{
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
     
-    @Column(name="recipe_start")
+    @Column(name="recipe_start",nullable = true)
     private Timestamp recipeStart;
     
     public RecipeCustomer() {}

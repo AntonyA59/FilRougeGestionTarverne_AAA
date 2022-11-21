@@ -15,16 +15,20 @@ public class RecipeCustomerDto {
     public RecipeCustomerDto(int customerId, int recipeId, Long recipeStart) {
         this.customerId = customerId;
         this.recipeId = recipeId;
-        this.recipeStart = recipeStart;
+        if(recipeStart != null){
+            this.recipeStart = recipeStart ;
+        }else{
+            this.recipeStart = null ;
+        }
     }
 
     public RecipeCustomerDto(RecipeCustomer recipeCustomer) {
         this.customerId = recipeCustomer.getCustomer().getIdCustomer();
         this.recipeId = recipeCustomer.getRecipe().getId();
-        if (recipeCustomer.getRecipeStart() == null) {
-            this.recipeStart = null;
-        } else {
+        if (recipeCustomer.getRecipeStart() != null) {
             this.recipeStart = recipeCustomer.getRecipeStart().getTime();
+        } else {
+            this.recipeStart = null;
         }
     }
 

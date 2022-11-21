@@ -2,10 +2,9 @@ package aaa.tavern.service;
 
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
@@ -15,15 +14,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+
 import aaa.tavern.dao.CustomerRepository;
 import aaa.tavern.dao.ManagerCustomerRepository;
 import aaa.tavern.dao.ManagerRepository;
+import aaa.tavern.dao.RecipeCustomerRepository;
 import aaa.tavern.dao.RecipeRepository;
 import aaa.tavern.dao.TableRestRepository;
 import aaa.tavern.dto.CustomerDto;
 import aaa.tavern.dto.CustomerTableRestDto;
 import aaa.tavern.dto.ManagerDto;
-import aaa.tavern.dto.RecipeDto;
 import aaa.tavern.entity.Customer;
 import aaa.tavern.entity.Manager;
 import aaa.tavern.entity.ManagerCustomer;
@@ -54,39 +54,10 @@ public class CustomerManagementService {
     @Autowired
     private RecipeRepository recipeRepository;
 
-    /**
-     * allows to send a random recipe which is in listRecipe in the utils folder
-     * 
-     * @param managerId id of the manager to be provided with a random recipe
-     * @return RecipeDto Object that contains the information of the chosen recipe
-     * @throws Exception
-     */
+    @Autowired
+    private RecipeCustomerRepository recipeCustomerRepository;
 
-    @Transactional(rollbackOn = EntityNotFoundException.class)
-    public RecipeDto getNewRecipe(int managerId) throws Exception {
-
-        Manager manager = ServiceUtil.getEntity(managerRepository, managerId);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        if (currentPrincipalName.equals(manager.getPlayer().getEmail())) {
-
-            List<Recipe> listRecipe = recipeRepository.findByLevelLessThanEqual(manager.getLevel());
-            Map<Integer, Recipe> mapRecipe = new HashMap<Integer, Recipe>();
-
-            listRecipe.forEach(element -> mapRecipe.put(element.getId(), element));
-
-            Object[] values = mapRecipe.values().toArray();
-            int index = randomService.getRandomInt(values.length);
-            Object randomObject = values[index];
-
-            Recipe recipe = (Recipe) randomObject;
-
-            return new RecipeDto(recipe);
-        } else {
-            throw new Exception("Le manager ne correspond pas a votre compte");
-        }
-    }
-
+    
     /**
      * allows you to assign a customer to a place
      * 
@@ -96,23 +67,46 @@ public class CustomerManagementService {
      * @throws EntityNotFoundException exception if the id table or id customer are
      *                                 not in the database
      */
-    @Transactional(rollbackOn = { EntityNotFoundException.class, ForbiddenException.class })
-    public CustomerTableRestDto assignNewTable(int customerId, int tableId)
-            throws EntityNotFoundException, ForbiddenException {
+    @Transactional(rollbackOn = { EntityNotFoundException.class, ForbiddenException.class,Exception.class })
+    public CustomerTableRestDto assignNewTable(int customerId, int tableId ,int managerId)
+    throws EntityNotFoundException, ForbiddenException,Exception {
+
         Customer customer = ServiceUtil.getEntity(customerRepository, customerId);
         TableRest tableRest = ServiceUtil.getEntity(tableRestRepository, tableId);
-        if (tableRest.getNumberPlace() - 1 >= 0) {
-            tableRest.setNumberPlace(tableRest.getNumberPlace() - 1);
-            customer.setTableRest(tableRest);
+        Manager manager= ServiceUtil.getEntity(managerRepository, managerId);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
 
-            tableRestRepository.save(tableRest);
-            customerRepository.save(customer);
-            return new CustomerTableRestDto(customer, tableRest);
+        if (currentPrincipalName.equals(manager.getPlayer().getEmail())) {
+            if (tableRest.getNumberPlace() - 1 >= 0) {
+                tableRest.setNumberPlace(tableRest.getNumberPlace() - 1);
+                customer.setTableRest(tableRest);
 
-        } else
+                //init newRecipe For newCustomer
+                Recipe recipe = getRecipe(manager);
+                Set<RecipeCustomer> set=new HashSet<RecipeCustomer>();
+                RecipeCustomer recipeCustomer= new RecipeCustomer(recipe, customer, null);
+                set.add(recipeCustomer);
+                customer.setCommandList(set);
+                
+                tableRestRepository.save(tableRest);
+                recipeCustomerRepository.save(recipeCustomer); 
+                customerRepository.save(customer);
+
+                return new CustomerTableRestDto(customer, tableRest);
+                
+            } else
             throw new ForbiddenException();
+        } else {
+            throw new Exception("Le manager ne correspond pas a votre compte");
+        }
     }
+    public Recipe getRecipe(Manager manager){
 
+        List<Recipe> mapRecipe = recipeRepository.findByLevelLessThanEqual(manager.getLevel());
+        int index = randomService.getRandomInt(mapRecipe.size());
+        return mapRecipe.get(index);
+    }
     /**
      * allows you to create a new customer randomly
      * 
@@ -127,7 +121,7 @@ public class CustomerManagementService {
         String currentPrincipalName = authentication.getName();
         Manager manager = ServiceUtil.getEntity(managerRepository, managerId);
         if (currentPrincipalName.equals(manager.getPlayer().getEmail())) {
-            TableRest tableRest = new TableRest();
+
             // init newCustomer
             int purseOfGold = randomService.getRandomInt(100);
             float happiness = randomService.getRandomFloat(100f);
@@ -142,16 +136,15 @@ public class CustomerManagementService {
             boolean gender = randomService.getRandomBoolean();
             int expGiven = 0;
             HashSet<RecipeCustomer> commandList = new HashSet<RecipeCustomer>();
-            Timestamp consommationStart = null;
             Customer newCustomer = new Customer(purseOfGold, happiness, hunger, thirst, nauseaLevel, alcoholLevel,
-                    toilet, timeInTavern, nauseaTolerance, alcoholTolerance, gender,
-                    expGiven, tableRest, commandList, consommationStart);
-            customerRepository.save(newCustomer);
-
+            toilet, timeInTavern, nauseaTolerance, alcoholTolerance, gender,
+            expGiven, null, commandList, null);
+            
             ManagerCustomer managerCustomer = new ManagerCustomer(manager, newCustomer);
 
-            managerCustomerRepository.save(managerCustomer);
-
+            customerRepository.save(newCustomer);
+            managerCustomerRepository.save(managerCustomer);            
+            
             return new CustomerDto(newCustomer);
 
         } else {
