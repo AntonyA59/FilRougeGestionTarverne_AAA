@@ -46,12 +46,12 @@ public class ShopServiceTest {
 	////// FONCTION D'ACHAT ////////
 
 	@Test
-	public void givenIngredientToBuy_WhenAllCondition_ThenSuccess() throws EntityNotFoundException, ForbiddenException {
+	public void givenIngredientToBuy_WhenAllCondition_ThenSuccess() throws Exception {
 
 		ShopIngredientQuantityDto shopIngredientQuantity = new ShopIngredientQuantityDto(1, 1);
-		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1] ;
-		tabShopIngredientQuantity[0] = shopIngredientQuantity ;
-		
+		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1];
+		tabShopIngredientQuantity[0] = shopIngredientQuantity;
+
 		ShopIngredientDto shopIngredientDto = new ShopIngredientDto(1, tabShopIngredientQuantity);
 
 		Ingredient ingredient1 = new Ingredient();
@@ -93,9 +93,9 @@ public class ShopServiceTest {
 	public void givenIngredientToBuy_WhenTooHightLevel_ThenForbiddenException()
 			throws EntityNotFoundException, ForbiddenException {
 		ShopIngredientQuantityDto shopIngredientQuantity = new ShopIngredientQuantityDto(1, 1);
-		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1] ;
-		tabShopIngredientQuantity[0] = shopIngredientQuantity ;
-				
+		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1];
+		tabShopIngredientQuantity[0] = shopIngredientQuantity;
+
 		ShopIngredientDto shopIngredientDto = new ShopIngredientDto(1, tabShopIngredientQuantity);
 
 		Ingredient ingredient1 = new Ingredient();
@@ -131,11 +131,11 @@ public class ShopServiceTest {
 	public void givenIngredientToBuy_WhenChestEmpty_ThenForbiddenException()
 			throws EntityNotFoundException, ForbiddenException {
 		ShopIngredientQuantityDto shopIngredientQuantity = new ShopIngredientQuantityDto(1, 1);
-		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1] ;
-		tabShopIngredientQuantity[0] = shopIngredientQuantity ;
-				
+		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1];
+		tabShopIngredientQuantity[0] = shopIngredientQuantity;
+
 		ShopIngredientDto shopIngredientDto = new ShopIngredientDto(1, tabShopIngredientQuantity);
-		
+
 		Ingredient ingredient1 = new Ingredient();
 		ingredient1.setId(1);
 		Ingredient ingredient4 = new Ingredient();
@@ -169,11 +169,11 @@ public class ShopServiceTest {
 	public void givenIngredientToBuy_WhenManagerEmpty_ThenEntityNotFoundException()
 			throws EntityNotFoundException, ForbiddenException {
 		ShopIngredientQuantityDto shopIngredientQuantity = new ShopIngredientQuantityDto(1, 1);
-		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1] ;
-		tabShopIngredientQuantity[0] = shopIngredientQuantity ;
-				
+		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1];
+		tabShopIngredientQuantity[0] = shopIngredientQuantity;
+
 		ShopIngredientDto shopIngredientDto = new ShopIngredientDto(1, tabShopIngredientQuantity);
-		
+
 		Ingredient ingredient1 = new Ingredient();
 		ingredient1.setId(1);
 		Ingredient ingredient4 = new Ingredient();
@@ -207,11 +207,11 @@ public class ShopServiceTest {
 	public void givenIngredientToBuy_WhenIngredientEmpty_ThenEntityNotFoundException()
 			throws EntityNotFoundException, ForbiddenException {
 		ShopIngredientQuantityDto shopIngredientQuantity = new ShopIngredientQuantityDto(1, 1);
-		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1] ;
-		tabShopIngredientQuantity[0] = shopIngredientQuantity ;
-				
+		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1];
+		tabShopIngredientQuantity[0] = shopIngredientQuantity;
+
 		ShopIngredientDto shopIngredientDto = new ShopIngredientDto(1, tabShopIngredientQuantity);
-		
+
 		Ingredient ingredient1 = new Ingredient();
 		ingredient1.setId(1);
 		Ingredient ingredient4 = new Ingredient();
@@ -244,11 +244,11 @@ public class ShopServiceTest {
 
 	@Test
 	public void givenIngredientToSell_WhenAllCondition_ThenSuccess()
-			throws EntityNotFoundException, ForbiddenException {
+			throws Exception {
 		ShopIngredientQuantityDto shopIngredientQuantity = new ShopIngredientQuantityDto(1, 1);
-		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1] ;
-		tabShopIngredientQuantity[0] = shopIngredientQuantity ;
-				
+		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1];
+		tabShopIngredientQuantity[0] = shopIngredientQuantity;
+
 		ShopIngredientDto shopIngredientDto = new ShopIngredientDto(1, tabShopIngredientQuantity);
 
 		Ingredient ingredient1 = new Ingredient();
@@ -287,9 +287,9 @@ public class ShopServiceTest {
 	public void givenIngredientToSell_WhenTooHightLevel_ThenForbiddenException()
 			throws EntityNotFoundException, ForbiddenException {
 		ShopIngredientQuantityDto shopIngredientQuantity = new ShopIngredientQuantityDto(1, 1);
-		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1] ;
-		tabShopIngredientQuantity[0] = shopIngredientQuantity ;
-				
+		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1];
+		tabShopIngredientQuantity[0] = shopIngredientQuantity;
+
 		ShopIngredientDto shopIngredientDto = new ShopIngredientDto(1, tabShopIngredientQuantity);
 
 		Ingredient ingredient1 = new Ingredient();
@@ -321,11 +321,11 @@ public class ShopServiceTest {
 	public void givenIngredientToSell_WhenIngredientEmpty_ThenEntityNotFoundException()
 			throws EntityNotFoundException, ForbiddenException {
 		ShopIngredientQuantityDto shopIngredientQuantity = new ShopIngredientQuantityDto(1, 1);
-		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1] ;
-		tabShopIngredientQuantity[0] = shopIngredientQuantity ;
-				
+		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1];
+		tabShopIngredientQuantity[0] = shopIngredientQuantity;
+
 		ShopIngredientDto shopIngredientDto = new ShopIngredientDto(1, tabShopIngredientQuantity);
-		
+
 		Ingredient ingredient1 = new Ingredient();
 		ingredient1.setId(1);
 
@@ -355,9 +355,9 @@ public class ShopServiceTest {
 	public void givenIngredientToSell_WhenManagerEmpty_ThenEntityNotFoundException()
 			throws EntityNotFoundException, ForbiddenException {
 		ShopIngredientQuantityDto shopIngredientQuantity = new ShopIngredientQuantityDto(1, 1);
-		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1] ;
-		tabShopIngredientQuantity[0] = shopIngredientQuantity ;
-				
+		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1];
+		tabShopIngredientQuantity[0] = shopIngredientQuantity;
+
 		ShopIngredientDto shopIngredientDto = new ShopIngredientDto(1, tabShopIngredientQuantity);
 
 		Ingredient ingredient1 = new Ingredient();
@@ -389,9 +389,9 @@ public class ShopServiceTest {
 	public void givenIngredientToSell_WhenManagerNotGetIngredient_ThenForbiddenException()
 			throws EntityNotFoundException, ForbiddenException {
 		ShopIngredientQuantityDto shopIngredientQuantity = new ShopIngredientQuantityDto(1, 1);
-		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1] ;
-		tabShopIngredientQuantity[0] = shopIngredientQuantity ;
-						
+		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1];
+		tabShopIngredientQuantity[0] = shopIngredientQuantity;
+
 		ShopIngredientDto shopIngredientDto = new ShopIngredientDto(1, tabShopIngredientQuantity);
 		Ingredient ingredient1 = new Ingredient();
 		ingredient1.setId(1);
@@ -421,9 +421,9 @@ public class ShopServiceTest {
 	public void givenIngredientToSell_WhenManagerGetOneIngredient_ThenInventoryEmpty()
 			throws EntityNotFoundException, ForbiddenException {
 		ShopIngredientQuantityDto shopIngredientQuantity = new ShopIngredientQuantityDto(1, 1);
-		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1] ;
-		tabShopIngredientQuantity[0] = shopIngredientQuantity ;
-						
+		ShopIngredientQuantityDto[] tabShopIngredientQuantity = new ShopIngredientQuantityDto[1];
+		tabShopIngredientQuantity[0] = shopIngredientQuantity;
+
 		ShopIngredientDto shopIngredientDto = new ShopIngredientDto(1, tabShopIngredientQuantity);
 		Ingredient ingredient1 = new Ingredient();
 		ingredient1.setId(1);

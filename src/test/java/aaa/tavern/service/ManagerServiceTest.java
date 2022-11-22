@@ -67,7 +67,7 @@ public class ManagerServiceTest {
 	}
 
 	@Test
-	public void listExistingManagerDto() {
+	public void listExistingManagerDto() throws Exception {
 		Player player = Mockito.mock(Player.class);
 		player.setEmail("test@test.com");
 		Mockito.when(playerRepository.findByEmail(player.getEmail())).thenReturn(Optional.of(player));
@@ -94,7 +94,8 @@ public class ManagerServiceTest {
 	}
 
 	@Test
-	public void givenInventoryIngredient_whenFindByManager_thenReturnListInventoryManagerIngredientDto() {
+	public void givenInventoryIngredient_whenFindByManager_thenReturnListInventoryManagerIngredientDto()
+			throws Exception {
 		Manager manager = new Manager();
 		SubCategory subCategory = new SubCategory();
 		subCategory.setIdSubCategory(1);

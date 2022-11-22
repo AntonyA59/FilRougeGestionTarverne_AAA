@@ -39,19 +39,19 @@ public class CustomerManagerServiceTest {
 	private ManagerCustomerService managerCustomerService;
 
 	@Test
-	public void whenLoadCustomer_thenReturnListCustomerDto() {
+	public void whenLoadCustomer_thenReturnListCustomerDto() throws Exception {
 		Manager manager = new Manager();
 
 		Mockito.when(managerRepository.findById(0)).thenReturn(Optional.of(manager));
 
 		List<ManagerCustomer> listManagerCustomers = new ArrayList<ManagerCustomer>();
-		TableRest tableRest=new TableRest();
+		TableRest tableRest = new TableRest();
 		tableRest.setIdTable(1);
-		Customer customer1= new Customer();
+		Customer customer1 = new Customer();
 		customer1.setTableRest(tableRest);
-		Customer customer2= new Customer();
+		Customer customer2 = new Customer();
 		customer2.setTableRest(tableRest);
-		Customer customer3= new Customer();
+		Customer customer3 = new Customer();
 		customer3.setTableRest(tableRest);
 		ManagerCustomer managerCustomer1 = new ManagerCustomer(manager, customer1);
 		ManagerCustomer managerCustomer2 = new ManagerCustomer(manager, customer2);
